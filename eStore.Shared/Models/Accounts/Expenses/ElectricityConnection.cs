@@ -25,7 +25,9 @@ namespace eStore.Shared.Models.Accounts.Expenses
         public string City { get; set; }
         public string OwnerName { get; set; }
         public string MobileNo { get; set; }
+        [Display (Name = "Rent Amount"), DataType (DataType.Currency), Column (TypeName = "money")]
         public decimal RentAmount { get; set; }
+        [Display (Name = "Advance Amount"), DataType (DataType.Currency), Column (TypeName = "money")]
         public decimal AdvanceAmount { get; set; }
         public bool IsRented { get; set; }
         public RentType RentType { get; set; }

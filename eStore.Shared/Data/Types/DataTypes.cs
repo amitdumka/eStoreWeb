@@ -8,7 +8,7 @@ public enum Gender { Male, Female, TransGender }
 public enum Unit { Meters, Nos, Pcs, Packets, NoUnit }
 
 //public enum SalePayMode { Cash, Card, Mix }//TODO: check update based on data present
-public enum Size { S, M, L, XL, XXL, XXXL, T28, T30, T32, T34, T36, T38, T40, T41, T42, T44, T46, T48 }
+public enum Size { S, M, L, XL, XXL, XXXL, T28, T30, T32, T34, T36, T38, T40, T41, T42, T44, T46, T48,FreeSize,NS, NOTVALID }
 public enum ProductCategory { Fabric, ReadyMade, Accessiories, Tailoring, Trims, PromoItems, Coupons, GiftVouchers, Others }
 public enum CardMode { DebitCard, CreditCard, AmexCard }
 public enum CardType { Visa, MasterCard, Mastro, Amex, Dinners, Rupay, }

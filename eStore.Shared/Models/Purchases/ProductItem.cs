@@ -16,8 +16,9 @@ namespace eStore.Shared.Models.Purchases
 
     public class ProductItem
     {
+        [DatabaseGenerated (DatabaseGeneratedOption.Identity)]
         public int ProductItemId { set; get; }
-
+        [Key]
         public string Barcode { get; set; }
 
         [Display(Name = "Brand")]
@@ -26,25 +27,32 @@ namespace eStore.Shared.Models.Purchases
 
         [Display(Name = "Style Code")]
         public string StyleCode { get; set; }
+
         [Display(Name = "Product Name")]
         public string ProductName { get; set; }
+
         [Display(Name = "Item Desc")]
         public string ItemDesc { get; set; }
 
         [Display(Name = "Category")]
         public ProductCategory Categorys { get; set; }
+
         [Display(Name = "Product Type")]
         public Category MainCategory { get; set; }
+
         [Display(Name = "Product Series")]
         public Category ProductCategory { get; set; }
+
         [Display(Name = "Sub Category")]
         public Category ProductType { get; set; }
 
         [DataType(DataType.Currency), Column(TypeName = "money")]
         public decimal MRP { get; set; }
+
         [Display(Name = "Tax Rate")]
         [DataType(DataType.Currency), Column(TypeName = "money")]
         public decimal TaxRate { get; set; }    // TODO:Need to Review in final Edition
+
         [DataType(DataType.Currency), Column(TypeName = "money")]
         public decimal Cost { get; set; }
 

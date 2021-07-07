@@ -47,4 +47,24 @@ namespace eStore.Shared.Models.Common
         //Navigation
         //public ICollection<SaleItem> SaleItems { get; set; }
     }
+
+
+    public class TaxName
+    {
+        public int TaxNameId { get; set; }
+       
+        [Display (Name = "Tax")]
+        public string Name { get; set; }
+        
+        [Display (Name = "Tax Type")]
+        public TaxType TaxType { get; set; }
+        
+        [Display (Name = "Composite Rate")]
+        [DataType (DataType.Currency), Column (TypeName = "money")]
+        public decimal CompositeRate { get; set; }
+       
+        public bool OutPutTax { get; set; }
+        //Navigation
+        //public ICollection<PurchaseItem> PurchaseItems { get; set; }
+    }
 }

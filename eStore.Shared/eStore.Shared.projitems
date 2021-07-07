@@ -23,7 +23,6 @@
     <Folder Include="$(MSBuildThisFileDirectory)Models\Banking\" />
     <Folder Include="$(MSBuildThisFileDirectory)Models\Accounts\" />
     <Folder Include="$(MSBuildThisFileDirectory)Models\Accounts\Expenses\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Models\Purchases\" />
     <Folder Include="$(MSBuildThisFileDirectory)ViewModels\SalePuchase\" />
     <Folder Include="$(MSBuildThisFileDirectory)ViewModels\Banking\" />
     <Folder Include="$(MSBuildThisFileDirectory)ViewModels\Payroll\" />
@@ -39,6 +38,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)DTOs\Payrolls\AttendanceDto.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\BaseNT.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\AppInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Purchases\Stock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Purchases\Supplier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Sales\Payment.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Stores\Store.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Identity\AppUser.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\Stores\Customer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Purchases\ProductItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Purchases\ProductPurchase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Uploader\VoySaleInvoice.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SalePuchase\InvoiceSaveReturn.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ChartJSVC\ChartJsViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Printers\ReceiptDetails.cs" />

@@ -5,15 +5,15 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using eStore.DL.Data;
 using eStore.Shared.Models.Stores;
 using Microsoft.AspNetCore.Authorization;
-using eStore.Database;
 
 namespace eStore.Areas.Api
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [AllowAnonymous]
     public class StoresController : ControllerBase
     {
         private readonly eStoreDbContext _context;

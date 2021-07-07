@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using eStore.Database;
+using eStore.DL.Data;
 using eStore.Shared.Models.Common;
 using Microsoft.AspNetCore.Authorization;
 
@@ -13,7 +13,7 @@ namespace eStore.Areas.API
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [AllowAnonymous]
     public class CashInHandsController : ControllerBase
     {
         private readonly eStoreDbContext _context;

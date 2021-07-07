@@ -1,5 +1,5 @@
 ﻿using eStore.BL.Widgets;
-using eStore.Database;
+using eStore.DL.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using eStore.BL.Reports.Payroll;
+using eStore.BL.Reports.CAReports;
+using System.IO;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -14,7 +16,7 @@ namespace eStore.Areas.API
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [AllowAnonymous]
     public class ReportsController : ControllerBase
     {
         private readonly eStoreDbContext db;
@@ -79,5 +81,31 @@ namespace eStore.Areas.API
         {
             return PayrollReport.GenerateEmployeeAttendanceReport(db, empId);
         }
+
+
+        [HttpPost("FinReport")]
+        public FileStreamResult PostFinReport(FinReportDto fin)
+        {
+
+            FinReport fr = new FinReport (db, fin.StoreId, fin.StartYead, fin.EndYear,fin.IsPdf);
+
+            var data =fr.GetFinYearReport (fin.Mode,fin.ForcedRefresh);
+          
+            var stream = new FileStream (data, FileMode.Open);
+            
+            return File (stream, "application/pdf", "report.pdf");
+        }       
+    }
+   public  class FinReportDto
+    {
+        public int StoreId { get; set; }
+        public int StartYead { get; set; }
+        public int EndYear { get; set; }
+        public int StartMonth { get; set; }
+        public int EndMonth { get; set; }
+        public int Mode { get; set; }
+        public bool ForcedRefresh { get; set; }
+        public bool IsPdf { get; set; }
+
     }
 }

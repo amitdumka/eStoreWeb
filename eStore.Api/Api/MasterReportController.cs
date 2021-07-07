@@ -1,5 +1,5 @@
 ﻿using eStore.BL.Widgets;
-using eStore.Database;
+using eStore.DL.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,7 +13,7 @@ namespace eStore.Areas.API
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [AllowAnonymous]
     public class MasterReportController : ControllerBase
     {
         private readonly eStoreDbContext _context;

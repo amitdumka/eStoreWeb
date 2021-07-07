@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using eStore.Database;
+using eStore.DL.Data;
 using eStore.Shared.Models.Payroll;
 using Microsoft.AspNetCore.Authorization;
 using eStore.Shared.DTOs.Payrolls;
@@ -15,7 +15,7 @@ namespace eStore.Areas.API
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [AllowAnonymous]
     public class SalaryPaymentsController : ControllerBase
     {
         private readonly eStoreDbContext _context;

@@ -25,7 +25,7 @@ namespace eStore.Shared.Models.Sales
 
     }
 
-    public class RegularSaleItem : SaleItem
+    public class RegularSaleItem : BaseSaleItem
     {
         public int RegularSaleItemId { get; set; }
 
@@ -72,7 +72,7 @@ namespace eStore.Shared.Models.Sales
         public decimal TotalTaxAmount { get; set; }
     }
 
-    public class SaleItem
+    public class BaseSaleItem
     {
         [Display(Name = "Product")]
         public int ProductItemId { get; set; }
@@ -143,15 +143,21 @@ namespace eStore.Shared.Models.Sales
         [DataType(DataType.Currency), Column(TypeName = "money")]
         public decimal MixAmount { get; set; }
 
-        public CardDetail? CardDetail { get; set; }
+        public RegularCardDetail? CardDetail { get; set; }
 
         [DefaultValue(false)]
         public bool IsManualBill { get; set; }
     }
 
-    public class CardDetail
+    public class RegularCardDetail : BaseCardDetail
     {
-        public int CardDetailId { get; set; }
+        public int RegularCardDetailId { get; set; }
+        [ForeignKey ("InvoiceNo")]
+        public virtual PaymentDetail PaymentDetail { get; set; }
+    }
+    public class BaseCardDetail
+    {
+       
 
         [Display(Name = "Card Type")]
         public CardMode CardType { get; set; }
@@ -168,10 +174,81 @@ namespace eStore.Shared.Models.Sales
 
         public string InvoiceNo { get; set; }
 
-        [ForeignKey("InvoiceNo")]
-        public virtual PaymentDetail PaymentDetail { get; set; }
+       
     }
 
     #endregion BaseInvoice
+
+    #region SaleInvoice
+    public class SaleInvoice:Invoice
+    {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int SaleInvoiceId { get; set; }
+
+        public InvoicePayment PaymentDetail { get; set; }
+        public virtual ICollection<SaleItem> SaleItems { get; set; }
+
+        [DefaultValue(false)]
+        public bool IsNonVendor { get; set; }
+
+    }
+
+    public class SaleItem : BaseSaleItem
+    {
+        public int SaleItemId { get; set; }
+        public string InvoiceNo { get; set; }
+        [ForeignKey("InvoiceNo")]
+        public virtual SaleInvoice Invoice { get; set; }
+    }
+
+
+
+    public class InvoicePayment
+    {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int InvoicePaymentId { get; set; }
+
+        [Key]
+        public string InvoiceNo { get; set; }
+
+        [ForeignKey("InvoiceNo")]
+        public virtual SaleInvoice Invoice { get; set; }
+
+        public SalePayMode PayMode { get; set; }
+
+        [DefaultValue(0)]
+        [DataType(DataType.Currency), Column(TypeName = "money")]
+        public decimal CashAmount { get; set; }
+
+        [DefaultValue(0)]
+        [DataType(DataType.Currency), Column(TypeName = "money")]
+        public decimal NonCashAmount { get; set; }
+
+        [DefaultValue(0)]
+        [DataType(DataType.Currency), Column(TypeName = "money")]
+        public decimal OtherAmount { get; set; }
+
+        public SaleCardDetail? CardDetail { get; set; }
+
+        
+    }
+    public class SaleCardDetail : BaseCardDetail
+    {
+        public int SaleCardDetailId { get; set; }
+        [ForeignKey ("InvoiceNo")]
+        public virtual PaymentDetail PaymentDetail { get; set; }
+    }
+    public class NonCashDetail
+    {
+        public int NonCashDetialId { get; set; }
+        public decimal Amount { get; set; }
+        public string PaymentType { get; set; }
+        public string RefName { get; set; }
+        public string InvoiceNo { get; set; }
+
+        [ForeignKey("InvoiceNo")]
+        public virtual InvoicePayment PaymentDetail { get; set; }
+    }
+    #endregion
 
 }

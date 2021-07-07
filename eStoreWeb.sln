@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eStore.Database", "eStore.D
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "eStore.Commons", "eStore.Commons\eStore.Commons.shproj", "{7A3605DA-48BD-4EDE-89C4-3C289EACBBD1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eStore.Lib", "eStore.Lib\eStore.Lib.csproj", "{BFB5C374-2A9A-4F06-B72E-4194880E787A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eStore.Lib", "eStore.Lib\eStore.Lib.csproj", "{BFB5C374-2A9A-4F06-B72E-4194880E787A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eStore.Extensions", "eStore.Extensions\eStore.Extensions.csproj", "{2AD18FFC-1BC6-4D5D-89FE-CE491CA0451E}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -48,6 +50,10 @@ Global
 		{BFB5C374-2A9A-4F06-B72E-4194880E787A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BFB5C374-2A9A-4F06-B72E-4194880E787A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BFB5C374-2A9A-4F06-B72E-4194880E787A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AD18FFC-1BC6-4D5D-89FE-CE491CA0451E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AD18FFC-1BC6-4D5D-89FE-CE491CA0451E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AD18FFC-1BC6-4D5D-89FE-CE491CA0451E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AD18FFC-1BC6-4D5D-89FE-CE491CA0451E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using eStore.Shared.Models.Stores;
-using eStore.Database;
+using eStore.DL.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using eStore.BL.Commons;
@@ -15,7 +15,7 @@ namespace eStore.Areas.API
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [AllowAnonymous]
     public class StoreOperationsController : ControllerBase
     {
         private readonly eStoreDbContext db;

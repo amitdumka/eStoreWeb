@@ -12,7 +12,7 @@ namespace eStore.Areas.API
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [AllowAnonymous]
     public class LoginController : ControllerBase
     {
         private readonly UserManager<AppUser> _userManager;

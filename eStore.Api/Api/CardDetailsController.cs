@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using eStore.Database;
+using eStore.DL.Data;
 using eStore.Shared.Models.Sales;
 using Microsoft.AspNetCore.Authorization;
 
@@ -13,7 +13,7 @@ namespace eStore.Areas.API
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [AllowAnonymous]
     public class CardDetailsController : ControllerBase
     {
         private readonly eStoreDbContext _context;
@@ -25,14 +25,14 @@ namespace eStore.Areas.API
 
         // GET: api/CardDetails
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CardDetail>>> GetCardDetails()
+        public async Task<ActionResult<IEnumerable<RegularCardDetail>>> GetCardDetails()
         {
             return await _context.CardDetails.ToListAsync();
         }
 
         // GET: api/CardDetails/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<CardDetail>> GetCardDetail(int id)
+        public async Task<ActionResult<RegularCardDetail>> GetCardDetail(int id)
         {
             var cardDetail = await _context.CardDetails.FindAsync(id);
 
@@ -47,9 +47,9 @@ namespace eStore.Areas.API
         // PUT: api/CardDetails/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCardDetail(int id, CardDetail cardDetail)
+        public async Task<IActionResult> PutCardDetail(int id, RegularCardDetail cardDetail)
         {
-            if (id != cardDetail.CardDetailId)
+            if (id != cardDetail.RegularCardDetailId)
             {
                 return BadRequest();
             }
@@ -78,12 +78,12 @@ namespace eStore.Areas.API
         // POST: api/CardDetails
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<CardDetail>> PostCardDetail(CardDetail cardDetail)
+        public async Task<ActionResult<RegularCardDetail>> PostCardDetail(RegularCardDetail cardDetail)
         {
             _context.CardDetails.Add(cardDetail);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCardDetail", new { id = cardDetail.CardDetailId }, cardDetail);
+            return CreatedAtAction("GetCardDetail", new { id = cardDetail.RegularCardDetailId }, cardDetail);
         }
 
         // DELETE: api/CardDetails/5
@@ -104,7 +104,7 @@ namespace eStore.Areas.API
 
         private bool CardDetailExists(int id)
         {
-            return _context.CardDetails.Any(e => e.CardDetailId == id);
+            return _context.CardDetails.Any(e => e.RegularCardDetailId == id);
         }
     }
 }
