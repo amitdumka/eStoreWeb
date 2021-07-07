@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using eStore.DL.Data;
+using eStore.Database;
 using eStore.ViewModes.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,7 +15,7 @@ namespace eStore.Areas.API
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
+    [Authorize]
     public class SelectDataController : ControllerBase
     {
         private readonly IMapper _mapper;

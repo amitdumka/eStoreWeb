@@ -1,6 +1,6 @@
-﻿using eStore.BL.DataHelpers;
-using eStore.BL.Widgets;
-using eStore.DL.Data;
+﻿using eStore.BL.Widgets;
+using eStore.Database;
+using eStore.Lib.DataHelpers;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

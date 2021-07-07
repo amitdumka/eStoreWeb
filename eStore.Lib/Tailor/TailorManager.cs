@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using eStore.DL.Data;
+using eStore.Database;
 using eStore.Shared.Models.Tailoring;
 using Microsoft.EntityFrameworkCore;
 

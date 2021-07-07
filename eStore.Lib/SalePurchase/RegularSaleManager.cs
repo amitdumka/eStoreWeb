@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using eStore.BL.Ops.Printers;
-using eStore.DL.Data;
+using eStore.Database;
 using eStore.Shared.Models.Purchases;
 using eStore.Shared.Models.Sales;
 using eStore.Shared.Models.Stores;

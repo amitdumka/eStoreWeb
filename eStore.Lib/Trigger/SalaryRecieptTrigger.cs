@@ -1,6 +1,6 @@
 ﻿
 
-using eStore.DL.Data;
+using eStore.Database;
 
 namespace eStore.BL.Triggers
 {

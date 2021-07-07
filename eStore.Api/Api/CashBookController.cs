@@ -1,5 +1,5 @@
 ﻿using eStore.BL.Reports.Accounts;
-using eStore.DL.Data;
+using eStore.Database;
 using eStore.Shared.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +14,7 @@ namespace eStore.Areas.API
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
+    [Authorize]
     public class CashBookController : ControllerBase
     {
         private readonly eStoreDbContext _context;

@@ -1,4 +1,4 @@
-﻿using eStore.BL.DataHelpers;
+﻿using eStore.Lib.DataHelpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +11,7 @@ namespace eStore.Areas.API
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
+    [Authorize]
     public class EnumValueController : ControllerBase
     {
 

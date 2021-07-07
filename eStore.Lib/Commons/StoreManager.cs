@@ -1,9 +1,9 @@
-﻿using System;
-using System.Linq;
-using eStore.DL.Data;
+﻿using eStore.Database;
 using eStore.Shared.Models.Payroll;
 using eStore.Shared.Models.Stores;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
 
 namespace eStore.BL.Commons
 {

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using eStore.DL.Data;
+using eStore.Database;
 using eStore.Shared.Models.Identity;
 
 namespace eStore.Areas.API
@@ -27,11 +27,11 @@ namespace eStore.Areas.API
         {
             return await _context.RegisteredUsers.ToListAsync ();
         }
-        [HttpGet("Roles")]
-        public async Task<ActionResult<IEnumerable<Microsoft.AspNetCore.Identity.IdentityUserRole<string>>>> GetRoles()
-        {
-            return await _context.UserRoles.ToListAsync ();
-        }
+        //[HttpGet("Roles")]
+        //public async Task<ActionResult<IEnumerable<Microsoft.AspNetCore.Identity.IdentityUserRole<string>>>> GetRoles()
+        //{
+        //    return await _context.UserRoles.ToListAsync ();
+        //}
 
         // GET: api/RegisteredUsers/5
         [HttpGet ("{id}")]
@@ -164,50 +164,50 @@ namespace eStore.Areas.API
         }
 
         // GET: api/RegisteredUsers/5    async Task<ActionResult<void>>
-        [HttpGet ("Role")]
-        public async Task<ActionResult<List<Microsoft.AspNetCore.Identity.IdentityUserRole<string>>>> GetUserRoleAsync(string id)
-        {
-            var registeredUser = await _context.RegisteredUsers.FindAsync (id);
-            var roles = await _context.UserRoles.Where (c => c.UserId == id).ToListAsync ();
+        //[HttpGet ("Role")]
+        //public async Task<ActionResult<List<Microsoft.AspNetCore.Identity.IdentityUserRole<string>>>> GetUserRoleAsync(string id)
+        //{
+        //    var registeredUser = await _context.RegisteredUsers.FindAsync (id);
+        //    var roles = await _context.UserRoles.Where (c => c.UserId == id).ToListAsync ();
 
-            if ( registeredUser == null )
-            {
-                return NotFound ();
-            }
+        //    if ( registeredUser == null )
+        //    {
+        //        return NotFound ();
+        //    }
 
-            return roles;
-        }
-        [HttpPost ("Role")]
-        public async Task<ActionResult<RegisteredUser>> PostAddRole(Microsoft.AspNetCore.Identity.IdentityUserRole<string> userRole)
-        {
-            if ( !RegisteredUserExists (userRole.UserId) )
-                return NotFound ();
-            _context.UserRoles.Add (userRole);
-            try
-            {
-                await _context.SaveChangesAsync ();
-            }
-            catch ( DbUpdateException )
-            {
+        //    return roles;
+        //}
+        //[HttpPost ("Role")]
+        //public async Task<ActionResult<RegisteredUser>> PostAddRole(Microsoft.AspNetCore.Identity.IdentityUserRole<string> userRole)
+        //{
+        //    if ( !RegisteredUserExists (userRole.UserId) )
+        //        return NotFound ();
+        //    _context.UserRoles.Add (userRole);
+        //    try
+        //    {
+        //        await _context.SaveChangesAsync ();
+        //    }
+        //    catch ( DbUpdateException )
+        //    {
 
-                throw;
+        //        throw;
 
-            }
+        //    }
 
-            return Ok ("Role Added");
-        }
-        [HttpDelete ("Role{id}")]
-        public async Task<IActionResult> DeleteUserRole(string id, string roleId)
-        {
+        //    return Ok ("Role Added");
+        //}
+        //[HttpDelete ("Role{id}")]
+        //public async Task<IActionResult> DeleteUserRole(string id, string roleId)
+        //{
 
-            var role = await _context.UserRoles.Where (c => c.UserId == id && c.RoleId == roleId).FirstOrDefaultAsync ();
-            if ( role != null )
-                _context.UserRoles.Remove (role);
-            else
-                return NotFound ();
-            await _context.SaveChangesAsync ();
-            return NoContent ();
-        }
+        //    var role = await _context.UserRoles.Where (c => c.UserId == id && c.RoleId == roleId).FirstOrDefaultAsync ();
+        //    if ( role != null )
+        //        _context.UserRoles.Remove (role);
+        //    else
+        //        return NotFound ();
+        //    await _context.SaveChangesAsync ();
+        //    return NoContent ();
+        //}
 
 
 

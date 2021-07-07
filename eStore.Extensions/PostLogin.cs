@@ -1,6 +1,5 @@
-﻿using System;
-using System.Linq;
-using eStore.DL.Data;
+﻿using System.Linq;
+using eStore.Database;
 using eStore.Ops.Session;
 using Microsoft.AspNetCore.Http;
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using eStore.BL.Triggers;
-using eStore.DL.Data;
+using eStore.Database;
 using eStore.Shared.Models.Common;
 using eStore.Shared.ViewModels;
 using Microsoft.EntityFrameworkCore;

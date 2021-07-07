@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using eStore.BL.Commons;
-using eStore.DL.Data;
+using eStore.Database;
 using eStore.Shared.Models.Common;
 using eStore.Shared.Models.Stores;
 using Microsoft.AspNetCore.Authorization;
@@ -17,7 +17,7 @@ namespace eStore.Areas.API
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
+    [Authorize]
     public class DayClosingController : ControllerBase
     {
         private readonly eStoreDbContext _context;

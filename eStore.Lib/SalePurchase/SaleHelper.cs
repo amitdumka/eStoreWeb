@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using eStore.DL.Data;
+using eStore.Database;
 using eStore.Shared.ViewModels.SalePuchase;
 using Microsoft.EntityFrameworkCore;
 

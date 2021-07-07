@@ -13,7 +13,7 @@ namespace eStore.Areas.API
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
+    [Authorize]
     public class BanksController : ControllerBase
     {
         private readonly eStoreDbContext _context;

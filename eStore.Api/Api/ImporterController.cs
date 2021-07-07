@@ -1,16 +1,12 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using eStore.BL;
 using eStore.BL.Importer;
-using eStore.DL.Data;
+using eStore.Database;
 using eStore.Services.BTask;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json.Linq;
 
 namespace eStore.Areas.API
 {
@@ -25,7 +21,7 @@ namespace eStore.Areas.API
 
     [Route ("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
+    [Authorize]
     public class ImporterController : ControllerBase
     {
         public IBackgroundTaskQueue _queue { get; }
@@ -47,7 +43,7 @@ namespace eStore.Areas.API
                 using ( var scope = _serviceScopeFactory.CreateScope () )
                 {
                     var db = scope.ServiceProvider.GetRequiredService<eStoreDbContext> ();
-                    new DataImpoter().ImportJson (db,import.CommandMode, import.JsonData, import.EmailId, import.CallBackUrl);
+                    new DataImpoter ().ImportJson (db, import.CommandMode, import.JsonData, import.EmailId, import.CallBackUrl);
                     await Task.Delay (TimeSpan.FromSeconds (5), token);
                 }
             });
@@ -73,7 +69,7 @@ namespace eStore.Areas.API
         {
             if (
            // new UploadProcessor().ProcessVoyagerUpload(db, command))
-           UploadProcessor.ProcessUpload(db, command))
+           UploadProcessor.ProcessUpload (db, command) )
 
                 return Ok("Command Processed");
             else

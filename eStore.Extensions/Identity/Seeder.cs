@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using eStore.Shared.Models.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
-using static eStore.Areas.Identity.Pages.Account.LoginModel;
+using static Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal.LoginModel;
 
 namespace eStore.Ops.Identity
 {

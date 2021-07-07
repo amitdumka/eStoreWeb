@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using eStore.BL.Triggers;
-using eStore.DL.Data;
+using eStore.Database;
 using eStore.Shared.Models.Sales;
 
 namespace eStore.BL.SalePurchase

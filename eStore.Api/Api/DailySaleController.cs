@@ -5,17 +5,18 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using eStore.DL.Data;
+using eStore.Database;
 using eStore.Shared.Models.Sales;
 using Microsoft.AspNetCore.Authorization;
-using eStore.BL.DataHelpers;
+
 using eStore.BL.SalePurchase;
+using eStore.Lib.DataHelpers;
 
 namespace eStore.Areas.API
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
+    [Authorize]
     public class DailySaleController : ControllerBase
     {
         private readonly eStoreDbContext _context;

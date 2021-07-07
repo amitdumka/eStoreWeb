@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using eStore.DL.Data;
+using eStore.Database;
 using eStore.Shared.Models.Accounts;
 using Microsoft.AspNetCore.Authorization;
 using eStore.Shared.DTOs.Accounting;
@@ -15,7 +15,7 @@ namespace eStore.Areas.API
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
+    [Authorize]
     public class ExpensesController : ControllerBase
     {
         private readonly eStoreDbContext _context;

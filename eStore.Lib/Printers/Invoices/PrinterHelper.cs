@@ -1,6 +1,6 @@
 ﻿
-using eStore.DL.Data;
-using eStore.Shared.Models.Sales; 
+using eStore.Database;
+using eStore.Shared.Models.Sales;
 using eStore.Shared.ViewModels.Printers;
 using System;
 using System.Collections.Generic;

@@ -1,6 +1,6 @@
-﻿using System;
+﻿using eStore.Database;
+using System;
 using System.Linq;
-using eStore.DL.Data;
 
 
 namespace eStore.Shared.ViewModels.SalePuchase

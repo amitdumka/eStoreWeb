@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.Text.Json;
-using eStore.Ops.Extensions;
+using eStore.Extensions;
 
 namespace eStore.Ops.Session
 {
