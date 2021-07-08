@@ -1,7 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using eStore.Models;
-@inject SignInManager<ApplicationUser> SignInManager
-@inject UserManager<ApplicationUser> UserManager
+@using eStore.Shared.Models.Identity
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
 
 @{
     string returnUrl = null;
