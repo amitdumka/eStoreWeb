@@ -13,7 +13,7 @@ namespace eStore.Controllers//eStore.Areas.API
 {
     [Authorize]
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class BanksController : ControllerBase
     {
         private readonly eStoreDbContext _context;
@@ -23,8 +23,8 @@ namespace eStore.Controllers//eStore.Areas.API
             _context = context;
         }
 
-        [HttpGet ("bnk")]
-        public IEnumerable<string> GetBankTemp()
+        [HttpGet ("{id}")]
+        public IEnumerable<string> GetBankTemp(int id)
         {
             List<string> vs = new List<string> ();
             vs.Add ("aaa");
@@ -47,18 +47,18 @@ namespace eStore.Controllers//eStore.Areas.API
         }
 
         // GET: api/Banks/5
-        [HttpGet ("{id}")]
-        public async Task<ActionResult<Bank>> GetBank(int id)
-        {
-            var bank = await _context.Banks.FindAsync (id);
+        //[HttpGet ("{id}")]
+        //public async Task<ActionResult<Bank>> GetBank(int id)
+        //{
+        //    var bank = await _context.Banks.FindAsync (id);
 
-            if ( bank == null )
-            {
-                return NotFound ();
-            }
+        //    if ( bank == null )
+        //    {
+        //        return NotFound ();
+        //    }
 
-            return bank;
-        }
+        //    return bank;
+        //}
 
         // PUT: api/Banks/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
