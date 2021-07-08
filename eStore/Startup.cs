@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using eStore.Database;
+using eStore.Shared.Models.Identity;
 
 namespace eStore
 {
@@ -32,17 +33,23 @@ namespace eStore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+            //services.AddDbContext<ApplicationDbContext>(options =>
+            //    options.UseSqlServer(
+            //        Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddDbContext<AuthDbContext> (options =>
+                options.UseSqlServer (
+                    Configuration.GetConnectionString ("AuthDBCon")));
+
             services.AddDbContext<eStoreDbContext> (options =>
                  options.UseSqlServer (
                      Configuration.GetConnectionString ("eStoreCon")));
+
             services.AddDatabaseDeveloperPageExceptionFilter();
-            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddEntityFrameworkStores<AuthDbContext>();
             services.AddIdentityServer()
-                .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
+                .AddApiAuthorization<AppUser, AuthDbContext>();
             services.AddAuthentication()
                 .AddIdentityServerJwt();
             services.AddControllersWithViews();
