@@ -13,7 +13,7 @@ using eStore.Shared.DTOs.Payrolls;
 
 namespace eStore.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     [Authorize]
     public class AttendancesController : ControllerBase

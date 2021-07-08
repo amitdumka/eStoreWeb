@@ -25,8 +25,8 @@ export class FetchBank extends Component {
         <tbody>
           {banks.map(bank =>
             <tr >
-              <td>{bank}</td>
-              <td>{bank}</td>
+              <td>{bank.bankId}</td>
+              <td>{bank.bankName}</td>
             </tr>
           )}
         </tbody>
@@ -49,8 +49,10 @@ export class FetchBank extends Component {
   }
 
   async populateBankData() {
-    const token = await authService.getAccessToken();
-      const response = await fetch('banks/1', {
+      const token = await authService.getAccessToken();
+      console.log(token);
+
+      const response = await fetch('api/banks', {
       headers: !token ? {} : { 'Authorization': `Bearer ${token}` }
     });
     console.log(response);

@@ -8,34 +8,33 @@ using Microsoft.EntityFrameworkCore;
 using eStore.Shared.Models.Banking;
 using Microsoft.AspNetCore.Authorization;
 using eStore.Database;
+using Microsoft.Extensions.Logging;
 
-namespace eStore.Controllers//eStore.Areas.API
+namespace eStore.API.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class BanksController : ControllerBase
     {
         private readonly eStoreDbContext _context;
-
-        public BanksController(eStoreDbContext context)
+        private readonly ILogger<BanksController> _logger;
+        public BanksController(eStoreDbContext context, ILogger<BanksController> logger)
         {
-            _context = context;
+            try
+            {
+                _context = context;
+                _logger = logger;
+            }
+            catch ( Exception e)
+            {
+
+                Console.WriteLine (e.Message);
+            }
+            
         }
 
-        [HttpGet ("bnk")]
-        public IEnumerable<string> GetBankTemp()
-        {
-            List<string> vs = new List<string> ();
-            vs.Add ("aaa");
-            vs.Add ("baa");
-            vs.Add ("faa");
-            vs.Add ("traa");
-            vs.Add ("saaa");
-            vs.Add ("daaa");
-
-            return vs;
-        }
+        
 
 
         // GET: api/Banks

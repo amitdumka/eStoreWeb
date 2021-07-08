@@ -36,6 +36,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\eStore.Api\eStore.Api.csproj" />
+    <ProjectReference Include="..\eStore.Database\eStore.Database.csproj" />
+    <ProjectReference Include="..\eStore.Extensions\eStore.Extensions.csproj" />
+    <ProjectReference Include="..\eStore.Lib\eStore.Lib.csproj" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
