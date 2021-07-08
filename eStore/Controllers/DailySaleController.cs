@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using eStore.BL.SalePurchase;
 using eStore.Lib.DataHelpers;
 
-namespace eStore.Areas.API
+namespace eStore.Api
 {
     [Route("api/[controller]")]
     [ApiController]

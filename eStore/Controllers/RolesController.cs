@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace eStore.Areas.API
+namespace eStore.Api
 {
     [Route("api/[controller]")]
     [ApiController]

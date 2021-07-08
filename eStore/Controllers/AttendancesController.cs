@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using AutoMapper;
 using eStore.Shared.DTOs.Payrolls;
 
-namespace eStore.Areas.API
+namespace eStore.Api
 {
     [Route("api/[controller]")]
     [ApiController]

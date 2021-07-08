@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace eStore.Areas.API
+namespace eStore.Api
 {
     [Route("api/[controller]")]
     [ApiController]

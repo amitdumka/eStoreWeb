@@ -10,7 +10,7 @@ using eStore.Shared.Models.Sales;
 using Microsoft.AspNetCore.Authorization;
 using eStore.Database;
 
-namespace eStore.Areas.API
+namespace eStore.Api
 {
     [Route("api/[controller]")]
     [ApiController]

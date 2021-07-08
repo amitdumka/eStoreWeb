@@ -9,7 +9,7 @@ using eStore.Database;
 using eStore.Shared.Models.Accounts;
 using Microsoft.AspNetCore.Authorization;
 
-namespace eStore.Areas.API
+namespace eStore.Api
 {
     [Route("api/[controller]")]
     [ApiController]
