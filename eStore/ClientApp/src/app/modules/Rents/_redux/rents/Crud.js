@@ -1,10 +1,11 @@
 import axios from "axios";
+import { BASE_URL } from "../../../../../_estore/URLConstants";
 
 //Rent
 //rent
 
-export const API_URL = "https://www.aprajitaretails.in/api/rents";
-export const APIBASE_URL = "https://www.aprajitaretails.in/api";
+export const API_URL = BASE_URL + "/api/rents";
+export const APIBASE_URL = BASE_URL + "/api";
 
 export async function getPayModes(){
   return axios.get(APIBASE_URL+"/enumvalue/paymode/all"); 
@@ -27,7 +28,7 @@ export async function createRent(rent) {
 
 // READ
 export function getAllRents() {
-  return axios.get(API_URL); //.catch(function (error){console.log(error)});
+  return axios.get(API_URL); 
 }
 
 export async function getRentById(rentId) {
@@ -43,7 +44,7 @@ export async function findRents(queryParams) {
 
 // function to get all list of banks
 export async function getAllBanks() {
-  return await axios.get("https://www.aprajitaretails.in/api/banks");
+  return await axios.get("/api/banks");
 }
 
 // UPDATE => PUT: update the rent on the server

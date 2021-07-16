@@ -1,28 +1,11 @@
 import axios from "axios";
+import { BASE_URL } from "../../../../../_estore/URLConstants";
 
 //BankDeposit
 //bankDeposit
 
-export const API_URL = "https://www.aprajitaretails.in/api/bankDeposits";
+export const API_URL = BASE_URL + "/api/bankDeposits";
 
-export async function doLogin(){
-  axios.post("https://www.aprajitaretails.in/api/login").then(
-    res => {
-      return res.data;  
-    }
-  ).catch(function (error){console.log(error)});
-}
-
-export async function verifyLogin(){
-
-  axios.get("https://www.aprajitaretails.in/api/login").then(
-    res => {
-      const isLogin = res.data;
-      if(!isLogin)  return  doLogin();
-    }
-  ).catch(function (error){console.log(error)});
-
-}
 // CREATE =>  POST: add a new bankDeposit to the server
 export async function createBankDeposit(bankDeposit) {
   return await axios.post(API_URL,  bankDeposit,{
@@ -48,7 +31,7 @@ export async function findBankDeposits(queryParams) {
 
 // function to get all list of banks
 export async function getAllBanks(){
-  return await axios.get("https://www.aprajitaretails.in/api/bankAccounts") ; 
+    return await axios.get(BASE_URL + "/api/bankAccounts") ;
 }
 
 // UPDATE => PUT: update the bankDeposit on the server

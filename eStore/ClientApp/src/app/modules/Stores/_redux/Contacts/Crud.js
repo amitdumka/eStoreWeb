@@ -1,10 +1,10 @@
-import axios from "axios";
+import axios from "axios"; import { BASE_URL } from "../../../../../_estore/URLConstants";
 
 //Contact
 //contact
 
-export const API_URL = "https://www.aprajitaretails.in/api/contacts";
-export const APIBASE_URL = "https://www.aprajitaretails.in/api";
+export const API_URL = BASE_URL + "/api/contacts";
+export const APIBASE_URL = BASE_URL +  "/api";
 
 
 // CREATE =>  POST: add a new contact to the server
@@ -32,7 +32,7 @@ export async function findContacts(queryParams) {
 
 // function to get all list of banks
 export async function getAllBanks() {
-  return await axios.get("https://www.aprajitaretails.in/api/banks");
+    return await axios.get(BASE_URL + "/api/banks");
 }
 
 // UPDATE => PUT: update the contact on the server

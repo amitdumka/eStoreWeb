@@ -1,11 +1,12 @@
 import axios from "axios";
+import { BASE_URL } from "../../../../../_estore/URLConstants";
 
 //Delivery
 //delivery
 //Deliveries
 //deliveries
 
-export const API_URL = "https://www.aprajitaretails.in/api/TalioringDeliverys";
+export const API_URL = BASE_URL + "/api/TalioringDeliverys";
 
 
 // CREATE =>  POST: add a new delivery to the server
@@ -33,7 +34,7 @@ export async function findDeliveries(queryParams) {
 
 // function to get all list of banks
 export async function getAllBookings() {
-  return await axios.get("https://www.aprajitaretails.in/api/selectData/bookingList/false");
+    return await axios.get(BASE_URL + "/api/selectData/bookingList/false");
 }
 
 // UPDATE => PUT: update the delivery on the server

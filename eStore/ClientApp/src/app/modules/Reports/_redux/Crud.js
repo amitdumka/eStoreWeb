@@ -1,13 +1,11 @@
 import axios from "axios";
+import { BASE_URL } from "../../../../_estore/URLConstants";
 
 //Report
 //report
 
-export const API_URL = "https://www.aprajitaretails.in/api/reports";
-
-export const APIBASE_URL = "https://www.aprajitaretails.in/api";
-
-
+export const API_URL = BASE_URL+"/api/reports";
+export const APIBASE_URL = BASE_URL+"/api";
 
 export async function getIncomeExpensesReport(onDate) {
   return axios.get(API_URL + "/incomeExpenes?onDate="+onDate);

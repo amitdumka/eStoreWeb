@@ -1,28 +1,10 @@
-import axios from "axios";
+import axios from "axios"; import { BASE_URL } from "../../../../../_estore/URLConstants";
 
 //BankWithdrawal
 //bankWithdrawal
 
-export const API_URL = "https://www.aprajitaretails.in/api/bankWithdrawals";
+export const API_URL = BASE_URL +"/api/bankWithdrawals";
 
-export async function doLogin(){
-  axios.post("https://www.aprajitaretails.in/api/login").then(
-    res => {
-      return res.data;  
-    }
-  ).catch(function (error){console.log(error)});
-}
-
-export async function verifyLogin(){
-
-  axios.get("https://www.aprajitaretails.in/api/login").then(
-    res => {
-      const isLogin = res.data;
-      if(!isLogin)  return  doLogin();
-    }
-  ).catch(function (error){console.log(error)});
-
-}
 // CREATE =>  POST: add a new bankWithdrawal to the server
 export async function createBankWithdrawal(bankWithdrawal) {
   return await axios.post(API_URL,  bankWithdrawal,{
@@ -47,12 +29,12 @@ export async function findBankWithdrawals(queryParams) {
 }
 
 export async function getAllPayModes(){
-  return await axios.get("https://www.aprajitaretails.in/api/EnumValue/paymode/all") ; 
+    return await axios.get(BASE_URL +"/api/EnumValue/paymode/all") ;
 }
 
 // function to get all list of banks
 export async function getAllBanks(){
-  return await axios.get("https://www.aprajitaretails.in/api/bankAccounts") ; 
+    return await axios.get(BASE_URL +"/api/bankAccounts") ;
 }
 
 // UPDATE => PUT: update the bankWithdrawal on the server

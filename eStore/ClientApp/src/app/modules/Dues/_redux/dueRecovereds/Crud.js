@@ -1,11 +1,12 @@
 import axios from "axios";
+import { BASE_URL } from "../../../../../_estore/URLConstants";
 
 
 //DueRecovered
 //dueRecovered
 
 
-export const API_URL = "https://www.aprajitaretails.in/api/dueRecovereds";
+export const API_URL = BASE_URL +"/api/dueRecovereds";
 // CREATE =>  POST: add a new dueRecovered to the server
 export async function createDueRecovered(dueRecovered) {
   return await axios.post(API_URL,  dueRecovered,{
@@ -30,11 +31,11 @@ export async function findDueRecovereds(queryParams) {
 
 // function to get all list of employees
 export async function getPayModes(){
-  return await axios.get("https://www.aprajitaretails.in/api/enumvalue/paymode/all") ; 
+    return await axios.get(BASE_URL +"/api/enumvalue/paymode/all") ;
 }
 
 export async function getDueList(){
-  return await axios.get("https://www.aprajitaretails.in/api/duesLists") ; 
+    return await axios.get(BASE_URL +"/api/duesLists") ;
 }
 
 // UPDATE => PUT: update the dueRecovered on the server

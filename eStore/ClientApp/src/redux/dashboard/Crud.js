@@ -4,20 +4,20 @@
 // 3. DailySale/Weekly Sale
 
 import axios from "axios";
+import { BASE_URL } from "../../_estore/URLConstants";
 
-export const BASE_URL = "https://www.aprajitaretails.in/api/";
 
-export const API_URL_MR = BASE_URL + "masterreport";
+export const API_URL_MR = BASE_URL + "/api/masterreport";
 
 export function getMasterReport() {
   return axios.get(API_URL_MR);
 }
 
 export async function getCashBook() {
-  return await axios.get(`${BASE_URL}cashbook`);
+    return await axios.get(`${BASE_URL}/api/cashbook`);
 }
 
 export async function getWeeklySale(mode) {
   mode = mode ? mode : 1;
-  return await axios.get(`${BASE_URL}dailySale/find?mode=${mode}`);
+    return await axios.get(`${BASE_URL}/api/dailySale/find?mode=${mode}`);
 }

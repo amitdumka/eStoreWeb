@@ -1,28 +1,10 @@
-import axios from "axios";
+import axios from "axios"; import { BASE_URL } from "../../../../../_estore/URLConstants";
 
 //Bank
 //bank
 
-export const API_URL = "https://www.aprajitaretails.in/api/banks";
+export const API_URL = "/api/banks";
 
-export async function doLogin(){
-  axios.post("https://www.aprajitaretails.in/api/login").then(
-    res => {
-      return res.data;  
-    }
-  ).catch(function (error){console.log(error)});
-}
-
-export async function verifyLogin(){
-
-  axios.get("https://www.aprajitaretails.in/api/login").then(
-    res => {
-      const isLogin = res.data;
-      if(!isLogin)  return  doLogin();
-    }
-  ).catch(function (error){console.log(error)});
-
-}
 // CREATE =>  POST: add a new bank to the server
 export async function createBank(bank) {
   return await axios.post(API_URL,  bank,{

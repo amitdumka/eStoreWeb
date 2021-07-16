@@ -1,10 +1,11 @@
 import axios from "axios";
+import { BASE_URL } from "../../../../../_estore/URLConstants";
 
 //Bill
 //bill
 
-export const API_URL = "https://www.aprajitaretails.in/api/ElectricityBills";
-export const APIBASE_URL = "https://www.aprajitaretails.in/api";
+export const API_URL = BASE_URL+"/api/ElectricityBills";
+export const APIBASE_URL = BASE_URL+"/api";
 
 export async function getConnections(){
   return axios.get(APIBASE_URL+"/electricityConnections"); 
@@ -36,7 +37,7 @@ export async function findBills(queryParams) {
 
 // function to get all list of banks
 export async function getAllBanks() {
-  return await axios.get("https://www.aprajitaretails.in/api/banks");
+    return await axios.get(BASE_URL +"/api/banks");
 }
 
 // UPDATE => PUT: update the bill on the server

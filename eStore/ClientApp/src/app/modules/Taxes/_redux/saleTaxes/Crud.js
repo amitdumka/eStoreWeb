@@ -1,11 +1,12 @@
 import axios from "axios";
+import { BASE_URL } from "../../../../../_estore/URLConstants";
 
 //SaleTax
 //saleTax
 //SaleTaxes
 //saleTaxes
 
-export const API_URL = "https://www.aprajitaretails.in/api/saleTaxTypes";
+export const API_URL = BASE_URL + "/api/saleTaxTypes";
 
 
 // CREATE =>  POST: add a new saleTax to the server
@@ -33,7 +34,7 @@ export async function findSaleTaxes(queryParams) {
 
 // function to get all list of banks
 export async function getAllTaxTypes() {
-  return await axios.get("https://www.aprajitaretails.in/api/enumvalue/taxtype/all");
+    return await axios.get(BASE_URL + "/api/enumvalue/taxtype/all");
 }
 
 // UPDATE => PUT: update the saleTax on the server

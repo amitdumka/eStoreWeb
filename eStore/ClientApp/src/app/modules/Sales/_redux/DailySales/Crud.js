@@ -1,9 +1,10 @@
 import axios from "axios";
+import { BASE_URL } from "../../../../../_estore/URLConstants";
 
 //DailySale
 //dailySale
 
-export const API_URL = "https://www.aprajitaretails.in/api/dailySale";
+export const API_URL = BASE_URL + "/api/dailySale";
 
 // CREATE =>  POST: add a new dailySale to the server
 export async function createDailySale(dailySale) {
@@ -30,7 +31,7 @@ export async function findDailySales(queryParams) {
 
 // function to get all list of employees
 export async function getAllEmployees() {
-  return await axios.get("https://www.aprajitaretails.in/api/salesmen");
+    return await axios.get(BASE_URL + "/api/salesmen");
 }
 
 // UPDATE => PUT: update the dailySale on the server

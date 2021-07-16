@@ -1,25 +1,9 @@
 import axios from "axios";
+import { BASE_URL } from "../../../../../_estore/URLConstants";
 
-export const API_URL = "https://www.aprajitaretails.in/api/employees";
+export const API_URL = BASE_URL + "/api/employees";
 
-export async function doLogin(){
-  axios.post("https://www.aprajitaretails.in/api/login").then(
-    res => {
-      return res.data;  
-    }
-  ).catch(function (error){console.log(error)});
-}
 
-export async function verifyLogin(){
-
-  axios.get("https://www.aprajitaretails.in/api/login").then(
-    res => {
-      const isLogin = res.data;
-      if(!isLogin)  return  doLogin();
-    }
-  ).catch(function (error){console.log(error)});
-
-}
 // CREATE =>  POST: add a new employee to the server
 export async function createEmployee(employee) {
   return await axios.post(API_URL,  employee,{

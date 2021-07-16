@@ -1,11 +1,12 @@
 import axios from "axios";
+import { BASE_URL } from "../../../../../_estore/URLConstants";
 
 
 //duesList
 //duesList
 
 
-export const API_URL = "https://www.aprajitaretails.in/api/dueslists";
+export const API_URL = BASE_URL +  "/api/dueslists";
 
 
 // CREATE =>  POST: add a new duesList to the server
@@ -33,7 +34,7 @@ export async function findDuesLists(queryParams) {
 
 // function to get all list of employees
 export async function getSaleList(){
-  return await axios.get("https://www.aprajitaretails.in/api/dailySale") ; 
+    return await axios.get(BASE_URL + "/api/dailySale") ;
 }
 
 

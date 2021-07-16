@@ -1,14 +1,15 @@
 import axios from "axios";
+import { BASE_URL } from "../../../../../_estore/URLConstants";
 
 
 //Expense
 //expense
 
 
-export const API_URL = "https://www.aprajitaretails.in/api/expenses";
+export const API_URL = BASE_URL + "/api/expenses";
 
 export async function doLogin(){
-  axios.post("https://www.aprajitaretails.in/api/login").then(
+  axios.post("/api/login").then(
     res => {
       return res.data;  
     }
@@ -17,7 +18,7 @@ export async function doLogin(){
 
 export async function verifyLogin(){
 
-  axios.get("https://www.aprajitaretails.in/api/login").then(
+  axios.get("/api/login").then(
     res => {
       const isLogin = res.data;
       if(!isLogin)  return  doLogin();
@@ -50,15 +51,15 @@ export async function findExpenses(queryParams) {
 
 // function to get all list of employees
 export async function getAllEmployees(){
-  return await axios.get("https://www.aprajitaretails.in/api/employees") ; 
+    return await axios.get(BASE_URL + "/api/employees") ;
 }
 
 export async function getAllParty(){
-  return await axios.get("https://www.aprajitaretails.in/api/parties") ; 
+    return await axios.get(BASE_URL + "/api/parties") ;
 }
 
 export async function getAllBankAccount(){
-  return await axios.get("https://www.aprajitaretails.in/api/bankaccounts") ; 
+    return await axios.get(BASE_URL + "/api/bankaccounts") ;
 }
 
 

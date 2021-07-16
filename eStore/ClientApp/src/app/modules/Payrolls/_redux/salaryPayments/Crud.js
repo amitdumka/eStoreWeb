@@ -1,30 +1,32 @@
 import axios from "axios";
+import { BASE_URL } from "../../../../../_estore/URLConstants";
 
 
 //SalaryPayment
 //salaryPayment
 
 
-export const API_URL = "https://www.aprajitaretails.in/api/salaryPayments";
+export const API_URL = BASE_URL + "/api/salaryPayments";
 
-export async function doLogin(){
-  axios.post("https://www.aprajitaretails.in/api/login").then(
-    res => {
-      return res.data;  
-    }
-  ).catch(function (error){console.log(error)});
-}
+//export async function doLogin(){
+//  axios.post("/api/login").then(
+//    res => {
+//      return res.data;  
+//    }
+//  ).catch(function (error){console.log(error)});
+//}
 
-export async function verifyLogin(){
+//export async function verifyLogin(){
 
-  axios.get("https://www.aprajitaretails.in/api/login").then(
-    res => {
-      const isLogin = res.data;
-      if(!isLogin)  return  doLogin();
-    }
-  ).catch(function (error){console.log(error)});
+//  axios.get("/api/login").then(
+//    res => {
+//      const isLogin = res.data;
+//      if(!isLogin)  return  doLogin();
+//    }
+//  ).catch(function (error){console.log(error)});
 
-}
+//}
+
 // CREATE =>  POST: add a new salaryPayment to the server
 export async function createSalaryPayment(salaryPayment) {
   return await axios.post(API_URL,  salaryPayment,{
@@ -50,7 +52,7 @@ export async function findSalaryPayments(queryParams) {
 
 // function to get all list of employees
 export async function getAllEmployees(){
-  return await axios.get("https://www.aprajitaretails.in/api/employees") ; 
+    return await axios.get(BASE_URL + "/api/employees") ;
 }
 
 // UPDATE => PUT: update the salaryPayment on the server

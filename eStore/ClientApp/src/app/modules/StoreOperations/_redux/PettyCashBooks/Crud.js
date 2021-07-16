@@ -1,10 +1,11 @@
 import axios from "axios";
+import { BASE_URL } from "../../../../../_estore/URLConstants";
 
 //PettyCashBook
 //pettyCashBook
 
-export const API_URL = "https://www.aprajitaretails.in/api/pettyCashBooks";
-export const APIBASE_URL = "https://www.aprajitaretails.in/api";
+export const API_URL = BASE_URL + "/api/pettyCashBooks";
+export const APIBASE_URL = BASE_URL + "/api";
 
 
 export async function  getGeneratedPettyCashBook(){
@@ -48,7 +49,7 @@ export async function findPettyCashBooks(queryParams) {
 
 // function to get all list of banks
 export async function getAllBanks() {
-  return await axios.get("https://www.aprajitaretails.in/api/banks");
+    return await axios.get(BASE_URL + "/api/banks");
 }
 
 // UPDATE => PUT: update the pettyCashBook on the server

@@ -1,28 +1,13 @@
 import axios from "axios";
+import { BASE_URL } from "../../../../../_estore/URLConstants";
 
 
 //CashPayment
 //cashPayment
 
 
-export const API_URL = "https://www.aprajitaretails.in/api/cashPayments";
-export async function doLogin(){
-  axios.post("https://www.aprajitaretails.in/api/login").then(
-    res => {
-      return res.data;  
-    }
-  ).catch(function (error){console.log(error)});
-}
-export async function verifyLogin(){
+export const API_URL = BASE_URL +"/api/cashPayments";
 
-  axios.get("https://www.aprajitaretails.in/api/login").then(
-    res => {
-      const isLogin = res.data;
-      if(!isLogin)  return  doLogin();
-    }
-  ).catch(function (error){console.log(error)});
-
-}
 // CREATE =>  POST: add a new cashPayment to the server
 export async function createCashPayment(cashPayment) {
   return await axios.post(API_URL,  cashPayment,{
@@ -47,15 +32,15 @@ export async function findCashPayments(queryParams) {
 
 // function to get all list of employees
 export async function getAllTranscations(){
-  return await axios.get("https://www.aprajitaretails.in/api/transcationModes") ; 
+    return await axios.get(BASE_URL +"/api/transcationModes") ;
 }
 
 export async function getAllParty(){
-  return await axios.get("https://www.aprajitaretails.in/api/parties") ; 
+    return await axios.get(BASE_URL +"/api/parties") ;
 }
 
 export async function getAllBankAccount(){
-  return await axios.get("https://www.aprajitaretails.in/api/bankaccounts") ; 
+    return await axios.get(BASE_URL +"/api/bankaccounts") ;
 }
 
 

@@ -1,10 +1,11 @@
 import axios from "axios";
+import { BASE_URL } from "../../../../../_estore/URLConstants";
 
 
 //TranscationMode
 //transcationMode
 
-export const API_URL = "https://www.aprajitaretails.in/api/transcationModes";
+export const API_URL = BASE_URL + "/api/transcationModes";
 // CREATE =>  POST: add a new transcationMode to the server
 export async function createTranscationMode(transcationMode) {
   return await axios.post(API_URL,  transcationMode,{
@@ -29,15 +30,15 @@ export async function findTranscationModes(queryParams) {
 
 // function to get all list of employees
 export async function getAllEmployees(){
-  return await axios.get("https://www.aprajitaretails.in/api/employees") ; 
+    return await axios.get(BASE_URL + "/api/employees") ;
 }
 
 export async function getAllParty(){
-  return await axios.get("https://www.aprajitaretails.in/api/parties") ; 
+    return await axios.get(BASE_URL + "/api/parties") ;
 }
 
 export async function getAllBankAccount(){
-  return await axios.get("https://www.aprajitaretails.in/api/bankaccounts") ; 
+    return await axios.get(BASE_URL + "/api/bankaccounts") ;
 }
 
 

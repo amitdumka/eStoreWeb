@@ -1,9 +1,10 @@
 import axios from "axios";
+import { BASE_URL } from "../../../../../_estore/URLConstants";
 
-export const CUSTOMERS_URL = "https://www.aprajitaretails.in/api/customers";
+export const CUSTOMERS_URL = BASE_URL+"/api/customers";
 
 export async function doLogin(){
-  axios.post("https://www.aprajitaretails.in/api/login").then(
+  axios.post("/api/login").then(
     res => {
       return res.data;  
     }
@@ -12,7 +13,7 @@ export async function doLogin(){
 
 export async function verifyLogin(){
 
-  axios.get("https://www.aprajitaretails.in/api/login").then(
+  axios.get("/api/login").then(
     res => {
       const isLogin = res.data;
       if(!isLogin)  return  doLogin();

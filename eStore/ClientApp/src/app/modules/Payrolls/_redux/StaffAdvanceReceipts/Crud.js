@@ -1,11 +1,11 @@
-import axios from "axios";
+import axios from "axios"; import { BASE_URL } from "../../../../../_estore/URLConstants";
 
 
 //StaffAdvanceReceipt
 //staffAdvanceReceipt
 
 
-export const API_URL = "https://www.aprajitaretails.in/api/satffAdvanceReceipts";
+export const API_URL = BASE_URL + "/api/satffAdvanceReceipts";
 
 
 // CREATE =>  POST: add a new staffAdvanceReceipt to the server
@@ -33,11 +33,11 @@ export async function findStaffAdvanceReceipts(queryParams) {
 
 // function to get all list of employees
 export async function getAllEmployees(){
-  return await axios.get("https://www.aprajitaretails.in/api/employees") ; 
+    return await axios.get(BASE_URL + "/api/employees") ;
 }
 // function to get all list of employees
 export async function getAllParties(){
-  return await axios.get("https://www.aprajitaretails.in/api/parties") ; 
+  return await axios.get("/api/parties") ; 
 }
 
 // UPDATE => PUT: update the staffAdvanceReceipt on the server

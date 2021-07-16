@@ -1,11 +1,12 @@
 import axios from "axios";
+import { BASE_URL } from "../../../../../_estore/URLConstants";
 
 //RentedLocation
 //rentedLocation
 
-export const API_URL = "https://www.aprajitaretails.in/api/rentedLocations";
+export const API_URL = BASE_URL+"/api/rentedLocations";
 
-export const APIBASE_URL = "https://www.aprajitaretails.in/api";
+export const APIBASE_URL = BASE_URL+"/api";
 
 
 export async function getRentTypes(){

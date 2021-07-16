@@ -1,4 +1,5 @@
 import axios from "axios";
+import { BASE_URL } from "../../../../../_estore/URLConstants";
 
 //purchaseTaxes
 //PurchaseTaxes
@@ -6,8 +7,8 @@ import axios from "axios";
 //PurchaseTax
 
 
-export const API_BASE_URL="https://www.aprajitaretails.in/api/";
-export const API_URL = "https://www.aprajitaretails.in/api/purchaseTaxTypes";
+export const API_BASE_URL = BASE_URL +"/api/";
+export const API_URL = BASE_URL +"/api/purchaseTaxTypes";
 // CREATE =>  POST: add a new purchaseTax to the server
 export async function createPurchaseTax(purchaseTax) {
   return await axios.post(API_URL, purchaseTax, {

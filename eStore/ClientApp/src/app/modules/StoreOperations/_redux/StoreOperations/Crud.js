@@ -1,6 +1,7 @@
 import axios from "axios";
+import { BASE_URL } from "../../../../../_estore/URLConstants";
 
-export const APIBASE_URL = "https://www.aprajitaretails.in/api/";
+export const APIBASE_URL = BASE_URL +"/api/";
 
 export async function getStoreStatus(storeId) {
   return axios.get(APIBASE_URL + "StoreOperations/storestatus/" + storeId);

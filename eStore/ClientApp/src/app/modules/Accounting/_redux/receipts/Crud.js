@@ -1,28 +1,12 @@
 import axios from "axios";
+import { BASE_URL } from "../../../../../_estore/URLConstants";
 
 
 //Receipt
 //receipt
 
 
-export const API_URL = "https://www.aprajitaretails.in/api/receipts";
-export async function doLogin(){
-  axios.post("https://www.aprajitaretails.in/api/login").then(
-    res => {
-      return res.data;  
-    }
-  ).catch(function (error){console.log(error)});
-}
-export async function verifyLogin(){
-
-  axios.get("https://www.aprajitaretails.in/api/login").then(
-    res => {
-      const isLogin = res.data;
-      if(!isLogin)  return  doLogin();
-    }
-  ).catch(function (error){console.log(error)});
-
-}
+export const API_URL = BASE_URL + "/api/receipts";
 // CREATE =>  POST: add a new receipt to the server
 export async function createReceipt(receipt) {
   return await axios.post(API_URL,  receipt,{
@@ -47,15 +31,15 @@ export async function findReceipts(queryParams) {
 
 // function to get all list of employees
 export async function getAllEmployees(){
-  return await axios.get("https://www.aprajitaretails.in/api/employees") ; 
+    return await axios.get(BASE_URL + "/api/employees") ;
 }
 
 export async function getAllParty(){
-  return await axios.get("https://www.aprajitaretails.in/api/parties") ; 
+    return await axios.get(BASE_URL + "/api/parties") ;
 }
 
 export async function getAllBankAccount(){
-  return await axios.get("https://www.aprajitaretails.in/api/bankaccounts") ; 
+    return await axios.get(BASE_URL + "/api/bankaccounts") ;
 }
 
 

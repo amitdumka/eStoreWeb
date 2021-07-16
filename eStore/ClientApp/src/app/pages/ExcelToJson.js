@@ -2,6 +2,7 @@ import { Button, Select, MenuItem } from "@material-ui/core";
 import React, { useState } from "react";
 import * as XLSX from "xlsx";
 import axios from "axios";
+import { BASE_URL } from "../../_estore/URLConstants";
 
 const SheetJSFT = [
   "xlsx",
@@ -107,7 +108,7 @@ export default function ExcelToJson() {
             CommandMode: uploadVoyMode,
             JsonData: data,
             EmailId: "amitnarayansah@gmail.com",
-            CallBackUrl: "https://estores.aprajitaretails.in/notification/upload",
+            CallBackUrl: "/notification/upload",
           };
 
           UploadVoyData(jData);
@@ -253,10 +254,10 @@ const UploadVoyType = [
   "SaleWithCustomer",
   "ItemCategory","ItemData"
 ];
-export const API_URL = "https://www.aprajitaretails.in/api/Importer";
+export const API_URL = BASE_URL +"/api/Importer";
 
 export async function UploadData(jsonData, mode) {
-  //const api = "https://localhost:44385/api/Importer";
+  
   await axios
     .post(`${API_URL}?uploadMode=${mode}`, jsonData, {
       method: "POST",
@@ -277,10 +278,10 @@ export async function UploadData(jsonData, mode) {
 }
 
 export async function UploadVoyData(jsonData) {
-  const api = "https://www.aprajitaretails.in/api/Importer/voyagerImport";
-  const localApi="https://localhost:44385/api/Importer/voyagerImport";
+    const api = BASE_URL +"/api/Importer/voyagerImport";
+  //const localApi="https://localhost:44385/api/Importer/voyagerImport";
   await axios
-    .post(`${localApi}`, jsonData, {
+    .post(`${api}`, jsonData, {
       method: "POST",
       responseType: "json", //Force to receive data in a Blob Format
       headers: { "Content-Type": "application/json; charset=utf-8" },

@@ -1,11 +1,13 @@
+
 import axios from "axios";
+import { BASE_URL } from "../../../../../_estore/URLConstants";
 
 //Party
 //party
 //Parties
 //parties
 
-export const API_URL = "https://www.aprajitaretails.in/api/parties";
+export const API_URL = BASE_URL + "/api/parties";
 
 
 // CREATE =>  POST: add a new party to the server
@@ -33,7 +35,7 @@ export async function findParties(queryParams) {
 
 // function to get all list of banks
 export async function getAllLedgerTypes() {
-  return await axios.get("https://www.aprajitaretails.in/api/ledgerTypes");
+  return await axios.get("/api/ledgerTypes");
 }
 
 // UPDATE => PUT: update the party on the server

@@ -1,10 +1,11 @@
 import axios from "axios";
+import { BASE_URL } from "../../../../../_estore/URLConstants";
 
 //EndOfDay
 //endOfDay
 
-export const API_URL = "https://www.aprajitaretails.in/api/endOfDays";
-export const APIBASE_URL = "https://www.aprajitaretails.in/api";
+export const API_URL = BASE_URL + "/api/endOfDays";
+export const APIBASE_URL = BASE_URL + "/api";
 
 export async function getPayModes(){
   return axios.get(APIBASE_URL+"/enumvalue/paymode/all"); 
@@ -43,7 +44,7 @@ export async function findEndOfDays(queryParams) {
 
 // function to get all list of banks
 export async function getAllBanks() {
-  return await axios.get("https://www.aprajitaretails.in/api/banks");
+  return await axios.get("/api/banks");
 }
 
 // UPDATE => PUT: update the endOfDay on the server

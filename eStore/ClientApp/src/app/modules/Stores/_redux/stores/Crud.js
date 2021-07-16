@@ -1,25 +1,10 @@
-import axios from "axios";
+import axios from "axios"; 
+import { BASE_URL } from "../../../../../_estore/URLConstants";
 
-export const CUSTOMERS_URL = "https://www.aprajitaretails.in/api/stores";
+//const BASE_URL_L = "https://localhost:44315";
+//const BASE_URL = "";
+export const CUSTOMERS_URL = BASE_URL +"/api/stores";
 
-export async function doLogin(){
-  axios.post("https://www.aprajitaretails.in/api/login").then(
-    res => {
-      return res.data;  
-    }
-  ).catch(function (error){console.log(error)});
-}
-
-export async function verifyLogin(){
-
-  axios.get("https://www.aprajitaretails.in/api/login").then(
-    res => {
-      const isLogin = res.data;
-      if(!isLogin)  return  doLogin();
-    }
-  ).catch(function (error){console.log(error)});
-
-}
 // CREATE =>  POST: add a new store to the server
 export async function createStore(store) {
   return await axios.post(CUSTOMERS_URL,  store,{
@@ -39,7 +24,7 @@ export async function getStoreById(storeId) {
 // Method from server should return QueryResultsModel(items: any[], totalsCount: number)
 // items => filtered/sorted result
 export async function findStores(queryParams) {
-  //verifyLogin();
+    console.log(CUSTOMERS_URL);
   return await axios.get(`${CUSTOMERS_URL}`);//find`, { queryParams });
 }
 

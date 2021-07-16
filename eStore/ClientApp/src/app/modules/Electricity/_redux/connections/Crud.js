@@ -1,11 +1,11 @@
-import axios from "axios";
+import axios from "axios"; import { BASE_URL } from "../../../../../_estore/URLConstants";
 
 //Connection
 //connection
 
-export const API_URL = "https://www.aprajitaretails.in/api/electricityConnections";
+export const API_URL = BASE_URL + "/api/electricityConnections";
 
-export const APIBASE_URL = "https://www.aprajitaretails.in/api";
+export const APIBASE_URL = BASE_URL + "/api";
 
 
 export async function getRentTypes(){

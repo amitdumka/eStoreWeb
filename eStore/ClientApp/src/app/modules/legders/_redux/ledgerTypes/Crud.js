@@ -1,9 +1,10 @@
 import axios from "axios";
+import { BASE_URL } from "../../../../../_estore/URLConstants";
 
 //ledgerType
 //LedgerType
-export const API_BASE_URL="https://www.aprajitaretails.in/api/";
-export const API_URL = "https://www.aprajitaretails.in/api/ledgerTypes";
+export const API_BASE_URL = BASE_URL + "/api/";
+export const API_URL = BASE_URL + "/api/ledgerTypes";
 // CREATE =>  POST: add a new ledgerType to the server
 export async function createLedgerType(ledgerType) {
   return await axios.post(API_URL, ledgerType, {

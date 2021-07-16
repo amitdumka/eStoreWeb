@@ -1,25 +1,8 @@
-import axios from "axios";
+import axios from "axios"; import { BASE_URL } from "../../../../../_estore/URLConstants";
 
-export const API_URL = "https://www.aprajitaretails.in/api/attendances";
+export const API_URL = BASE_URL + "/api/attendances";
 
-export async function doLogin(){
-  axios.post("https://www.aprajitaretails.in/api/login").then(
-    res => {
-      return res.data;  
-    }
-  ).catch(function (error){console.log(error)});
-}
 
-export async function verifyLogin(){
-
-  axios.get("https://www.aprajitaretails.in/api/login").then(
-    res => {
-      const isLogin = res.data;
-      if(!isLogin)  return  doLogin();
-    }
-  ).catch(function (error){console.log(error)});
-
-}
 // CREATE =>  POST: add a new attendance to the server
 export async function createAttendance(attendance) {
   return await axios.post(API_URL,  attendance,{
@@ -44,8 +27,8 @@ export async function findAttendances(queryParams) {
 }
 
 // function to get all list of employees
-export async function getAllEmployees(){
-  return await axios.get("https://www.aprajitaretails.in/api/employees") ; 
+export async function getAllEmployees() {
+    return await axios.get(BASE_URL+"/api/employees");
 }
 
 // UPDATE => PUT: update the attendance on the server

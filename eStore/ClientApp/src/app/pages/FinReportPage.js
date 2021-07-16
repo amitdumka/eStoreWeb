@@ -21,6 +21,7 @@ import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import * as EmpAcction from "../modules/Payrolls/_redux/employees/Actions";
 
 import axios from "axios";
+import { BASE_URL } from "../../_estore/URLConstants";
 
 export const FinReportPage = () => {
   const suhbeader = useSubheader();
@@ -150,7 +151,7 @@ export const RequestCard = () => {
   );
 };
 
-export const API_URL = "https://www.aprajitaretails.in/api/Reports";
+export const API_URL = BASE_URL +"/api/Reports";
 export async function GetReport(FinReportDto) {
   
   await axios
