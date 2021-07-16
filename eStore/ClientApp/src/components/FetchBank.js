@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import authService from './api-authorization/AuthorizeService'
+import authService from './api-authorization/AuthorizeService';
+
 
 export class FetchBank extends Component {
   static displayName = FetchBank.name;
@@ -13,7 +14,8 @@ export class FetchBank extends Component {
     this.populateBankData();
   }
 
-  static renderBanksTable(banks) {
+    static renderBanksTable(banks) {
+       
     return (
       <table className='table table-striped' aria-labelledby="tabelLabel">
         <thead>

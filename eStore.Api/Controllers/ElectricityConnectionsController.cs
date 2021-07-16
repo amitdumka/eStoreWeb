@@ -13,7 +13,7 @@ namespace eStore.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [AllowAnonymous]
     public class ElectricityConnectionsController : ControllerBase
     {
         private readonly eStoreDbContext _context;

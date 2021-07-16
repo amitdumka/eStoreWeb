@@ -15,7 +15,7 @@ namespace eStore.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [AllowAnonymous]
     public class SelectDataController : ControllerBase
     {
         private readonly IMapper _mapper;

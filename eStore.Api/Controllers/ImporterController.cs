@@ -21,7 +21,7 @@ namespace eStore.API.Controllers
 
     [Route ("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [AllowAnonymous]
     public class ImporterController : ControllerBase
     {
         public IBackgroundTaskQueue _queue { get; }

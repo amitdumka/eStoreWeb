@@ -13,7 +13,7 @@ namespace eStore.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [AllowAnonymous]
     public class TaxRegistersController : ControllerBase
     {
         private readonly eStoreDbContext _context;

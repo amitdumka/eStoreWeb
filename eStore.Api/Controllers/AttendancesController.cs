@@ -15,7 +15,7 @@ namespace eStore.API.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    [Authorize]
+    [AllowAnonymous]
     public class AttendancesController : ControllerBase
     {
         private readonly eStoreDbContext _context;

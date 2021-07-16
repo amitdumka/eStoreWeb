@@ -12,7 +12,7 @@ using Microsoft.Extensions.Logging;
 
 namespace eStore.API.Controllers
 {
-    [Authorize]
+    [AllowAnonymous]
     [ApiController]
     [Route("api/[controller]")]
     public class BanksController : ControllerBase

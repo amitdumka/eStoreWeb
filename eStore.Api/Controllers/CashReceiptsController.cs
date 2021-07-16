@@ -15,7 +15,7 @@ namespace eStore.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [AllowAnonymous]
     public class CashReceiptsController : ControllerBase
     {
         private readonly eStoreDbContext _context;

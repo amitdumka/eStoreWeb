@@ -13,7 +13,7 @@ namespace eStore.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [AllowAnonymous]
     public class WalletPaymentsController : ControllerBase
     {
         private readonly eStoreDbContext _context;

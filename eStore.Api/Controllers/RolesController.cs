@@ -10,7 +10,7 @@ namespace eStore.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [AllowAnonymous]
     public class RolesController : ControllerBase
     {
         // GET: api/Roles

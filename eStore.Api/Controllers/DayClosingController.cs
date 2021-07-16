@@ -17,7 +17,7 @@ namespace eStore.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [AllowAnonymous]
     public class DayClosingController : ControllerBase
     {
         private readonly eStoreDbContext _context;
