@@ -1,0 +1,60 @@
+Employee Of Day , Month Year. 
+
+
+var data=db.DailySales.where(c=>c.SaleDate==DateTime.Today).select(c=>new {c.Amount, c.SalesmenId).orderby(c=>c.SalesmenId);
+data.GroupBy(c.salesmenId, c.Amount).sum(c.Amount);
+
+
+
+
+
+
+
+
+
+StoreOpens
+{
+storeId, OpenningTime, remarks
+"userId": "string",
+    "isReadOnly": true,
+
+}
+
+
+StoreHolidays
+{
+"entryStatus": 0,
+    "isReadOnly": true,
+
+StoreId, OnDate,Reason, Remark, approvedBY
+
+}
+
+storeCloses
+{
+"userId": "string",
+    "isReadOnly": true,
+    "storeId": 1,
+closingDate:
+Remarks:
+}
+
+
+
+ENDOFDAYS{
+
+    "userId": "string",
+    "entryStatus": 0,
+    "isReadOnly": true,
+    "storeId": 1,
+    "endOfDayId": 0,
+    "eoD_Date": "2021-04-03",
+    "shirting": 0,
+    "suiting": 0,
+    "uspa": 0,
+    "fM_Arrow": 0,
+    "rwt": 0,
+    "access": 0,
+    "cashInHand": 0
+
+}
