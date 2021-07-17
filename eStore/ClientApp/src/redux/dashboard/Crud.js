@@ -7,10 +7,10 @@ import axios from "axios";
 import { BASE_URL } from "../../_estore/URLConstants";
 
 
-export const API_URL_MR = BASE_URL + "/api/masterreport";
+//export const API_URL_MR = BASE_URL + "/api/masterreport";
 
 export function getMasterReport() {
-  return axios.get(API_URL_MR);
+  return axios.get(BASE_URL + "/api/masterreport");
 }
 
 export async function getCashBook() {
