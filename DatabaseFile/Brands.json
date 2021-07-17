@@ -1,0 +1,112 @@
+[
+  {
+    "BrandId": "1",
+    "BrandName": "Arvind Ready Wear",
+    "BCode": "ADR"
+  },
+  {
+    "BrandId": "2",
+    "BrandName": "Tommy Hilfiger",
+    "BCode": "THF"
+  },
+  {
+    "BrandId": "3",
+    "BrandName": "Studio Arvind Tailored",
+    "BCode": "SAT"
+  },
+  {
+    "BrandId": "4",
+    "BrandName": "Studio Arvind",
+    "BCode": "SAR"
+  },
+  {
+    "BrandId": "5",
+    "BrandName": "Nautica",
+    "BCode": "NAT"
+  },
+  {
+    "BrandId": "6",
+    "BrandName": "Izod",
+    "BCode": "IZ"
+  },
+  {
+    "BrandId": "7",
+    "BrandName": "Hanes International",
+    "BCode": "HAN"
+  },
+  {
+    "BrandId": "8",
+    "BrandName": "Flying Machine",
+    "BCode": "FM"
+  },
+  {
+    "BrandId": "9",
+    "BrandName": "Arvind Swatch",
+    "BCode": "ASW"
+  },
+  {
+    "BrandId": "10",
+    "BrandName": "US DENIM & Co",
+    "BCode": "UD"
+  },
+  {
+    "BrandId": "11",
+    "BrandName": "Arvind Store",
+    "BCode": "ARV"
+  },
+  {
+    "BrandId": "12",
+    "BrandName": "Arrow",
+    "BCode": "ARR"
+  },
+  {
+    "BrandId": "13",
+    "BrandName": "Arvind Promo",
+    "BCode": "ARP"
+  },
+  {
+    "BrandId": "14",
+    "BrandName": "Arrow New York",
+    "BCode": "ARN"
+  },
+  {
+    "BrandId": "15",
+    "BrandName": "Arvind",
+    "BCode": "ARI"
+  },
+  {
+    "BrandId": "16",
+    "BrandName": "Arvind",
+    "BCode": "ARD"
+  },
+  {
+    "BrandId": "17",
+    "BrandName": "Arvind Accessories",
+    "BCode": "ARA"
+  },
+  {
+    "BrandId": "18",
+    "BrandName": "Ankur Fabrics",
+    "BCode": "ANK"
+  },
+  {
+    "BrandId": "19",
+    "BrandName": "Arvind GV",
+    "BCode": "AGV"
+  },
+  {
+    "BrandId": "20",
+    "BrandName": "Arrow Sports",
+    "BCode": "ARS"
+  },
+  {
+    "BrandId": "21",
+    "BrandName": "US Polo Association",
+    "BCode": "USP"
+  },
+  {
+    "BrandId": "22",
+    "BrandName": "No Brand",
+    "BCode": "NBR"
+  }
+]

@@ -1,0 +1,42 @@
+[
+  {
+    "UserId": "8fa25acb-753d-4558-acaf-853d94333ff6",
+    "RoleId": "29829191-b7ea-43f9-8f59-55d35cf4f459"
+  },
+  {
+    "UserId": "3400836d-f5d5-4ef8-be9f-a7f331323e14",
+    "RoleId": "5a8efa0c-518d-4163-8a4c-b1542408d597"
+  },
+  {
+    "UserId": "83e65adb-17be-4791-82ad-2bcaf489bd1f",
+    "RoleId": "5a8efa0c-518d-4163-8a4c-b1542408d597"
+  },
+  {
+    "UserId": "0b3beaa2-3e7a-4968-aebf-1768a355e352",
+    "RoleId": "5b52afbb-e3d2-4c6e-8c09-25ff3d29a099"
+  },
+  {
+    "UserId": "389ff4e4-7b31-474b-ad79-cf0f828f09f7",
+    "RoleId": "a0a6e08e-be0f-412a-8f99-2865a0c417be"
+  },
+  {
+    "UserId": "d211c885-902e-47d6-9206-12e73ca2c143",
+    "RoleId": "a0a6e08e-be0f-412a-8f99-2865a0c417be"
+  },
+  {
+    "UserId": "0b3beaa2-3e7a-4968-aebf-1768a355e352",
+    "RoleId": "db503e6d-6116-459e-8a6e-fbda32cdd848"
+  },
+  {
+    "UserId": "81e3e45f-970d-4c07-852c-c00a944be554",
+    "RoleId": "f3a69dfb-73c5-45ec-8ea9-da7fde0d29b9"
+  },
+  {
+    "UserId": "8dba07a5-7903-4907-a112-80632dddea38",
+    "RoleId": "f3a69dfb-73c5-45ec-8ea9-da7fde0d29b9"
+  },
+  {
+    "UserId": "e8a14494-6d40-403f-99c5-154e394eb9d4",
+    "RoleId": "f3a69dfb-73c5-45ec-8ea9-da7fde0d29b9"
+  }
+]

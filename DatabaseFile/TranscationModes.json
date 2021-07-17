@@ -1,0 +1,158 @@
+[
+  {
+    "TranscationModeId": "1",
+    "Transcation": "Home Expenses"
+  },
+  {
+    "TranscationModeId": "2",
+    "Transcation": "Other Home Expenses"
+  },
+  {
+    "TranscationModeId": "3",
+    "Transcation": "Mukesh(Home Staff)"
+  },
+  {
+    "TranscationModeId": "4",
+    "Transcation": "Amit Kumar"
+  },
+  {
+    "TranscationModeId": "5",
+    "Transcation": "Amit Kumar Expenses"
+  },
+  {
+    "TranscationModeId": "6",
+    "Transcation": "CashIn"
+  },
+  {
+    "TranscationModeId": "7",
+    "Transcation": "CashOut"
+  },
+  {
+    "TranscationModeId": "8",
+    "Transcation": "Regular"
+  },
+  {
+    "TranscationModeId": "9",
+    "Transcation": "Suspence"
+  },
+  {
+    "TranscationModeId": "10",
+    "Transcation": "OnLinePurchase"
+  },
+  {
+    "TranscationModeId": "11",
+    "Transcation": "Petty Cash Expenses"
+  },
+  {
+    "TranscationModeId": "12",
+    "Transcation": "Dan"
+  },
+  {
+    "TranscationModeId": "13",
+    "Transcation": "Breakfast"
+  },
+  {
+    "TranscationModeId": "14",
+    "Transcation": "Lunch"
+  },
+  {
+    "TranscationModeId": "15",
+    "Transcation": "Coffee"
+  },
+  {
+    "TranscationModeId": "16",
+    "Transcation": "Cup Glass"
+  },
+  {
+    "TranscationModeId": "17",
+    "Transcation": "Battery"
+  },
+  {
+    "TranscationModeId": "19",
+    "Transcation": "Fuel Expences"
+  },
+  {
+    "TranscationModeId": "20",
+    "Transcation": "Social & Staff Welfare"
+  },
+  {
+    "TranscationModeId": "21",
+    "Transcation": "Postage & Courier"
+  },
+  {
+    "TranscationModeId": "22",
+    "Transcation": "Snacks & Refreshment"
+  },
+  {
+    "TranscationModeId": "23",
+    "Transcation": "Miscellaneous Expenses"
+  },
+  {
+    "TranscationModeId": "24",
+    "Transcation": "Baksheesh & Others"
+  },
+  {
+    "TranscationModeId": "25",
+    "Transcation": "Medicine Expenses"
+  },
+  {
+    "TranscationModeId": "26",
+    "Transcation": "Painter"
+  },
+  {
+    "TranscationModeId": "27",
+    "Transcation": "Stationary"
+  },
+  {
+    "TranscationModeId": "28",
+    "Transcation": "Shop Electricity Bill"
+  },
+  {
+    "TranscationModeId": "29",
+    "Transcation": "Mobile bill & Recharge"
+  },
+  {
+    "TranscationModeId": "30",
+    "Transcation": "Labour "
+  },
+  {
+    "TranscationModeId": "31",
+    "Transcation": "Short in Cash"
+  },
+  {
+    "TranscationModeId": "32",
+    "Transcation": "Repair & Maintenance"
+  },
+  {
+    "TranscationModeId": "33",
+    "Transcation": "Puja Expenses"
+  },
+  {
+    "TranscationModeId": "34",
+    "Transcation": "Travelling & Trip Expenses"
+  },
+  {
+    "TranscationModeId": "35",
+    "Transcation": "SINGHANIA SENITRIES"
+  },
+  {
+    "TranscationModeId": "36",
+    "Transcation": "Net Communication"
+  },
+  {
+    "TranscationModeId": "38",
+    "Transcation": "Freight charges"
+  },
+  {
+    "TranscationModeId": "39",
+    "Transcation": "R.S Furniture"
+  },
+  {
+    "TranscationModeId": "40",
+    "Transcation": "Tea"
+  },
+  {
+    "TranscationModeId": "41",
+    "Transcation": "Staff Shoes"
+  }
+]

@@ -1,0 +1,68 @@
+[
+  {
+    "SupplierID": "1",
+    "SuppilerName": "Aprajita Retails - Jamshedpur",
+    "Warehouse": "Aprajita Retails - Jamshedpur",
+    "LocationCode": null
+  },
+  {
+    "SupplierID": "2",
+    "SuppilerName": "Arvind Brands Limited",
+    "Warehouse": "Arvind Brands Limited",
+    "LocationCode": null
+  },
+  {
+    "SupplierID": "3",
+    "SuppilerName": "Arvind Limited",
+    "Warehouse": "Arvind Limited",
+    "LocationCode": null
+  },
+  {
+    "SupplierID": "4",
+    "SuppilerName": "Bangalore WH",
+    "Warehouse": "Bangalore WH",
+    "LocationCode": null
+  },
+  {
+    "SupplierID": "5",
+    "SuppilerName": "DTR - TAS Warehouse",
+    "Warehouse": "DTR - TAS Warehouse",
+    "LocationCode": null
+  },
+  {
+    "SupplierID": "6",
+    "SuppilerName": "DTR Packed WH",
+    "Warehouse": "DTR Packed WH",
+    "LocationCode": null
+  },
+  {
+    "SupplierID": "7",
+    "SuppilerName": "Khush",
+    "Warehouse": "Khush",
+    "LocationCode": null
+  },
+  {
+    "SupplierID": "8",
+    "SuppilerName": "Safari Industries India Ltd",
+    "Warehouse": "Safari Industries India Ltd",
+    "LocationCode": null
+  },
+  {
+    "SupplierID": "9",
+    "SuppilerName": "TAS - Warhouse -FOFO",
+    "Warehouse": "TAS - Warhouse -FOFO",
+    "LocationCode": null
+  },
+  {
+    "SupplierID": "10",
+    "SuppilerName": "TAS RMG Warehouse - Bangalore",
+    "Warehouse": "TAS RMG Warehouse - Bangalore",
+    "LocationCode": null
+  },
+  {
+    "SupplierID": "11",
+    "SuppilerName": "TAS RTS - Warhouse",
+    "Warehouse": "TAS RTS - Warhouse",
+    "LocationCode": null
+  }
+]

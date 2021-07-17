@@ -1,0 +1,222 @@
+[
+  {
+    "DueRecoverdId": "1",
+    "PaidDate": "2020-01-14T00:00:00.0000000",
+    "DuesListId": "7",
+    "AmountPaid": "499.0000",
+    "IsPartialPayment": "False",
+    "Modes": "0",
+    "Remarks": "manual bill no 387",
+    "StoreId": "1",
+    "UserId": "AlokKumar"
+  },
+  {
+    "DueRecoverdId": "2",
+    "PaidDate": "2020-10-13T00:00:00.0000000",
+    "DuesListId": "21",
+    "AmountPaid": "100.0000",
+    "IsPartialPayment": "False",
+    "Modes": "0",
+    "Remarks": "CASH",
+    "StoreId": "1",
+    "UserId": "alok"
+  },
+  {
+    "DueRecoverdId": "3",
+    "PaidDate": "2020-10-09T00:00:00.0000000",
+    "DuesListId": "20",
+    "AmountPaid": "39462.0000",
+    "IsPartialPayment": "False",
+    "Modes": "6",
+    "Remarks": "CH.NUM:-278692(SBI C/A OF NATIONAL TRADERS)",
+    "StoreId": "1",
+    "UserId": "alok"
+  },
+  {
+    "DueRecoverdId": "4",
+    "PaidDate": "2020-09-09T00:00:00.0000000",
+    "DuesListId": "19",
+    "AmountPaid": "2872.0000",
+    "IsPartialPayment": "False",
+    "Modes": "1",
+    "Remarks": "dues on dated 29.08.2020",
+    "StoreId": "1",
+    "UserId": "AlokKumar"
+  },
+  {
+    "DueRecoverdId": "5",
+    "PaidDate": "2020-09-09T00:00:00.0000000",
+    "DuesListId": "18",
+    "AmountPaid": "489.0000",
+    "IsPartialPayment": "False",
+    "Modes": "0",
+    "Remarks": "DUES ON DATED 27/08/2020",
+    "StoreId": "1",
+    "UserId": "AlokKumar"
+  },
+  {
+    "DueRecoverdId": "6",
+    "PaidDate": "2020-08-26T00:00:00.0000000",
+    "DuesListId": "17",
+    "AmountPaid": "27494.0000",
+    "IsPartialPayment": "False",
+    "Modes": "0",
+    "Remarks": "BILL DUES",
+    "StoreId": "1",
+    "UserId": "AlokKumar"
+  },
+  {
+    "DueRecoverdId": "7",
+    "PaidDate": "2020-08-13T00:00:00.0000000",
+    "DuesListId": "16",
+    "AmountPaid": "4795.0000",
+    "IsPartialPayment": "False",
+    "Modes": "1",
+    "Remarks": "dues on dated 11.08.2020",
+    "StoreId": "1",
+    "UserId": "AlokKumar"
+  },
+  {
+    "DueRecoverdId": "8",
+    "PaidDate": "2020-08-06T00:00:00.0000000",
+    "DuesListId": "1",
+    "AmountPaid": "342.0000",
+    "IsPartialPayment": "False",
+    "Modes": "0",
+    "Remarks": "dues on date 22-07-2020",
+    "StoreId": "1",
+    "UserId": "AlokKumar"
+  },
+  {
+    "DueRecoverdId": "9",
+    "PaidDate": "2020-06-30T00:00:00.0000000",
+    "DuesListId": "13",
+    "AmountPaid": "1230.0000",
+    "IsPartialPayment": "False",
+    "Modes": "0",
+    "Remarks": "",
+    "StoreId": "1",
+    "UserId": "AlokKumar"
+  },
+  {
+    "DueRecoverdId": "10",
+    "PaidDate": "2020-06-30T00:00:00.0000000",
+    "DuesListId": "11",
+    "AmountPaid": "1556.0000",
+    "IsPartialPayment": "False",
+    "Modes": "0",
+    "Remarks": "",
+    "StoreId": "1",
+    "UserId": "AlokKumar"
+  },
+  {
+    "DueRecoverdId": "11",
+    "PaidDate": "2020-06-27T00:00:00.0000000",
+    "DuesListId": "12",
+    "AmountPaid": "1338.0000",
+    "IsPartialPayment": "False",
+    "Modes": "0",
+    "Remarks": "",
+    "StoreId": "1",
+    "UserId": "AlokKumar"
+  },
+  {
+    "DueRecoverdId": "12",
+    "PaidDate": "2020-06-17T00:00:00.0000000",
+    "DuesListId": "9",
+    "AmountPaid": "1571.0000",
+    "IsPartialPayment": "False",
+    "Modes": "0",
+    "Remarks": "cash",
+    "StoreId": "1",
+    "UserId": "AlokKumar"
+  },
+  {
+    "DueRecoverdId": "13",
+    "PaidDate": "2020-03-09T00:00:00.0000000",
+    "DuesListId": "5",
+    "AmountPaid": "309.0000",
+    "IsPartialPayment": "False",
+    "Modes": "0",
+    "Remarks": "CASH",
+    "StoreId": "1",
+    "UserId": "AlokKumar"
+  },
+  {
+    "DueRecoverdId": "14",
+    "PaidDate": "2020-03-09T00:00:00.0000000",
+    "DuesListId": "4",
+    "AmountPaid": "3050.0000",
+    "IsPartialPayment": "False",
+    "Modes": "0",
+    "Remarks": "CASH",
+    "StoreId": "1",
+    "UserId": "AlokKumar"
+  },
+  {
+    "DueRecoverdId": "15",
+    "PaidDate": "2020-03-03T00:00:00.0000000",
+    "DuesListId": "3",
+    "AmountPaid": "250.0000",
+    "IsPartialPayment": "False",
+    "Modes": "0",
+    "Remarks": "CASH",
+    "StoreId": "1",
+    "UserId": "AlokKumar"
+  },
+  {
+    "DueRecoverdId": "16",
+    "PaidDate": "2020-02-28T00:00:00.0000000",
+    "DuesListId": "2",
+    "AmountPaid": "2600.0000",
+    "IsPartialPayment": "False",
+    "Modes": "0",
+    "Remarks": "T.bill no 840,841,844.845 ( for out side cloth )",
+    "StoreId": "1",
+    "UserId": "AlokKumar"
+  },
+  {
+    "DueRecoverdId": "17",
+    "PaidDate": "2020-02-27T00:00:00.0000000",
+    "DuesListId": "6",
+    "AmountPaid": "4170.0000",
+    "IsPartialPayment": "False",
+    "Modes": "0",
+    "Remarks": "dues on date 16-02-2020",
+    "StoreId": "1",
+    "UserId": "AlokKumar"
+  },
+  {
+    "DueRecoverdId": "18",
+    "PaidDate": "2020-01-14T00:00:00.0000000",
+    "DuesListId": "8",
+    "AmountPaid": "11757.0000",
+    "IsPartialPayment": "False",
+    "Modes": "0",
+    "Remarks": "bill no C33IN1900201",
+    "StoreId": "1",
+    "UserId": "AlokKumar"
+  },
+  {
+    "DueRecoverdId": "19",
+    "PaidDate": "2020-10-17T00:00:00.0000000",
+    "DuesListId": "24",
+    "AmountPaid": "3195.0000",
+    "IsPartialPayment": "False",
+    "Modes": "0",
+    "Remarks": "DUES ON DATED11.10.2020",
+    "StoreId": "1",
+    "UserId": "alok"
+  },
+  {
+    "DueRecoverdId": "20",
+    "PaidDate": "2020-10-23T00:00:00.0000000",
+    "DuesListId": "26",
+    "AmountPaid": "45.0000",
+    "IsPartialPayment": "False",
+    "Modes": "0",
+    "Remarks": "TAILORING",
+    "StoreId": "1",
+    "UserId": "alok"
+  }
+]

@@ -1,0 +1,566 @@
+[
+  {
+    "PRODUCTCODE": "7491",
+    "PRODUCTNAME": "Apparel/Tailored Garment/Shirts"
+  },
+  {
+    "PRODUCTCODE": "7511",
+    "PRODUCTNAME": "Apparel/Tailored Garment/Trouser"
+  },
+  {
+    "PRODUCTCODE": "7512",
+    "PRODUCTNAME": "Apparel/Tailored Garment/Suits"
+  },
+  {
+    "PRODUCTCODE": "7513",
+    "PRODUCTNAME": "Apparel/Tailored Garment/Jackets"
+  },
+  {
+    "PRODUCTCODE": "7533",
+    "PRODUCTNAME": "Apparel/Tailored Garment/Jeans"
+  },
+  {
+    "PRODUCTCODE": "7551",
+    "PRODUCTNAME": "Apparel/Tailored Garment/JawaharJacket"
+  },
+  {
+    "PRODUCTCODE": "7552",
+    "PRODUCTNAME": "Apparel/Tailored Garment/Sherwani"
+  },
+  {
+    "PRODUCTCODE": "7553",
+    "PRODUCTNAME": "Apparel/Tailored Garment/Overcoat"
+  },
+  {
+    "PRODUCTCODE": "7554",
+    "PRODUCTNAME": "Apparel/Tailored Garment/Waist Coat"
+  },
+  {
+    "PRODUCTCODE": "7555",
+    "PRODUCTNAME": "Apparel/Tailored Garment/Jodhpuri"
+  },
+  {
+    "PRODUCTCODE": "7562",
+    "PRODUCTNAME": "Apparel/Tailored Garment/Pathani Suit"
+  },
+  {
+    "PRODUCTCODE": "7563",
+    "PRODUCTNAME": "Apparel/Tailored Garment/Safari Shirt"
+  },
+  {
+    "PRODUCTCODE": "7564",
+    "PRODUCTNAME": "Apparel/Tailored Garment/Safari Trouser"
+  },
+  {
+    "PRODUCTCODE": "7565",
+    "PRODUCTNAME": "Apparel/Tailored Garment/Kurta"
+  },
+  {
+    "PRODUCTCODE": "7566",
+    "PRODUCTNAME": "Apparel/Tailored Garment/Pyjama"
+  },
+  {
+    "PRODUCTCODE": "7567",
+    "PRODUCTNAME": "Apparel/Tailored Garment/Breeches"
+  },
+  {
+    "PRODUCTCODE": "7568",
+    "PRODUCTNAME": "Apparel/Tailored Garment/DhotiPatiala"
+  },
+  {
+    "PRODUCTCODE": "7569",
+    "PRODUCTNAME": "Apparel/Tailored Garment/Pathani Top"
+  },
+  {
+    "PRODUCTCODE": "7570",
+    "PRODUCTNAME": "Apparel/Tailored Garment/Salwar"
+  },
+  {
+    "PRODUCTCODE": "7571",
+    "PRODUCTNAME": "Apparel/Tailored Garment/Tie"
+  },
+  {
+    "PRODUCTCODE": "7572",
+    "PRODUCTNAME": "Apparel/Tailored Garment/Scarf"
+  },
+  {
+    "PRODUCTCODE": "7573",
+    "PRODUCTNAME": "Apparel/Tailored Garment/Apron"
+  },
+  {
+    "PRODUCTCODE": "7574",
+    "PRODUCTNAME": "Apparel/Tailored Garment/Night Dress"
+  },
+  {
+    "PRODUCTCODE": "7671",
+    "PRODUCTNAME": "Apparel\\Accessories\\Lug - Backpack"
+  },
+  {
+    "PRODUCTCODE": "7691",
+    "PRODUCTNAME": "Apparel\\Accessories\\TIES-HANKY-LIC"
+  },
+  {
+    "PRODUCTCODE": "7733",
+    "PRODUCTNAME": "Apparel/Mens Formal/Vest Coat"
+  },
+  {
+    "PRODUCTCODE": "7751",
+    "PRODUCTNAME": "Apparel/Accessories/Acc- Boxer"
+  },
+  {
+    "PRODUCTCODE": "7774",
+    "PRODUCTNAME": "Creyate/Mens/Blazer"
+  },
+  {
+    "PRODUCTCODE": "7776",
+    "PRODUCTNAME": "Creyate/Mens/Chinos"
+  },
+  {
+    "PRODUCTCODE": "7777",
+    "PRODUCTNAME": "Creyate/Mens/Jeans"
+  },
+  {
+    "PRODUCTCODE": "7778",
+    "PRODUCTNAME": "Creyate/Mens/VestCoat"
+  },
+  {
+    "PRODUCTCODE": "7779",
+    "PRODUCTNAME": "Creyate/Mens/Suits"
+  },
+  {
+    "PRODUCTCODE": "7780",
+    "PRODUCTNAME": "Creyate/Mens/Shirt"
+  },
+  {
+    "PRODUCTCODE": "7791",
+    "PRODUCTNAME": "Creyate/Mens/Trouser"
+  },
+  {
+    "PRODUCTCODE": "7792",
+    "PRODUCTNAME": "Creyate/Mens/Sleeve"
+  },
+  {
+    "PRODUCTCODE": "7793",
+    "PRODUCTNAME": "Creyate/Mens/WaistCoat"
+  },
+  {
+    "PRODUCTCODE": "7813",
+    "PRODUCTNAME": "Creyate/Mens Formal/Shirt"
+  },
+  {
+    "PRODUCTCODE": "7815",
+    "PRODUCTNAME": "Creyate/Mens Casual/Shirt"
+  },
+  {
+    "PRODUCTCODE": "7816",
+    "PRODUCTNAME": "Creyate/Womens/Shirt"
+  },
+  {
+    "PRODUCTCODE": "7817",
+    "PRODUCTNAME": "Creyate/Womens/Jeans"
+  },
+  {
+    "PRODUCTCODE": "7820",
+    "PRODUCTNAME": "Creyate/Womens Formal/Shirt"
+  },
+  {
+    "PRODUCTCODE": "7821",
+    "PRODUCTNAME": "Creyate/Womens Casual/Shirt"
+  },
+  {
+    "PRODUCTCODE": "7853",
+    "PRODUCTNAME": "Suiting/Tresca/Wool Silk"
+  },
+  {
+    "PRODUCTCODE": "7871",
+    "PRODUCTNAME": "Shirting/Tresca/Poly Cot"
+  },
+  {
+    "PRODUCTCODE": "7892",
+    "PRODUCTNAME": "Promo/Accessory/Style Duffle"
+  },
+  {
+    "PRODUCTCODE": "7916",
+    "PRODUCTNAME": "Broches/Arv Accessories/Accessories"
+  },
+  {
+    "PRODUCTCODE": "7971",
+    "PRODUCTNAME": "Suiting/Tresca/Poly Cot"
+  },
+  {
+    "PRODUCTCODE": "8034",
+    "PRODUCTNAME": "Suiting/Denim/Poly Cot"
+  },
+  {
+    "PRODUCTCODE": "8035",
+    "PRODUCTNAME": "Suiting/Tresca/Cot Modal"
+  },
+  {
+    "PRODUCTCODE": "8036",
+    "PRODUCTNAME": "Shirting/Tresca/Cot Modal"
+  },
+  {
+    "PRODUCTCODE": "8038",
+    "PRODUCTNAME": "Suiting/Denim/Poly Visc"
+  },
+  {
+    "PRODUCTCODE": "8054",
+    "PRODUCTNAME": "Apparel/Work/Polos"
+  },
+  {
+    "PRODUCTCODE": "8056",
+    "PRODUCTNAME": "Apparel/Work/Blazers"
+  },
+  {
+    "PRODUCTCODE": "8057",
+    "PRODUCTNAME": "Apparel/Work/Shirts"
+  },
+  {
+    "PRODUCTCODE": "8058",
+    "PRODUCTNAME": "Apparel/Work/Suits"
+  },
+  {
+    "PRODUCTCODE": "8059",
+    "PRODUCTNAME": "Apparel/Work/Trousers"
+  },
+  {
+    "PRODUCTCODE": "8060",
+    "PRODUCTNAME": "Apparel/Work/Waistcoat"
+  },
+  {
+    "PRODUCTCODE": "8063",
+    "PRODUCTNAME": "Apparel/After Hours/Bundis"
+  },
+  {
+    "PRODUCTCODE": "8064",
+    "PRODUCTNAME": "Apparel/After Hours/Suits"
+  },
+  {
+    "PRODUCTCODE": "8065",
+    "PRODUCTNAME": "Apparel/After Hours/Blazers"
+  },
+  {
+    "PRODUCTCODE": "8067",
+    "PRODUCTNAME": "Apparel/After Hours/Jeans"
+  },
+  {
+    "PRODUCTCODE": "8068",
+    "PRODUCTNAME": "Apparel/After Hours/Knit bottoms"
+  },
+  {
+    "PRODUCTCODE": "8069",
+    "PRODUCTNAME": "Apparel/After Hours/Kurtas"
+  },
+  {
+    "PRODUCTCODE": "8070",
+    "PRODUCTNAME": "Apparel/After Hours/Polo"
+  },
+  {
+    "PRODUCTCODE": "8071",
+    "PRODUCTNAME": "Apparel/After Hours/Shirts"
+  },
+  {
+    "PRODUCTCODE": "8072",
+    "PRODUCTNAME": "Apparel/After Hours/Shorts"
+  },
+  {
+    "PRODUCTCODE": "8073",
+    "PRODUCTNAME": "Apparel/After Hours/Tee"
+  },
+  {
+    "PRODUCTCODE": "8074",
+    "PRODUCTNAME": "Apparel/After Hours/Trouser"
+  },
+  {
+    "PRODUCTCODE": "8077",
+    "PRODUCTNAME": "Apparel/Celebration/Bandhgala"
+  },
+  {
+    "PRODUCTCODE": "8078",
+    "PRODUCTNAME": "Apparel/Celebration/Bespoke day jacket"
+  },
+  {
+    "PRODUCTCODE": "8079",
+    "PRODUCTNAME": "Apparel/Celebration/Bundis"
+  },
+  {
+    "PRODUCTCODE": "8080",
+    "PRODUCTNAME": "Apparel/Celebration/Dinner jackets"
+  },
+  {
+    "PRODUCTCODE": "8081",
+    "PRODUCTNAME": "Apparel/Celebration/Achkan"
+  },
+  {
+    "PRODUCTCODE": "8082",
+    "PRODUCTNAME": "Apparel/Celebration/Kurtas"
+  },
+  {
+    "PRODUCTCODE": "8083",
+    "PRODUCTNAME": "Apparel/Celebration/Shirts"
+  },
+  {
+    "PRODUCTCODE": "8084",
+    "PRODUCTNAME": "Apparel/Celebration/Trousers"
+  },
+  {
+    "PRODUCTCODE": "8085",
+    "PRODUCTNAME": "Churidar/Celebration/Apparel"
+  },
+  {
+    "PRODUCTCODE": "8200",
+    "PRODUCTNAME": "Suit Cover/Arv Accessories/Accessories"
+  },
+  {
+    "PRODUCTCODE": "8220",
+    "PRODUCTNAME": "Apparel/Celebration/Suits"
+  },
+  {
+    "PRODUCTCODE": "8240",
+    "PRODUCTNAME": "Apparel/Mens Casual/Trackpants"
+  },
+  {
+    "PRODUCTCODE": "8260",
+    "PRODUCTNAME": "Shirting/Tresca/Cotton Visc Visc"
+  },
+  {
+    "PRODUCTCODE": "8280",
+    "PRODUCTNAME": "Promo/Accessory/Gold Coin"
+  },
+  {
+    "PRODUCTCODE": "8321",
+    "PRODUCTNAME": "Shirting/Tresca/Cotton Ten"
+  },
+  {
+    "PRODUCTCODE": "8360",
+    "PRODUCTNAME": "Shirting/Non Tresca/Cotton Ten"
+  },
+  {
+    "PRODUCTCODE": "8380",
+    "PRODUCTNAME": "Shirting/Tresca/Poly Visc"
+  },
+  {
+    "PRODUCTCODE": "8400",
+    "PRODUCTNAME": "Apparel/Accessories/Gift Set"
+  },
+  {
+    "PRODUCTCODE": "8401",
+    "PRODUCTNAME": "Apparel/Accessories/Bow-Tie"
+  },
+  {
+    "PRODUCTCODE": "8420",
+    "PRODUCTNAME": "Poly/Tresca/Shirting"
+  },
+  {
+    "PRODUCTCODE": "8422",
+    "PRODUCTNAME": "Poly/Non Tresca/Shirting"
+  },
+  {
+    "PRODUCTCODE": "8423",
+    "PRODUCTNAME": "Suiting/Tresca/Poly"
+  },
+  {
+    "PRODUCTCODE": "8424",
+    "PRODUCTNAME": "Suiting/Non Tresca/Poly"
+  },
+  {
+    "PRODUCTCODE": "8440",
+    "PRODUCTNAME": "Apparel/Accessories/Acc. - Cufflinks"
+  },
+  {
+    "PRODUCTCODE": "8441",
+    "PRODUCTNAME": "Apparel/Accessories/Combo set"
+  },
+  {
+    "PRODUCTCODE": "8520",
+    "PRODUCTNAME": "Apparel/Mens Western/TC Bandi"
+  },
+  {
+    "PRODUCTCODE": "8540",
+    "PRODUCTNAME": "Apparel/Mens Western/TC Blazer"
+  },
+  {
+    "PRODUCTCODE": "8560",
+    "PRODUCTNAME": "Apparel/Mens Western/TC Knitted Shirt"
+  },
+  {
+    "PRODUCTCODE": "8561",
+    "PRODUCTNAME": "Apparel/Mens Western/TC Polo T Shirt"
+  },
+  {
+    "PRODUCTCODE": "8580",
+    "PRODUCTNAME": "Apparel/Mens Western/TC TShirt"
+  },
+  {
+    "PRODUCTCODE": "8581",
+    "PRODUCTNAME": "Apparel/Mens Western/TC Woven Shirt"
+  },
+  {
+    "PRODUCTCODE": "8582",
+    "PRODUCTNAME": "Apparel/Mens Western/Tc Woven Trouser"
+  },
+  {
+    "PRODUCTCODE": "8583",
+    "PRODUCTNAME": "Apparel/Mens Ethenic/TB-SharwaniWoven"
+  },
+  {
+    "PRODUCTCODE": "8584",
+    "PRODUCTNAME": "Apparel/Mens Ethenic/TB-Kurtas Set"
+  },
+  {
+    "PRODUCTCODE": "8585",
+    "PRODUCTNAME": "Apparel/Mens Western/TJ Polo T Shirt"
+  },
+  {
+    "PRODUCTCODE": "8600",
+    "PRODUCTNAME": "Apparel/Mens Western/TJ TShirt"
+  },
+  {
+    "PRODUCTCODE": "8601",
+    "PRODUCTNAME": "Apparel/Mens Western/TJ Woven Shirt"
+  },
+  {
+    "PRODUCTCODE": "8602",
+    "PRODUCTNAME": "Apparel/Mens Western/TJ Woen Trouser"
+  },
+  {
+    "PRODUCTCODE": "8603",
+    "PRODUCTNAME": "Apparel/Mens Western/TI Bandi"
+  },
+  {
+    "PRODUCTCODE": "8620",
+    "PRODUCTNAME": "Apparel/Mens Western/TI Blazer"
+  },
+  {
+    "PRODUCTCODE": "8621",
+    "PRODUCTNAME": "Apparel/Mens Western/TI Knitted Shirt"
+  },
+  {
+    "PRODUCTCODE": "8622",
+    "PRODUCTNAME": "Apparel/Mens Western/TI Polo Shirt"
+  },
+  {
+    "PRODUCTCODE": "8623",
+    "PRODUCTNAME": "Apparel/Mens Western/TI Suit"
+  },
+  {
+    "PRODUCTCODE": "8624",
+    "PRODUCTNAME": "Apparel/Mens Western/TI Woven Shirt"
+  },
+  {
+    "PRODUCTCODE": "8625",
+    "PRODUCTNAME": "Apparel/Mens Western/TI Woven Trouser"
+  },
+  {
+    "PRODUCTCODE": "8626",
+    "PRODUCTNAME": "Apparel/Mens Western/TU Bandi"
+  },
+  {
+    "PRODUCTCODE": "8627",
+    "PRODUCTNAME": "Apparel/Mens Western/TU BLAZER"
+  },
+  {
+    "PRODUCTCODE": "8628",
+    "PRODUCTNAME": "Apparel/Mens Western/TU Jacket"
+  },
+  {
+    "PRODUCTCODE": "8629",
+    "PRODUCTNAME": "Apparel/Mens Western/TU Jeans"
+  },
+  {
+    "PRODUCTCODE": "8630",
+    "PRODUCTNAME": "Apparel/Mens Western/TU Knitted Shirt"
+  },
+  {
+    "PRODUCTCODE": "8631",
+    "PRODUCTNAME": "Apparel/Mens Western/TU Pol TShirt"
+  },
+  {
+    "PRODUCTCODE": "8632",
+    "PRODUCTNAME": "Apparel/Mens Western/TU Sweat Shirt"
+  },
+  {
+    "PRODUCTCODE": "8633",
+    "PRODUCTNAME": "Apparel/Mens Western/TU Sweater"
+  },
+  {
+    "PRODUCTCODE": "8634",
+    "PRODUCTNAME": "Apparel/Mens Western/TU TShirt"
+  },
+  {
+    "PRODUCTCODE": "8635",
+    "PRODUCTNAME": "Apparel/Mens Western/TU Woven Shirt"
+  },
+  {
+    "PRODUCTCODE": "8636",
+    "PRODUCTNAME": "Apparel/Mens Western/TU Woven Trouser"
+  },
+  {
+    "PRODUCTCODE": "8640",
+    "PRODUCTNAME": "Apparel/Mens Ethenic/TB-IndoWesternwo"
+  },
+  {
+    "PRODUCTCODE": "8641",
+    "PRODUCTNAME": "Apparel/Accessories/Bow"
+  },
+  {
+    "PRODUCTCODE": "8642",
+    "PRODUCTNAME": "Apparel/Accessories/Hanger"
+  },
+  {
+    "PRODUCTCODE": "8660",
+    "PRODUCTNAME": "Apparel/Mens Western/TU SHORTS"
+  },
+  {
+    "PRODUCTCODE": "8662",
+    "PRODUCTNAME": "Apparel/Non Apparels/TU Carry Bag"
+  },
+  {
+    "PRODUCTCODE": "8663",
+    "PRODUCTNAME": "Apparel/Non Apparels/TU Hanger"
+  },
+  {
+    "PRODUCTCODE": "8664",
+    "PRODUCTNAME": "Apparel/Non Apparels/TU BELT LEATHER"
+  },
+  {
+    "PRODUCTCODE": "8665",
+    "PRODUCTNAME": "Apparel/Non Apparels/TU Belt Nonleath"
+  },
+  {
+    "PRODUCTCODE": "8666",
+    "PRODUCTNAME": "Apparel/Mens Ethenic/TB BANDI WOVEN"
+  },
+  {
+    "PRODUCTCODE": "8667",
+    "PRODUCTNAME": "Apparel/Mens Ethenic/TB WOVEN Trouser"
+  },
+  {
+    "PRODUCTCODE": "8680",
+    "PRODUCTNAME": "Apparel/Mens Western/TB T-SHIRT"
+  },
+  {
+    "PRODUCTCODE": "8700",
+    "PRODUCTNAME": "Apparel/Mens Western/TB Shirt"
+  },
+  {
+    "PRODUCTCODE": "8723",
+    "PRODUCTNAME": "Suiting/Primante/POLY WOOL"
+  },
+  {
+    "PRODUCTCODE": "8741",
+    "PRODUCTNAME": "Suiting/Primante/ALL WOOL"
+  },
+  {
+    "PRODUCTCODE": "8760",
+    "PRODUCTNAME": "Suiting/Primante/Wool Silk"
+  },
+  {
+    "PRODUCTCODE": "8780",
+    "PRODUCTNAME": "Apparel/Mens Western/TI Tshirt"
+  },
+  {
+    "PRODUCTCODE": "8801",
+    "PRODUCTNAME": "PPE Kit/Arv Accessories/Accessories"
+  }
+]

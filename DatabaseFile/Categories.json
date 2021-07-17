@@ -1,0 +1,302 @@
+[
+  {
+    "CategoryId": "1",
+    "CategoryName": "Shirting",
+    "IsPrimaryCategory": "True",
+    "IsSecondaryCategory": "False"
+  },
+  {
+    "CategoryId": "2",
+    "CategoryName": "Sweater",
+    "IsPrimaryCategory": "False",
+    "IsSecondaryCategory": "False"
+  },
+  {
+    "CategoryId": "3",
+    "CategoryName": "Sweat Shirt",
+    "IsPrimaryCategory": "False",
+    "IsSecondaryCategory": "False"
+  },
+  {
+    "CategoryId": "4",
+    "CategoryName": "Accessories",
+    "IsPrimaryCategory": "False",
+    "IsSecondaryCategory": "False"
+  },
+  {
+    "CategoryId": "5",
+    "CategoryName": "After Hours",
+    "IsPrimaryCategory": "False",
+    "IsSecondaryCategory": "True"
+  },
+  {
+    "CategoryId": "6",
+    "CategoryName": "Trouser",
+    "IsPrimaryCategory": "False",
+    "IsSecondaryCategory": "False"
+  },
+  {
+    "CategoryId": "7",
+    "CategoryName": "Work",
+    "IsPrimaryCategory": "False",
+    "IsSecondaryCategory": "True"
+  },
+  {
+    "CategoryId": "8",
+    "CategoryName": "Celebration",
+    "IsPrimaryCategory": "False",
+    "IsSecondaryCategory": "True"
+  },
+  {
+    "CategoryId": "9",
+    "CategoryName": "Suits",
+    "IsPrimaryCategory": "False",
+    "IsSecondaryCategory": "False"
+  },
+  {
+    "CategoryId": "10",
+    "CategoryName": "Blazers",
+    "IsPrimaryCategory": "False",
+    "IsSecondaryCategory": "False"
+  },
+  {
+    "CategoryId": "11",
+    "CategoryName": "Bundis",
+    "IsPrimaryCategory": "False",
+    "IsSecondaryCategory": "False"
+  },
+  {
+    "CategoryId": "12",
+    "CategoryName": "Suit Cover",
+    "IsPrimaryCategory": "True",
+    "IsSecondaryCategory": "False"
+  },
+  {
+    "CategoryId": "13",
+    "CategoryName": "Arv Accessories",
+    "IsPrimaryCategory": "False",
+    "IsSecondaryCategory": "True"
+  },
+  {
+    "CategoryId": "14",
+    "CategoryName": "Wool Silk",
+    "IsPrimaryCategory": "False",
+    "IsSecondaryCategory": "False"
+  },
+  {
+    "CategoryId": "15",
+    "CategoryName": "Cotton Visc Visc",
+    "IsPrimaryCategory": "False",
+    "IsSecondaryCategory": "False"
+  },
+  {
+    "CategoryId": "16",
+    "CategoryName": "WirstWatch",
+    "IsPrimaryCategory": "False",
+    "IsSecondaryCategory": "False"
+  },
+  {
+    "CategoryId": "17",
+    "CategoryName": "Blazer",
+    "IsPrimaryCategory": "False",
+    "IsSecondaryCategory": "False"
+  },
+  {
+    "CategoryId": "18",
+    "CategoryName": "Style Duffle",
+    "IsPrimaryCategory": "False",
+    "IsSecondaryCategory": "False"
+  },
+  {
+    "CategoryId": "19",
+    "CategoryName": "Bag",
+    "IsPrimaryCategory": "False",
+    "IsSecondaryCategory": "False"
+  },
+  {
+    "CategoryId": "20",
+    "CategoryName": "Innerwear",
+    "IsPrimaryCategory": "False",
+    "IsSecondaryCategory": "True"
+  },
+  {
+    "CategoryId": "21",
+    "CategoryName": "Briefs",
+    "IsPrimaryCategory": "False",
+    "IsSecondaryCategory": "False"
+  },
+  {
+    "CategoryId": "22",
+    "CategoryName": "Vests",
+    "IsPrimaryCategory": "False",
+    "IsSecondaryCategory": "False"
+  },
+  {
+    "CategoryId": "23",
+    "CategoryName": "Jackets",
+    "IsPrimaryCategory": "False",
+    "IsSecondaryCategory": "False"
+  },
+  {
+    "CategoryId": "24",
+    "CategoryName": "Acc- Boxer",
+    "IsPrimaryCategory": "False",
+    "IsSecondaryCategory": "False"
+  },
+  {
+    "CategoryId": "25",
+    "CategoryName": "Accessories",
+    "IsPrimaryCategory": "False",
+    "IsSecondaryCategory": "True"
+  },
+  {
+    "CategoryId": "26",
+    "CategoryName": "Shorts",
+    "IsPrimaryCategory": "False",
+    "IsSecondaryCategory": "False"
+  },
+  {
+    "CategoryId": "27",
+    "CategoryName": "Non Tresca",
+    "IsPrimaryCategory": "False",
+    "IsSecondaryCategory": "True"
+  },
+  {
+    "CategoryId": "28",
+    "CategoryName": "Cotton",
+    "IsPrimaryCategory": "False",
+    "IsSecondaryCategory": "False"
+  },
+  {
+    "CategoryId": "29",
+    "CategoryName": "Poly Cot",
+    "IsPrimaryCategory": "False",
+    "IsSecondaryCategory": "False"
+  },
+  {
+    "CategoryId": "30",
+    "CategoryName": "Tresca",
+    "IsPrimaryCategory": "False",
+    "IsSecondaryCategory": "True"
+  },
+  {
+    "CategoryId": "31",
+    "CategoryName": "Linen",
+    "IsPrimaryCategory": "False",
+    "IsSecondaryCategory": "False"
+  },
+  {
+    "CategoryId": "32",
+    "CategoryName": "Apparel",
+    "IsPrimaryCategory": "True",
+    "IsSecondaryCategory": "False"
+  },
+  {
+    "CategoryId": "33",
+    "CategoryName": "Mens Formal",
+    "IsPrimaryCategory": "False",
+    "IsSecondaryCategory": "True"
+  },
+  {
+    "CategoryId": "34",
+    "CategoryName": "Shirts",
+    "IsPrimaryCategory": "False",
+    "IsSecondaryCategory": "False"
+  },
+  {
+    "CategoryId": "35",
+    "CategoryName": "Mens Casual",
+    "IsPrimaryCategory": "False",
+    "IsSecondaryCategory": "True"
+  },
+  {
+    "CategoryId": "36",
+    "CategoryName": "T shirts",
+    "IsPrimaryCategory": "False",
+    "IsSecondaryCategory": "False"
+  },
+  {
+    "CategoryId": "37",
+    "CategoryName": "H-Shorts",
+    "IsPrimaryCategory": "False",
+    "IsSecondaryCategory": "False"
+  },
+  {
+    "CategoryId": "38",
+    "CategoryName": "Jeans",
+    "IsPrimaryCategory": "False",
+    "IsSecondaryCategory": "False"
+  },
+  {
+    "CategoryId": "39",
+    "CategoryName": "Suiting",
+    "IsPrimaryCategory": "True",
+    "IsSecondaryCategory": "False"
+  },
+  {
+    "CategoryId": "40",
+    "CategoryName": "Poly Wool",
+    "IsPrimaryCategory": "False",
+    "IsSecondaryCategory": "False"
+  },
+  {
+    "CategoryId": "41",
+    "CategoryName": "All Wool",
+    "IsPrimaryCategory": "False",
+    "IsSecondaryCategory": "False"
+  },
+  {
+    "CategoryId": "42",
+    "CategoryName": "Cot Modal",
+    "IsPrimaryCategory": "False",
+    "IsSecondaryCategory": "False"
+  },
+  {
+    "CategoryId": "43",
+    "CategoryName": "Poly Visc",
+    "IsPrimaryCategory": "False",
+    "IsSecondaryCategory": "False"
+  },
+  {
+    "CategoryId": "44",
+    "CategoryName": "Silk",
+    "IsPrimaryCategory": "False",
+    "IsSecondaryCategory": "False"
+  },
+  {
+    "CategoryId": "45",
+    "CategoryName": "Denim",
+    "IsPrimaryCategory": "False",
+    "IsSecondaryCategory": "True"
+  },
+  {
+    "CategoryId": "46",
+    "CategoryName": "Promo",
+    "IsPrimaryCategory": "True",
+    "IsSecondaryCategory": "False"
+  },
+  {
+    "CategoryId": "47",
+    "CategoryName": "Accessory",
+    "IsPrimaryCategory": "False",
+    "IsSecondaryCategory": "True"
+  },
+  {
+    "CategoryId": "48",
+    "CategoryName": "Free GV",
+    "IsPrimaryCategory": "False",
+    "IsSecondaryCategory": "False"
+  },
+  {
+    "CategoryId": "49",
+    "CategoryName": "Trousers",
+    "IsPrimaryCategory": "False",
+    "IsSecondaryCategory": "False"
+  },
+  {
+    "CategoryId": "50",
+    "CategoryName": "Socks",
+    "IsPrimaryCategory": "False",
+    "IsSecondaryCategory": "False"
+  }
+]

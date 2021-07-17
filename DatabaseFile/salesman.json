@@ -1,0 +1,119 @@
+[
+  {
+    "SalesmanId": "1",
+    "SalesmanName": "Manager",
+    "EmployeeId": null,
+    "UserId": null,
+    "EntryStatus": "0",
+    "IsReadOnly": "True",
+    "StoreId": "1"
+  },
+  {
+    "SalesmanId": "2",
+    "SalesmanName": "Sanjeev Kumar Mishra",
+    "EmployeeId": "2",
+    "UserId": "AmitKumar",
+    "EntryStatus": "0",
+    "IsReadOnly": "True",
+    "StoreId": "1"
+  },
+  {
+    "SalesmanId": "3",
+    "SalesmanName": "Mukesh Kumar Mandal",
+    "EmployeeId": "3",
+    "UserId": "AmitKumar",
+    "EntryStatus": "0",
+    "IsReadOnly": "True",
+    "StoreId": "1"
+  },
+  {
+    "SalesmanId": "4",
+    "SalesmanName": "Amit Thakur ",
+    "EmployeeId": "14",
+    "UserId": "AmitKumar",
+    "EntryStatus": "0",
+    "IsReadOnly": "True",
+    "StoreId": "1"
+  },
+  {
+    "SalesmanId": "5",
+    "SalesmanName": "Bikash Kumar Sah",
+    "EmployeeId": "16",
+    "UserId": "Admin",
+    "EntryStatus": "0",
+    "IsReadOnly": "True",
+    "StoreId": "1"
+  },
+  {
+    "SalesmanId": "6",
+    "SalesmanName": "MANAGER",
+    "EmployeeId": null,
+    "UserId": "AA",
+    "EntryStatus": "0",
+    "IsReadOnly": "True",
+    "StoreId": "1"
+  },
+  {
+    "SalesmanId": "7",
+    "SalesmanName": "Sourav Turi",
+    "EmployeeId": null,
+    "UserId": "AA",
+    "EntryStatus": "0",
+    "IsReadOnly": "True",
+    "StoreId": "1"
+  },
+  {
+    "SalesmanId": "8",
+    "SalesmanName": "Alok",
+    "EmployeeId": null,
+    "UserId": "AA",
+    "EntryStatus": "0",
+    "IsReadOnly": "True",
+    "StoreId": "1"
+  },
+  {
+    "SalesmanId": "9",
+    "SalesmanName": "Amit Thakur",
+    "EmployeeId": null,
+    "UserId": "AA",
+    "EntryStatus": "0",
+    "IsReadOnly": "True",
+    "StoreId": "1"
+  },
+  {
+    "SalesmanId": "10",
+    "SalesmanName": "AJAM MASTER",
+    "EmployeeId": null,
+    "UserId": "AA",
+    "EntryStatus": "0",
+    "IsReadOnly": "True",
+    "StoreId": "1"
+  },
+  {
+    "SalesmanId": "11",
+    "SalesmanName": "Santosh Kumar",
+    "EmployeeId": null,
+    "UserId": "AA",
+    "EntryStatus": "0",
+    "IsReadOnly": "True",
+    "StoreId": "1"
+  },
+  {
+    "SalesmanId": "12",
+    "SalesmanName": "Bikas Kumar Sah",
+    "EmployeeId": null,
+    "UserId": "AA",
+    "EntryStatus": "0",
+    "IsReadOnly": "True",
+    "StoreId": "1"
+  },
+  {
+    "SalesmanId": "13",
+    "SalesmanName": "Jafer master",
+    "EmployeeId": null,
+    "UserId": "AA",
+    "EntryStatus": "0",
+    "IsReadOnly": "True",
+    "StoreId": "1"
+  }
+]

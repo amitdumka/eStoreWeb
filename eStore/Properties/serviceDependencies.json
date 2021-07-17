@@ -1,5 +1,13 @@
 {
   "dependencies": {
+    "mssql2": {
+      "type": "mssql",
+      "connectionId": "eStoreCon"
+    },
+    "mssql3": {
+      "type": "mssql",
+      "connectionId": "AuthDBCon"
+    },
     "mssql1": {
       "type": "mssql",
       "connectionId": "DefaultConnection"

@@ -1,0 +1,123 @@
+[
+  {
+    "StoreHolidayId": "1",
+    "OnDate": "2021-04-09T18:33:52.5420000",
+    "Reason": "0",
+    "Remarks": "Dumy",
+    "ApprovedBy": "AmitKumar",
+    "UserId": null,
+    "EntryStatus": "0",
+    "IsReadOnly": "False",
+    "StoreId": "1"
+  },
+  {
+    "StoreHolidayId": "2",
+    "OnDate": "2021-04-11T07:08:00.4800000",
+    "Reason": "0",
+    "Remarks": "Store Closed For Corona guideline",
+    "ApprovedBy": "Amit Kumar",
+    "UserId": "WebUI",
+    "EntryStatus": "0",
+    "IsReadOnly": "False",
+    "StoreId": "1"
+  },
+  {
+    "StoreHolidayId": "3",
+    "OnDate": "2021-04-25T05:53:41.6750000",
+    "Reason": "0",
+    "Remarks": "Closed due to Corona Guidelines ",
+    "ApprovedBy": "Amit Kumar",
+    "UserId": "WebUI",
+    "EntryStatus": "0",
+    "IsReadOnly": "False",
+    "StoreId": "1"
+  },
+  {
+    "StoreHolidayId": "4",
+    "OnDate": "2021-04-26T04:46:47.6670000",
+    "Reason": "0",
+    "Remarks": "Closed for Corona",
+    "ApprovedBy": "Amit Kumar",
+    "UserId": "WebUI",
+    "EntryStatus": "0",
+    "IsReadOnly": "False",
+    "StoreId": "1"
+  },
+  {
+    "StoreHolidayId": "5",
+    "OnDate": "2021-04-27T04:49:16.0000000",
+    "Reason": "0",
+    "Remarks": "Closed Due to Corona Guidelines ",
+    "ApprovedBy": "Amit Kumar",
+    "UserId": "WebUI",
+    "EntryStatus": "0",
+    "IsReadOnly": "False",
+    "StoreId": "1"
+  },
+  {
+    "StoreHolidayId": "6",
+    "OnDate": "2021-04-28T05:14:13.0000000",
+    "Reason": "0",
+    "Remarks": "Closed for Cornoa",
+    "ApprovedBy": "Amit Kumar",
+    "UserId": "WebUI",
+    "EntryStatus": "0",
+    "IsReadOnly": "False",
+    "StoreId": "1"
+  },
+  {
+    "StoreHolidayId": "7",
+    "OnDate": "2021-04-28T21:18:16.0000000",
+    "Reason": "0",
+    "Remarks": "Testing for Ndays leave",
+    "ApprovedBy": "Amit kumar",
+    "UserId": "WebUI",
+    "EntryStatus": "0",
+    "IsReadOnly": "False",
+    "StoreId": "1"
+  },
+  {
+    "StoreHolidayId": "8",
+    "OnDate": "2021-04-29T21:20:04.7320000",
+    "Reason": "0",
+    "Remarks": "Testing",
+    "ApprovedBy": "AmitKumar",
+    "UserId": "TestData",
+    "EntryStatus": "0",
+    "IsReadOnly": "True",
+    "StoreId": "1"
+  },
+  {
+    "StoreHolidayId": "9",
+    "OnDate": "2021-05-03T21:20:04.7320000",
+    "Reason": "0",
+    "Remarks": "Testing",
+    "ApprovedBy": "AmitKumar",
+    "UserId": "TestData",
+    "EntryStatus": "0",
+    "IsReadOnly": "True",
+    "StoreId": "1"
+  },
+  {
+    "StoreHolidayId": "10",
+    "OnDate": "2021-05-01T21:34:56.0000000",
+    "Reason": "0",
+    "Remarks": "Testing",
+    "ApprovedBy": "Amit Kumar",
+    "UserId": "WebUI",
+    "EntryStatus": "0",
+    "IsReadOnly": "False",
+    "StoreId": "1"
+  },
+  {
+    "StoreHolidayId": "11",
+    "OnDate": "2021-05-25T05:50:39.8660000",
+    "Reason": "0",
+    "Remarks": "Closed for Cornoa",
+    "ApprovedBy": "Amit Kumar",
+    "UserId": "WebUI",
+    "EntryStatus": "0",
+    "IsReadOnly": "False",
+    "StoreId": "1"
+  }
+]

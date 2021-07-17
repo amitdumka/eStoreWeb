@@ -1,0 +1,56 @@
+[
+  {
+    "Id": "29829191-b7ea-43f9-8f59-55d35cf4f459",
+    "Name": "StoreManager",
+    "NormalizedName": "STOREMANAGER",
+    "ConcurrencyStamp": "089d4945-1707-4601-ae83-09f2d21f3aee"
+  },
+  {
+    "Id": "52c96423-7e49-418d-b319-151c51e418fb",
+    "Name": "GuestUsers",
+    "NormalizedName": "GUESTUSERS",
+    "ConcurrencyStamp": "cf67f015-c616-4cc1-a828-836dd60a2618"
+  },
+  {
+    "Id": "5a8efa0c-518d-4163-8a4c-b1542408d597",
+    "Name": "Member",
+    "NormalizedName": "MEMBER",
+    "ConcurrencyStamp": "62402d22-0b04-4fdf-baac-85e14180bbb3"
+  },
+  {
+    "Id": "5b52afbb-e3d2-4c6e-8c09-25ff3d29a099",
+    "Name": "Accountant",
+    "NormalizedName": "ACCOUNTANT",
+    "ConcurrencyStamp": "dae6633b-a69c-4f82-bd8f-b400e46315cf"
+  },
+  {
+    "Id": "60dd2248-b57c-47af-a498-69bf14e057c4",
+    "Name": "RemoteAccountant",
+    "NormalizedName": "REMOTEACCOUNTANT",
+    "ConcurrencyStamp": "f19b1242-f12c-4dd7-ac4b-dec752db8771"
+  },
+  {
+    "Id": "a0a6e08e-be0f-412a-8f99-2865a0c417be",
+    "Name": "Admin",
+    "NormalizedName": "ADMIN",
+    "ConcurrencyStamp": "5c80f8b1-8b27-4539-9ee7-6eb0d770e3a8"
+  },
+  {
+    "Id": "c4621f3e-f02a-4eac-bfe6-a4419efc9256",
+    "Name": "GuestPowerUsers",
+    "NormalizedName": "GUESTPOWERUSERS",
+    "ConcurrencyStamp": "63a78bc1-073f-4610-b0e1-ee8603240f0c"
+  },
+  {
+    "Id": "db503e6d-6116-459e-8a6e-fbda32cdd848",
+    "Name": "PowerUser",
+    "NormalizedName": "POWERUSER",
+    "ConcurrencyStamp": "bc9adfe8-dad7-4e19-a658-64fa0e55ad9f"
+  },
+  {
+    "Id": "f3a69dfb-73c5-45ec-8ea9-da7fde0d29b9",
+    "Name": "Salesman",
+    "NormalizedName": "SALESMAN",
+    "ConcurrencyStamp": "1e4b0500-cf6c-42b3-8f99-5d81792768ac"
+  }
+]

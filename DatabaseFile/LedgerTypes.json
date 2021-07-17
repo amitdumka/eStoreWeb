@@ -1,0 +1,290 @@
+[
+  {
+    "LedgerTypeId": "1",
+    "LedgerNameType": "Salary",
+    "Category": "3",
+    "Remark": "For Employees"
+  },
+  {
+    "LedgerTypeId": "2",
+    "LedgerNameType": "Telephone & Internet",
+    "Category": "3",
+    "Remark": "Telephone bill"
+  },
+  {
+    "LedgerTypeId": "3",
+    "LedgerNameType": "Lunch & Snacks",
+    "Category": "3",
+    "Remark": "Lunch & Snacks"
+  },
+  {
+    "LedgerTypeId": "4",
+    "LedgerNameType": "Tailoring Trims",
+    "Category": "3",
+    "Remark": null
+  },
+  {
+    "LedgerTypeId": "5",
+    "LedgerNameType": "Ads",
+    "Category": "3",
+    "Remark": null
+  },
+  {
+    "LedgerTypeId": "6",
+    "LedgerNameType": "Store Maintenance & Repair",
+    "Category": "3",
+    "Remark": null
+  },
+  {
+    "LedgerTypeId": "7",
+    "LedgerNameType": "Suspense  Expenses",
+    "Category": "3",
+    "Remark": null
+  },
+  {
+    "LedgerTypeId": "8",
+    "LedgerNameType": "Electricity",
+    "Category": "3",
+    "Remark": "Electricity"
+  },
+  {
+    "LedgerTypeId": "9",
+    "LedgerNameType": "Postage",
+    "Category": "3",
+    "Remark": "Postage"
+  },
+  {
+    "LedgerTypeId": "10",
+    "LedgerNameType": "HomeExpenses",
+    "Category": "3",
+    "Remark": "HomeExpenses"
+  },
+  {
+    "LedgerTypeId": "11",
+    "LedgerNameType": "Out of Store",
+    "Category": "3",
+    "Remark": "Out of Store"
+  },
+  {
+    "LedgerTypeId": "12",
+    "LedgerNameType": "Assests",
+    "Category": "3",
+    "Remark": "Assests"
+  },
+  {
+    "LedgerTypeId": "13",
+    "LedgerNameType": "Freight",
+    "Category": "3",
+    "Remark": "Freight"
+  },
+  {
+    "LedgerTypeId": "14",
+    "LedgerNameType": "Serivces",
+    "Category": "3",
+    "Remark": "Serivces"
+  },
+  {
+    "LedgerTypeId": "15",
+    "LedgerNameType": "Tax & Duties",
+    "Category": "3",
+    "Remark": "Tax & Duties"
+  },
+  {
+    "LedgerTypeId": "16",
+    "LedgerNameType": "Workshop",
+    "Category": "3",
+    "Remark": "Workshop expenses"
+  },
+  {
+    "LedgerTypeId": "17",
+    "LedgerNameType": "Tailoring Trims",
+    "Category": "3",
+    "Remark": "Tailoring Trims Purchase"
+  },
+  {
+    "LedgerTypeId": "18",
+    "LedgerNameType": "No Party",
+    "Category": "3",
+    "Remark": "No Party"
+  },
+  {
+    "LedgerTypeId": "19",
+    "LedgerNameType": "Car Maintance",
+    "Category": "3",
+    "Remark": null
+  },
+  {
+    "LedgerTypeId": "20",
+    "LedgerNameType": "Puja Expenses",
+    "Category": "3",
+    "Remark": "puja expenses"
+  },
+  {
+    "LedgerTypeId": "21",
+    "LedgerNameType": "Decoration Expenses",
+    "Category": "3",
+    "Remark": "Decoration Expenses"
+  },
+  {
+    "LedgerTypeId": "22",
+    "LedgerNameType": "Computer & IT",
+    "Category": "4",
+    "Remark": "Computer & IT"
+  },
+  {
+    "LedgerTypeId": "23",
+    "LedgerNameType": "Painting goods",
+    "Category": "3",
+    "Remark": "Painting goods"
+  },
+  {
+    "LedgerTypeId": "24",
+    "LedgerNameType": "Wallpaper Mistry",
+    "Category": "3",
+    "Remark": "Wallpaper Mistry"
+  },
+  {
+    "LedgerTypeId": "25",
+    "LedgerNameType": "Printing goods",
+    "Category": "3",
+    "Remark": "Stationary"
+  },
+  {
+    "LedgerTypeId": "26",
+    "LedgerNameType": "Municipal Tax & rent ",
+    "Category": "3",
+    "Remark": "Tax & others"
+  },
+  {
+    "LedgerTypeId": "27",
+    "LedgerNameType": "M.S Benaguria",
+    "Category": "2",
+    "Remark": "M.S Benaguria"
+  },
+  {
+    "LedgerTypeId": "28",
+    "LedgerNameType": "Veena Press",
+    "Category": "3",
+    "Remark": "Veena Press"
+  },
+  {
+    "LedgerTypeId": "29",
+    "LedgerNameType": "Home Electricity Bill",
+    "Category": "3",
+    "Remark": "Electricity"
+  },
+  {
+    "LedgerTypeId": "30",
+    "LedgerNameType": "Shop Electricity Bill",
+    "Category": "3",
+    "Remark": "Electricity"
+  },
+  {
+    "LedgerTypeId": "31",
+    "LedgerNameType": "Workshop Electricity bill",
+    "Category": "3",
+    "Remark": " Electricity"
+  },
+  {
+    "LedgerTypeId": "32",
+    "LedgerNameType": "Stationary",
+    "Category": "3",
+    "Remark": "Stationary"
+  },
+  {
+    "LedgerTypeId": "33",
+    "LedgerNameType": "Furniture of Aprajita Retails",
+    "Category": "3",
+    "Remark": "Furniture of Aprajita Retails"
+  },
+  {
+    "LedgerTypeId": "34",
+    "LedgerNameType": "Electricity Account",
+    "Category": "0",
+    "Remark": "Electricity Account"
+  },
+  {
+    "LedgerTypeId": "35",
+    "LedgerNameType": "Point Redenative",
+    "Category": "3",
+    "Remark": "Point Redenative"
+  },
+  {
+    "LedgerTypeId": "36",
+    "LedgerNameType": "Net Communication",
+    "Category": "3",
+    "Remark": "Net Communication"
+  },
+  {
+    "LedgerTypeId": "37",
+    "LedgerNameType": "Travelling & Trip Expenses ",
+    "Category": "0",
+    "Remark": "Travelling & Trip Expenses "
+  },
+  {
+    "LedgerTypeId": "38",
+    "LedgerNameType": "Dan",
+    "Category": "3",
+    "Remark": "Dan"
+  },
+  {
+    "LedgerTypeId": "39",
+    "LedgerNameType": "Anubha Kumari",
+    "Category": "3",
+    "Remark": "Anubha Kumari"
+  },
+  {
+    "LedgerTypeId": "40",
+    "LedgerNameType": "Iron elements",
+    "Category": "3",
+    "Remark": "Iron elements"
+  },
+  {
+    "LedgerTypeId": "41",
+    "LedgerNameType": "Electronics Goods",
+    "Category": "3",
+    "Remark": "Electronics Goods"
+  },
+  {
+    "LedgerTypeId": "42",
+    "LedgerNameType": "FirstFloorOffice",
+    "Category": "3",
+    "Remark": "First Floor Office Expenses"
+  },
+  {
+    "LedgerTypeId": "43",
+    "LedgerNameType": "R.S Furniture",
+    "Category": "3",
+    "Remark": "R.S Furniture"
+  },
+  {
+    "LedgerTypeId": "44",
+    "LedgerNameType": "Staff Shoes",
+    "Category": "3",
+    "Remark": "Staff Shoes"
+  },
+  {
+    "LedgerTypeId": "45",
+    "LedgerNameType": "Arvind Groups",
+    "Category": "9",
+    "Remark": "Arvind Limited Groups"
+  },
+  {
+    "LedgerTypeId": "46",
+    "LedgerNameType": "EDC & Bank Charges",
+    "Category": "3",
+    "Remark": "Bank Charges Expenses"
+  },
+  {
+    "LedgerTypeId": "47",
+    "LedgerNameType": "Vena",
+    "Category": "3",
+    "Remark": "Verna(Fuel Expenses)"
+  },
+  {
+    "LedgerTypeId": "48",
+    "LedgerNameType": "Tiles Mistri",
+    "Category": "3",
+    "Remark": "Tiles Mistri"
+  }
+]

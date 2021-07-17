@@ -1,0 +1,44 @@
+[
+  {
+    "SaleTaxTypeId": "1",
+    "TaxName": "Local Output GST@ 5%  ",
+    "TaxType": "0",
+    "CompositeRate": "5.0000"
+  },
+  {
+    "SaleTaxTypeId": "2",
+    "TaxName": "Local Output GST@ 12%  ",
+    "TaxType": "0",
+    "CompositeRate": "12.0000"
+  },
+  {
+    "SaleTaxTypeId": "3",
+    "TaxName": "Output IGST@ 5%  ",
+    "TaxType": "3",
+    "CompositeRate": "5.0000"
+  },
+  {
+    "SaleTaxTypeId": "4",
+    "TaxName": "Output IGST@ 12%  ",
+    "TaxType": "3",
+    "CompositeRate": "12.0000"
+  },
+  {
+    "SaleTaxTypeId": "5",
+    "TaxName": "Output Vat@ 12%  ",
+    "TaxType": "4",
+    "CompositeRate": "5.0000"
+  },
+  {
+    "SaleTaxTypeId": "6",
+    "TaxName": "Output VAT@ 5%  ",
+    "TaxType": "4",
+    "CompositeRate": "12.0000"
+  },
+  {
+    "SaleTaxTypeId": "7",
+    "TaxName": "Output Vat Free  ",
+    "TaxType": "4",
+    "CompositeRate": "5.0000"
+  }
+]

@@ -1,0 +1,19 @@
+[
+  {
+    "RentedLocationId": "1",
+    "PlaceName": "Tailoring Workshop",
+    "Address": "Bhagalpur Road Dumka, Jharkhand 814101",
+    "OnDate": "2021-02-23T00:00:00.0000000",
+    "VacatedDate": "2021-02-23T00:00:00.0000000",
+    "City": "Dumka",
+    "OwnerName": "Amit Kumar",
+    "MobileNo": "09831213339",
+    "RentAmount": "0.00",
+    "AdvanceAmount": "0.00",
+    "IsRented": "True",
+    "RentType": "0",
+    "UserId": "GeetanjaliKumariVerma",
+    "IsReadOnly": "False",
+    "StoreId": "1"
+  }
+]

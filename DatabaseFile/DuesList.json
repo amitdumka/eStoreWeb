@@ -1,0 +1,402 @@
+[
+  {
+    "DuesListId": "1",
+    "Amount": "6824.0000",
+    "IsRecovered": "True",
+    "RecoveryDate": "2020-08-06T00:00:00.0000000",
+    "DailySaleId": "550",
+    "IsPartialRecovery": "False",
+    "StoreId": "1",
+    "UserId": "Admin"
+  },
+  {
+    "DuesListId": "2",
+    "Amount": "4000.0000",
+    "IsRecovered": "True",
+    "RecoveryDate": "2020-02-28T00:00:00.0000000",
+    "DailySaleId": "539",
+    "IsPartialRecovery": "False",
+    "StoreId": "1",
+    "UserId": "Admin"
+  },
+  {
+    "DuesListId": "3",
+    "Amount": "286.0000",
+    "IsRecovered": "True",
+    "RecoveryDate": "2020-03-03T00:00:00.0000000",
+    "DailySaleId": "493",
+    "IsPartialRecovery": "False",
+    "StoreId": "1",
+    "UserId": "Admin"
+  },
+  {
+    "DuesListId": "4",
+    "Amount": "3050.0000",
+    "IsRecovered": "True",
+    "RecoveryDate": "2020-03-09T00:00:00.0000000",
+    "DailySaleId": "466",
+    "IsPartialRecovery": "False",
+    "StoreId": "1",
+    "UserId": "Admin"
+  },
+  {
+    "DuesListId": "5",
+    "Amount": "309.0000",
+    "IsRecovered": "True",
+    "RecoveryDate": "2020-03-09T00:00:00.0000000",
+    "DailySaleId": "467",
+    "IsPartialRecovery": "False",
+    "StoreId": "1",
+    "UserId": "Admin"
+  },
+  {
+    "DuesListId": "6",
+    "Amount": "60.0000",
+    "IsRecovered": "True",
+    "RecoveryDate": "2020-02-27T00:00:00.0000000",
+    "DailySaleId": "747",
+    "IsPartialRecovery": "False",
+    "StoreId": "1",
+    "UserId": "Admin"
+  },
+  {
+    "DuesListId": "7",
+    "Amount": "9.0000",
+    "IsRecovered": "True",
+    "RecoveryDate": "2020-01-14T00:00:00.0000000",
+    "DailySaleId": "717",
+    "IsPartialRecovery": "False",
+    "StoreId": "1",
+    "UserId": "Admin"
+  },
+  {
+    "DuesListId": "8",
+    "Amount": "578.0000",
+    "IsRecovered": "True",
+    "RecoveryDate": "2020-01-14T00:00:00.0000000",
+    "DailySaleId": "719",
+    "IsPartialRecovery": "False",
+    "StoreId": "1",
+    "UserId": "Admin"
+  },
+  {
+    "DuesListId": "9",
+    "Amount": "1571.0000",
+    "IsRecovered": "True",
+    "RecoveryDate": "2020-06-17T00:00:00.0000000",
+    "DailySaleId": "723",
+    "IsPartialRecovery": "False",
+    "StoreId": "1",
+    "UserId": "Admin"
+  },
+  {
+    "DuesListId": "10",
+    "Amount": "1556.0000",
+    "IsRecovered": "False",
+    "RecoveryDate": null,
+    "DailySaleId": "806",
+    "IsPartialRecovery": "False",
+    "StoreId": "1",
+    "UserId": "Admin"
+  },
+  {
+    "DuesListId": "11",
+    "Amount": "1556.0000",
+    "IsRecovered": "True",
+    "RecoveryDate": "2020-06-30T00:00:00.0000000",
+    "DailySaleId": "807",
+    "IsPartialRecovery": "False",
+    "StoreId": "1",
+    "UserId": "Admin"
+  },
+  {
+    "DuesListId": "12",
+    "Amount": "1338.0000",
+    "IsRecovered": "True",
+    "RecoveryDate": "2020-06-27T00:00:00.0000000",
+    "DailySaleId": "808",
+    "IsPartialRecovery": "False",
+    "StoreId": "1",
+    "UserId": "Admin"
+  },
+  {
+    "DuesListId": "13",
+    "Amount": "1230.0000",
+    "IsRecovered": "True",
+    "RecoveryDate": "2020-06-30T00:00:00.0000000",
+    "DailySaleId": "767",
+    "IsPartialRecovery": "False",
+    "StoreId": "1",
+    "UserId": "Admin"
+  },
+  {
+    "DuesListId": "14",
+    "Amount": "342.0000",
+    "IsRecovered": "False",
+    "RecoveryDate": null,
+    "DailySaleId": "661",
+    "IsPartialRecovery": "False",
+    "StoreId": "1",
+    "UserId": "Admin"
+  },
+  {
+    "DuesListId": "15",
+    "Amount": "5.0000",
+    "IsRecovered": "False",
+    "RecoveryDate": null,
+    "DailySaleId": "655",
+    "IsPartialRecovery": "False",
+    "StoreId": "1",
+    "UserId": "Admin"
+  },
+  {
+    "DuesListId": "16",
+    "Amount": "4795.0000",
+    "IsRecovered": "True",
+    "RecoveryDate": "2020-08-13T00:00:00.0000000",
+    "DailySaleId": "629",
+    "IsPartialRecovery": "False",
+    "StoreId": "1",
+    "UserId": "Admin"
+  },
+  {
+    "DuesListId": "17",
+    "Amount": "27494.0000",
+    "IsRecovered": "True",
+    "RecoveryDate": "2020-08-26T00:00:00.0000000",
+    "DailySaleId": "649",
+    "IsPartialRecovery": "False",
+    "StoreId": "1",
+    "UserId": "Admin"
+  },
+  {
+    "DuesListId": "18",
+    "Amount": "489.0000",
+    "IsRecovered": "True",
+    "RecoveryDate": "2020-09-09T00:00:00.0000000",
+    "DailySaleId": "702",
+    "IsPartialRecovery": "False",
+    "StoreId": "1",
+    "UserId": "Admin"
+  },
+  {
+    "DuesListId": "19",
+    "Amount": "2872.0000",
+    "IsRecovered": "True",
+    "RecoveryDate": "2020-09-09T00:00:00.0000000",
+    "DailySaleId": "709",
+    "IsPartialRecovery": "False",
+    "StoreId": "1",
+    "UserId": "Admin"
+  },
+  {
+    "DuesListId": "20",
+    "Amount": "39462.0000",
+    "IsRecovered": "True",
+    "RecoveryDate": "2020-10-09T00:00:00.0000000",
+    "DailySaleId": "128",
+    "IsPartialRecovery": "False",
+    "StoreId": "1",
+    "UserId": "Admin"
+  },
+  {
+    "DuesListId": "21",
+    "Amount": "100.0000",
+    "IsRecovered": "True",
+    "RecoveryDate": "2020-10-13T00:00:00.0000000",
+    "DailySaleId": "116",
+    "IsPartialRecovery": "False",
+    "StoreId": "1",
+    "UserId": "Admin"
+  },
+  {
+    "DuesListId": "22",
+    "Amount": "5498.0000",
+    "IsRecovered": "False",
+    "RecoveryDate": null,
+    "DailySaleId": "184",
+    "IsPartialRecovery": "False",
+    "StoreId": "1",
+    "UserId": "Admin"
+  },
+  {
+    "DuesListId": "23",
+    "Amount": "1057.0000",
+    "IsRecovered": "False",
+    "RecoveryDate": null,
+    "DailySaleId": "185",
+    "IsPartialRecovery": "False",
+    "StoreId": "1",
+    "UserId": "Admin"
+  },
+  {
+    "DuesListId": "24",
+    "Amount": "3195.0000",
+    "IsRecovered": "True",
+    "RecoveryDate": "2020-10-17T00:00:00.0000000",
+    "DailySaleId": "195",
+    "IsPartialRecovery": "False",
+    "StoreId": "1",
+    "UserId": "Admin"
+  },
+  {
+    "DuesListId": "25",
+    "Amount": "11212.0000",
+    "IsRecovered": "False",
+    "RecoveryDate": null,
+    "DailySaleId": "166",
+    "IsPartialRecovery": "False",
+    "StoreId": "1",
+    "UserId": "Admin"
+  },
+  {
+    "DuesListId": "26",
+    "Amount": "245.0000",
+    "IsRecovered": "True",
+    "RecoveryDate": "2020-10-23T00:00:00.0000000",
+    "DailySaleId": "152",
+    "IsPartialRecovery": "False",
+    "StoreId": "1",
+    "UserId": "Admin"
+  },
+  {
+    "DuesListId": "27",
+    "Amount": "1307.0000",
+    "IsRecovered": "False",
+    "RecoveryDate": null,
+    "DailySaleId": "326",
+    "IsPartialRecovery": "False",
+    "StoreId": "1",
+    "UserId": "Admin"
+  },
+  {
+    "DuesListId": "28",
+    "Amount": "1658.0000",
+    "IsRecovered": "False",
+    "RecoveryDate": null,
+    "DailySaleId": "393",
+    "IsPartialRecovery": "False",
+    "StoreId": "1",
+    "UserId": "Admin"
+  },
+  {
+    "DuesListId": "29",
+    "Amount": "3050.0000",
+    "IsRecovered": "False",
+    "RecoveryDate": null,
+    "DailySaleId": "365",
+    "IsPartialRecovery": "False",
+    "StoreId": "1",
+    "UserId": "Admin"
+  },
+  {
+    "DuesListId": "30",
+    "Amount": "3099.0000",
+    "IsRecovered": "False",
+    "RecoveryDate": null,
+    "DailySaleId": "222",
+    "IsPartialRecovery": "False",
+    "StoreId": "1",
+    "UserId": "Admin"
+  },
+  {
+    "DuesListId": "31",
+    "Amount": "2200.0000",
+    "IsRecovered": "False",
+    "RecoveryDate": null,
+    "DailySaleId": "284",
+    "IsPartialRecovery": "False",
+    "StoreId": "1",
+    "UserId": "Admin"
+  },
+  {
+    "DuesListId": "32",
+    "Amount": "100.0000",
+    "IsRecovered": "False",
+    "RecoveryDate": null,
+    "DailySaleId": "298",
+    "IsPartialRecovery": "False",
+    "StoreId": "1",
+    "UserId": "Admin"
+  },
+  {
+    "DuesListId": "33",
+    "Amount": "1916.0000",
+    "IsRecovered": "False",
+    "RecoveryDate": null,
+    "DailySaleId": "275",
+    "IsPartialRecovery": "False",
+    "StoreId": "1",
+    "UserId": "Admin"
+  },
+  {
+    "DuesListId": "34",
+    "Amount": "371.0000",
+    "IsRecovered": "False",
+    "RecoveryDate": null,
+    "DailySaleId": "819",
+    "IsPartialRecovery": "False",
+    "StoreId": "1",
+    "UserId": null
+  },
+  {
+    "DuesListId": "35",
+    "Amount": "2683.0000",
+    "IsRecovered": "False",
+    "RecoveryDate": null,
+    "DailySaleId": "937",
+    "IsPartialRecovery": "False",
+    "StoreId": "1",
+    "UserId": null
+  },
+  {
+    "DuesListId": "36",
+    "Amount": "1007.0000",
+    "IsRecovered": "False",
+    "RecoveryDate": null,
+    "DailySaleId": "1027",
+    "IsPartialRecovery": "False",
+    "StoreId": "1",
+    "UserId": null
+  },
+  {
+    "DuesListId": "37",
+    "Amount": "1064.0000",
+    "IsRecovered": "False",
+    "RecoveryDate": null,
+    "DailySaleId": "1028",
+    "IsPartialRecovery": "False",
+    "StoreId": "1",
+    "UserId": null
+  },
+  {
+    "DuesListId": "38",
+    "Amount": "3731.0000",
+    "IsRecovered": "False",
+    "RecoveryDate": null,
+    "DailySaleId": "1043",
+    "IsPartialRecovery": "False",
+    "StoreId": "1",
+    "UserId": null
+  },
+  {
+    "DuesListId": "39",
+    "Amount": "248.0000",
+    "IsRecovered": "False",
+    "RecoveryDate": null,
+    "DailySaleId": "1064",
+    "IsPartialRecovery": "False",
+    "StoreId": "1",
+    "UserId": null
+  },
+  {
+    "DuesListId": "40",
+    "Amount": "1000.0000",
+    "IsRecovered": "False",
+    "RecoveryDate": null,
+    "DailySaleId": "1101",
+    "IsPartialRecovery": "False",
+    "StoreId": "1",
+    "UserId": null
+  }
+]

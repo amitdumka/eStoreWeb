@@ -1,0 +1,254 @@
+[
+  {
+    "LedgerMasterId": "1",
+    "PartyId": "16",
+    "CreatingDate": "2021-02-16T00:00:00.0000000",
+    "LedgerTypeId": "2"
+  },
+  {
+    "LedgerMasterId": "2",
+    "PartyId": "17",
+    "CreatingDate": "2021-02-17T00:00:00.0000000",
+    "LedgerTypeId": "5"
+  },
+  {
+    "LedgerMasterId": "3",
+    "PartyId": "18",
+    "CreatingDate": "2021-02-17T00:00:00.0000000",
+    "LedgerTypeId": "6"
+  },
+  {
+    "LedgerMasterId": "4",
+    "PartyId": "19",
+    "CreatingDate": "2021-02-17T00:00:00.0000000",
+    "LedgerTypeId": "6"
+  },
+  {
+    "LedgerMasterId": "5",
+    "PartyId": "20",
+    "CreatingDate": "2021-02-17T00:00:00.0000000",
+    "LedgerTypeId": "6"
+  },
+  {
+    "LedgerMasterId": "6",
+    "PartyId": "42",
+    "CreatingDate": "2021-02-17T00:00:00.0000000",
+    "LedgerTypeId": "6"
+  },
+  {
+    "LedgerMasterId": "7",
+    "PartyId": "43",
+    "CreatingDate": "2021-02-17T00:00:00.0000000",
+    "LedgerTypeId": "18"
+  },
+  {
+    "LedgerMasterId": "8",
+    "PartyId": "44",
+    "CreatingDate": "2021-02-17T00:00:00.0000000",
+    "LedgerTypeId": "19"
+  },
+  {
+    "LedgerMasterId": "9",
+    "PartyId": "45",
+    "CreatingDate": "2021-02-17T00:00:00.0000000",
+    "LedgerTypeId": "19"
+  },
+  {
+    "LedgerMasterId": "10",
+    "PartyId": "46",
+    "CreatingDate": "2021-02-17T00:00:00.0000000",
+    "LedgerTypeId": "19"
+  },
+  {
+    "LedgerMasterId": "11",
+    "PartyId": "47",
+    "CreatingDate": "2021-02-18T00:00:00.0000000",
+    "LedgerTypeId": "20"
+  },
+  {
+    "LedgerMasterId": "12",
+    "PartyId": "48",
+    "CreatingDate": "2021-02-18T00:00:00.0000000",
+    "LedgerTypeId": "21"
+  },
+  {
+    "LedgerMasterId": "13",
+    "PartyId": "49",
+    "CreatingDate": "2021-02-18T00:00:00.0000000",
+    "LedgerTypeId": "22"
+  },
+  {
+    "LedgerMasterId": "14",
+    "PartyId": "50",
+    "CreatingDate": "2021-02-18T00:00:00.0000000",
+    "LedgerTypeId": "23"
+  },
+  {
+    "LedgerMasterId": "15",
+    "PartyId": "51",
+    "CreatingDate": "2021-02-18T00:00:00.0000000",
+    "LedgerTypeId": "32"
+  },
+  {
+    "LedgerMasterId": "16",
+    "PartyId": "52",
+    "CreatingDate": "2021-02-18T00:00:00.0000000",
+    "LedgerTypeId": "24"
+  },
+  {
+    "LedgerMasterId": "17",
+    "PartyId": "53",
+    "CreatingDate": "2021-02-18T00:00:00.0000000",
+    "LedgerTypeId": "26"
+  },
+  {
+    "LedgerMasterId": "18",
+    "PartyId": "54",
+    "CreatingDate": "2021-02-18T00:00:00.0000000",
+    "LedgerTypeId": "27"
+  },
+  {
+    "LedgerMasterId": "19",
+    "PartyId": "55",
+    "CreatingDate": "2021-02-18T00:00:00.0000000",
+    "LedgerTypeId": "28"
+  },
+  {
+    "LedgerMasterId": "20",
+    "PartyId": "56",
+    "CreatingDate": "2021-02-18T00:00:00.0000000",
+    "LedgerTypeId": "8"
+  },
+  {
+    "LedgerMasterId": "21",
+    "PartyId": "57",
+    "CreatingDate": "2021-02-18T00:00:00.0000000",
+    "LedgerTypeId": "8"
+  },
+  {
+    "LedgerMasterId": "22",
+    "PartyId": "58",
+    "CreatingDate": "2021-02-18T00:00:00.0000000",
+    "LedgerTypeId": "8"
+  },
+  {
+    "LedgerMasterId": "23",
+    "PartyId": "59",
+    "CreatingDate": "2021-02-18T00:00:00.0000000",
+    "LedgerTypeId": "32"
+  },
+  {
+    "LedgerMasterId": "24",
+    "PartyId": "60",
+    "CreatingDate": "2021-02-18T00:00:00.0000000",
+    "LedgerTypeId": "33"
+  },
+  {
+    "LedgerMasterId": "25",
+    "PartyId": "61",
+    "CreatingDate": "2021-02-18T00:00:00.0000000",
+    "LedgerTypeId": "34"
+  },
+  {
+    "LedgerMasterId": "26",
+    "PartyId": "62",
+    "CreatingDate": "2021-02-18T00:00:00.0000000",
+    "LedgerTypeId": "35"
+  },
+  {
+    "LedgerMasterId": "27",
+    "PartyId": "63",
+    "CreatingDate": "2021-02-18T00:00:00.0000000",
+    "LedgerTypeId": "3"
+  },
+  {
+    "LedgerMasterId": "28",
+    "PartyId": "64",
+    "CreatingDate": "2021-02-18T00:00:00.0000000",
+    "LedgerTypeId": "36"
+  },
+  {
+    "LedgerMasterId": "29",
+    "PartyId": "65",
+    "CreatingDate": "2021-02-18T00:00:00.0000000",
+    "LedgerTypeId": "37"
+  },
+  {
+    "LedgerMasterId": "30",
+    "PartyId": "66",
+    "CreatingDate": "2021-02-20T00:00:00.0000000",
+    "LedgerTypeId": "38"
+  },
+  {
+    "LedgerMasterId": "31",
+    "PartyId": "67",
+    "CreatingDate": "2021-02-20T00:00:00.0000000",
+    "LedgerTypeId": "39"
+  },
+  {
+    "LedgerMasterId": "32",
+    "PartyId": "68",
+    "CreatingDate": "2021-02-27T00:00:00.0000000",
+    "LedgerTypeId": "40"
+  },
+  {
+    "LedgerMasterId": "33",
+    "PartyId": "69",
+    "CreatingDate": "2021-03-09T00:00:00.0000000",
+    "LedgerTypeId": "2"
+  },
+  {
+    "LedgerMasterId": "34",
+    "PartyId": "70",
+    "CreatingDate": "2021-03-15T00:00:00.0000000",
+    "LedgerTypeId": "41"
+  },
+  {
+    "LedgerMasterId": "35",
+    "PartyId": "71",
+    "CreatingDate": "2021-03-16T00:00:00.0000000",
+    "LedgerTypeId": "6"
+  },
+  {
+    "LedgerMasterId": "36",
+    "PartyId": "72",
+    "CreatingDate": "2021-03-18T00:00:00.0000000",
+    "LedgerTypeId": "18"
+  },
+  {
+    "LedgerMasterId": "37",
+    "PartyId": "74",
+    "CreatingDate": "2021-03-20T00:00:00.0000000",
+    "LedgerTypeId": "9"
+  },
+  {
+    "LedgerMasterId": "38",
+    "PartyId": "75",
+    "CreatingDate": "2021-03-24T00:00:00.0000000",
+    "LedgerTypeId": "44"
+  },
+  {
+    "LedgerMasterId": "39",
+    "PartyId": "76",
+    "CreatingDate": "2021-04-12T00:00:00.0000000",
+    "LedgerTypeId": "1"
+  },
+  {
+    "LedgerMasterId": "40",
+    "PartyId": "77",
+    "CreatingDate": "2021-04-12T00:00:00.0000000",
+    "LedgerTypeId": "1"
+  },
+  {
+    "LedgerMasterId": "41",
+    "PartyId": "78",
+    "CreatingDate": "2021-04-19T00:00:00.0000000",
+    "LedgerTypeId": "45"
+  },
+  {
+    "LedgerMasterId": "42",
+    "PartyId": "79",
+    "CreatingDate": "2021-04-19T00:00:00.0000000",
+    "LedgerTypeId": "46"
+  }
+]
