@@ -49,10 +49,10 @@ namespace eStore
             services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<AuthDbContext>();
-            services.AddIdentityServer()
-                .AddApiAuthorization<AppUser, AuthDbContext>();
-            services.AddAuthentication()
-                .AddIdentityServerJwt();
+           // services.AddIdentityServer()
+           //     .AddApiAuthorization<AppUser, AuthDbContext>();
+           // services.AddAuthentication()
+           //     .AddIdentityServerJwt();
             services.AddControllersWithViews();
             services.AddRazorPages();
             //services.AddControllers ();
@@ -93,7 +93,7 @@ namespace eStore
             app.UseRouting();
 
             app.UseAuthentication();
-            app.UseIdentityServer();
+           // app.UseIdentityServer();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
