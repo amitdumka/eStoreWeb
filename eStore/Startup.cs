@@ -20,6 +20,13 @@ using eStore.Database;
 using eStore.Shared.Models.Identity;
 using Microsoft.OpenApi.Models;
 
+//using Microsoft.AspNetCore.Http;
+//using Microsoft.AspNetCore.Authorization;
+//using Microsoft.AspNetCore.Mvc.Authorization;
+//using Microsoft.AspNetCore.Authentication.Cookies;
+//using System.Threading.Tasks;
+//using eStore.Services.BTask;
+
 namespace eStore
 {
     public class Startup
@@ -55,6 +62,10 @@ namespace eStore
            //     .AddIdentityServerJwt();
             services.AddControllersWithViews();
             services.AddRazorPages();
+             services.AddDistributedMemoryCache();
+             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            //services.AddHostedService<QueuedHostedService> ();
+            //services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue> ();
             //services.AddControllers ();
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -85,6 +96,19 @@ namespace eStore
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+ // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger(c =>
+            {
+                c.SerializeAsV2 = true;
+
+            });
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "eStore.API V2");
+                //c.DescribeAllEnumsAsStrings();
+            });
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -97,11 +121,16 @@ namespace eStore
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
+                 endpoints.MapControllerRoute(
+                 name: "areas",
+                 pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
                // endpoints.MapControllers ();
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
+                endpoints.MapControllers();
             });
 
             app.UseSpa(spa =>
