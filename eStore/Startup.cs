@@ -53,25 +53,25 @@ namespace eStore
                  options.UseSqlServer (
                      Configuration.GetConnectionString ("eStoreCon")));
 
-            services.AddDatabaseDeveloperPageExceptionFilter();
-            services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<AuthDbContext>();
-           // services.AddIdentityServer()
-           //     .AddApiAuthorization<AppUser, AuthDbContext>();
-           // services.AddAuthentication()
-           //     .AddIdentityServerJwt();
-            services.AddControllersWithViews();
-            services.AddRazorPages();
-             services.AddDistributedMemoryCache();
-             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddDatabaseDeveloperPageExceptionFilter ();
+            services.AddDefaultIdentity<AppUser> (options => options.SignIn.RequireConfirmedAccount = true)
+                .AddEntityFrameworkStores<AuthDbContext> ();
+            // services.AddIdentityServer()
+            //     .AddApiAuthorization<AppUser, AuthDbContext>();
+            // services.AddAuthentication()
+            //     .AddIdentityServerJwt();
+            services.AddControllersWithViews ();
+            services.AddRazorPages ();
+            services.AddDistributedMemoryCache ();
+            services.AddAutoMapper (AppDomain.CurrentDomain.GetAssemblies ());
             //services.AddHostedService<QueuedHostedService> ();
             //services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue> ();
             //services.AddControllers ();
             // In production, the React files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "ClientApp/build";
-            });
+            services.AddSpaStaticFiles (configuration =>
+             {
+                 configuration.RootPath = "ClientApp/build";
+             });
             services.AddSwaggerGen (c =>
             {
                 c.SwaggerDoc ("v1", new OpenApiInfo { Title = "eStore.API", Version = "v1" });
@@ -81,67 +81,67 @@ namespace eStore
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            
-            if (env.IsDevelopment())
+
+            if ( env.IsDevelopment () )
             {
-                app.UseDeveloperExceptionPage();
-                app.UseMigrationsEndPoint();
+                app.UseDeveloperExceptionPage ();
+                app.UseMigrationsEndPoint ();
                 app.UseSwagger ();
                 app.UseSwaggerUI (c => c.SwaggerEndpoint ("/swagger/v1/swagger.json", "eStore.API v1"));
 
             }
             else
             {
-                app.UseExceptionHandler("/Error");
+                app.UseExceptionHandler ("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+                app.UseHsts ();
             }
- // Enable middleware to serve generated Swagger as a JSON endpoint.
-            app.UseSwagger(c =>
-            {
-                c.SerializeAsV2 = true;
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger (c =>
+             {
+                 c.SerializeAsV2 = true;
 
-            });
+             });
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
             // specifying the Swagger JSON endpoint.
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "eStore.API V2");
+            app.UseSwaggerUI (c =>
+             {
+                 c.SwaggerEndpoint ("/swagger/v1/swagger.json", "eStore.API V2");
                 //c.DescribeAllEnumsAsStrings();
             });
 
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            app.UseSpaStaticFiles();
+            app.UseHttpsRedirection ();
+            app.UseStaticFiles ();
+            app.UseSpaStaticFiles ();
 
-            app.UseRouting();
+            app.UseRouting ();
 
-            app.UseAuthentication();
-           // app.UseIdentityServer();
-            app.UseAuthorization();
-            app.UseEndpoints(endpoints =>
-            {
-                 endpoints.MapControllerRoute(
-                 name: "areas",
-                 pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+            app.UseAuthentication ();
+            // app.UseIdentityServer();
+            app.UseAuthorization ();
+            app.UseEndpoints (endpoints =>
+             {
+                 endpoints.MapControllerRoute (
+                name: "areas",
+                pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
-               // endpoints.MapControllers ();
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller}/{action=Index}/{id?}");
-                endpoints.MapRazorPages();
-                endpoints.MapControllers();
-            });
+                // endpoints.MapControllers ();
+                endpoints.MapControllerRoute (
+                     name: "default",
+                     pattern: "{controller}/{action=Index}/{id?}");
+                 endpoints.MapRazorPages ();
+                 endpoints.MapControllers ();
+             });
 
-            app.UseSpa(spa =>
-            {
-                spa.Options.SourcePath = "ClientApp";
+            app.UseSpa (spa =>
+             {
+                 spa.Options.SourcePath = "ClientApp";
 
-                if (env.IsDevelopment())
-                {
-                    spa.UseReactDevelopmentServer(npmScript: "start");
-                }
-            });
+                 if ( env.IsDevelopment () )
+                 {
+                     spa.UseReactDevelopmentServer (npmScript: "start");
+                 }
+             });
         }
     }
 }

@@ -13,7 +13,7 @@ using eStore.Shared.DTOs.Payrolls;
 
 namespace eStore.API.Controllers
 {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class AttendancesController : ControllerBase
@@ -35,7 +35,22 @@ namespace eStore.API.Controllers
             return _mapper.Map<IEnumerable<AttendanceDto>>(attList);
             //return (Task<ActionResult<IEnumerable<AttendanceDto>>>)GetToDto(attList);
         }
-
+        [HttpGet("year")]
+        public IEnumerable<AttendanceDto> GetYearAttendances()
+        {
+            //return await _context.Attendances.Include(a => a.Store).Where(c => c.AttDate == DateTime.Today.Date).ToListAsync();
+            var attList = _context.Attendances.Include (c => c.Employee).Include (a => a.Store).Where (c => c.AttDate.Year == DateTime.Today.Year).ToList ();
+            return _mapper.Map<IEnumerable<AttendanceDto>> (attList);
+            //return (Task<ActionResult<IEnumerable<AttendanceDto>>>)GetToDto(attList);
+        }
+        [HttpGet ("month")]
+        public IEnumerable<AttendanceDto> GetMonthAttendances()
+        {
+            //return await _context.Attendances.Include(a => a.Store).Where(c => c.AttDate == DateTime.Today.Date).ToListAsync();
+            var attList = _context.Attendances.Include (c => c.Employee).Include (a => a.Store).Where (c => c.AttDate.Month == DateTime.Today.Month &&c.AttDate.Year == DateTime.Today.Year).ToList ();
+            return _mapper.Map<IEnumerable<AttendanceDto>> (attList);
+            //return (Task<ActionResult<IEnumerable<AttendanceDto>>>)GetToDto(attList);
+        }
         private IEnumerable<AttendanceDto> GetToDto(IEnumerable<Attendance> colList)
         {
             List<AttendanceDto> dto = new List<AttendanceDto>();
