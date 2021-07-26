@@ -23,6 +23,8 @@ export async function getAttendanceById(attendanceId) {
 // items => filtered/sorted result
 export async function findAttendances(queryParams) {
   //verifyLogin();
+  console.log(findAttendances);
+  console.log(queryParams);
   return await axios.get(`${API_URL}`);//find`, { queryParams });
 }
 

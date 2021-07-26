@@ -74,6 +74,25 @@ namespace eStore.API.Controllers
 
             return attendance;
         }
+        [HttpPost("Find")]
+        public IEnumerable<AttendanceDto> PostFindAttendaces(FindDTO queryParms)
+        {
+            int[] Filters = new int[6] { 0, 0, 0, 0, 0, 0 };
+
+            if (queryParms.OnDate != null) { Filters[5] = 1; }
+            if (queryParms.EmployeeId > 0) Filters[0] = 1;
+            if (!string.IsNullOrEmpty(queryParms.FirstName)) Filters[4] = 1;
+            if (!string.IsNullOrEmpty(queryParms.LastName)) Filters[3] = 1;
+            if (!string.IsNullOrEmpty(queryParms.Status)) Filters[1] = 1;
+            if (!string.IsNullOrEmpty(queryParms.Type)) Filters[2] = 1;
+
+
+            var attList = _context.Attendances.Include(c => c.Employee).Include(a => a.Store).
+                Where(c => c.AttDate.Date == DateTime.Today.Date ).ToList();
+
+            return _mapper.Map<IEnumerable<AttendanceDto>>(attList);
+        }
+
 
         // PUT: api/Attendances/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -138,5 +157,16 @@ namespace eStore.API.Controllers
         {
             return _context.Attendances.Any(e => e.AttendanceId == id);
         }
+    }
+
+   public class FindDTO
+    {
+        public int EmployeeId { get; set; }
+        public string Status { get; set; }
+        public string Type { get; set; }
+        public string LastName { get; set; }
+        public string FirstName { get; set; }
+        public DateTime? OnDate { get; set; }
+
     }
 }
