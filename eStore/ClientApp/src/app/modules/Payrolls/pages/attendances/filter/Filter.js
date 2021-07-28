@@ -15,8 +15,8 @@ const prepareFilter = (queryParams, values) => {
   filter.lastName = searchText;
   if (searchText) {
     filter.firstName = searchText;
-    filter.email = searchText;
-    filter.ipAddress = searchText;
+    filter.date = searchText;
+    filter.employeeId = searchText;
   }
   newQueryParams.filter = filter;
   return newQueryParams;
@@ -77,9 +77,10 @@ export function AttendancesFilter({ listLoading }) {
                   value={values.status}
                 >
                   <option value="">All</option>
-                  <option value="0">Susspended</option>
-                  <option value="1">Active</option>
-                  <option value="2">Pending</option>
+                  <option value="0">Present</option>
+                  <option value="1">Absent</option>
+                  <option value="2">HalfDay</option>
+                  <option value="3">On Leaves</option>
                 </select>
                 <small className="form-text text-muted">
                   <b>Filter</b> by Status
@@ -98,11 +99,14 @@ export function AttendancesFilter({ listLoading }) {
                   value={values.type}
                 >
                   <option value="">All</option>
-                  <option value="0">Business</option>
-                  <option value="1">Individual</option>
+                  <option value="0">Salesmen</option>
+                  <option value="1">Store Manager</option>
+                  <option value="2">HouseKeeping</option>
+                  <option value="3">Tailoring</option>
+                  <option value="4">Others</option>
                 </select>
                 <small className="form-text text-muted">
-                  <b>Filter</b> by Type
+                  <b>Filter</b> by Category
                 </small>
               </div>
               <div className="col-lg-2">
