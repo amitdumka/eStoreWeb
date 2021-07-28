@@ -193,6 +193,7 @@ export async function GetAttReport(RequestData) {
     .catch((error) => {
       console.log(error);
     });
+    alert("Kindly wait , Data is Downloading....");
 }
 
 export const AttendaceReportCard=()=>{
@@ -268,7 +269,7 @@ export const AttendaceReportCard=()=>{
               <Select value={emp} displayEmpty onChange={handleEmpChange} id="empSelect">
               <MenuItem value="" disabled>Select Employee</MenuItem>
                 {entities && entities.map((item) => (
-                  <MenuItem key={item.employeeId} value={item}>{item.staffName}</MenuItem>
+                  <MenuItem key={item.employeeId} value={item.employeeId}>{item.staffName}</MenuItem>
                 ))}
               </Select>
             </TableCell>

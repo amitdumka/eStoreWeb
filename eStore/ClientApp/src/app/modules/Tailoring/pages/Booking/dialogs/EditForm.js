@@ -2,7 +2,7 @@
 // Data validation is based on Yup
 // Please, be familiar with article first:
 // https://hackernoon.com/react-form-validation-with-formik-and-yup-8b76bda62e10
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
@@ -26,8 +26,6 @@ const BookingEditSchema = Yup.object().shape({
  totalQty: Yup.number().moreThan(0).required("Total Qty is required"),
  custName:Yup.string().required("Customer Name is required"), 
  bookingSlipNo: Yup.string().required("Slip No is required")
-
-
 });
 
 export function EditForm({
@@ -37,6 +35,8 @@ export function EditForm({
   onHide,
   storeList,
 }) {
+
+  const [totalQty,setTotalQty]=useState(0);
   const [item, setItem] = useState(0);
   const [qty, setQty] = useState(0);
   const [price, setPrice] = useState(0);
@@ -80,11 +80,12 @@ export function EditForm({
 
     booking.totalAmount=booking.shirtPrice+booking.pantPrice+booking.coatPrice+booking.kurtaPrice+booking.bundiPrice+booking.othersPrice;
     booking.totalQty=booking.shirtQty+booking.pantQty+booking.coatQty+booking.kurtaQty+booking.bundiQty+booking.others;
-
-
+    console.log(booking.totalAmount);
+    console.log(booking.totalQty);
+    //setTotalQty(totalQty+booking.totalQty);
   }
-
- 
+  
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const updateRowData = () => {
   const str = `Item Data  Shirt [Price/Qty]  ${booking.shirtPrice} ${booking.shirtQty}
   Pant [Price/Qty]  ${booking.pantPrice}/ ${booking.pantQty}
@@ -96,45 +97,52 @@ export function EditForm({
   // setItemData(str);
     
   };
+  
   const handleItemAdd = () => {
     console.log(item + " " + qty + " " + price + " ");
     switch (item) {
       case "1":
         booking.shirtPrice = price;
         booking.shirtQty = qty;
-        updateRowData();
+        //updateRowData();
         break;
       case "2":
         booking.pantPrice = price;
         booking.pantQty = qty;
-        updateRowData();
+        //updateRowData();
         break;
       case "3":
         booking.coatPrice = price;
         booking.coatQty = qty;
-        updateRowData();
+        //updateRowData();
         break;
       case "4":
         booking.bundiPrice = price;
         booking.bundiQty = qty;
-        updateRowData();
+        //updateRowData();
         break;
       case "5":
         booking.kurtaPrice = price;
         booking.kurtaQty = qty;
-        updateRowData();
+        //updateRowData();
         break;
       case "6":
         booking.othersPrice = price;
         booking.others = qty;
         
-        updateRowData();
+        //updateRowData();
         break;
       default:
         console.log("Option Not Found");
     }
+    setTotalQty(totalQty+qty);
+
   };
-  
+  useEffect(() => {
+    updateTotals();
+    updateRowData();
+  }, [totalQty, updateTotals, updateRowData]);
+
   return (
     <>
       <Formik
