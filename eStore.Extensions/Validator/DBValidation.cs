@@ -19,14 +19,20 @@ namespace eStore.Validator
         public static bool AttendanceDuplicateCheck(eStoreDbContext db, Attendance att)
         {
             var d = db.Attendances.Where(c => c.AttDate == att.AttDate && c.EmployeeId == att.EmployeeId).Select(c => new { c.AttendanceId }).FirstOrDefault();
-
             if (d != null)
                 return true;
             else
                 return false;
-
-
-
+        }
+        public static bool AttendanceDuplicateCheckWithID(eStoreDbContext db, Attendance att)
+        {
+            var d = db.Attendances.Where (c => c.AttDate == att.AttDate && c.EmployeeId == att.EmployeeId).Select (c => new { c.AttendanceId }).FirstOrDefault ();
+            if ( d != null )
+            {   
+                if(d.AttendanceId!=att.AttendanceId)
+                    return true; 
+            }
+            return false;
         }
     }
 

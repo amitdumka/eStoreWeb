@@ -2,6 +2,7 @@
 using System.Text.Json;
 using eStore.Extensions;
 
+//TODO: Remove this if it is not revelent
 namespace eStore.Ops.Session
 {
     public static class SessionName

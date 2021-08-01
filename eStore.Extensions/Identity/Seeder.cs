@@ -4,7 +4,7 @@ using eStore.Shared.Models.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using static Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal.LoginModel;
-
+//TODO: Remove this if it is not revelent
 namespace eStore.Ops.Identity
 {
     public class Auth
