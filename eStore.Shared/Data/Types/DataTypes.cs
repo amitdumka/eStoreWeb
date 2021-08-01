@@ -1,5 +1,5 @@
 ﻿public enum EntryStatus { Added, Approved, Rejected, Updated, Deleted, DeleteApproved }
-
+public enum CRUD { Create, Update, Delete, Invalid }
 public enum ArvindAccount { ArvindLimited, ALBL, AFL, Others }
 public enum ConnectionType { Commercial, Domestic, HighTension }
 public enum RentType { WorkShop, Shop, Goods, Office, House, Others }

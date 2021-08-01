@@ -16,7 +16,7 @@ namespace eStore.Payroll
         {
             Console.WriteLine($"Emp Name= {employee.FirstName}");
 
-            await EmployeeManager.AddEmployeeLoginAsync(db, employee, userManager);
+           // await EmployeeManager.AddEmployeeLoginAsync(db, employee, userManager);
             if(employee.Category==EmpType.Salesman) await AddSaleman(db, employee);
         }
 
@@ -46,28 +46,28 @@ namespace eStore.Payroll
             await db.SaveChangesAsync();
 
         }
-        public static async Task AddEmployeeLoginAsync(eStoreDbContext db, Employee employee, UserManager<AppUser> userManager)
-        {
-            if (employee != null)
-            {
+        //public static async Task AddEmployeeLoginAsync(eStoreDbContext db, Employee employee, UserManager<AppUser> userManager)
+        //{
+        //    if (employee != null)
+        //    {
                 
-                //if (employee.IsWorking)
-                //    await UserAdmin.AddUserAsync(userManager, employee);
+        //        //if (employee.IsWorking)
+        //        //    await UserAdmin.AddUserAsync(userManager, employee);
 
-                //{
-
-
-                //    //TODO:    await UserAdmin.AddEmployeeUserAsync(db, employee.StaffName, employee.EmployeeId);
-
-                //}
-            }
-            else
-            {
-                throw new Exception();
-            }
+        //        //{
 
 
+        //        //    //TODO:    await UserAdmin.AddEmployeeUserAsync(db, employee.StaffName, employee.EmployeeId);
 
-        }
+        //        //}
+        //    }
+        //    else
+        //    {
+        //        throw new Exception();
+        //    }
+
+
+
+        //}
     }
 }

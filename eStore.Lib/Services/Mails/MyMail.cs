@@ -1,6 +1,7 @@
 ﻿using MailKit.Net.Smtp;
 using MailKit.Security;
 using MimeKit;
+using System;
 
 namespace eStore.Services.Mails
 {
@@ -47,6 +48,18 @@ namespace eStore.Services.Mails
             client.Authenticate(MailConfig.UserName, MailConfig.Password);
             client.Send(message);
             client.Disconnect(true);
+        }
+        public static void MError(string toAddress, string messages)
+        {
+            SendEmail ($"eStore Error Log:({DateTime.Now})", messages, toAddress);
+        }
+        public static void MLogs(string toAddress, string messages)
+        {
+            SendEmail ($"eStore Log:({DateTime.Now})", messages, toAddress);
+        }
+        public static void MWarning(string toAddress, string messages)
+        {
+            SendEmail ($"eStore Warning Log:({DateTime.Now})", messages, toAddress);
         }
     }
 }

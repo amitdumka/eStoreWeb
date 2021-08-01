@@ -4,47 +4,93 @@ using System.Linq;
 using eStore.Services.Mails;
 using eStore.BL.Triggers;
 using eStore.Database;
+using System.Threading.Tasks;
+using eStore.Validator;
+using eStore.Shared.Models.Stores;
 
 namespace eStore.Payroll
 {
     public class PayrollManager
     {
-        public void ONInsertOrUpdate(eStoreDbContext db, Attendance attendance, bool isDeleted, bool isUpdated)
+        /// <summary>
+        /// Add Salesman when category is salesman.
+        /// </summary>
+        /// <param name="db"></param>
+        /// <param name="employee"></param>
+        /// <returns></returns>
+        public static async Task AddSaleman(eStoreDbContext db, Employee employee)
         {
+
+            if ( DBDataChecker.IsSalesmanExists (db, employee.FirstName + " " + employee.LastName, employee.StoreId) )
+            {
+                var sm = db.Salesmen.Where (c => c.SalesmanName == employee.FirstName + " " + employee.LastName && c.StoreId == employee.StoreId).First ();
+                sm.EmployeeId = employee.EmployeeId;
+                sm.EntryStatus = EntryStatus.Updated;
+                db.Update (sm);
+            }
+            else
+            {
+
+                Salesman sm = new Salesman
+                {
+                    EmployeeId = employee.EmployeeId,
+                    IsReadOnly = true,
+                    SalesmanName = employee.FirstName + " " + employee.LastName,
+                    StoreId = employee.StoreId,
+                    UserId = employee.UserId,
+                    EntryStatus = EntryStatus.Added
+                };
+                db.Salesmen.Add (sm);
+            }
+            await db.SaveChangesAsync ();
+
+        }
+        /// <summary>
+        /// CRUD Trigger.
+        /// </summary>
+        /// <param name="db"></param>
+        /// <param name="attendance"></param>
+        /// <param name="isDeleted"></param>
+        /// <param name="isUpdated"></param>
+        public void ONInsertOrUpdate(eStoreDbContext db, Attendance attendance, CRUD mode)
+        {
+            string emailId = "amitnarayansah@gmail.com";
             try
             {
-                if (!isDeleted && !isUpdated)
+                if ( mode == CRUD.Create )
                 {
-                    var sName = db.Employees.Find(attendance.EmployeeId).StaffName;
-                    if (attendance.Status != AttUnit.Present && attendance.Status != AttUnit.Sunday && attendance.Status != AttUnit.SundayHoliday)
+                    var sName = db.Employees.Find (attendance.EmployeeId).StaffName;
+                    if ( attendance.Status != AttUnit.Present && attendance.Status != AttUnit.Sunday && attendance.Status != AttUnit.SundayHoliday )
                     {
-                        MyMail.SendEmail("Att(+):\t" + sName + " Attendance Report status.", sName + " is not present and current status is " + attendance.Status + " on date " + attendance.AttDate, "amitnarayansah@gmail.com");
+                        MyMail.SendEmail ("Att(+):\t" + sName + " Attendance Report status.",
+                            sName + " current status is " + attendance.Status + " on date " + attendance.AttDate, emailId);
                     }
 
                     // HRMBot.NotifyStaffAttandance(db, sName, attendance.AttendanceId, attendance.Status, attendance.EntryTime);
                 }
-                else if (isDeleted)
+                else if ( mode == CRUD.Delete )
                 {
-                    var sName = db.Employees.Find(attendance.EmployeeId).StaffName;
-                    MyMail.SendEmail(sName + " Attendance Report status for delete.", sName + " is deleted and current status was " + attendance.Status + " on date " + attendance.AttDate, "amitnarayansah@gmail.com");
+                    var sName = db.Employees.Find (attendance.EmployeeId).StaffName;
+                    MyMail.SendEmail (sName + " Attendance Report status for delete.",
+                        sName + " is deleted and Old status was " + attendance.Status + " on date " + attendance.AttDate, emailId);
                 }
-                else if (isUpdated)
+                else if ( mode == CRUD.Update )
                 {
-                    var sName = db.Employees.Find(attendance.EmployeeId).StaffName;
-                    var before = db.Attendances.Where(c => c.AttendanceId == attendance.AttendanceId).Select(c => c.Status).FirstOrDefault();
-                    MyMail.SendEmail(sName + " Attendance Report  status for Updated Record. It was " + before, sName + " is updated and current status is " + attendance.Status + " on date " + attendance.AttDate, "amitnarayansah@gmail.com");
+                    var sName = db.Employees.Find (attendance.EmployeeId).StaffName;
+                    var before = db.Attendances.Where (c => c.AttendanceId == attendance.AttendanceId).Select (c => c.Status).FirstOrDefault ();
+                    MyMail.SendEmail (sName + " Attendance Report  status for Updated Record. It was " + before, sName + " is updated and current status is " + attendance.Status + " on date " + attendance.AttDate, emailId);
                     //  HRMBot.NotifyStaffAttandance(db, sName, attendance.AttendanceId, attendance.Status, attendance.EntryTime);
                 }
             }
-            catch (Exception ex)
+            catch ( Exception ex )
             {
-                Console.WriteLine("Error :" + ex.Message);
+                MyMail.MError (emailId, "Error :" + ex.Message);
             }
         }
 
         public void OnInsert(eStoreDbContext db, StaffAdvanceReceipt salPayment)
         {
-            UpdateInAmount(db, salPayment.Amount, salPayment.PayMode, salPayment.ReceiptDate, false);
+            UpdateInAmount (db, salPayment.Amount, salPayment.PayMode, salPayment.ReceiptDate, false);
             // HRMBot.NotifyStaffPayment(db, "", salPayment.EmployeeId, salPayment.Amount, "Advance Receipt: " + salPayment.Details, true);
         }
 
@@ -56,19 +102,19 @@ namespace eStore.Payroll
 
         public void OnInsert(eStoreDbContext db, SalaryPayment salPayment)
         {
-            UpdateOutAmount(db, salPayment.Amount, salPayment.PayMode, salPayment.PaymentDate, false);
+            UpdateOutAmount (db, salPayment.Amount, salPayment.PayMode, salPayment.PaymentDate, false);
             // HRMBot.NotifyStaffPayment(db, "", salPayment.EmployeeId, salPayment.Amount, "Salary payment for month of " + salPayment.SalaryMonth + "  details: " + salPayment.Details);
             ;
         }
 
         public void OnDelete(eStoreDbContext db, SalaryPayment salPayment)
         {
-            UpdateOutAmount(db, salPayment.Amount, salPayment.PayMode, salPayment.PaymentDate, true);
+            UpdateOutAmount (db, salPayment.Amount, salPayment.PayMode, salPayment.PaymentDate, true);
         }
 
         public void OnDelete(eStoreDbContext db, StaffAdvanceReceipt salPayment)
         {
-            UpdateOutAmount(db, salPayment.Amount, salPayment.PayMode, salPayment.ReceiptDate, true);
+            UpdateOutAmount (db, salPayment.Amount, salPayment.PayMode, salPayment.ReceiptDate, true);
         }
 
         //public void OnDelete(eStoreDbContext db, StaffAdvancePayment salPayment)
@@ -202,59 +248,60 @@ namespace eStore.Payroll
 
         private void UpdateOutAmount(eStoreDbContext db, decimal Amount, PayMode PayMode, DateTime PaymentDate, bool IsEdit)
         {
-            if (IsEdit)
+            if ( IsEdit )
             {
-                if (PayMode == PayMode.Cash)
+                if ( PayMode == PayMode.Cash )
                 {
-                    CashTrigger.UpDateCashOutHand(db, PaymentDate, 0 - Amount);
+                    CashTrigger.UpDateCashOutHand (db, PaymentDate, 0 - Amount);
                 }
                 //TODO: in future make it more robust
-                if (PayMode != PayMode.Cash && PayMode != PayMode.Coupons && PayMode != PayMode.Points)
+                if ( PayMode != PayMode.Cash && PayMode != PayMode.Coupons && PayMode != PayMode.Points )
                 {
-                    CashTrigger.UpDateCashOutBank(db, PaymentDate, 0 - (Amount - Amount));
+                    CashTrigger.UpDateCashOutBank (db, PaymentDate, 0 - ( Amount - Amount ));
                 }
             }
             else
             {
-                if (PayMode == PayMode.Cash)
+                if ( PayMode == PayMode.Cash )
                 {
-                    CashTrigger.UpDateCashOutHand(db, PaymentDate, Amount);
+                    CashTrigger.UpDateCashOutHand (db, PaymentDate, Amount);
                 }
                 //TODO: in future make it more robust
-                if (PayMode != PayMode.Cash && PayMode != PayMode.Coupons && PayMode != PayMode.Points)
+                if ( PayMode != PayMode.Cash && PayMode != PayMode.Coupons && PayMode != PayMode.Points )
                 {
-                    CashTrigger.UpDateCashOutBank(db, PaymentDate, Amount - Amount);
+                    CashTrigger.UpDateCashOutBank (db, PaymentDate, Amount - Amount);
                 }
             }
         }
 
         private void UpdateInAmount(eStoreDbContext db, decimal Amount, PayMode PayMode, DateTime PaymentDate, bool IsEdit)
         {
-            if (IsEdit)
+            if ( IsEdit )
             {
-                if (PayMode == PayMode.Cash)
+                if ( PayMode == PayMode.Cash )
                 {
-                    CashTrigger.UpdateCashInHand(db, PaymentDate, 0 - Amount);
+                    CashTrigger.UpdateCashInHand (db, PaymentDate, 0 - Amount);
                 }
                 //TODO: in future make it more robust
-                if (PayMode != PayMode.Cash && PayMode != PayMode.Coupons && PayMode != PayMode.Points)
+                if ( PayMode != PayMode.Cash && PayMode != PayMode.Coupons && PayMode != PayMode.Points )
                 {
-                    CashTrigger.UpdateCashInBank(db, PaymentDate, 0 - (Amount - Amount));
+                    CashTrigger.UpdateCashInBank (db, PaymentDate, 0 - ( Amount - Amount ));
                 }
             }
             else
             {
-                if (PayMode == PayMode.Cash)
+                if ( PayMode == PayMode.Cash )
                 {
-                    CashTrigger.UpdateCashInHand(db, PaymentDate, Amount);
+                    CashTrigger.UpdateCashInHand (db, PaymentDate, Amount);
                 }
                 //TODO: in future make it more robust
-                if (PayMode != PayMode.Cash && PayMode != PayMode.Coupons && PayMode != PayMode.Points)
+                if ( PayMode != PayMode.Cash && PayMode != PayMode.Coupons && PayMode != PayMode.Points )
                 {
-                    CashTrigger.UpdateCashInBank(db, PaymentDate, Amount - Amount);
+                    CashTrigger.UpdateCashInBank (db, PaymentDate, Amount - Amount);
                 }
             }
         }
     }
 
 }
+
