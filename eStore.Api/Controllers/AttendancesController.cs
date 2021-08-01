@@ -1,16 +1,16 @@
+using AutoMapper;
+using eStore.Database;
+using eStore.Payroll;
+using eStore.Shared.DTOs.Payrolls;
+using eStore.Shared.Models.Payroll;
+using eStore.Validator;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using eStore.Database;
-using eStore.Shared.Models.Payroll;
-using Microsoft.AspNetCore.Authorization;
-using AutoMapper;
-using eStore.Shared.DTOs.Payrolls;
-using eStore.Validator;
 
 namespace eStore.API.Controllers
 {
@@ -28,39 +28,21 @@ namespace eStore.API.Controllers
             _mapper = mapper;
         }
 
-        // GET: api/Attendances
-        [HttpGet]
-        public IEnumerable<AttendanceDto> GetAttendances()
+        // DELETE: api/Attendances/5
+        [HttpDelete ("{id}")]
+        public async Task<IActionResult> DeleteAttendance(int id)
         {
-            //return await _context.Attendances.Include(a => a.Store).Where(c => c.AttDate == DateTime.Today.Date).ToListAsync();
-            var attList = _context.Attendances.Include (c => c.Employee).Include (a => a.Store).Where (c => c.AttDate == DateTime.Today.Date).ToList ();
-            return _mapper.Map<IEnumerable<AttendanceDto>> (attList);
-            //return (Task<ActionResult<IEnumerable<AttendanceDto>>>)GetToDto(attList);
-        }
-        [HttpGet ("year")]
-        public IEnumerable<AttendanceDto> GetYearAttendances()
-        {
-            //return await _context.Attendances.Include(a => a.Store).Where(c => c.AttDate == DateTime.Today.Date).ToListAsync();
-            var attList = _context.Attendances.Include (c => c.Employee).Include (a => a.Store).Where (c => c.AttDate.Year == DateTime.Today.Year).ToList ();
-            return _mapper.Map<IEnumerable<AttendanceDto>> (attList);
-            //return (Task<ActionResult<IEnumerable<AttendanceDto>>>)GetToDto(attList);
-        }
-        [HttpGet ("month")]
-        public IEnumerable<AttendanceDto> GetMonthAttendances()
-        {
-            //return await _context.Attendances.Include(a => a.Store).Where(c => c.AttDate == DateTime.Today.Date).ToListAsync();
-            var attList = _context.Attendances.Include (c => c.Employee).Include (a => a.Store).Where (c => c.AttDate.Month == DateTime.Today.Month && c.AttDate.Year == DateTime.Today.Year).ToList ();
-            return _mapper.Map<IEnumerable<AttendanceDto>> (attList);
-            //return (Task<ActionResult<IEnumerable<AttendanceDto>>>)GetToDto(attList);
-        }
-        private IEnumerable<AttendanceDto> GetToDto(IEnumerable<Attendance> colList)
-        {
-            List<AttendanceDto> dto = new List<AttendanceDto> ();
-            foreach ( var obj in colList )
+            var attendance = await _context.Attendances.FindAsync (id);
+            if ( attendance == null )
             {
-                dto.Add (_mapper.Map<AttendanceDto> (obj));
+                return NotFound ();
             }
-            return dto.ToList ();
+
+            _context.Attendances.Remove (attendance);
+            new PayrollManager ().ONInsertOrUpdate (_context, attendance, CRUD.Delete);
+            await _context.SaveChangesAsync ();
+
+            return NoContent ();
         }
 
         // GET: api/Attendances/5
@@ -77,6 +59,52 @@ namespace eStore.API.Controllers
             return attendance;
         }
 
+        // GET: api/Attendances
+        [HttpGet]
+        public IEnumerable<AttendanceDto> GetAttendances()
+        {
+            //return await _context.Attendances.Include(a => a.Store).Where(c => c.AttDate == DateTime.Today.Date).ToListAsync();
+            var attList = _context.Attendances.Include (c => c.Employee).Include (a => a.Store).Where (c => c.AttDate == DateTime.Today.Date).ToList ();
+            return _mapper.Map<IEnumerable<AttendanceDto>> (attList);
+            //return (Task<ActionResult<IEnumerable<AttendanceDto>>>)GetToDto(attList);
+        }
+
+        [HttpGet ("month")]
+        public IEnumerable<AttendanceDto> GetMonthAttendances()
+        {
+            //return await _context.Attendances.Include(a => a.Store).Where(c => c.AttDate == DateTime.Today.Date).ToListAsync();
+            var attList = _context.Attendances.Include (c => c.Employee).Include (a => a.Store).Where (c => c.AttDate.Month == DateTime.Today.Month && c.AttDate.Year == DateTime.Today.Year).ToList ();
+            return _mapper.Map<IEnumerable<AttendanceDto>> (attList);
+            //return (Task<ActionResult<IEnumerable<AttendanceDto>>>)GetToDto(attList);
+        }
+
+        [HttpGet ("year")]
+        public IEnumerable<AttendanceDto> GetYearAttendances()
+        {
+            //return await _context.Attendances.Include(a => a.Store).Where(c => c.AttDate == DateTime.Today.Date).ToListAsync();
+            var attList = _context.Attendances.Include (c => c.Employee).Include (a => a.Store).Where (c => c.AttDate.Year == DateTime.Today.Year).ToList ();
+            return _mapper.Map<IEnumerable<AttendanceDto>> (attList);
+            //return (Task<ActionResult<IEnumerable<AttendanceDto>>>)GetToDto(attList);
+        }
+        // POST: api/Attendances
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost]
+        public async Task<ActionResult<Attendance>> PostAttendance(Attendance attendance)
+        {
+            attendance.AttDate = attendance.AttDate.Date;
+            if ( !DBValidation.AttendanceDuplicateCheck (_context, attendance) )
+            {
+                _context.Attendances.Add (attendance);
+                await _context.SaveChangesAsync ();
+                new PayrollManager ().ONInsertOrUpdate (_context, attendance, CRUD.Create);
+                return CreatedAtAction ("GetAttendance", new { id = attendance.AttendanceId }, attendance);
+            }
+            else
+            {
+                return BadRequest ();
+            }
+        }
+
         [HttpPost ("Find")]
         public IEnumerable<AttendanceDto> PostFindAttendaces(FilterDTO qp)
         {
@@ -91,6 +119,7 @@ namespace eStore.API.Controllers
                     case "ID":
                         queryParms.EmployeeId = int.Parse (st [1].Trim ());
                         break;
+
                     case "DATE":
                         DateTime tDate;
                         if ( DateTime.TryParse (st [1].Trim (), out tDate) )
@@ -98,9 +127,11 @@ namespace eStore.API.Controllers
                             queryParms.OnDate = tDate;
                         }
                         break;
+
                     case "NAME":
                         queryParms.StaffName = st [1].Trim ();
                         break;
+
                     default:
 
                         break;
@@ -109,7 +140,7 @@ namespace eStore.API.Controllers
             var attList = _context.Attendances.Include (c => c.Employee).Include (a => a.Store).
                 Where (c => c.AttDate.Date == DateTime.Today.Date).ToList ();
 
-            //Filter and Search 
+            //Filter and Search
             if ( queryParms.OnDate != null )
             {
                 Filters [5] = 1;
@@ -141,20 +172,19 @@ namespace eStore.API.Controllers
                 attList = attList.
               Where (c => c.Employee.Category == queryParms.Type).OrderByDescending (c => c.AttDate).ToList ();
             }
-           return _mapper.Map<IEnumerable<AttendanceDto>> (attList);
+            return _mapper.Map<IEnumerable<AttendanceDto>> (attList);
         }
-
 
         // PUT: api/Attendances/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut ("{id}")]
         public async Task<IActionResult> PutAttendance(int id, Attendance attendance)
-        {    // TODO : 
-            if ( id != attendance.AttendanceId || !DBValidation.AttendanceDuplicateCheckWithID(_context,attendance))
+        {    // TODO :
+            if ( id != attendance.AttendanceId || !DBValidation.AttendanceDuplicateCheckWithID (_context, attendance) )
             {
                 return BadRequest ();
             }
-
+            new PayrollManager ().ONInsertOrUpdate (_context, attendance, CRUD.Update);
             _context.Entry (attendance).State = EntityState.Modified;
 
             try
@@ -176,45 +206,30 @@ namespace eStore.API.Controllers
             return NoContent ();
         }
 
-        // POST: api/Attendances
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Attendance>> PostAttendance(Attendance attendance)
-        {
-            attendance.AttDate = attendance.AttDate.Date;
-            if ( !DBValidation.AttendanceDuplicateCheck (_context, attendance) )
-            {
-                _context.Attendances.Add (attendance);
-                await _context.SaveChangesAsync ();
-                return CreatedAtAction ("GetAttendance", new { id = attendance.AttendanceId }, attendance);
-            }
-            else
-            {
-                return BadRequest ();
-            }
-            
-        }
-
-        // DELETE: api/Attendances/5
-        [HttpDelete ("{id}")]
-        public async Task<IActionResult> DeleteAttendance(int id)
-        {
-            var attendance = await _context.Attendances.FindAsync (id);
-            if ( attendance == null )
-            {
-                return NotFound ();
-            }
-
-            _context.Attendances.Remove (attendance);
-            await _context.SaveChangesAsync ();
-
-            return NoContent ();
-        }
-
         private bool AttendanceExists(int id)
         {
             return _context.Attendances.Any (e => e.AttendanceId == id);
         }
+
+        private IEnumerable<AttendanceDto> GetToDto(IEnumerable<Attendance> colList)
+        {
+            List<AttendanceDto> dto = new List<AttendanceDto> ();
+            foreach ( var obj in colList )
+            {
+                dto.Add (_mapper.Map<AttendanceDto> (obj));
+            }
+            return dto.ToList ();
+        }
+    }
+
+    public class FilterDTO
+    {
+        public int EmployeeId { get; set; }
+        public DateTime? OnDate { get; set; }
+        public string SearchText { get; set; }
+        public string StaffName { get; set; }
+        public AttUnit? Status { get; set; }
+        public EmpType? Type { get; set; }
     }
 
     public class FindDTO
@@ -224,18 +239,5 @@ namespace eStore.API.Controllers
         public int PageSize { get; set; }
         public string SortFiled { get; set; }
         public string SortOrder { get; set; }
-
-
-    }
-
-
-    public class FilterDTO
-    {
-        public int EmployeeId { get; set; }
-        public string SearchText { get; set; }
-        public AttUnit? Status { get; set; }
-        public EmpType? Type { get; set; }
-        public string StaffName { get; set; }
-        public DateTime? OnDate { get; set; }
     }
 }

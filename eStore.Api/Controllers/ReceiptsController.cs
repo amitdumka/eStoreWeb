@@ -59,7 +59,10 @@ namespace eStore.API.Controllers
             {
                 return BadRequest();
             }
-
+            if ( receipt.PayMode == PaymentMode.Cash )
+            {
+                receipt.BankAccountId = null;
+            }
             _context.Entry(receipt).State = EntityState.Modified;
 
             try
@@ -86,6 +89,10 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Receipt>> PostReceipt(Receipt receipt)
         {
+            if ( receipt.PayMode == PaymentMode.Cash )
+            {
+                receipt.BankAccountId = null;
+            }
             _context.Receipts.Add(receipt);
             await _context.SaveChangesAsync();
 

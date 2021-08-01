@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace eStore.Payroll
 {
+    //TODO: check if this is required
     public class EmployeeManager
     {
         public static async Task PostEmployeeAdditionAsync(eStoreDbContext db, Employee employee, UserManager<AppUser> userManager)

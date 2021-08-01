@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using eStore.Database;
 using eStore.Shared.Models.Accounts;
 using Microsoft.AspNetCore.Authorization;
+using eStore.Lib.Accounts;
 
 namespace eStore.API.Controllers
 {
@@ -59,6 +60,7 @@ namespace eStore.API.Controllers
             try
             {
                 await _context.SaveChangesAsync();
+                AccountOperation.UpdateLedgerMaster (_context, party);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -82,6 +84,7 @@ namespace eStore.API.Controllers
         {
             _context.Parties.Add(party);
             await _context.SaveChangesAsync();
+            AccountOperation.CreateLedgerMaster (_context, party);
 
             return CreatedAtAction("GetParty", new { id = party.PartyId }, party);
         }

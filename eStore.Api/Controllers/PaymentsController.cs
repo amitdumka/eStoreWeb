@@ -59,7 +59,10 @@ namespace eStore.API.Controllers
             {
                 return BadRequest();
             }
-
+            if ( payment.PayMode == PaymentMode.Cash )
+            {
+                payment.BankAccountId = null;
+            }
             _context.Entry(payment).State = EntityState.Modified;
 
             try
@@ -86,6 +89,10 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Payment>> PostPayment(Payment payment)
         {
+            if ( payment.PayMode == PaymentMode.Cash )
+            {
+                payment.BankAccountId = null;
+            }
             _context.Payments.Add(payment);
             await _context.SaveChangesAsync();
 
