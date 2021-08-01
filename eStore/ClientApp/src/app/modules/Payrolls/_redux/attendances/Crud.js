@@ -24,8 +24,13 @@ export async function getAttendanceById(attendanceId) {
 export async function findAttendances(queryParams) {
   //verifyLogin();
   console.log("findAttendances");
-  console.log(queryParams);
-  return await axios.get(`${API_URL}`);//find`, { queryParams });
+    console.log(queryParams);
+    console.log(queryParams.filter);
+    const filter = queryParams.filter;
+    console.log(filter);
+    return await axios.post(`${API_URL}/find`,filter, {
+        headers: { 'Content-Type': 'application/json; charset=utf-8' }
+    });
 }
 
 // function to get all list of employees

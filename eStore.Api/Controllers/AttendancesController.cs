@@ -75,48 +75,63 @@ namespace eStore.API.Controllers
             return attendance;
         }
         [HttpPost("Find")]
-        public IEnumerable<AttendanceDto> PostFindAttendaces(FindDTO qp)
+        public IEnumerable<AttendanceDto> PostFindAttendaces(FilterDTO qp)
         {
             int[] Filters = new int[6] { 0, 0, 0, 0, 0, 0 };
-            FilterDTO queryParms = qp.filters;
+            FilterDTO queryParms = qp;
+
+            if ( !string.IsNullOrEmpty (queryParms.SearchText) )
+            {
+                var st = queryParms.SearchText.Split (":");
+                switch ( st[0].ToUpper() )
+                {
+                    case "ID": queryParms.EmployeeId = int.Parse (st [1].Trim ()); break;
+                    case "DATE": break;
+                    case "NAME":
+                        queryParms.StaffName = st [1].Trim ();
+                        break;
+                    default:
+
+                        break;
+                }
+            }
+
+
 
             var attList = _context.Attendances.Include(c => c.Employee).Include(a => a.Store).
                 Where(c => c.AttDate.Date ==  DateTime.Today.Date).ToList();
 
-            if (queryParms.OnDate != null) { Filters[5] = 1;
-                attList = _context.Attendances.Include(c => c.Employee).Include(a => a.Store).
-                Where(c => c.AttDate.Date == (queryParms.OnDate.HasValue ? queryParms.OnDate.Value : DateTime.Today).Date).ToList();
-            }
+            //if (queryParms.OnDate != null) { Filters[5] = 1;
+            //    attList = _context.Attendances.Include(c => c.Employee).Include(a => a.Store).
+            //    Where(c => c.AttDate.Date == (queryParms.OnDate.HasValue ? queryParms.OnDate.Value : DateTime.Today).Date).ToList();
+            //}
             if (queryParms.EmployeeId > 0) {
                 Filters[0] = 1;
                  attList = _context.Attendances.Include(c => c.Employee).Include(a => a.Store).
                Where(c => c.EmployeeId==queryParms.EmployeeId).OrderByDescending(c=>c.AttDate).ToList();
             }
-            if (!string.IsNullOrEmpty(queryParms.FirstName)) {
-                Filters[4] = 1;
-                attList = _context.Attendances.Include(c => c.Employee).Include(a => a.Store).
-              Where(c => c.Employee.FirstName == queryParms.FirstName).OrderByDescending(c => c.AttDate).ToList();
-            }
-            if (!string.IsNullOrEmpty(queryParms.LastName))
+            if ( !string.IsNullOrEmpty (queryParms.StaffName) )
             {
-                Filters[3] = 1;
-                attList = _context.Attendances.Include(c => c.Employee).Include(a => a.Store).
-              Where(c => c.Employee.LastName == queryParms.LastName).OrderByDescending(c => c.AttDate).ToList();
+                Filters [4] = 1;
+                attList = _context.Attendances.Include (c => c.Employee).Include (a => a.Store).
+              Where (c => c.Employee.StaffName == queryParms.StaffName).OrderByDescending (c => c.AttDate).ToList ();
             }
-            if (queryParms.Status!=null)
-            {
-                Filters[1] = 1;
-                attList = _context.Attendances.Include(c => c.Employee).Include(a => a.Store).
-              Where(c => c.Status==queryParms.Status).OrderByDescending(c => c.AttDate).ToList();
-            }
-            if (queryParms!=null) { Filters[2] = 1;
-
-                attList = _context.Attendances.Include(c => c.Employee).Include(a => a.Store).
-              Where(c => c.Employee.Category==queryParms.Type).OrderByDescending(c => c.AttDate).ToList();
-            }
-
-
             
+            if ( queryParms.Status != null && ( (int) queryParms.Status ) > -1 )
+            {                                                   
+                Filters [1] = 1;
+                attList = attList.
+              Where (c => c.Status == queryParms.Status).OrderByDescending (c => c.AttDate).ToList ();
+            }
+            if ( queryParms .Type!= null  && ((int) queryParms.Type)>-1 )
+            {
+                Filters [2] = 1;
+                attList = attList.
+              Where (c => c.Employee.Category == queryParms.Type).OrderByDescending (c => c.AttDate).ToList ();
+            }
+
+
+
 
             return _mapper.Map<IEnumerable<AttendanceDto>>(attList);
         }
@@ -189,7 +204,7 @@ namespace eStore.API.Controllers
 
    public class FindDTO
     {
-        public FilterDTO filters { get; set; }
+        public FilterDTO Filter{ get; set; }
         public int PageNumber { get; set; }
         public int PageSize { get; set; }
         public string SortFiled { get; set; }
@@ -202,10 +217,10 @@ namespace eStore.API.Controllers
     public class FilterDTO
     {
         public int EmployeeId { get; set; }
+        public string SearchText { get; set; }
         public AttUnit? Status { get; set; }
         public EmpType? Type { get; set; }
-        public string LastName { get; set; }
-        public string FirstName { get; set; }
+        public string StaffName { get; set; }       
         public DateTime? OnDate { get; set; }
     }
 }

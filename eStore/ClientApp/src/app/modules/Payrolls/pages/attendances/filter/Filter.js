@@ -6,18 +6,22 @@ import { useUIContext } from "../UIContext";
 const prepareFilter = (queryParams, values) => {
   const { status, type, searchText } = values;
   const newQueryParams = { ...queryParams };
-  const filter = {};
+    const filter = {};
+    console.log(filter);
+
   // Filter by status
-  filter.status = status !== "" ? +status : undefined;
+    filter.status = parseInt(status);//>-1 ? +status : -1;
   // Filter by type
-  filter.type = type !== "" ? +type : undefined;
+    filter.type = parseInt(type);// >-1 ? +type : -1;
   // Filter by all fields
-  filter.lastName = searchText;
-  if (searchText) {
-    filter.firstName = searchText;
-    filter.date = searchText;
-    filter.employeeId = searchText;
-  }
+  filter.searchText = searchText;
+
+    if (searchText) {
+    filter.employeeId = 0;
+    filter.staffName = null;
+    }
+    console.log(filter);
+    console.log(newQueryParams);
   newQueryParams.filter = filter;
   return newQueryParams;
 };
@@ -46,8 +50,8 @@ export function AttendancesFilter({ listLoading }) {
     <>
       <Formik
         initialValues={{
-          status: "", // values => All=""/Susspended=0/Active=1/Pending=2
-          type: "", // values => All=""/Business=0/Individual=1
+          status: -1, // values => All=""/Susspended=0/Active=1/Pending=2
+          type: -1, // values => All=""/Business=0/Individual=1
           searchText: "",
         }}
         onSubmit={(values) => {
@@ -76,7 +80,7 @@ export function AttendancesFilter({ listLoading }) {
                   onBlur={handleBlur}
                   value={values.status}
                 >
-                  <option value="">All</option>
+                  <option value="-1">All</option>
                   <option value="0">Present</option>
                   <option value="1">Absent</option>
                   <option value="2">HalfDay</option>
@@ -98,7 +102,7 @@ export function AttendancesFilter({ listLoading }) {
                   }}
                   value={values.type}
                 >
-                  <option value="">All</option>
+                  <option value="-1">All</option>
                   <option value="0">Salesmen</option>
                   <option value="1">Store Manager</option>
                   <option value="2">HouseKeeping</option>
