@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 using eStore.Database;
 using eStore.Shared.Models.Identity;
 using Microsoft.OpenApi.Models;
+using eStore.Services.BTask;
 
 //using Microsoft.AspNetCore.Http;
 //using Microsoft.AspNetCore.Authorization;
@@ -64,8 +65,8 @@ namespace eStore
             services.AddRazorPages ();
             services.AddDistributedMemoryCache ();
             services.AddAutoMapper (AppDomain.CurrentDomain.GetAssemblies ());
-            //services.AddHostedService<QueuedHostedService> ();
-            //services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue> ();
+            services.AddHostedService<QueuedHostedService> ();
+            services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue> ();
             //services.AddControllers ();
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles (configuration =>

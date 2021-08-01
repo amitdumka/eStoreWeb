@@ -2,8 +2,6 @@
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,6 +14,7 @@ namespace eStore.Services.BTask
         Task<Func<CancellationToken, Task>> DequeueAsync(
             CancellationToken cancellationToken);
     }
+
     public class QueuedHostedService : BackgroundService
     {
         private readonly ILogger _logger;
@@ -32,7 +31,7 @@ namespace eStore.Services.BTask
         protected async override Task ExecuteAsync(
             CancellationToken cancellationToken)
         {
-            _logger.LogInformation ("Queued Hosted Service is starting.");
+            _logger.LogInformation ("eStore: Queued Hosted Service is starting.");
 
             while ( !cancellationToken.IsCancellationRequested )
             {
@@ -45,17 +44,19 @@ namespace eStore.Services.BTask
                 catch ( Exception ex )
                 {
                     _logger.LogError (ex,
-                       "Error occurred executing {WorkItem}.", nameof (workItem));
+                       "eStore: Error occurred executing {WorkItem}.", nameof (workItem));
                 }
             }
 
-            _logger.LogInformation ("Queued Hosted Service is stopping.");
+            _logger.LogInformation ("eStore: Queued Hosted Service is stopping.");
         }
     }
+
     public class BackgroundTaskQueue : IBackgroundTaskQueue
     {
         private ConcurrentQueue<Func<CancellationToken, Task>> _workItems =
        new ConcurrentQueue<Func<CancellationToken, Task>> ();
+
         private SemaphoreSlim _signal = new SemaphoreSlim (0);
 
         public void QueueBackgroundWorkItem(
