@@ -3,7 +3,7 @@
 import React, { useMemo } from "react";
 import { Link } from "react-router-dom";
 import Dropdown from "react-bootstrap/Dropdown";
- import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import objectPath from "object-path";
 import { useHtmlClassService } from "../../../_core/MetronicLayout";
 import { toAbsoluteUrl } from "../../../../_helpers";
@@ -12,27 +12,25 @@ import { useState, useEffect } from "react";
 import { useOktaAuth } from "@okta/okta-react";
 
 export function UserProfileDropdown() {
-   const { user } = useSelector((state) => state.auth);
+  // const { user1 } = useSelector((state) => state.auth);
+  const { authState, authService } = useOktaAuth();
+  const [userInfo, setUserInfo] = useState(null);
 
- //  user && console.log(user);
- // const { authState, authService } = useOktaAuth();
- // const [userInfo, setUserInfo] = useState(null);
-
-  // useEffect(() => {
-  //   if (!authState.isAuthenticated) {
-  //     // When user isn't authenticated, forget any user info
-  //     setUserInfo(null);
-  //   } else {
-  //     // oktaAuth.getUser().then((info)=>{
-  //     //   console.log(info);
-  //     // });
-  //     authService.getUser().then((info) => {
-  //       setUserInfo(info);
-  //        console.log(info);
-  //        console.log(info.profileUrl);
-  //     });
-  //   }
-  // }, [user]); // Update if authState changes
+  useEffect(() => {
+    if (!authState.isAuthenticated) {
+      // When user isn't authenticated, forget any user info
+      setUserInfo(null);
+    } else {
+      // oktaAuth.getUser().then((info)=>{
+      //   console.log(info);
+      // });
+      authService.getUser().then((info) => {
+        setUserInfo(info);
+         console.log(info);
+         console.log(info.profileUrl);
+      });
+    }
+  }, [authState, authService]); // Update if authState changes
 
   // const user = {
   //   firstname: "Amit Kr.",
@@ -65,21 +63,14 @@ export function UserProfileDropdown() {
           <span className="text-muted font-weight-bold font-size-base d-none d-md-inline mr-1">
             Hi,
           </span>{" "}
-          <span className="text-dark-50 font-weight-bolder font-size-base d-none d-md-inline mr-6">
-             { user && user.fullName}{" "}{" "}
-            </span>
+          <span className="text-dark-50 font-weight-bolder font-size-base d-none d-md-inline mr-3">
+            {/* {user.firstname} {user.lastname} */}
+            {authState.isAuthenticated && userInfo && userInfo.name}
+          </span>
           <span className="symbol symbol-35 symbol-light-success">
             <span className="symbol-label font-size-h5 font-weight-bold">
-                <div className="symbol bg-white-o-15 mr-1">
-                 {user &&  user.photoURL ? (
-                  <img alt="Pic" className="hidden" src={user.photoURL} />
-                ) : (
-                  <span className="symbol-label text-success font-weight-bold font-size-h4">
-                     { user && user.fc}
-                     
-                  </span>
-                ) }
-                 </div> 
+              {/* {user.firstname[0]} */}
+              {authState.isAuthenticated && userInfo && userInfo.name[0]}
             </span>
           </span>
         </div>
@@ -94,7 +85,8 @@ export function UserProfileDropdown() {
                   <img src={toAbsoluteUrl("/media/users/300_21.jpg")} alt="" />
                 </div>
                 <div className="text-dark m-0 flex-grow-1 mr-3 font-size-h5">
-                { user && user.fullName}
+                  {/* {user.firstname} {user.lastname} */}
+                  {authState.isAuthenticated && userInfo && userInfo.name}
                 </div>
                 <span className="label label-light-success label-lg font-weight-bold label-inline">
                   0 messages
@@ -114,17 +106,18 @@ export function UserProfileDropdown() {
               }}
             >
               <div className="symbol bg-white-o-15 mr-3">
-                 {user &&  user.photoURL ? (
-                  <img alt="Pic" className="hidden" src={user.photoURL} />
+                {authState.isAuthenticated && userInfo && userInfo.picture ? (
+                  <img alt="Pic" className="hidden" src={userInfo.picture} />
                 ) : (
                   <span className="symbol-label text-success font-weight-bold font-size-h4">
-                     { user && user.fc}
-                     
+                    {/* {user.firstname[0]} */}
+                    {authState.isAuthenticated && userInfo &&     userInfo.name[0]}
                   </span>
-                ) }
+                )}
               </div>
               <div className="text-white m-0 flex-grow-1 mr-3 font-size-h5">
-                { user && user.fullName}
+                {/* {user.firstname} {user.lastname} */}
+                {authState.isAuthenticated && userInfo && userInfo.name}
               </div>
               <span className="label label-success label-lg font-weight-bold label-inline">
                 0 messages
