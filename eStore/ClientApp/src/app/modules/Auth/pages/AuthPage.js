@@ -31,7 +31,7 @@ export function AuthPage() {
                 <img
                   alt="Logo"
                   className="max-h-70px"
-                  src={toAbsoluteUrl("/media/logos/logo-letter-1.png")}
+                  src={toAbsoluteUrl("/media/estore/AprajitaRetails01.png")}
                 />
               </Link>
               {/* end:: Aside header */}
@@ -42,7 +42,7 @@ export function AuthPage() {
                   Welcome to eStore [Aprajita Retails]!
                 </h3>
                 <p className="font-weight-lighter text-white opacity-80">
-                 The ultimate SRP for garment based Retails Chain Stores.
+                   The ultimate SRP for garment based Retails Chain Stores.
                 </p>
               </div>
               {/* end:: Aside content */}

@@ -19,11 +19,15 @@ import Signup from "./modules/FireAuth/componets/pages/Signup";
 import ErrorsPage from "./modules/ErrorsExamples/ErrorsPage";
 import UpdateProfile from "./modules/FireAuth/componets/pages/UpdateProfile";
 import SecureRoute from "./modules/FireAuth/componets/SecureRoute";
+import {AuthPage} from "./modules/Auth/pages/AuthPage";
+import {  useHistory } from "react-router-dom";
 
 export function Routes() {
   const {currentUser, logout,isAuthenticated, getUser} =useAuth();
   const [userInfo, setUserInfo] = useState([]);
   const dispatch = useDispatch();
+  const history = useHistory();
+
   const { isAuthorized } = useSelector(
     ({ auth }) => ({
       isAuthorized: currentUser != null,
@@ -34,6 +38,7 @@ export function Routes() {
   const authUser=isAuthorized;
   const Logout = async () => {
       logout();
+      history.push("/auth");
   };
 
   useEffect(() => {
@@ -59,22 +64,23 @@ export function Routes() {
       {!authUser ? (
         /*Render auth page when user at `/auth` and not authorized.*/
         <Route>
-         <Login/>
+         <AuthPage/>
         </Route>
       ) : (
         /*Otherwise redirect to root page (`/`)*/
-        <Redirect from="/login" to="/" />
+        <Redirect from="/auth/login" to="/" />
       )}
       <SecureRoute path="updateprofile" component={UpdateProfile}/>
-       <Route path="/login" component={Login} /> 
+       {/* <Route path="/login" component={Login} />  */}
+       <Route path="/auth" component={AuthPage}/>
        <Route path="/logout" component={Logout} />
-       <Route path="/signup" component={Signup} />
-       <Route path="/forgot-password" component={ForgotPassword} />
+       {/* <Route path="/signup" component={Signup} />
+       <Route path="/forgot-password" component={ForgotPassword} /> */}
        <Route path="/error" component={ErrorsPage} />
       
       {!authUser ? (
         /*Redirect to `/auth` when user is not authorized*/
-        <Redirect to="/login" />
+        <Redirect to="/auth" />
       ) : (
         <Layout>
           <BasePage />

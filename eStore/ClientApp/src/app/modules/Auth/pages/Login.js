@@ -1,29 +1,23 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { connect } from "react-redux";
 import { FormattedMessage, injectIntl } from "react-intl";
 import * as auth from "../_redux/authRedux";
-import { login } from "../_redux/authCrud";
-
-/*
-  INTL (i18n) docs:
-  https://github.com/formatjs/react-intl/blob/master/docs/Components.md#formattedmessage
-*/
-
-/*
-  Formik+YUP:
-  https://jaredpalmer.com/formik/docs/tutorial#getfieldprops
-*/
+//import { login } from "../_redux/authCrud";
+import { useAuth } from "../../FireAuth/AuthContext";
+import { Link, useHistory } from "react-router-dom";
 
 const initialValues = {
-  email: "admin@demo.com",
-  password: "demo",
+  email: "usr@aprajitaretails.in",
+  password: "usr",
 };
 
 function Login(props) {
   const { intl } = props;
+  const { login, loginWithGoogle } = useAuth();
+  const history = useHistory();
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const LoginSchema = Yup.object().shape({
     email: Yup.string()
@@ -48,7 +42,12 @@ function Login(props) {
   const enableLoading = () => {
     setLoading(true);
   };
-
+  async function LoginWithGoogle(){
+    enableLoading();
+    await loginWithGoogle(); 
+    disableLoading();
+    history.push("/");
+  }
   const disableLoading = () => {
     setLoading(false);
   };
@@ -57,34 +56,35 @@ function Login(props) {
     if (formik.touched[fieldname] && formik.errors[fieldname]) {
       return "is-invalid";
     }
-
     if (formik.touched[fieldname] && !formik.errors[fieldname]) {
       return "is-valid";
     }
-
     return "";
   };
+
+  async function handleLogin(e) {
+   return   await login(e.email, e.password); 
+  }
 
   const formik = useFormik({
     initialValues,
     validationSchema: LoginSchema,
     onSubmit: (values, { setStatus, setSubmitting }) => {
-      enableLoading();
       setTimeout(() => {
-       login(values.email, values.password)
-          .then(({ data: { accessToken } }) => {
-            disableLoading();
-            props.login(accessToken);
-          })
-          .catch(() => {
-            disableLoading();
-            setSubmitting(false);
-            setStatus(
-              intl.formatMessage({
-                id: "AUTH.VALIDATION.INVALID_LOGIN",
-              })
-            );
-          });
+        try{
+          enableLoading();
+          handleLogin(values);
+          disableLoading();
+          history.push("/");
+        }catch{
+          disableLoading();
+          setSubmitting(false);
+          setStatus(
+            intl.formatMessage({
+              id: "AUTH.VALIDATION.INVALID_LOGIN",
+            })
+          );
+        }
       }, 1000);
     },
   });
@@ -101,7 +101,6 @@ function Login(props) {
         </p>
       </div>
       {/* end::Head */}
-
       {/*begin::Form*/}
       <form
         onSubmit={formik.handleSubmit}
@@ -114,12 +113,10 @@ function Login(props) {
         ) : (
           <div className="mb-10 alert alert-custom alert-light-info alert-dismissible">
             <div className="alert-text ">
-              Use account <strong>admin@demo.com</strong> and password{" "}
-              <strong>demo</strong> to continue.
+              Registered Google account and password can be use for login.
             </div>
           </div>
         )}
-
         <div className="form-group fv-plugins-icon-container">
           <input
             placeholder="Email"
@@ -155,20 +152,18 @@ function Login(props) {
         <div className="form-group d-flex flex-wrap justify-content-between align-items-center">
           <Link
             to="/auth/forgot-password"
-            className="text-dark-50 text-hover-primary my-3 mr-2"
+            className="text-dark-50 text-hover-primary my-3 mr-1"
             id="kt_login_forgot"
-          >
-            <FormattedMessage id="AUTH.GENERAL.FORGOT_BUTTON" />
-          </Link>
+          ><FormattedMessage id="AUTH.GENERAL.FORGOT_BUTTON" />?</Link>
           <button
             id="kt_login_signin_submit"
             type="submit"
             disabled={formik.isSubmitting}
             className={`btn btn-primary font-weight-bold px-9 py-4 my-3`}
-          >
-            <span>Sign In</span>
-            {loading && <span className="ml-3 spinner spinner-white"></span>}
-          </button>
+          ><span>Sign In</span>{loading && <span className="ml-3 spinner spinner-white"></span>}</button>
+          <button            onClick={()=>{LoginWithGoogle();}}            id="kt_login_signin_withGoogle"
+            type="type" disabled={formik.isSubmitting} className={`btn btn-outline-success font-weight-bold px-9 py-4 my-3`}
+          ><span> Google</span>{loading && <span className="ml-3 spinner spinner-white"></span>}</button>
         </div>
       </form>
       {/*end::Form*/}
