@@ -118,7 +118,7 @@ namespace eStore.BL.Reports.Payroll
         /// <param name="db"></param>
         /// <param name="EmpId"></param>
         /// <returns></returns>
-        public static AttendanceReport GenerateEmployeeAttendanceReport(eStoreDbContext db, int EmpId)
+        public static AttendanceReport GenerateEmployeeAttendanceReport(eStoreDbContext db, int EmpId, int finyear = 0, int finmonth = 0)
         {
             var emp = db.Employees.Find (EmpId);
 
@@ -134,13 +134,19 @@ namespace eStore.BL.Reports.Payroll
                 MonthlyAttendances = new List<MonthlyAttendance> ()
             };
 
-            var attList = db.Attendances.Where (c => c.EmployeeId == emp.EmployeeId).OrderByDescending (c => c.AttDate).Select (c => new Att { OnDate = c.AttDate, Remarks = c.Remarks, Status = c.Status, IsValid = false, Unit = 0, Id = c.AttendanceId }).ToList ();
-
-            var YearList = attList.Select (c => c.OnDate.Year).ToList ().Distinct ();
-
-            foreach ( var year in YearList )
+            var attList = db.Attendances.Where (c => c.EmployeeId == emp.EmployeeId && c.AttDate.Month == DateTime.Today.Month && c.AttDate.Year == DateTime.Today.Year)
+                .OrderByDescending (c => c.AttDate).Select (c => new Att { OnDate = c.AttDate, Remarks = c.Remarks, Status = c.Status, IsValid = false, Unit = 0, Id = c.AttendanceId }).ToList ();
+            if ( finyear > 0 && finmonth == 0 )
             {
-                MonthlyAttendance monthly = new MonthlyAttendance { EmployeeId = emp.EmployeeId, OnDate = new DateTime (year, 01, 01) };
+
+                DateTime sDate = new DateTime (finyear, 04, 01);
+                DateTime eDate = new DateTime (finyear + 1, 03, 31);
+
+
+                attList = db.Attendances.Where (c => c.EmployeeId == emp.EmployeeId &&
+                 c.AttDate.Date >= sDate  && c.AttDate.Date<=eDate)
+                 .OrderByDescending (c => c.AttDate).Select (c => new Att { OnDate = c.AttDate, Remarks = c.Remarks, Status = c.Status, IsValid = false, Unit = 0, Id = c.AttendanceId }).ToList ();
+                MonthlyAttendance monthly = new MonthlyAttendance { EmployeeId = emp.EmployeeId, OnDate = new DateTime (finyear, 01, 01) };
                 monthly.Jan = new List<Att> ();
                 monthly.Feb = new List<Att> ();
                 monthly.Mar = new List<Att> ();
@@ -153,10 +159,56 @@ namespace eStore.BL.Reports.Payroll
                 monthly.Oct = new List<Att> ();
                 monthly.Nov = new List<Att> ();
                 monthly.Dec = new List<Att> ();
-
-                var atts = attList.Where (c => c.OnDate.Year == year).ToList ();
+                var atts = attList.ToList ();
                 monthly = SortMonthly (atts, monthly, ref attList);
                 rep.MonthlyAttendances.Add (monthly);
+            }
+
+            else if ( finmonth > 0 && finyear > 0 )
+            {
+                attList = db.Attendances.Where (c => c.EmployeeId == emp.EmployeeId && c.AttDate.Month == finmonth && c.AttDate.Year == finyear)
+                  .OrderByDescending (c => c.AttDate).Select (c => new Att { OnDate = c.AttDate, Remarks = c.Remarks, Status = c.Status, IsValid = false, Unit = 0, Id = c.AttendanceId }).ToList ();
+                MonthlyAttendance monthly = new MonthlyAttendance { EmployeeId = emp.EmployeeId, OnDate = new DateTime (finyear, finmonth, 01) };
+                monthly.Jan = new List<Att> ();
+                monthly.Feb = new List<Att> ();
+                monthly.Mar = new List<Att> ();
+                monthly.Apr = new List<Att> ();
+                monthly.May = new List<Att> ();
+                monthly.Jun = new List<Att> ();
+                monthly.Jul = new List<Att> ();
+                monthly.Aug = new List<Att> ();
+                monthly.Sept = new List<Att> ();
+                monthly.Oct = new List<Att> ();
+                monthly.Nov = new List<Att> ();
+                monthly.Dec = new List<Att> ();
+                var atts = attList.Where (c => c.OnDate.Year == finyear && c.OnDate.Month == finmonth).ToList ();
+                monthly = SortMonthly (atts, monthly, ref attList);
+                rep.MonthlyAttendances.Add (monthly);
+            }
+            else
+            {
+                attList = db.Attendances.Where (c => c.EmployeeId == emp.EmployeeId).OrderByDescending (c => c.AttDate).Select (c => new Att { OnDate = c.AttDate, Remarks = c.Remarks, Status = c.Status, IsValid = false, Unit = 0, Id = c.AttendanceId }).ToList ();
+                var YearList = attList.Select (c => c.OnDate.Year).ToList ().Distinct ();
+                foreach ( var year in YearList )
+                {
+                    MonthlyAttendance monthly = new MonthlyAttendance { EmployeeId = emp.EmployeeId, OnDate = new DateTime (year, 01, 01) };
+                    monthly.Jan = new List<Att> ();
+                    monthly.Feb = new List<Att> ();
+                    monthly.Mar = new List<Att> ();
+                    monthly.Apr = new List<Att> ();
+                    monthly.May = new List<Att> ();
+                    monthly.Jun = new List<Att> ();
+                    monthly.Jul = new List<Att> ();
+                    monthly.Aug = new List<Att> ();
+                    monthly.Sept = new List<Att> ();
+                    monthly.Oct = new List<Att> ();
+                    monthly.Nov = new List<Att> ();
+                    monthly.Dec = new List<Att> ();
+                    var atts = attList.Where (c => c.OnDate.Year == year).ToList ();
+                    monthly = SortMonthly (atts, monthly, ref attList);
+                    rep.MonthlyAttendances.Add (monthly);
+                }
+
             }
 
             return rep;
@@ -170,7 +222,7 @@ namespace eStore.BL.Reports.Payroll
                 if ( att.Status == AttUnit.Present || att.Status == AttUnit.Holiday || att.Status == AttUnit.StoreClosed || att.Status == AttUnit.Sunday || att.Status == AttUnit.PaidLeave )
                     att.Unit = 1;
                 else if ( att.Status == AttUnit.HalfDay )
-                    att.Unit = (decimal)0.5;
+                    att.Unit = (decimal) 0.5;
 
                 switch ( att.OnDate.Month )
                 {

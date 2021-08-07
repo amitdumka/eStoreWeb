@@ -3,6 +3,7 @@ import { Redirect, Switch, Route } from "react-router-dom";
 import { LayoutSplashScreen, ContentRoute } from "../_metronic/layout";
 import { BuilderPage } from "./pages/BuilderPage";
 import { MyPage } from "./pages/MyPage";
+import MyReports from "./pages/MyReports";
 import { DashboardPage } from "./pages/DashboardPage";
 import {FinReportPage} from "./pages/FinReportPage";
 import {  SecureRoute, LoginCallback } from "@okta/okta-react";
@@ -51,6 +52,7 @@ export default function BasePage() {
         <ContentRoute path="/builder" component={BuilderPage} />
         <ContentRoute path="/my-page" component={MyPage} />
         <ContentRoute path="/fin-page" component={FinReportPage} />
+        <ContentRoute path="/my-report" component={MyReports} />
         <Route path="/store" component={StoreMainPage} />
         <Route path="/payroll" component={PayrollPage} />
         <Route path="/accounting" component={AccountingPage} />

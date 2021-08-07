@@ -42,7 +42,7 @@ export async function GetReport(FinReportDto) {
     });
 }
 export async function GetAttReport(RequestData) {
-  
+  console.log(RequestData);
   await axios
     .post(`${API_URL}/AttReport`, RequestData, {
       method: "POST",
@@ -116,7 +116,7 @@ const handleEndDate=(event)=>{
     const yrs = finYear.split("-");
     const finReq = {
         storeId: store,
-        startYead: parseInt(yrs[0]),
+        startYear: parseInt(yrs[0]),
         endYear: parseInt(yrs[1]),
         startMonth: parseInt(startDate),
         endMonth: parseInt(endDate),
@@ -138,7 +138,12 @@ const handleEndDate=(event)=>{
         <Table>
           <TableRow>
             <TableCell className="text-primary">Store</TableCell>
-            
+            <TableCell>
+              <Select value={store} onChange={handleStoreChange} id="storeIdSelect">
+                <MenuItem value={1}>Dumka</MenuItem>
+                <MenuItem value={2}>Jamshedpur</MenuItem>
+              </Select>
+            </TableCell>           
           </TableRow>
           <TableRow>
             <TableCell className="text-danger">Financial Year</TableCell>
@@ -236,7 +241,7 @@ export const AttendaceReportCard=()=>{
     (state) => ({ currentState: state.employees }),
     shallowEqual
   );
-  const { totalCount, entities, listLoading } = currentState;
+  const {  entities } = currentState;
   
   // Employees Redux state
   const dispatch = useDispatch();
@@ -307,6 +312,7 @@ export const AttendaceReportCard=()=>{
             <TableCell>
               <Select value={emp} displayEmpty onChange={handleEmpChange} id="empSelect">
               <MenuItem value="" disabled>Select Employee</MenuItem>
+                {/* <MenuItem value={0}>All</MenuItem> */}
                 {entities && entities.map((item) => (
                   <MenuItem key={item.employeeId} value={item.employeeId}>{item.staffName}</MenuItem>
                 ))}
@@ -328,6 +334,7 @@ export const AttendaceReportCard=()=>{
             <TableCell>
               <Select value={finYear} displayEmpty onChange={handleYearChange} id="finYearSelect">
               <MenuItem value="" disabled>Select Fin Year</MenuItem>
+              <MenuItem value={"All"}>All</MenuItem>
                 {yearArray.map((item) => (
                   <MenuItem key={item} value={item}>{item}</MenuItem>
                 ))}

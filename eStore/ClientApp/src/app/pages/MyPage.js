@@ -12,7 +12,3 @@ export const MyPage = () => {
    </div>
   </>);
 };
-
-export const ImportExcel=()=>{
-
-}; 

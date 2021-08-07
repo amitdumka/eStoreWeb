@@ -84,9 +84,9 @@ namespace eStore.API.Controllers
 
         [HttpPost ("AttReport")]
         public FileStreamResult PostAttReport(AttReportDto fin)
-        {
-
-            AttendanceReportPdf fr = new AttendanceReportPdf (db, fin.StoreId, true);
+        {  //TODO: Need to handle all employee and all fin year.
+   
+            AttendanceReportPdf fr = new AttendanceReportPdf (db, fin.StoreId,fin.FinYear, fin.Month, true);
             var data = fr.GenerateAttendaceReportPdf (fin.EmployeeId, fin.ForcedRefresh);
             var stream = new FileStream (data, FileMode.Open);
             return File (stream, "application/pdf", "report.pdf");
@@ -96,7 +96,7 @@ namespace eStore.API.Controllers
         public FileStreamResult PostFinReport(FinReportDto fin)
         {
 
-            FinReport fr = new FinReport (db, fin.StoreId, fin.StartYead, fin.EndYear, fin.IsPdf);
+            FinReport fr = new FinReport (db, fin.StoreId, fin.StartYear, fin.EndYear, fin.IsPdf);
             var data = fr.GetFinYearReport (fin.Mode, fin.ForcedRefresh);
             var stream = new FileStream (data, FileMode.Open);
             return File (stream, "application/pdf", "report.pdf");
@@ -108,11 +108,14 @@ namespace eStore.API.Controllers
         public int StoreId { get; set; }
         public int EmployeeId { get; set; }
         public bool ForcedRefresh { get; set; }
+        public string FinYear { get; set; }
+        public int Month { get; set; }
+
     }
     public class FinReportDto
     {
         public int StoreId { get; set; }
-        public int StartYead { get; set; }
+        public int StartYear { get; set; }
         public int EndYear { get; set; }
         public int StartMonth { get; set; }
         public int EndMonth { get; set; }

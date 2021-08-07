@@ -19,6 +19,7 @@ namespace eStore.BL.Reports.Payroll
 
     public class AttendanceReportPdf
     {
+        private bool AllFinYear;
         private eStoreDbContext db;
         private int StoreId;
         private int StartYear, EndYear;
@@ -26,12 +27,27 @@ namespace eStore.BL.Reports.Payroll
         private string FileName = "AttendanceReport_";
         private string Ext = ".pdf";
         private bool isPDF = true;
-        public AttendanceReportPdf(eStoreDbContext con, int storeId, /*int SYear, int EYear,*/ bool IsPdf)
+        private int FinMonth;
+        public AttendanceReportPdf(eStoreDbContext con, int storeId, string finyrs, int mnt, bool IsPdf)
         {
             db = con;
             StoreId = storeId;
-            // StartYear = SYear;
-            // EndYear = EYear;
+            if ( finyrs != "All" )
+            {
+                var dats = finyrs.Split ("-");
+                StartYear = int.Parse (dats [0].Trim ());
+                EndYear = int.Parse (dats [1].Trim ());
+                AllFinYear = false;
+                FinMonth = mnt;
+            }
+            else
+            {
+                StartYear = 2015; EndYear = DateTime.Now.Year + 1;
+                FinMonth = 0;
+                AllFinYear = true;
+            }
+
+            
             //FileName += $"{StartYear}_{EndYear}_{DateTime.UtcNow.ToFileTime ()}";
             isPDF = IsPdf;
         }
@@ -39,6 +55,37 @@ namespace eStore.BL.Reports.Payroll
 
         public string GenerateAttendaceReportPdf(int empId, bool isRefreshed = true)
         {
+            var fYear = 0;
+            if ( !AllFinYear )
+            {
+                //TODO: Handle this other wise send Message all employee with all year not prossible.
+
+                if ( FinMonth > 3 && FinMonth < 13 )
+                {
+                    fYear = StartYear;
+                }
+                else if ( FinMonth > 0 && FinMonth < 4 )
+                {
+                    fYear = EndYear;
+                }
+                else if ( FinMonth == 0 )
+                {
+                    fYear = StartYear; 
+
+                }
+                else
+                {
+                    fYear = -1;
+                }
+            }
+            else
+            {
+                FinMonth = 0;
+                fYear = 0;
+            }
+
+
+
             var StaffName = db.Employees.Find (empId).StaffName;
 
             if ( !isRefreshed )
@@ -47,7 +94,8 @@ namespace eStore.BL.Reports.Payroll
                 if ( fn != "ERROR" )
                     return fn;
             }
-            var data = PayrollReport.GenerateEmployeeAttendanceReport (db, empId);
+            var data = PayrollReport.GenerateEmployeeAttendanceReport (db, empId, fYear, FinMonth);
+
             float [] columnWidths = { 1, 1, 5, 5, 5, 5, 5 };
 
             Cell [] HeaderCell = new Cell []{
@@ -103,9 +151,6 @@ namespace eStore.BL.Reports.Payroll
         private List<Table> GenerateMonthlyReport(MonthlyAttendance att, float [] columnWidths, Cell [] HeaderCell)
         {
             List<Table> tables = new List<Table> ();
-            tables.Add (GenTableRow (att.Jan, columnWidths, HeaderCell, "Jan"));
-            tables.Add (GenTableRow (att.Feb, columnWidths, HeaderCell, "Feb"));
-            tables.Add (GenTableRow (att.Mar, columnWidths, HeaderCell, "March"));
             tables.Add (GenTableRow (att.Apr, columnWidths, HeaderCell, "Arpil"));
             tables.Add (GenTableRow (att.May, columnWidths, HeaderCell, "May"));
             tables.Add (GenTableRow (att.Jun, columnWidths, HeaderCell, "June"));
@@ -115,6 +160,10 @@ namespace eStore.BL.Reports.Payroll
             tables.Add (GenTableRow (att.Oct, columnWidths, HeaderCell, "Oct"));
             tables.Add (GenTableRow (att.Nov, columnWidths, HeaderCell, "Nov"));
             tables.Add (GenTableRow (att.Dec, columnWidths, HeaderCell, "Dec"));
+            tables.Add (GenTableRow (att.Jan, columnWidths, HeaderCell, "Jan"));
+            tables.Add (GenTableRow (att.Feb, columnWidths, HeaderCell, "Feb"));
+            tables.Add (GenTableRow (att.Mar, columnWidths, HeaderCell, "March"));
+
 
             return tables;
         }
