@@ -8,8 +8,8 @@ import objectPath from "object-path";
 import { useHtmlClassService } from "../../../_core/MetronicLayout";
 import { toAbsoluteUrl } from "../../../../_helpers";
 import { DropdownTopbarItemToggler } from "../../../../_partials/dropdowns";
-import { useState, useEffect } from "react";
-import { useOktaAuth } from "@okta/okta-react";
+//import { useState, useEffect } from "react";
+//import { useOktaAuth } from "@okta/okta-react";
 
 export function UserProfileDropdown() {
    const { user } = useSelector((state) => state.auth);
