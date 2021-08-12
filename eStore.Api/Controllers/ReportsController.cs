@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using eStore.BL.Reports.Payroll;
 using eStore.BL.Reports.CAReports;
 using System.IO;
+using eStore.Lib.Reports.Payroll;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -69,7 +70,7 @@ namespace eStore.API.Controllers
             }
 
         }
-
+       
 
         [HttpGet ("AttendanceReport")]
         public ActionResult<IEnumerable<AttendanceReport>> GetAttendanceReport(int StoreId)
@@ -101,6 +102,23 @@ namespace eStore.API.Controllers
             var stream = new FileStream (data, FileMode.Open);
             return File (stream, "application/pdf", "report.pdf");
         }
+        [HttpPost("SalaryReport")]
+        public FileStreamResult PostSalarPaymentReport(SalaryPaymentDto dto)
+        {
+            SalaryPaymentReport spr = new SalaryPaymentReport(db, dto.StoreId);
+            var data= spr.GetSalaryPaymentReport(dto.EmployeeId, dto.Month, dto.FinYear);
+            var stream = new FileStream(data, FileMode.Open);
+            return File(stream, "application/pdf", "report.pdf");
+        }
+    }
+
+    public class SalaryPaymentDto
+    {
+        public int StoreId { get; set; }
+        public int EmployeeId { get; set; }
+        public bool ForcedRefresh { get; set; }
+        public string FinYear { get; set; }
+        public int Month { get; set; }
     }
 
     public class AttReportDto
