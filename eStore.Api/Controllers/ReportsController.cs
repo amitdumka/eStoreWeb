@@ -103,7 +103,7 @@ namespace eStore.API.Controllers
             return File (stream, "application/pdf", "report.pdf");
         }
         [HttpPost("SalaryReport")]
-        public FileStreamResult PostSalarPaymentReport(SalaryPaymentDto dto)
+        public FileStreamResult PostSalarPaymentReport(AttReportDto dto)
         {
             SalaryPaymentReport spr = new SalaryPaymentReport(db, dto.StoreId);
             var data= spr.GetSalaryPaymentReport(dto.EmployeeId, dto.Month, dto.FinYear);
@@ -112,14 +112,7 @@ namespace eStore.API.Controllers
         }
     }
 
-    public class SalaryPaymentDto
-    {
-        public int StoreId { get; set; }
-        public int EmployeeId { get; set; }
-        public bool ForcedRefresh { get; set; }
-        public string FinYear { get; set; }
-        public int Month { get; set; }
-    }
+    
 
     public class AttReportDto
     {

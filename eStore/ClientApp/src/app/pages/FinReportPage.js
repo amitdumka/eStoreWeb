@@ -63,6 +63,28 @@ export async function GetAttReport(RequestData) {
     });
     alert("Kindly wait , Data is Downloading....");
 }
+export async function GetSalReport(RequestData) {
+  console.log(RequestData);
+  await axios
+    .post(`${API_URL}/SalaryReport`, RequestData, {
+      method: "POST",
+      responseType: "blob", //Force to receive data in a Blob Format
+      headers: { "Content-Type": "application/json; charset=utf-8" },
+    })
+    .then((response) => {
+      
+      //Create a Blob from the PDF Stream
+      const file = new Blob([response.data], { type: "application/pdf" });
+      //Build a URL from the file
+      const fileURL = URL.createObjectURL(file);
+      //Open the URL on new Window
+      window.open(fileURL);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+    alert("Kindly wait , Data is Downloading....");
+}
 export const FinReportPage = () => {
   const suhbeader = useSubheader();
   suhbeader.setTitle("Fin Year Report");
@@ -290,6 +312,16 @@ export const AttendaceReportCard=()=>{
     };
     GetAttReport(ReqData);
   };
+  const handleButtonSalaryPayment = (event) => {
+    const ReqData={
+      storeId:store, 
+      employeeId:emp,
+      finYear:finYear,
+      month:parseInt(forMonth),
+      forcedRefresh: refreshData
+    };
+    GetSalReport(ReqData);
+  };
   return (
     <Card>
       <CardHeader title="Attendance Report Download">
@@ -366,9 +398,19 @@ export const AttendaceReportCard=()=>{
                 className="btn btn-primary"
                 onClick={handleButton}
               >
-                Generate 
+                Attendance 
               </button>
             </TableCell>
+            <TableCell >
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={handleButtonSalaryPayment}
+              >
+                Salary Payment 
+              </button>
+            </TableCell>
+
           </TableRow>
         </Table>
         <label className="text-danger">*Note: Kindly wait for few mins to open PDF file in new windows!.</label>
