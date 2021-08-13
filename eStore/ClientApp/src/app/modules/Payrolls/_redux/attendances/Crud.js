@@ -40,6 +40,10 @@ export async function getAllEmployees() {
 
 // UPDATE => PUT: update the attendance on the server
 export async function updateAttendance(attendance) {
+    console.log(attendance);
+    attendance.employee = null;
+    attendance.store = null;
+    console.log(attendance);
   return await axios.put(`${API_URL}/${attendance.attendanceId}`, JSON.stringify( attendance ),{
     headers: {         'Content-Type' : 'application/json; charset=utf-8' }
 });
