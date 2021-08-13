@@ -1,15 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using eStore.BL.Reports.CAReports;
 using eStore.Database;
-using eStore.Shared.Models.Payroll;
-using eStore.Database;
-using System;
-using System.Collections.Generic;
-using eStore.BL.Reports.CAReports;
-using System.IO;
 using iText.Kernel.Colors;
 using iText.Kernel.Geom;
 using iText.Kernel.Pdf;
@@ -18,40 +10,62 @@ using iText.Layout.Borders;
 using iText.Layout.Element;
 using iText.Layout.Properties;
 using Path = System.IO.Path;
+using iText.Kernel.Font;
 
 namespace eStore.Lib.Printers.Slip
 {
+    // Slip printer should be on React side .or server side.  but create both as could be usefull in case mobile app.
+    public enum SlipType { Payment, Receipt, DebitNote, CreditNote,ManualInvoice,CashMemo,SalarySlip, SalaryPayment}
+
+    public class SlipDetail
+    {
+        public SlipType SlipType { get; set; }
+        public int StoreId { get; set; }
+        public string SlipNumber { get; set; }
+        public string PartyName { get; set; }
+        public string PartyAddress { get; set; }
+        public decimal Amount { get; set; }
+        public string PaymentDetails { get; set; }
+        public PayMode PayMode { get; set; }
+        public DateTime SlipDate { get; set; }
+        public string Naration { get; set; }
+    }
 
     public class SlipPrinter
     {
+        private SlipDetail sDetail;
         private int StoreId;
         private string StoreName, StoreAddress, StoreCity;
-        private string SlipName, SlipNumber, PartyName, PartyAddress;
-        private string Narration, Details;
+        private string SlipName,  StorePhoneNo;
+        //private string Narration, Details;
         private string PaymentMode, PaymentDetail;
-        private decimal Amount;
+        //private decimal Amount;
         private string AmountInString;
-        private DateTime SlipDate;
+        //private DateTime SlipDate;
         private string GSTNO;
         private string PartyLineStart, AmountLineStart, AmountLineEnd, OnAccountLine,
         PaymentDetailsLine, ForLine, PartyLineRec;
+        private eStoreDbContext db;
+        private string FileName = "Slip_";
 
         public SlipPrinter(eStoreDbContext context, int Store){
         db=context;
         StoreId=Store;
         var st= db.Stores.Find(Store); 
         StoreName= st.StoreName; 
-        StoreAddress=st.StoreAddress; 
-        StoreCity=st.StoreCity;
+        StoreAddress=st.Address; 
+        StoreCity=st.City;
         StorePhoneNo=st.PhoneNo;
         }
-        public void GenerateSlip(){
+        public void GenerateSlip(SlipDetail details){
 
+            sDetail = details;
         }
 
-        private string CreatePDF(bool isLandScape = true)
+        private string CreatePDF(bool IsLandscape = true)
         {
-            FileName += StaffName + "_Report.pdf";
+            //TODO: Add QR Code and 4 Pcs copy name like Original , duplicate, 
+            FileName +=SlipName+"_"+ sDetail.SlipNumber + "_Report.pdf";
             string path = Path.Combine(ConData.WWWroot, FileName);
             var PageType = PageSize.A4;
             if (IsLandscape)
@@ -76,16 +90,16 @@ namespace eStore.Lib.Printers.Slip
             p.Add(StoreCity + "\n");
             p.Add("Ph No: " + StorePhoneNo + "\n");
             pdfDoc.Add(p);
-            Paragraph SecondLine = new Paragraph($"No.: {SlipNumber}\t\t\t\tDate: {SlipDate}").SetFontSize(10);
+            Paragraph SecondLine = new Paragraph($"No.: {sDetail.SlipNumber}\t\t\t\tDate: {sDetail.SlipDate}").SetFontSize(10);
             pdfDoc.Add(SecondLine);
-            Paragraph PartyLine = new Paragraph($"{PartLineStart} {PartyName}, {PartyAddress}\n").SetFontSize(12);
+            Paragraph PartyLine = new Paragraph($"{PartyLineStart} {sDetail.PartyName}, {sDetail.PartyAddress}\n").SetFontSize(12);
             PartyLine.Add($"{AmountLineStart} {AmountInString} only, {AmountLineEnd}\n");
-            PartyLine.Added($"{OnAccountLine} {Naration} {PaymentDetailsLine} {Details}\n");
-            pdfDoc(PartyLine);
-            Paragraph AALine = new Paragraph($"Rs. {Amount} /-").SetFontSize(14);
+            PartyLine.Add($"{OnAccountLine} {sDetail.Naration} {PaymentDetailsLine} {sDetail.PaymentDetails}\n");
+            pdfDoc.Add(PartyLine);
+            Paragraph AALine = new Paragraph($"Rs. {sDetail.Amount} /-").SetFontSize(14);
             pdfDoc.Add(AALine);
             Paragraph SignLine = new Paragraph("\n\n").SetFontSize(12);
-            SignLine.Added($"{ForLine}\t\t\t\t{PartyLineRec}");
+            SignLine.Add($"{ForLine}\t\t\t\t{PartyLineRec}");
             pdfDoc.Add(SignLine);
 
 
@@ -95,6 +109,81 @@ namespace eStore.Lib.Printers.Slip
             return AddPageNumber(FileName, "Report_" + FileName);
 
 
+        }
+        private string AddPageNumber(string sourceFileName, string fileName)
+        {
+            using PdfDocument pdfDoc = new PdfDocument (new PdfReader (sourceFileName), new PdfWriter (fileName));
+            using Document doc = new Document (pdfDoc);
+
+            int numberOfPages = pdfDoc.GetNumberOfPages ();
+
+            for ( int i = 1 ; i <= numberOfPages ; i++ )
+            {
+                // Write aligned text to the specified by parameters point
+                //doc.ShowTextAligned (new Paragraph ("Page " + i + " of " + numberOfPages),
+                //        559, 806, i, TextAlignment.RIGHT, VerticalAlignment.TOP, 0);
+                doc.ShowTextAligned (new Paragraph ("Page " + i + " of " + numberOfPages).SetFontColor (ColorConstants.DARK_GRAY),
+                       1, 1, i, TextAlignment.RIGHT, VerticalAlignment.BOTTOM, 0);
+            }
+
+            doc.Close ();
+            pdfDoc.Close ();
+            CleanUp (fileName);
+            return fileName;
+        }
+        private string [] FileList()
+        {
+            string [] filePaths = Directory.GetFiles (Directory.GetCurrentDirectory (), "*.pdf");
+
+            return filePaths;
+        }
+
+        private bool CleanUp(string fileName)
+        {
+            string [] filePaths = Directory.GetFiles (Directory.GetCurrentDirectory (), "*.pdf");
+            foreach ( var item in filePaths )
+            {
+                if ( item.Contains (fileName) )
+                { }
+                else
+                {
+                    File.Delete (item);
+                }
+            }
+            return true;
+        }
+
+        //private string IsExist(string repName)
+        //{
+        //    string fileName = $"FinReport_{repName}_{StartYear}_{EndYear}.pdf";
+        //    if (File.Exists(fileName))
+        //        return fileName;
+        //    else
+        //        return "ERROR";
+        //}
+
+        /// <summary>
+        /// Add Page number at top of pdf file. 
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns> filename saved as</returns>
+        public static string AddPageNumberToPdf(string fileName)
+        {
+            using PdfReader reader = new PdfReader (fileName);
+            string fName = "cashBook_" + ( DateTime.Now.ToFileTimeUtc () + 1001 ) + ".pdf";
+            using PdfWriter writer = new PdfWriter (Path.Combine ("wwwroot", fName));
+
+            using PdfDocument pdfDoc2 = new PdfDocument (reader, writer);
+            Document doc2 = new Document (pdfDoc2);
+
+            int numberOfPages = pdfDoc2.GetNumberOfPages ();
+            for ( int i = 1 ; i <= numberOfPages ; i++ )
+            {
+                doc2.ShowTextAligned (new Paragraph ("Page " + i + " of " + numberOfPages),
+                        559, 806, i, TextAlignment.RIGHT, VerticalAlignment.BOTTOM, 0);
+            }
+            doc2.Close ();
+            return fName;
         }
 
     }
