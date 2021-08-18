@@ -27,7 +27,7 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CurrentSalary>>> GetSalaries()
         {
-            return await _context.Salaries.ToListAsync();
+            return await _context.Salaries.Include(c=>c.Employee).ToListAsync();
         }
 
         // GET: api/Salaries/5
@@ -40,7 +40,7 @@ namespace eStore.API.Controllers
             {
                 return NotFound();
             }
-
+            currentSalary.Employee = await _context.Employees.FindAsync(currentSalary.EmployeeId);
             return currentSalary;
         }
 
