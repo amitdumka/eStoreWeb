@@ -18,10 +18,7 @@ import {
 
 // Validation schema
 const SalaryEditSchema = Yup.object().shape({
-  attDate: Yup.date().required("Date is required"),
-  status: Yup.number().required("Status is required"),
-  storeId: Yup.number().moreThan(0).required("Store is required"),
-  entryTime:Yup.string().required("Entry time is required"), 
+  effectiveDate: Yup.date().required("Date is required"),
   employeeId: Yup.number().moreThan(0).required("Employee is required"),
 });
 
@@ -83,60 +80,107 @@ export function EditForm({
                       ))}
                     </Select>
                   </div>
-                  <div className="col-lg-4">
-                    <Select
-                      name="status"
-                      placeholder="Status"
-                      label="Status"
-                    >
-                      {salaryUnits && salaryUnits.map((item) => (
-                        <option key={item.value} value={item.value}>
-                          {item.name}
-                        </option>
-                      ))}
-                    </Select>
-                  </div>
+                  
                 </div>
                 <div className="form-group row">
                   {/* Date of Salary */}
                   <div className="col-lg-4">
                     <DatePickerField
                       dateFormat="yyyy-MM-dd"
-                      name="attDate"
-                      label="On Date"
+                      name="effectiveDate"
+                      label="Effective Date"
                     />
                   </div>
                   {/*  Father Name*/}
                   <div className="col-lg-4">
+                    <DatePickerField
+                      dateFormat="yyyy-MM-dd"
+                      name="closeDate"
+                      label="Close Date"
+                    />
+                  </div>
+                  <div className="col-lg-4">
                     <Field
-                      name="entryTime"
+                      name="basicSalary"
                       component={Input}
-                      placeholder="Entry Time"
-                      label="Entry Time"
+                      placeholder="Basic Salary"
+                      label="Basic Salary"
                     />
                   </div>
                 </div>
+                <div className="form-group row">
+                <div className="col-lg-4">
+                    <Field
+                      name="incentiveRate"
+                      component={Input}
+                      placeholder="Incentive Rate"
+                      label="Incentive Rate"
+                    />
+                  </div>
+                  <div className="col-lg-4">
+                    <Field
+                      name="incentiveTarget"
+                      component={Input}
+                      placeholder="Incentive Target"
+                      label="Incentive Target"
+                    />
+                  </div>
+                </div>
+                <div className="form-group row">
+                <div className="col-lg-4">
+                    <Field
+                      name="wowBillRate"
+                      component={Input}
+                      placeholder="WOW Bill Rate"
+                      label="WOW Bill Rate"
+                    />
+                  </div>
+                  <div className="col-lg-4">
+                    <Field
+                      name="wowBillTarget"
+                      component={Input}
+                      placeholder="WOW Bill Target"
+                      label="WOW Bill Target"
+                    />
+                  </div>
+                </div>
+
                 <div className="form-group row">
                   {/*  State Name*/}
                   <div className="col-lg-4">
                     <Field
-                      name="remarks"
+                      name="lPRate"
                       component={Input}
-                      placeholder="Remarks"
-                      label="Remarks"
+                      placeholder="LPcs Rate"
+                      label="LPcs Rate"
                     />
                   </div>
                   {/* Tailoring Division */}
                   <div className="col-lg-4">
+                    <Field name="isSundayBillable" type="checkbox" />
+                    {} Tailoring Division<br/>
+                    <Field name="isFullMonth" type="checkbox" />
+                    {} Full Month Billable<br/>
+                    <Field name="IsEffective" type="checkbox" />
+                    {} Effective<br/>
                     <Field name="isTailoring" type="checkbox" />
-                    {} Tailoring Division
+                    {} Sunday Billable
                   </div>
                 </div>
-                <div className="form-group row">
-                  {/* <Field name="userId" type="hidden" value={user.given_name}  component={Input}  /> */}
-
-                  {/* <input type="hidden" name="userId" id="userId" value= {user.given_name}/> */}
-                </div>
+                {/* <div className="form-group row">
+                <div className="col-lg-4">
+                    <Field name="isTailoring" type="checkbox" />
+                    {} Sunday Billable
+                  </div>
+                  <div className="col-lg-4">
+                    <Field name="isFullMonth" type="checkbox" />
+                    {} Full Month Billable
+                  </div>
+                  <div className="col-lg-4">
+                    <Field name="IsEffective" type="checkbox" />
+                    {} Effective
+                  </div>
+                </div> */}
               </Form>
             </Modal.Body>
             <Modal.Footer>

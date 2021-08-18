@@ -21,6 +21,7 @@ import * as uiHelpers from "../UIHelpers";
 import * as columnFormatters from "./column-formatters";
 import { Pagination } from "../../../../../../_metronic/_partials/controls";
 import { useUIContext } from "../UIContext";
+import FieldDateFormater from "../../../../../../_estore/formaters/FieldDateFormater";
 
 
 export function SalariesTable() {
@@ -89,9 +90,42 @@ export function SalariesTable() {
       sort: false,
       sortCaret: sortCaret,
     },
-    
     {
-      dataField: "status",
+      dataField: "incentiveTarget",
+      text: "Incentive Target",
+      sort: false,
+      sortCaret: sortCaret,
+    },
+    {
+      dataField: "wowBillRate",
+      text: "Wow Bill Rate",
+      sort: false,
+      sortCaret: sortCaret,
+    },
+    {
+      dataField: "wowBillTarget",
+      text: "Wow Bill Target",
+      sort: false,
+      sortCaret: sortCaret,
+    },
+    {
+      dataField: "effectiveDate",
+      text: "Effective Date",
+      sort: true,
+      formatter: FieldDateFormater,
+      sortCaret: sortCaret,
+      headerSortingClasses,
+    },
+
+    {
+      dataField: "closeDate",
+      text: "Close Date",
+      sort: false,
+      sortCaret: sortCaret,
+      formatter: FieldDateFormater,
+    },
+    {
+      dataField: "isEffective",
       text: "Status",
       sort: true,
       formatter: columnFormatters.StatusColumnFormatter,
@@ -99,9 +133,18 @@ export function SalariesTable() {
       headerSortingClasses,
     },
     {
-      dataField: "employee.store.storeName",
-      text: "Store",
+      dataField: "isTailoring",
+      text: "Tailors",
       sort: true,
+      formatter: columnFormatters.StatusColumnFormatter,
+      sortCaret: sortCaret,
+      headerSortingClasses,
+    },
+    {
+      dataField: "isFullMonth",
+      text: "30 Days",
+      sort: true,
+      formatter: columnFormatters.StatusColumnFormatter,
       sortCaret: sortCaret,
       headerSortingClasses,
     },

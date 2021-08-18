@@ -21,6 +21,7 @@ import * as uiHelpers from "../UIHelpers";
 import * as columnFormatters from "./column-formatters";
 import { Pagination } from "../../../../../../_metronic/_partials/controls";
 import { useUIContext } from "../UIContext";
+import FieldDateFormater from "../../../../../../_estore/formaters/FieldDateFormater";
 
 
 export function AttendancesTable() {
@@ -75,6 +76,7 @@ export function AttendancesTable() {
       sort: true,
       sortCaret: sortCaret,
       headerSortingClasses,
+      formatter: FieldDateFormater,
     },
     {
       dataField: "entryTime",

@@ -7,14 +7,15 @@ import {
 } from "../../UIHelpers";
 
 export function StatusColumnFormatter(cellContent, row) {
+  const x= cellContent===true?0:1;
   const getLabelCssClasses = () => {
     return `label label-lg label-light-${
-      StatusCssClasses[row.status]
+      StatusCssClasses[x]
     } label-inline`;
   };
   return (
     <span className={getLabelCssClasses()}>
-      {StatusTitles[row.status]}
+      {StatusTitles[x]}
     </span>
   );
 }

@@ -54,4 +54,5 @@ namespace eStore.Shared.Models.Payroll
         public virtual ICollection<PaySlip> PaySlips { get; set; }
 
     }
+    
 }

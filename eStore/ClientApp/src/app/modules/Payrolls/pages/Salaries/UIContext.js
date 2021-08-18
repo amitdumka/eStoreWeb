@@ -42,16 +42,16 @@ export function UIProvider({ UIEvents, children }) {
     currentSalaryId: 0,
     employeeId: 0,
     employee: null,
-    attDate: new Date(),
-    entryTime: "",
-    status: 0,
-    remarks: "",
-    isTailoring: false,
-    storeId: 1,
-    store: null,
     userId: "WebUI",
     entryStatus: 0,
     isReadOnly: false,
+    basicSalary :0,
+    lPRate:0,
+    incentiveRate:0,incentiveTarget:0,wowBillRate:0,wowBillTarget:0,
+    isFullMonth :false,
+    isSundayBillable :false,effectiveDate :new Date(),
+    closeDate :null,
+    isEffective :false, isTailoring :false,paySlips:null
   };
 
   const value = {

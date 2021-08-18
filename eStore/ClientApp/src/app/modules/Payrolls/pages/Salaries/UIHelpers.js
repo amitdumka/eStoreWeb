@@ -1,5 +1,5 @@
-export const StatusCssClasses = ["success", "danger", "warning", "info", ""];
-export const StatusTitles = ["Present", "Absent", "HalfDay", "Sunday", ""];
+export const StatusCssClasses = ["success", "danger", ""];
+export const StatusTitles = ["True", "False", ""];
 //export const CustomerTypeCssClasses = ["success", "primary", ""];
 //export const CustomerTypeTitles = ["Business", "Individual", ""];
 export const defaultSorted = [{ dataField: "firstName", order: "asc" }];
