@@ -26,11 +26,11 @@ function PayrollMenu({ layoutProps }) {
                     <ul className="menu-subnav">
                         {/*begin::2 Level*/}
                         <li
-                            className={`menu-item menu-item-submenu ${getMenuItemActive('/payroll/inputs')}`}
+                            className={`menu-item menu-item-submenu ${getMenuItemActive('/payroll/employee')}`}
                             data-menu-toggle="hover"
                             aria-haspopup="true"
                         >
-                            <NavLink className="menu-link menu-toggle" to="/payroll/inputs">
+                            <NavLink className="menu-link menu-toggle" to="/payroll/employee">
                                 <span className="svg-icon menu-icon">
                                     <SVG src={toAbsoluteUrl("/media/svg/icons/Design/PenAndRuller.svg")} />
                                 </span>
@@ -42,8 +42,8 @@ function PayrollMenu({ layoutProps }) {
                             <div className={`menu-submenu menu-submenu-classic menu-submenu-right`}>
                                 <ul className="menu-subnav">
                                     {/*begin::3 Level*/}
-                                    <li className={`menu-item ${getMenuItemActive('/payroll/inputs/autocomplete')}`}>
-                                        <NavLink className="menu-link" to="/payroll/inputs/autocomplete">
+                                    <li className={`menu-item ${getMenuItemActive('/payroll/employee/employees')}`}>
+                                        <NavLink className="menu-link" to="/payroll/employee/employees">
                                             <i className="menu-bullet menu-bullet-dot"><span /></i>
                                             <span className="menu-text">Employees</span>
                                         </NavLink>
@@ -51,8 +51,8 @@ function PayrollMenu({ layoutProps }) {
                                     {/*end::3 Level*/}
 
                                     {/*begin::3 Level*/}
-                                    <li className={`menu-item ${getMenuItemActive('/payroll/inputs/buttons')}`}>
-                                        <NavLink className="menu-link" to="/payroll/inputs/buttons">
+                                    <li className={`menu-item ${getMenuItemActive('/payroll/employee/attendances')}`}>
+                                        <NavLink className="menu-link" to="/payroll/employee/attendances">
                                             <i className="menu-bullet menu-bullet-dot"><span /></i>
                                             <span className="menu-text">Attendance</span>
                                         </NavLink>
@@ -60,8 +60,8 @@ function PayrollMenu({ layoutProps }) {
                                     {/*end::3 Level*/}
 
                                     {/*begin::3 Level*/}
-                                    <li className={`menu-item ${getMenuItemActive('/payroll/inputs/checkboxes')}`}>
-                                        <NavLink className="menu-link" to="/payroll/inputs/checkboxes">
+                                    <li className={`menu-item ${getMenuItemActive('/payroll/employee/salaryPayments')}`}>
+                                        <NavLink className="menu-link" to="/payroll/employee/salaryPayments">
                                             <i className="menu-bullet menu-bullet-dot"><span /></i>
                                             <span className="menu-text">Salary</span>
                                         </NavLink>
@@ -69,8 +69,8 @@ function PayrollMenu({ layoutProps }) {
                                     {/*end::3 Level*/}
 
                                     {/*begin::3 Level*/}
-                                    <li className={`menu-item ${getMenuItemActive('/payroll/inputs/pickers')}`}>
-                                        <NavLink className="menu-link" to="/payroll/inputs/pickers">
+                                    <li className={`menu-item ${getMenuItemActive('/payroll/employee/welfares')}`}>
+                                        <NavLink className="menu-link" to="/payroll/employee/welfares">
                                             <i className="menu-bullet menu-bullet-dot"><span /></i>
                                             <span className="menu-text">Welfare</span>
                                         </NavLink>
@@ -78,8 +78,8 @@ function PayrollMenu({ layoutProps }) {
                                     {/*end::3 Level*/}
 
                                     {/*begin::3 Level*/}
-                                    {/* <li className={`menu-item ${getMenuItemActive('/payroll/inputs/radio-buttons')}`}>
-                                        <NavLink className="menu-link" to="/payroll/inputs/radio-buttons">
+                                    {/* <li className={`menu-item ${getMenuItemActive('/payroll/employee/employees/radio-buttons')}`}>
+                                        <NavLink className="menu-link" to="/payroll/employee/employees/radio-buttons">
                                             <i className="menu-bullet menu-bullet-dot"><span /></i>
                                             <span className="menu-text">Radio Buttons</span>
                                         </NavLink>
@@ -87,8 +87,8 @@ function PayrollMenu({ layoutProps }) {
                                     {/*end::3 Level*/}
 
                                     {/*begin::3 Level*/}
-                                    {/* <li className={`menu-item ${getMenuItemActive('/payroll/inputs/selects')}`}>
-                                        <NavLink className="menu-link" to="/payroll/inputs/selects">
+                                    {/* <li className={`menu-item ${getMenuItemActive('/payroll/employee/employees/selects')}`}>
+                                        <NavLink className="menu-link" to="/payroll/employee/employees/selects">
                                             <i className="menu-bullet menu-bullet-dot"><span /></i>
                                             <span className="menu-text">Selects</span>
                                         </NavLink>
@@ -96,8 +96,8 @@ function PayrollMenu({ layoutProps }) {
                                     {/*end::3 Level*/}
 
                                     {/*begin::3 Level*/}
-                                    {/* <li className={`menu-item ${getMenuItemActive('/payroll/inputs/switches')}`}>
-                                        <NavLink className="menu-link" to="/payroll/inputs/switches">
+                                    {/* <li className={`menu-item ${getMenuItemActive('/payroll/employee/employees/switches')}`}>
+                                        <NavLink className="menu-link" to="/payroll/employee/employees/switches">
                                             <i className="menu-bullet menu-bullet-dot"><span /></i>
                                             <span className="menu-text">Switches</span>
                                         </NavLink>
@@ -105,8 +105,8 @@ function PayrollMenu({ layoutProps }) {
                                     {/*end::3 Level*/}
 
                                     {/*begin::3 Level*/}
-                                    {/* <li className={`menu-item ${getMenuItemActive('/payroll/inputs/text-fields')}`}>
-                                        <NavLink className="menu-link" to="/payroll/inputs/text-fields">
+                                    {/* <li className={`menu-item ${getMenuItemActive('/payroll/employee/employees/text-fields')}`}>
+                                        <NavLink className="menu-link" to="/payroll/employee/employees/text-fields">
                                             <i className="menu-bullet menu-bullet-dot"><span /></i>
                                             <span className="menu-text">Text Fields</span>
                                         </NavLink>
@@ -114,8 +114,8 @@ function PayrollMenu({ layoutProps }) {
                                     {/*end::3 Level*/}
 
                                     {/*begin::3 Level*/}
-                                    {/* <li className={`menu-item ${getMenuItemActive('/payroll/inputs/transfer-list')}`}>
-                                        <NavLink className="menu-link" to="/payroll/inputs/transfer-list">
+                                    {/* <li className={`menu-item ${getMenuItemActive('/payroll/employee/employees/transfer-list')}`}>
+                                        <NavLink className="menu-link" to="/payroll/employee/employees/transfer-list">
                                             <i className="menu-bullet menu-bullet-dot"><span /></i>
                                             <span className="menu-text">Transfer List</span>
                                         </NavLink>
@@ -128,11 +128,11 @@ function PayrollMenu({ layoutProps }) {
 
                         {/*begin::2 Level*/}
                         <li
-                            className={`menu-item menu-item-submenu ${getMenuItemActive('/payroll/navigation')}`}
+                            className={`menu-item menu-item-submenu ${getMenuItemActive('/payroll/salary')}`}
                             data-menu-toggle="hover"
                             aria-haspopup="true"
                         >
-                            <NavLink className="menu-link menu-toggle" to="/payroll/navigation">
+                            <NavLink className="menu-link menu-toggle" to="/payroll/salary">
                                 <span className="svg-icon menu-icon">
                                     <SVG src={toAbsoluteUrl("/media/svg/icons/Navigation/Arrow-from-left.svg")} />
                                 </span>
@@ -144,8 +144,8 @@ function PayrollMenu({ layoutProps }) {
                             <div className={`menu-submenu menu-submenu-classic menu-submenu-right`}>
                                 <ul className="menu-subnav">
                                     {/*begin::3 Level*/}
-                                    <li className={`menu-item ${getMenuItemActive('/payroll/navigation/bottom-navigation')}`}>
-                                        <NavLink className="menu-link" to="/payroll/navigation/bottom-navigation">
+                                    <li className={`menu-item ${getMenuItemActive('/payroll/salary/payslips')}`}>
+                                        <NavLink className="menu-link" to="/payroll/salary/payslips">
                                             <i className="menu-bullet menu-bullet-dot"><span /></i>
                                             <span className="menu-text">Payslip</span>
                                         </NavLink>
@@ -153,8 +153,8 @@ function PayrollMenu({ layoutProps }) {
                                     {/*end::3 Level*/}
 
                                     {/*begin::3 Level*/}
-                                    <li className={`menu-item ${getMenuItemActive('/payroll/navigation/breadcrumbs')}`}>
-                                        <NavLink className="menu-link" to="/payroll/navigation/breadcrumbs">
+                                    <li className={`menu-item ${getMenuItemActive('/payroll/salary/salaries')}`}>
+                                        <NavLink className="menu-link" to="/payroll/salary/salaries">
                                             <i className="menu-bullet menu-bullet-dot"><span /></i>
                                             <span className="menu-text">Current Salary</span>
                                         </NavLink>
@@ -162,8 +162,8 @@ function PayrollMenu({ layoutProps }) {
                                     {/*end::3 Level*/}
 
                                     {/*begin::3 Level*/}
-                                    <li className={`menu-item ${getMenuItemActive('/payroll/navigation/drawer')}`}>
-                                        <NavLink className="menu-link" to="/payroll/navigation/drawer">
+                                    <li className={`menu-item ${getMenuItemActive('/payroll/salary/leaves')}`}>
+                                        <NavLink className="menu-link" to="/payroll/salary/leaves">
                                             <i className="menu-bullet menu-bullet-dot"><span /></i>
                                             <span className="menu-text">Leaves</span>
                                         </NavLink>
@@ -171,8 +171,8 @@ function PayrollMenu({ layoutProps }) {
                                     {/*end::3 Level*/}
 
                                     {/*begin::3 Level*/}
-                                    <li className={`menu-item ${getMenuItemActive('/payroll/navigation/links')}`}>
-                                        <NavLink className="menu-link" to="/payroll/navigation/links">
+                                    <li className={`menu-item ${getMenuItemActive('/payroll/salary/receipts')}`}>
+                                        <NavLink className="menu-link" to="/payroll/salary/receipts">
                                             <i className="menu-bullet menu-bullet-dot"><span /></i>
                                             <span className="menu-text">Receipts</span>
                                         </NavLink>
@@ -202,30 +202,30 @@ function PayrollMenu({ layoutProps }) {
                             <div className={`menu-submenu menu-submenu-classic menu-submenu-right`}>
                                 <ul className="menu-subnav">
                                     {/*begin::3 Level*/}
-                                    <li className={`menu-item ${getMenuItemActive('/payroll/surfaces/app-bar')}`}>
+                                    {/* <li className={`menu-item ${getMenuItemActive('/payroll/surfaces/app-bar')}`}>
                                         <NavLink className="menu-link" to="/payroll/surfaces/app-bar">
                                             <i className="menu-bullet menu-bullet-dot"><span /></i>
                                             <span className="menu-text">Leaves En-cash</span>
                                         </NavLink>
-                                    </li>
+                                    </li> */}
                                     {/*end::3 Level*/}
 
                                     {/*begin::3 Level*/}
-                                    <li className={`menu-item ${getMenuItemActive('/payroll/surfaces/paper')}`}>
+                                    {/* <li className={`menu-item ${getMenuItemActive('/payroll/surfaces/paper')}`}>
                                         <NavLink className="menu-link" to="/payroll/surfaces/paper">
                                             <i className="menu-bullet menu-bullet-dot"><span /></i>
                                             <span className="menu-text">Leave Request</span>
                                         </NavLink>
-                                    </li>
+                                    </li> */}
                                     {/*end::3 Level*/}
 
                                     {/*begin::3 Level*/}
-                                    <li className={`menu-item ${getMenuItemActive('/payroll/surfaces/cards')}`}>
+                                    {/* <li className={`menu-item ${getMenuItemActive('/payroll/surfaces/cards')}`}>
                                         <NavLink className="menu-link" to="/payroll/surfaces/cards">
                                             <i className="menu-bullet menu-bullet-dot"><span /></i>
                                             <span className="menu-text">Leave Approval</span>
                                         </NavLink>
-                                    </li>
+                                    </li> */}
                                     {/*end::3 Level*/}
 
                                 </ul>
@@ -251,30 +251,30 @@ function PayrollMenu({ layoutProps }) {
                             <div className={`menu-submenu menu-submenu-classic menu-submenu-right`}>
                                 <ul className="menu-subnav">
                                     {/*begin::3 Level*/}
-                                    <li className={`menu-item ${getMenuItemActive('/payroll/feedback/progress')}`}>
+                                    {/* <li className={`menu-item ${getMenuItemActive('/payroll/feedback/progress')}`}>
                                         <NavLink className="menu-link" to="/payroll/feedback/progress">
                                             <i className="menu-bullet menu-bullet-dot"><span /></i>
                                             <span className="menu-text">Progress</span>
                                         </NavLink>
-                                    </li>
+                                    </li> */}
                                     {/*end::3 Level*/}
 
                                     {/*begin::3 Level*/}
-                                    <li className={`menu-item ${getMenuItemActive('/payroll/feedback/dialogs')}`}>
+                                    {/* <li className={`menu-item ${getMenuItemActive('/payroll/feedback/dialogs')}`}>
                                         <NavLink className="menu-link" to="/payroll/feedback/dialogs">
                                             <i className="menu-bullet menu-bullet-dot"><span /></i>
                                             <span className="menu-text">Dialogs</span>
                                         </NavLink>
-                                    </li>
+                                    </li> */}
                                     {/*end::3 Level*/}
 
                                     {/*begin::3 Level*/}
-                                    <li className={`menu-item ${getMenuItemActive('/payroll/feedback/snackbars')}`}>
+                                    {/* <li className={`menu-item ${getMenuItemActive('/payroll/feedback/snackbars')}`}>
                                         <NavLink className="menu-link" to="/payroll/feedback/snackbars">
                                             <i className="menu-bullet menu-bullet-dot"><span /></i>
                                             <span className="menu-text">Snackbars</span>
                                         </NavLink>
-                                    </li>
+                                    </li> */}
                                     {/*end::3 Level*/}
                                 </ul>
                             </div>
@@ -299,84 +299,84 @@ function PayrollMenu({ layoutProps }) {
                             <div className={`menu-submenu menu-submenu-classic menu-submenu-right`}>
                                 <ul className="menu-subnav">
                                     {/*begin::3 Level*/}
-                                    <li className={`menu-item ${getMenuItemActive('/payroll/feedback/progress')}`}>
+                                    {/* <li className={`menu-item ${getMenuItemActive('/payroll/feedback/progress')}`}>
                                         <NavLink className="menu-link" to="/payroll/data-displays/avatars">
                                             <i className="menu-bullet menu-bullet-dot"><span /></i>
                                             <span className="menu-text">Avatars</span>
                                         </NavLink>
-                                    </li>
+                                    </li> */}
                                     {/*end::3 Level*/}
 
                                     {/*begin::3 Level*/}
-                                    <li className={`menu-item ${getMenuItemActive('/payroll/data-displays/badges')}`}>
+                                    {/* <li className={`menu-item ${getMenuItemActive('/payroll/data-displays/badges')}`}>
                                         <NavLink className="menu-link" to="/payroll/data-displays/badges">
                                             <i className="menu-bullet menu-bullet-dot"><span /></i>
                                             <span className="menu-text">Badges</span>
                                         </NavLink>
-                                    </li>
+                                    </li> */}
                                     {/*end::3 Level*/}
 
                                     {/*begin::3 Level*/}
-                                    <li className={`menu-item ${getMenuItemActive('/payroll/data-displays/chips')}`}>
+                                    {/* <li className={`menu-item ${getMenuItemActive('/payroll/data-displays/chips')}`}>
                                         <NavLink className="menu-link" to="/payroll/data-displays/chips">
                                             <i className="menu-bullet menu-bullet-dot"><span /></i>
                                             <span className="menu-text">Chips</span>
                                         </NavLink>
-                                    </li>
+                                    </li> */}
                                     {/*end::3 Level*/}
 
                                     {/*begin::3 Level*/}
-                                    <li className={`menu-item ${getMenuItemActive('/payroll/data-displays/dividers')}`}>
+                                    {/* <li className={`menu-item ${getMenuItemActive('/payroll/data-displays/dividers')}`}>
                                         <NavLink className="menu-link" to="/payroll/data-displays/dividers">
                                             <i className="menu-bullet menu-bullet-dot"><span /></i>
                                             <span className="menu-text">Dividers</span>
                                         </NavLink>
-                                    </li>
+                                    </li> */}
                                     {/*end::3 Level*/}
 
                                     {/*begin::3 Level*/}
-                                    <li className={`menu-item ${getMenuItemActive('/payroll/data-displays/icons')}`}>
+                                    {/* <li className={`menu-item ${getMenuItemActive('/payroll/data-displays/icons')}`}>
                                         <NavLink className="menu-link" to="/payroll/data-displays/icons">
                                             <i className="menu-bullet menu-bullet-dot"><span /></i>
                                             <span className="menu-text">Icons</span>
                                         </NavLink>
-                                    </li>
+                                    </li> */}
                                     {/*end::3 Level*/}
 
                                     {/*begin::3 Level*/}
-                                    <li className={`menu-item ${getMenuItemActive('/payroll/data-displays/lists')}`}>
+                                    {/* <li className={`menu-item ${getMenuItemActive('/payroll/data-displays/lists')}`}>
                                         <NavLink className="menu-link" to="/payroll/data-displays/lists">
                                             <i className="menu-bullet menu-bullet-dot"><span /></i>
                                             <span className="menu-text">Lists</span>
                                         </NavLink>
-                                    </li>
+                                    </li> */}
                                     {/*end::3 Level*/}
 
                                     {/*begin::3 Level*/}
-                                    <li className={`menu-item ${getMenuItemActive('/payroll/data-displays/tables')}`}>
+                                    {/* <li className={`menu-item ${getMenuItemActive('/payroll/data-displays/tables')}`}>
                                         <NavLink className="menu-link" to="/payroll/data-displays/tables">
                                             <i className="menu-bullet menu-bullet-dot"><span /></i>
                                             <span className="menu-text">Tables</span>
                                         </NavLink>
-                                    </li>
+                                    </li> */}
                                     {/*end::3 Level*/}
 
                                     {/*begin::3 Level*/}
-                                    <li className={`menu-item ${getMenuItemActive('/payroll/data-displays/tooltips')}`}>
+                                    {/* <li className={`menu-item ${getMenuItemActive('/payroll/data-displays/tooltips')}`}>
                                         <NavLink className="menu-link" to="/payroll/data-displays/tooltips">
                                             <i className="menu-bullet menu-bullet-dot"><span /></i>
                                             <span className="menu-text">Tooltips</span>
                                         </NavLink>
-                                    </li>
+                                    </li> */}
                                     {/*end::3 Level*/}
 
                                     {/*begin::3 Level*/}
-                                    <li className={`menu-item ${getMenuItemActive('/payroll/data-displays/typography')}`}>
+                                    {/* <li className={`menu-item ${getMenuItemActive('/payroll/data-displays/typography')}`}>
                                         <NavLink className="menu-link" to="/payroll/data-displays/typography">
                                             <i className="menu-bullet menu-bullet-dot"><span /></i>
                                             <span className="menu-text">Typography</span>
                                         </NavLink>
-                                    </li>
+                                    </li> */}
                                     {/*end::3 Level*/}
                                 </ul>
                             </div>
@@ -401,75 +401,75 @@ function PayrollMenu({ layoutProps }) {
                             <div className={`menu-submenu menu-submenu-classic menu-submenu-right`}>
                                 <ul className="menu-subnav">
                                     {/*begin::3 Level*/}
-                                    <li className={`menu-item ${getMenuItemActive('/payroll/utils/click-away-listener')}`}>
+                                    {/* <li className={`menu-item ${getMenuItemActive('/payroll/utils/click-away-listener')}`}>
                                         <NavLink className="menu-link" to="/payroll/utils/click-away-listener">
                                             <i className="menu-bullet menu-bullet-dot"><span /></i>
                                             <span className="menu-text">Click Away Listener</span>
                                         </NavLink>
-                                    </li>
+                                    </li> */}
                                     {/*end::3 Level*/}
 
                                     {/*begin::3 Level*/}
-                                    <li className={`menu-item ${getMenuItemActive('/payroll/utils/modal')}`}>
+                                    {/* <li className={`menu-item ${getMenuItemActive('/payroll/utils/modal')}`}>
                                         <NavLink className="menu-link" to="/payroll/utils/modal">
                                             <i className="menu-bullet menu-bullet-dot"><span /></i>
                                             <span className="menu-text">Modal</span>
                                         </NavLink>
-                                    </li>
+                                    </li> */}
                                     {/*end::3 Level*/}
 
                                     {/*begin::3 Level*/}
-                                    <li className={`menu-item ${getMenuItemActive('/payroll/utils/no-ssr')}`}>
+                                    {/* <li className={`menu-item ${getMenuItemActive('/payroll/utils/no-ssr')}`}>
                                         <NavLink className="menu-link" to="/payroll/utils/no-ssr">
                                             <i className="menu-bullet menu-bullet-dot"><span /></i>
                                             <span className="menu-text">No SSR</span>
                                         </NavLink>
-                                    </li>
+                                    </li> */}
                                     {/*end::3 Level*/}
 
                                     {/*begin::3 Level*/}
-                                    <li className={`menu-item ${getMenuItemActive('/payroll/utils/popover')}`}>
+                                    {/* <li className={`menu-item ${getMenuItemActive('/payroll/utils/popover')}`}>
                                         <NavLink className="menu-link" to="/payroll/utils/popover">
                                             <i className="menu-bullet menu-bullet-dot"><span /></i>
                                             <span className="menu-text">Popover</span>
                                         </NavLink>
-                                    </li>
+                                    </li> */}
                                     {/*end::3 Level*/}
 
                                     {/*begin::3 Level*/}
-                                    <li className={`menu-item ${getMenuItemActive('/payroll/utils/popper')}`}>
+                                    {/* <li className={`menu-item ${getMenuItemActive('/payroll/utils/popper')}`}>
                                         <NavLink className="menu-link" to="/payroll/utils/popper">
                                             <i className="menu-bullet menu-bullet-dot"><span /></i>
                                             <span className="menu-text">Popper</span>
                                         </NavLink>
-                                    </li>
+                                    </li> */}
                                     {/*end::3 Level*/}
 
                                     {/*begin::3 Level*/}
-                                    <li className={`menu-item ${getMenuItemActive('/payroll/utils/portal')}`}>
+                                    {/* <li className={`menu-item ${getMenuItemActive('/payroll/utils/portal')}`}>
                                         <NavLink className="menu-link" to="/payroll/utils/portal">
                                             <i className="menu-bullet menu-bullet-dot"><span /></i>
                                             <span className="menu-text">Portal</span>
                                         </NavLink>
-                                    </li>
+                                    </li> */}
                                     {/*end::3 Level*/}
 
                                     {/*begin::3 Level*/}
-                                    <li className={`menu-item ${getMenuItemActive('/payroll/utils/transitions')}`}>
+                                    {/* <li className={`menu-item ${getMenuItemActive('/payroll/utils/transitions')}`}>
                                         <NavLink className="menu-link" to="/payroll/utils/transitions">
                                             <i className="menu-bullet menu-bullet-dot"><span /></i>
                                             <span className="menu-text">Transitions</span>
                                         </NavLink>
-                                    </li>
+                                    </li> */}
                                     {/*end::3 Level*/}
 
                                     {/*begin::3 Level*/}
-                                    <li className={`menu-item ${getMenuItemActive('/payroll/utils/use-media-query')}`}>
+                                    {/* <li className={`menu-item ${getMenuItemActive('/payroll/utils/use-media-query')}`}>
                                         <NavLink className="menu-link" to="/payroll/utils/use-media-query">
                                             <i className="menu-bullet menu-bullet-dot"><span /></i>
                                             <span className="menu-text">useMediaQuery</span>
                                         </NavLink>
-                                    </li>
+                                    </li> */}
                                     {/*end::3 Level*/}
                                 </ul>
                             </div>
@@ -494,48 +494,48 @@ function PayrollMenu({ layoutProps }) {
                             <div className={`menu-submenu menu-submenu-classic menu-submenu-right`}>
                                 <ul className="menu-subnav">
                                     {/*begin::3 Level*/}
-                                    <li className={`menu-item ${getMenuItemActive('/payroll/layout/box')}`}>
+                                    {/* <li className={`menu-item ${getMenuItemActive('/payroll/layout/box')}`}>
                                         <NavLink className="menu-link" to="/payroll/layout/box">
                                             <i className="menu-bullet menu-bullet-dot"><span /></i>
                                             <span className="menu-text">Box</span>
                                         </NavLink>
-                                    </li>
+                                    </li> */}
                                     {/*end::3 Level*/}
 
                                     {/*begin::3 Level*/}
-                                    <li className={`menu-item ${getMenuItemActive('/payroll/layout/container')}`}>
+                                    {/* <li className={`menu-item ${getMenuItemActive('/payroll/layout/container')}`}>
                                         <NavLink className="menu-link" to="/payroll/layout/container">
                                             <i className="menu-bullet menu-bullet-dot"><span /></i>
                                             <span className="menu-text">Container</span>
                                         </NavLink>
-                                    </li>
+                                    </li> */}
                                     {/*end::3 Level*/}
 
                                     {/*begin::3 Level*/}
-                                    <li className={`menu-item ${getMenuItemActive('/payroll/layout/grid')}`}>
+                                    {/* <li className={`menu-item ${getMenuItemActive('/payroll/layout/grid')}`}>
                                         <NavLink className="menu-link" to="/payroll/layout/grid">
                                             <i className="menu-bullet menu-bullet-dot"><span /></i>
                                             <span className="menu-text">Grid</span>
                                         </NavLink>
-                                    </li>
+                                    </li> */}
                                     {/*end::3 Level*/}
 
                                     {/*begin::3 Level*/}
-                                    <li className={`menu-item ${getMenuItemActive('/payroll/layout/grid-list')}`}>
+                                    {/* <li className={`menu-item ${getMenuItemActive('/payroll/layout/grid-list')}`}>
                                         <NavLink className="menu-link" to="/payroll/layout/grid-list">
                                             <i className="menu-bullet menu-bullet-dot"><span /></i>
                                             <span className="menu-text">Grid list</span>
                                         </NavLink>
-                                    </li>
+                                    </li> */}
                                     {/*end::3 Level*/}
 
                                     {/*begin::3 Level*/}
-                                    <li className={`menu-item ${getMenuItemActive('/payroll/layout/hidden')}`}>
+                                    {/* <li className={`menu-item ${getMenuItemActive('/payroll/layout/hidden')}`}>
                                         <NavLink className="menu-link" to="/payroll/layout/hidden">
                                             <i className="menu-bullet menu-bullet-dot"><span /></i>
                                             <span className="menu-text">Hidden</span>
                                         </NavLink>
-                                    </li>
+                                    </li> */}
                                     {/*end::3 Level*/}
 
                                 </ul>
