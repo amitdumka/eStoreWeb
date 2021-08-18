@@ -33,6 +33,10 @@ namespace eStore.Lib.Reports.Payroll
 
     public class SalaryCal
     {
+        //TODO: Need to Implement in calculation for Incentive, WOWBill and Last pcs.
+        //TODO: Need to Add, Staff Welfare part also in calucaltion and Payment part.
+        private bool IsIncentive=false, IsWowBill=false, IsLastPcs=false;
+        private EmpType EmpType;
         private eStoreDbContext db;
         private int StoreId;
         private string StaffName;
@@ -70,6 +74,45 @@ namespace eStore.Lib.Reports.Payroll
 
         }
         private void CreatePdf(bool isLandscape=false)
+        {
+            float[] columnWidths = { 1, 1, 1, 1, 1, 1, 1 ,1};
+
+            Cell[] HeaderCell = new Cell[]{
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("#")),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("ID")),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Month/Year").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Working Days / Count").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Attendance").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("@Salary(PD)").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Absent").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Salary").SetTextAlignment(TextAlignment.CENTER)),
+            };
+
+            List<Paragraph> pList = new List<Paragraph>();
+            Paragraph Line1 = new Paragraph("Salary Calculation Report").SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
+               .SetFontColor(ColorConstants.RED);
+            Line1.Add($"\nEmployee Name: {StaffName}\t\t\t Report Date: {DateTime.Now}");
+            pList.Add(Line1);
+
+            foreach (var item in YearlySalarySlip)
+            {
+                var YearName = item[0].Year;
+                Div d = new Div();
+                Paragraph p = new Paragraph($"Year: {YearName}");
+                d.Add(p);
+                Table table = PDFHelper.GenerateTable(columnWidths, HeaderCell);
+                table.SetCaption(d);
+
+                foreach (var sData in item)
+                {
+                    //table.AddCell()   
+
+                }
+
+            }
+
+        }
+        private void FillTable()
         {
 
         }
@@ -190,38 +233,14 @@ namespace eStore.Lib.Reports.Payroll
 
             return CreateReportPDF ();
         }
-        private Table GenTable(float [] columnWidths, Cell [] HeaderCell)
-        {
-            Cell [] FooterCell = new []
-           {
-                new Cell(1,4).Add(new Paragraph(ConData.CName +" / "+ConData.CAdd) .SetFontColor(DeviceGray.GRAY)),
-                new Cell(1,2).Add(new Paragraph("D:"+DateTime.Now) .SetFontColor(DeviceGray.GRAY)),
-            };
-            Table table = new Table (UnitValue.CreatePercentArray (columnWidths)).SetBorder (new OutsetBorder (2));
-
-            table.SetFontColor (ColorConstants.BLUE);
-            table.SetFontSize (10);
-            table.SetPadding (10f);
-            table.SetMarginRight (5f);
-            table.SetMarginTop (10f);
-
-            foreach ( Cell hfCell in HeaderCell )
-            {
-                table.AddHeaderCell (hfCell.SetFontColor (ColorConstants.RED).SetFontSize (12).SetItalic ().SetBackgroundColor (ColorConstants.ORANGE));
-            }
-            foreach ( Cell hfCell in FooterCell )
-            {
-                table.AddFooterCell (hfCell);
-            }
-            return table;
-        }
+    
         private Table GenerateTableRow(List<SalaryPayment> pList, float [] columnWidths, Cell [] HeaderCell)
         {
             if ( pList.Count < 1 )
                 return null;
 
 
-            Table table = GenTable (columnWidths, HeaderCell);
+            Table table = PDFHelper.GenerateTable (columnWidths, HeaderCell);
             int count = 0;
             decimal totalPayment = 0;
             foreach ( var mon in pList )
@@ -391,83 +410,148 @@ namespace eStore.Lib.Reports.Payroll
             doc.Close ();
             pdfDoc.Close ();
             pdfWriter.Close ();
-            return AddPageNumber (FileName, "Report_" + FileName);
+            return PDFHelper.AddPageNumber (FileName, "Report_" + FileName);
 
         }
-        private string AddPageNumber(string sourceFileName, string fileName)
+        
+    }
+
+
+    class PDFHelper
+    {
+
+        public static string CreateReportPdf(string reportName, string reportHeaderLine, List<Paragraph> pList, bool IsLandscape)
         {
-            using PdfDocument pdfDoc = new PdfDocument (new PdfReader (sourceFileName), new PdfWriter (fileName));
-            using Document doc = new Document (pdfDoc);
+           string FileName = reportName + "_Report.pdf";
+            string path = Path.Combine(ConData.WWWroot, FileName);
+            var PageType = PageSize.A4;
+            if (IsLandscape)
+                PageType = PageSize.A4.Rotate();
 
-            int numberOfPages = pdfDoc.GetNumberOfPages ();
+            using PdfWriter pdfWriter = new PdfWriter(FileName);
+            using PdfDocument pdfDoc = new PdfDocument(pdfWriter);
+            using Document doc = new Document(pdfDoc, PageType);
+            doc.SetBorderTop(new SolidBorder(2));
 
-            for ( int i = 1 ; i <= numberOfPages ; i++ )
+            Paragraph header = new Paragraph($"{ConData.CName} \n {ConData.CAdd}\n")
+               .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
+               .SetFontColor(ColorConstants.RED);
+            doc.Add(header);
+
+            Paragraph info = new Paragraph($"\n {reportHeaderLine}.\n")
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
+               .SetFontColor(ColorConstants.RED);
+            doc.Add(info);
+
+            foreach (var para in pList)
+            {
+                doc.Add(para);
+            }
+            doc.Close();
+            pdfDoc.Close();
+            pdfWriter.Close();
+            return PDFHelper.AddPageNumber(FileName, "Final_" + FileName);
+
+        }
+
+        /// <summary>
+        /// Generate Table formate to fill data in.
+        /// </summary>
+        /// <param name="columnWidths"></param>
+        /// <param name="HeaderCell"></param>
+        /// <returns></returns>
+        public static Table GenerateTable(float[] columnWidths, Cell[] HeaderCell)
+        {
+            //Table Footer
+            Cell[] FooterCell = new[]
+           {
+                new Cell(1,4).Add(new Paragraph(ConData.CName +" / "+ConData.CAdd) .SetFontColor(DeviceGray.GRAY)),
+                new Cell(1,2).Add(new Paragraph("D:"+DateTime.Now) .SetFontColor(DeviceGray.GRAY)),
+            };
+            Table table = new Table(UnitValue.CreatePercentArray(columnWidths)).SetBorder(new OutsetBorder(2));
+
+            table.SetFontColor(ColorConstants.BLUE);
+            table.SetFontSize(10);
+            table.SetPadding(10f);
+            table.SetMarginRight(5f);
+            table.SetMarginTop(10f);
+
+            foreach (Cell hfCell in HeaderCell)
+            {
+                table.AddHeaderCell(hfCell.SetFontColor(ColorConstants.RED).SetFontSize(12).SetItalic().SetBackgroundColor(ColorConstants.ORANGE));
+            }
+            foreach (Cell hfCell in FooterCell)
+            {
+                table.AddFooterCell(hfCell);
+            }
+            return table;
+        }
+
+
+        /// <summary>
+        /// Need to make Genric
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
+        public static string IsExist(string fileName)
+        {
+            //string fileName = $"FinReport_{repName}_{StartYear}_{EndYear}.pdf";
+            if (File.Exists(fileName))
+                return fileName;
+            else
+                return "ERROR";
+        }
+
+        /// <summary>
+        /// List PDF File in working directory
+        /// </summary>
+        /// <returns></returns>
+        public static string[] FileListPDF()
+        {
+            string[] filePaths = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.pdf");
+            return filePaths;
+        }
+        /// <summary>
+        /// Delete all pdf file from working directory except filename provided as parameter.
+        /// </summary>
+        /// <param name="fileName">PDF Filename which need to be ignored</param>
+        /// <returns></returns>
+        public static bool FileCleanUp(string fileName)
+        {
+            string[] filePaths = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.pdf");
+            foreach (var item in filePaths)
+                if (!item.Contains(fileName))
+                   File.Delete(item);
+            return true;
+        }
+
+
+        /// <summary>
+        /// Add Page number to PDF file.
+        /// </summary>
+        /// <param name="sourceFilename"></param>
+        /// <param name="outputFileName"></param>
+        /// <returns></returns>
+        public static string AddPageNumber(string sourceFilename, string outputFileName)
+        {
+            using PdfDocument pdfDoc = new PdfDocument(new PdfReader(sourceFilename), new PdfWriter(outputFileName));
+            using Document doc = new Document(pdfDoc);
+
+            int numberOfPages = pdfDoc.GetNumberOfPages();
+
+            for (int i = 1; i <= numberOfPages; i++)
             {
                 // Write aligned text to the specified by parameters point
                 //doc.ShowTextAligned (new Paragraph ("Page " + i + " of " + numberOfPages),
                 //        559, 806, i, TextAlignment.RIGHT, VerticalAlignment.TOP, 0);
-                doc.ShowTextAligned (new Paragraph ("Page " + i + " of " + numberOfPages).SetFontColor (ColorConstants.DARK_GRAY),
+                doc.ShowTextAligned(new Paragraph("Page " + i + " of " + numberOfPages).SetFontColor(ColorConstants.DARK_GRAY),
                        1, 1, i, TextAlignment.RIGHT, VerticalAlignment.BOTTOM, 0);
             }
 
-            doc.Close ();
-            pdfDoc.Close ();
-            CleanUp (fileName);
-            return fileName;
-        }
-        private string [] FileList()
-        {
-            string [] filePaths = Directory.GetFiles (Directory.GetCurrentDirectory (), "*.pdf");
-
-            return filePaths;
-        }
-
-        private bool CleanUp(string fileName)
-        {
-            string [] filePaths = Directory.GetFiles (Directory.GetCurrentDirectory (), "*.pdf");
-            foreach ( var item in filePaths )
-            {
-                if ( item.Contains (fileName) )
-                { }
-                else
-                {
-                    File.Delete (item);
-                }
-            }
-            return true;
-        }
-
-        //private string IsExist(string repName)
-        //{
-        //    string fileName = $"FinReport_{repName}_{StartYear}_{EndYear}.pdf";
-        //    if (File.Exists(fileName))
-        //        return fileName;
-        //    else
-        //        return "ERROR";
-        //}
-
-        /// <summary>
-        /// Add Page number at top of pdf file. 
-        /// </summary>
-        /// <param name="fileName"></param>
-        /// <returns> filename saved as</returns>
-        public static string AddPageNumberToPdf(string fileName)
-        {
-            using PdfReader reader = new PdfReader (fileName);
-            string fName = "cashBook_" + ( DateTime.Now.ToFileTimeUtc () + 1001 ) + ".pdf";
-            using PdfWriter writer = new PdfWriter (Path.Combine ("wwwroot", fName));
-
-            using PdfDocument pdfDoc2 = new PdfDocument (reader, writer);
-            Document doc2 = new Document (pdfDoc2);
-
-            int numberOfPages = pdfDoc2.GetNumberOfPages ();
-            for ( int i = 1 ; i <= numberOfPages ; i++ )
-            {
-                doc2.ShowTextAligned (new Paragraph ("Page " + i + " of " + numberOfPages),
-                        559, 806, i, TextAlignment.RIGHT, VerticalAlignment.BOTTOM, 0);
-            }
-            doc2.Close ();
-            return fName;
+            doc.Close();
+            pdfDoc.Close();
+            FileCleanUp(outputFileName);
+            return outputFileName;
         }
     }
 }
