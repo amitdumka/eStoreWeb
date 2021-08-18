@@ -71,7 +71,7 @@ export const salariesSlice = createSlice({
       state.error = null;
       state.actionsLoading = false;
       state.entities = state.entities.map(entity => {
-        if (entity.salaryId === action.payload.salary.salaryId) {
+        if (entity.currentSalaryId === action.payload.salary.currentSalaryId) {
           return action.payload.salary;
         }
         return entity;
@@ -81,14 +81,14 @@ export const salariesSlice = createSlice({
     salaryDeleted: (state, action) => {
       state.error = null;
       state.actionsLoading = false;
-      state.entities = state.entities.filter(el => el.salaryId !== action.payload.salaryId);
+      state.entities = state.entities.filter(el => el.currentSalaryId !== action.payload.currentSalaryId);
     },
     // deleteSalaries
     salariesDeleted: (state, action) => {
       state.error = null;
       state.actionsLoading = false;
       state.entities = state.entities.filter(
-        el => !action.payload.ids.includes(el.salaryId)
+        el => !action.payload.ids.includes(el.currentSalaryId)
       );
     },
 
@@ -99,7 +99,7 @@ export const salariesSlice = createSlice({
       state.error = null;
       const { ids, status } = action.payload;
       state.entities = state.entities.map(entity => {
-        if (ids.findIndex(id => id === entity.salaryId) > -1) {
+        if (ids.findIndex(id => id === entity.currentSalaryId) > -1) {
           entity.status = status;
         }
         return entity;

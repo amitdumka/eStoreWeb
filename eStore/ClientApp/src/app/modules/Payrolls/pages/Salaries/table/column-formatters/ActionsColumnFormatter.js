@@ -16,7 +16,7 @@ export function ActionsColumnFormatter(
       <a
         title="Edit salary"
         className="btn btn-icon btn-light btn-hover-primary btn-sm mx-3"
-        onClick={() => openEditSalaryDialog(row.salaryId)}
+        onClick={() => openEditSalaryDialog(row.currentSalaryId)}
       >
         <span className="svg-icon svg-icon-md svg-icon-primary">
           <SVG
@@ -29,7 +29,7 @@ export function ActionsColumnFormatter(
       <a
         title="Delete salary"
         className="btn btn-icon btn-light btn-hover-danger btn-sm"
-        onClick={() => openDeleteSalaryDialog(row.salaryId)}
+        onClick={() => openDeleteSalaryDialog(row.currentSalaryId)}
       >
         <span className="svg-icon svg-icon-md svg-icon-danger">
           <SVG src={toAbsoluteUrl("/media/svg/icons/General/Trash.svg")} />

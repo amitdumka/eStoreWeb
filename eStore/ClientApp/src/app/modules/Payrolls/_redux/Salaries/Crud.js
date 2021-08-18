@@ -15,8 +15,8 @@ export  function getAllSalaries() {
   return  axios.get(API_URL);//.catch(function (error){console.log(error)});
 }
 
-export async function getSalaryById(salaryId) {
-  return await axios.get(`${API_URL}/${salaryId}`);
+export async function getSalaryById(currentSalaryId) {
+  return await axios.get(`${API_URL}/${currentSalaryId}`);
 }
 
 // Method from server should return QueryResultsModel(items: any[], totalsCount: number)
@@ -44,7 +44,7 @@ export async function updateSalary(salary) {
     salary.employee = null;
     salary.store = null;
     console.log(salary);
-  return await axios.put(`${API_URL}/${salary.salaryId}`, JSON.stringify( salary ),{
+  return await axios.put(`${API_URL}/${salary.currentSalaryId}`, JSON.stringify( salary ),{
     headers: {         'Content-Type' : 'application/json; charset=utf-8' }
 });
 }
@@ -58,8 +58,8 @@ export async function updateStatusForSalaries(ids, status) {
 }
 
 // DELETE => delete the salary from the server
-export async function deleteSalary(salaryId) {
-  return await axios.delete(`${API_URL}/${salaryId}`);
+export async function deleteSalary(currentSalaryId) {
+  return await axios.delete(`${API_URL}/${currentSalaryId}`);
 }
 
 // DELETE Salaries by ids

@@ -56,7 +56,7 @@ export function SalariesTable() {
   // Table columns
   const columns = [
     {
-      dataField: "salaryId",
+      dataField: "currentSalaryId",
       text: "ID",
       sort: true,
       sortCaret: sortCaret,
@@ -146,7 +146,7 @@ export function SalariesTable() {
                 bootstrap4
                 //remote
                 noDataIndication="No Record Found now.."
-                keyField="salaryId"
+                keyField="currentSalaryId"
                 data={entities === null ? []: totalCount ?entities:[]}
                 //data={[]}
                 columns={columns}
@@ -158,7 +158,7 @@ export function SalariesTable() {
                   entities,
                   ids: salariesUIProps.ids,
                   setIds: salariesUIProps.setIds,
-                  idName:"salaryId",
+                  idName:"currentSalaryId",
                 })}
                 {...paginationTableProps}
               >

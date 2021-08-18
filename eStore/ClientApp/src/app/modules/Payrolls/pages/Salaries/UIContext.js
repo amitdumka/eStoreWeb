@@ -39,7 +39,7 @@ export function UIProvider({ UIEvents, children }) {
   }, []);
 
   const initSalary = {
-    salaryId: 0,
+    currentSalaryId: 0,
     employeeId: 0,
     employee: null,
     attDate: new Date(),

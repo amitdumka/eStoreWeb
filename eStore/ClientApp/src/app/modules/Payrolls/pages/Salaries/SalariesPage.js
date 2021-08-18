@@ -15,86 +15,86 @@ import { SalariesCard } from "./SalariesCard";
 export function SalariesPage({ history }) {
   const salariesUIEvents = {
     newSalaryButtonClick: () => {
-      history.push("/payroll/employee/salaries/new");
+      history.push("/payroll/salary/salaries/new");
     },
     openEditSalaryDialog: (id) => {
-      history.push(`/payroll/employee/salaries/${id}/edit`);
+      history.push(`/payroll/salary/salaries/${id}/edit`);
     },
     openDeleteSalaryDialog: (id) => {
-      history.push(`/payroll/employee/salaries/${id}/delete`);
+      history.push(`/payroll/salary/salaries/${id}/delete`);
     },
     openDeleteSalariesDialog: () => {
-      history.push(`/payroll/employee/salaries/deleteSalaries`);
+      history.push(`/payroll/salary/salaries/deleteSalaries`);
     },
     openFetchSalariesDialog: () => {
-      history.push(`/payroll/employee/salaries/fetch`);
+      history.push(`/payroll/salary/salaries/fetch`);
     },
     openUpdateSalariesStatusDialog: () => {
-      history.push("/payroll/employee/salaries/updateStatus");
+      history.push("/payroll/salary/salaries/updateStatus");
     }
   }
 
   return (
     <UIProvider UIEvents={salariesUIEvents}>
       <SalariesLoadingDialog />
-      <Route path="/payroll/employee/salaries/new">
+      <Route path="/payroll/salary/salaries/new">
         {({ history, match }) => (
           <EditDialog
             show={match != null}
             onHide={() => {
-              history.push("/payroll/employee/salaries");
+              history.push("/payroll/salary/salaries");
             }}
           />
         )}
       </Route>
-      <Route path="/payroll/employee/salaries/:id/edit">
+      <Route path="/payroll/salary/salaries/:id/edit">
         {({ history, match }) => (
           <EditDialog
             show={match != null}
             id={match && match.params.id}
             onHide={() => {
-              history.push("/payroll/employee/salaries");
+              history.push("/payroll/salary/salaries");
             }}
           />
         )}
       </Route>
-      <Route path="/payroll/employee/salaries/deleteSalaries">
+      <Route path="/payroll/salary/salaries/deleteSalaries">
         {({ history, match }) => (
           <DeletesDialog
             show={match != null}
             onHide={() => {
-              history.push("/payroll/employee/salaries");
+              history.push("/payroll/salary/salaries");
             }}
           />
         )}
       </Route>
-      <Route path="/payroll/employee/salaries/:id/delete">
+      <Route path="/payroll/salary/salaries/:id/delete">
         {({ history, match }) => (
           <DeleteDialog
             show={match != null}
             id={match && match.params.id}
             onHide={() => {
-              history.push("/payroll/employee/salaries");
+              history.push("/payroll/salary/salaries");
             }}
           />
         )}
       </Route>
-      <Route path="/payroll/employee/salaries/fetch">
+      <Route path="/payroll/salary/salaries/fetch">
         {({ history, match }) => (
           <FetchDialog
             show={match != null}
             onHide={() => {
-              history.push("/payroll/employee/salaries");
+              history.push("/payroll/salary/salaries");
             }}
           />
         )}
       </Route>
-      <Route path="/payroll/employee/salaries/updateStatus">
+      <Route path="/payroll/salary/salaries/updateStatus">
         {({ history, match }) => (
           <UpdateStateDialog
             show={match != null}
             onHide={() => {
-              history.push("/payroll/employee/salaries");
+              history.push("/payroll/salary/salaries");
             }}
           />
         )}
