@@ -110,6 +110,14 @@ namespace eStore.API.Controllers
             var stream = new FileStream(data, FileMode.Open);
             return File(stream, "application/pdf", "report.pdf");
         }
+        [HttpPost("SalaryCalReport")]
+        public FileStreamResult PostSalarCalReport(AttReportDto dto)
+        {
+            SalaryCal cal = new SalaryCal(db, dto.EmployeeId, dto.StoreId);         
+            var data = cal.SalaryCalculation();
+            var stream = new FileStream(data, FileMode.Open);
+            return File(stream, "application/pdf", "report.pdf");
+        }
     }
 
     

@@ -61,7 +61,7 @@ namespace eStore.Lib.Reports.Payroll
         }
 
 
-        private void SalaryAtt()
+        public string SalaryCalculation()
         {
             
             foreach ( var year in YearList )
@@ -71,15 +71,15 @@ namespace eStore.Lib.Reports.Payroll
                     monSS.Add (CalucalteAttendance (i, year));
                 YearlySalarySlip.Add (monSS);
             }
+            return CreatePdf(false);
 
         }
-        private void CreatePdf(bool isLandscape=false)
+        private string CreatePdf(bool isLandscape=false)
         {
             float[] columnWidths = { 1, 1, 1, 1, 1, 1, 1 ,1};
 
             Cell[] HeaderCell = new Cell[]{
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("#")),
-                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("ID")),
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Month/Year").SetTextAlignment(TextAlignment.CENTER)),
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Working Days / Count").SetTextAlignment(TextAlignment.CENTER)),
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Attendance").SetTextAlignment(TextAlignment.CENTER)),
@@ -93,28 +93,42 @@ namespace eStore.Lib.Reports.Payroll
                .SetFontColor(ColorConstants.RED);
             Line1.Add($"\nEmployee Name: {StaffName}\t\t\t Report Date: {DateTime.Now}");
             pList.Add(Line1);
-
+            decimal TotalSalary = 0;
             foreach (var item in YearlySalarySlip)
             {
                 var YearName = item[0].Year;
                 Div d = new Div();
-                Paragraph p = new Paragraph($"Year: {YearName}");
-                d.Add(p);
-                Table table = PDFHelper.GenerateTable(columnWidths, HeaderCell);
-                table.SetCaption(d);
-
+                
+                Table table = PDFHelper.GenerateTable(columnWidths, HeaderCell);          
+                int count = 0;
+                decimal totalPayment = 0;
                 foreach (var sData in item)
                 {
-                    //table.AddCell()   
+                    //table.AddCell()
+                    table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph((++count) + "")));
+                    table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(sData.Month.ToString()+"/"+sData.Year.ToString())));
+                    table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(sData.NoOfWorkingDays.ToString()+"/"+sData.NoofAttendance.ToString())));
+                    table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(sData.NetAttendance.ToString("0.##"))));
+                    table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(sData.SalaryPerDays.ToString("0.##"))));
+                    table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(sData.Absent.ToString())));
+                    table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(sData.GrossSalary.ToString("0.##"))));
+                    totalPayment += sData.GrossSalary;
 
                 }
-
+                TotalSalary += totalPayment;
+                Paragraph p = new Paragraph($"Year: {YearName}");
+                p.Add($"\nTotal Yearl Salary:Rs. {totalPayment} /-");
+                d.Add(p);
+                table.SetCaption(d);
+                Paragraph pTable = new Paragraph().SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
+                pTable.Add(table);
+                pList.Add(pTable);
             }
+            Paragraph BaseLine = new Paragraph($"Total Salary: Rs. {TotalSalary}").SetFontColor(ColorConstants.RED);
+            pList.Add(BaseLine);
 
-        }
-        private void FillTable()
-        {
-
+          return  PDFHelper.CreateReportPdf("SalaryReport",$"Salary Report of {StaffName}.\n", pList, isLandscape);
+            
         }
 
 
