@@ -1,0 +1,16 @@
+
+Permissoin{
+    Read:true, Write:true, Update:true, Delete:true
+};
+
+function getPermission (string username, string emailId){
+   return  axios.post("/role",{username:username, emailId:emailId});
+}
+
+function addUser(string name, string username, string emailid, string provoderid){
+    return axios.post("/addUser",{name:name, emailId:emailId, username:username, provoderid:provoderid});
+}
+
+function AddRoles(string username, string role){
+    return axios.post("/role",{username:username, role:role});
+}

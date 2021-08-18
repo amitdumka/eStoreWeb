@@ -448,7 +448,7 @@ export const AttendaceReportCard = () => {
                             <button
                                 type="button"
                                 className="btn btn-primary"
-                                onClick={handleButtonSalaryPayment}
+                                onClick={handleButtonSalaryCal}
                             >
                                 Salary Cal
                             </button>
