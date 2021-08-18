@@ -27,6 +27,7 @@
     <Folder Include="$(MSBuildThisFileDirectory)ViewModels\Banking\" />
     <Folder Include="$(MSBuildThisFileDirectory)ViewModels\Payroll\" />
     <Folder Include="$(MSBuildThisFileDirectory)ViewModels\ChartJSVC\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Models\Personals\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)AutoMapper\AutoMapperProfile.cs" />
@@ -85,5 +86,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SalePuchase\SaleInfoUIVM.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Payroll\EmployeeAttendaceInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ChartJSVC\ChartJs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Personals\PersonalExpense.cs" />
   </ItemGroup>
 </Project>

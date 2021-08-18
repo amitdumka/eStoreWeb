@@ -15,6 +15,7 @@ using eStore.Shared.Models.Purchases;
 using eStore.Shared.Models.Accounts;
 using eStore.Shared.ViewModels.Banking;
 using eStore.Shared.Uploader;
+using eStore.Shared.Models.Personals;
 
 namespace eStore.Database
 {
@@ -168,6 +169,7 @@ namespace eStore.Database
         public DbSet<TaxName> Taxes { get; set; }
 
         public DbSet<eStore.Shared.ViewModels.Payroll.SalesmanInfo> SalesmanInfo { get; set; }
+        public DbSet<PersonalExpense> PersonalExpenses { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
