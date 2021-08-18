@@ -44,10 +44,12 @@ import { dayClosingsSlice } from "../app/modules/StoreOperations/_redux/DayClosi
 import {contactsSlice} from "../app/modules/Stores/_redux/Contacts/Slice";
 import {transcationModesSlice} from "../app/modules/Accounting/_redux/TranscationModes/Slice";
 import {staffAdvanceReceiptsSlice} from "../app/modules/Payrolls/_redux/StaffAdvanceReceipts/Slice";
+import {salariesSlice} from "../app/modules/Payrolls/_redux/Salaries/Slice";
 
 export const rootReducer = combineReducers({
   auth: auth.reducer,
   ledgerTypes: ledgerTypesSlice.reducer,
+  salaries: salariesSlice.reducer,
   staffAdvanceReceipts: staffAdvanceReceiptsSlice.reducer,
   transcationModes:transcationModesSlice.reducer,
   customers: customersSlice.reducer,

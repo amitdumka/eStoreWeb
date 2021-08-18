@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { Modal } from "react-bootstrap";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import * as actions from "../../../_redux/salaries/Actions";
+import * as actions from "../../../_redux/Salaries/Actions";
 import { useUIContext } from "../UIContext";
 //salary
 //Salary
