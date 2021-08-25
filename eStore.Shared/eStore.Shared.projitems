@@ -87,5 +87,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Payroll\EmployeeAttendaceInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ChartJSVC\ChartJs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Personals\PersonalExpense.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\DayEnd.cs" />
   </ItemGroup>
 </Project>

@@ -5,6 +5,10 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 namespace eStore.Shared.Models.Stores
 {
+
+
+    
+
     /// <summary>
     /// @Version: 5.0
     /// </summary>

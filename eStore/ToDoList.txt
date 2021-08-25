@@ -1,0 +1,13 @@
+﻿Create api to check and validate month/year Attendance for all employees and update verified.
+create api to verify payment vs salary.
+create api to verify each employee attenance valid for a month.
+create api for List of Payment made By Cash, Non Cash, and Validate it with Bank Statement.
+create api for List of Receipt made by Cash , Non Cash and Validate it with Bank Statement.
+create api for validating Home expenses. and List of All type of Home expenses for a month. and Print as report.
+
+create api for  a Complete Employee History and Analisy report of that employee and print as report.
+
+create api for Sales/trend analaysis of A.) Brand Wise, B) Size wise, C) Color, D)Category, E)Style ,F)Type i.e Fabric rmg G) Using All Fillter. and Print as report
+
+Create Api for Vendor, vendor payment,Debit/Credit Notes and generate Vendor Ledger with Billwise.
+
