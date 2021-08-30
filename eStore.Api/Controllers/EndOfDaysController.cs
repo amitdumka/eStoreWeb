@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using eStore.Database;
 using eStore.Shared.Models.Stores;
 using Microsoft.AspNetCore.Authorization;
+using eStore.Shared.ViewModels;
 
 namespace eStore.API.Controllers
 {
@@ -106,5 +107,36 @@ namespace eStore.API.Controllers
         {
             return _context.EndOfDays.Any(e => e.EndOfDayId == id);
         }
+
+        [HttpPost("dayend")]
+        public async Task<ActionResult<EndOfDay>> PostDayEnd(DayEnd endOfDay)
+        {
+
+            _context.EndOfDays.Add(endOfDay.EndOfDay);
+            _context.CashDetail.Add(endOfDay.CashDetail);
+            await _context.SaveChangesAsync();
+            return CreatedAtAction("GetEndOfDay", new { id = endOfDay.EndOfDay.EndOfDayId }, endOfDay.EndOfDay);
+
+        }
+        // GET: api/EndOfDays/5
+        [HttpGet("{onDate}")]
+        public async Task<ActionResult<string>> GetSaleData(DateTime onDate)
+        {
+           var saleAmount= await _context.DailySales.Where(c => c.SaleDate == onDate).Select(c => c.Amount).SumAsync();
+           var count = await _context.DailySales.Where(c => c.SaleDate == onDate).CountAsync() ;
+
+            string r = $"{{ amount:{saleAmount}, count:{count} }}";
+            
+            //var endOfDay = await _context.EndOfDays.FindAsync(id);
+
+            //if (endOfDay == null)
+            //{
+            //    return NotFound();
+            //}
+
+            //return endOfDay;
+            return r;
+        }
+
     }
 }

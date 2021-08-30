@@ -14,7 +14,7 @@ import axios from "axios";
 import { BASE_URL } from "../../../../../_estore/URLConstants";
 
 //Day end Entry form.
-export const API_URL = BASE_URL + "api/dayends";
+export const API_URL = BASE_URL + "api/endOfDays";
 export function DayEndPage() {
   const subHeader = useSubheader();
   subHeader.setTitle("Day End");
@@ -46,8 +46,10 @@ export function DayEndPage() {
   });
   const {
     handleSubmit,
-    reset,getValues,setValue,
-    formState: { errors ,dirtyFields},
+    reset,
+    getValues,
+    setValue,
+    formState: { errors, dirtyFields },
     control,
   } = useForm({ resolver: yupResolver(schema) });
 
@@ -108,19 +110,43 @@ export function DayEndPage() {
     return tAmt;
   };
 
-  const getSaleData = () => {};
+  const getSaleData = () => {
+    const { onDate } = getValues();
+    if (onDate != null) {
+      getSaleData(onDate);
+    }
+  };
   const calculateCash = () => {};
+  const handleCalculateButton = () => {
+    const data = getValues();
+    var tAmt = 0;
+    tAmt =
+      0 +
+      parseInt(data.coin1) +
+      2 * parseInt(data.coin2) +
+      5 * parseInt(data.coin5) +
+      10 * parseInt(data.coin10) +
+      parseInt(data.c5) * 5 +
+      parseInt(data.c10) * 10 +
+      parseInt(data.c20) * 20 +
+      parseInt(data.c50) * 50 +
+      parseInt(data.c100) * 100 +
+      parseInt(data.c200) * 200 +
+      parseInt(data.c2000) * 2000 +
+      parseInt(data.c500) * 500;
+    console.log(tAmt);
+    setValue("totalAmount", tAmt);
+  };
 
-//   useEffect(() => {
-//     // you can do async server request and fill up form
-//     setTimeout(() => {
-//       reset({
-//         firstName: "bill2",
-//         lastName: "luo2"
-//       });
-//     }, 2000);
-//   }, [reset]);
-
+  //   useEffect(() => {
+  //     // you can do async server request and fill up form
+  //     setTimeout(() => {
+  //       reset({
+  //         firstName: "bill2",
+  //         lastName: "luo2"
+  //       });
+  //     }, 2000);
+  //   }, [reset]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -240,6 +266,7 @@ export function DayEndPage() {
               </div>
               <div className="col-lg-4 p-2">
                 <input
+                  onClick={() => handleCalculateButton()}
                   type="button"
                   value="Calculate"
                   className="btn btn-info"
@@ -385,7 +412,7 @@ export default DayEndPage;
 
 export async function saveDayEnd(data) {
   await axios
-    .post(`${API_URL}`, data, {
+    .post(`${API_URL}/dayend`, data, {
       method: "POST",
       responseType: "blob", //Force to receive data in a Blob Format
       headers: { "Content-Type": "application/json; charset=utf-8" },
@@ -402,13 +429,13 @@ export async function saveDayEnd(data) {
 // update rest data
 export async function getSaleData(data) {
   await axios
-    .get(`${API_URL}`, data)
+    .get("${API_URL}${data}")
     .then((response) => {
       console.log(response);
-      alert("Data is saved!" + response);
+      alert(response);
     })
     .catch((error) => {
       console.log(error);
-      alert("It failed to save data!, Kindly try again...");
+      alert("It failed to GET data!, Kindly try again...");
     });
 }
