@@ -30,12 +30,12 @@ function StoreMenu({ layoutProps }) {
             {/*begin::2 Level*/}
             <li
               className={`menu-item menu-item-submenu ${getMenuItemActive(
-                "/payroll/inputs"
+                "/stores"
               )}`}
               data-menu-toggle="hover"
               aria-haspopup="true"
             >
-              <NavLink className="menu-link menu-toggle" to="/payroll/inputs">
+              <NavLink className="menu-link menu-toggle" to="/stores">
                 <span className="svg-icon menu-icon">
                   <SVG
                     src={toAbsoluteUrl(
@@ -53,12 +53,12 @@ function StoreMenu({ layoutProps }) {
                   {/*begin::3 Level*/}
                   <li
                     className={`menu-item ${getMenuItemActive(
-                      "/payroll/inputs/autocomplete"
+                      "/stores/dayOps"
                     )}`}
                   >
                     <NavLink
                       className="menu-link"
-                      to="/payroll/inputs/autocomplete"
+                      to="/stores/dayOps"
                     >
                       <i className="menu-bullet menu-bullet-dot">
                         <span />
@@ -71,14 +71,14 @@ function StoreMenu({ layoutProps }) {
                   {/*begin::3 Level*/}
                   <li
                     className={`menu-item ${getMenuItemActive(
-                      "/payroll/inputs/buttons"
+                      "/stores/dayend"
                     )}`}
                   >
-                    <NavLink className="menu-link" to="/payroll/inputs/buttons">
+                    <NavLink className="menu-link" to="/stores/dayend">
                       <i className="menu-bullet menu-bullet-dot">
                         <span />
                       </i>
-                      <span className="menu-text">Closing</span>
+                      <span className="menu-text">Day End Processing</span>
                     </NavLink>
                   </li>
                   {/*end::3 Level*/}
@@ -86,12 +86,12 @@ function StoreMenu({ layoutProps }) {
                   {/*begin::3 Level*/}
                   <li
                     className={`menu-item ${getMenuItemActive(
-                      "/payroll/inputs/checkboxes"
+                      "/stores/endOfDays"
                     )}`}
                   >
                     <NavLink
                       className="menu-link"
-                      to="/payroll/inputs/checkboxes"
+                      to="/stores/endOfDays"
                     >
                       <i className="menu-bullet menu-bullet-dot">
                         <span />
@@ -104,10 +104,10 @@ function StoreMenu({ layoutProps }) {
                   {/*begin::3 Level*/}
                   <li
                     className={`menu-item ${getMenuItemActive(
-                      "/payroll/inputs/pickers"
+                      "/stores/monthEnd"
                     )}`}
                   >
-                    <NavLink className="menu-link" to="/payroll/inputs/pickers">
+                    <NavLink className="menu-link" to="/stores/monthEnd">
                       <i className="menu-bullet menu-bullet-dot">
                         <span />
                       </i>
@@ -117,8 +117,8 @@ function StoreMenu({ layoutProps }) {
                   {/*end::3 Level*/}
 
                   {/*begin::3 Level*/}
-                  {/* <li className={`menu-item ${getMenuItemActive('/payroll/inputs/radio-buttons')}`}>
-                                        <NavLink className="menu-link" to="/payroll/inputs/radio-buttons">
+                  {/* <li className={`menu-item ${getMenuItemActive('/stores/inputs/radio-buttons')}`}>
+                                        <NavLink className="menu-link" to="/stores/inputs/radio-buttons">
                                             <i className="menu-bullet menu-bullet-dot"><span /></i>
                                             <span className="menu-text">Radio Buttons</span>
                                         </NavLink>
@@ -126,8 +126,8 @@ function StoreMenu({ layoutProps }) {
                   {/*end::3 Level*/}
 
                   {/*begin::3 Level*/}
-                  {/* <li className={`menu-item ${getMenuItemActive('/payroll/inputs/selects')}`}>
-                                        <NavLink className="menu-link" to="/payroll/inputs/selects">
+                  {/* <li className={`menu-item ${getMenuItemActive('/stores/inputs/selects')}`}>
+                                        <NavLink className="menu-link" to="/stores/inputs/selects">
                                             <i className="menu-bullet menu-bullet-dot"><span /></i>
                                             <span className="menu-text">Selects</span>
                                         </NavLink>
@@ -135,8 +135,8 @@ function StoreMenu({ layoutProps }) {
                   {/*end::3 Level*/}
 
                   {/*begin::3 Level*/}
-                  {/* <li className={`menu-item ${getMenuItemActive('/payroll/inputs/switches')}`}>
-                                        <NavLink className="menu-link" to="/payroll/inputs/switches">
+                  {/* <li className={`menu-item ${getMenuItemActive('/stores/inputs/switches')}`}>
+                                        <NavLink className="menu-link" to="/stores/inputs/switches">
                                             <i className="menu-bullet menu-bullet-dot"><span /></i>
                                             <span className="menu-text">Switches</span>
                                         </NavLink>
@@ -144,8 +144,8 @@ function StoreMenu({ layoutProps }) {
                   {/*end::3 Level*/}
 
                   {/*begin::3 Level*/}
-                  {/* <li className={`menu-item ${getMenuItemActive('/payroll/inputs/text-fields')}`}>
-                                        <NavLink className="menu-link" to="/payroll/inputs/text-fields">
+                  {/* <li className={`menu-item ${getMenuItemActive('/stores/inputs/text-fields')}`}>
+                                        <NavLink className="menu-link" to="/stores/inputs/text-fields">
                                             <i className="menu-bullet menu-bullet-dot"><span /></i>
                                             <span className="menu-text">Text Fields</span>
                                         </NavLink>
@@ -153,8 +153,8 @@ function StoreMenu({ layoutProps }) {
                   {/*end::3 Level*/}
 
                   {/*begin::3 Level*/}
-                  {/* <li className={`menu-item ${getMenuItemActive('/payroll/inputs/transfer-list')}`}>
-                                        <NavLink className="menu-link" to="/payroll/inputs/transfer-list">
+                  {/* <li className={`menu-item ${getMenuItemActive('/stores/inputs/transfer-list')}`}>
+                                        <NavLink className="menu-link" to="/stores/inputs/transfer-list">
                                             <i className="menu-bullet menu-bullet-dot"><span /></i>
                                             <span className="menu-text">Transfer List</span>
                                         </NavLink>
@@ -168,14 +168,14 @@ function StoreMenu({ layoutProps }) {
             {/*begin::2 Level*/}
             <li
               className={`menu-item menu-item-submenu ${getMenuItemActive(
-                "/payroll/navigation"
+                "/stores/navigation"
               )}`}
               data-menu-toggle="hover"
               aria-haspopup="true"
             >
               <NavLink
                 className="menu-link menu-toggle"
-                to="/payroll/navigation"
+                to="/stores/navigation"
               >
                 <span className="svg-icon menu-icon">
                   <SVG
@@ -194,12 +194,12 @@ function StoreMenu({ layoutProps }) {
                   {/*begin::3 Level*/}
                   <li
                     className={`menu-item ${getMenuItemActive(
-                      "/payroll/navigation/bottom-navigation"
+                      "/stores/navigation/bottom-navigation"
                     )}`}
                   >
                     <NavLink
                       className="menu-link"
-                      to="/payroll/navigation/bottom-navigation"
+                      to="/stores/navigation/bottom-navigation"
                     >
                       <i className="menu-bullet menu-bullet-dot">
                         <span />
@@ -212,12 +212,12 @@ function StoreMenu({ layoutProps }) {
                   {/*begin::3 Level*/}
                   <li
                     className={`menu-item ${getMenuItemActive(
-                      "/payroll/navigation/breadcrumbs"
+                      "/stores/navigation/breadcrumbs"
                     )}`}
                   >
                     <NavLink
                       className="menu-link"
-                      to="/payroll/navigation/breadcrumbs"
+                      to="/stores/navigation/breadcrumbs"
                     >
                       <i className="menu-bullet menu-bullet-dot">
                         <span />
@@ -230,12 +230,12 @@ function StoreMenu({ layoutProps }) {
                   {/*begin::3 Level*/}
                   <li
                     className={`menu-item ${getMenuItemActive(
-                      "/payroll/navigation/drawer"
+                      "/stores/navigation/drawer"
                     )}`}
                   >
                     <NavLink
                       className="menu-link"
-                      to="/payroll/navigation/drawer"
+                      to="/stores/navigation/drawer"
                     >
                       <i className="menu-bullet menu-bullet-dot">
                         <span />
@@ -248,12 +248,12 @@ function StoreMenu({ layoutProps }) {
                   {/*begin::3 Level*/}
                   <li
                     className={`menu-item ${getMenuItemActive(
-                      "/payroll/navigation/links"
+                      "/stores/navigation/links"
                     )}`}
                   >
                     <NavLink
                       className="menu-link"
-                      to="/payroll/navigation/links"
+                      to="/stores/navigation/links"
                     >
                       <i className="menu-bullet menu-bullet-dot">
                         <span />
