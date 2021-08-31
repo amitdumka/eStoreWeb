@@ -17,7 +17,7 @@ import {
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
 import ReactDatePicker from "react-datepicker";
-import NumberFormat from "react-number-format";
+//import NumberFormat from "react-number-format";
 import InputMask from "react-input-mask";
 //import MuiAutoComplete from "./MuiAutoComplete";
 
@@ -370,40 +370,41 @@ export const MUIRDatePicker = ({
     </section>
   </>
 );
-export const MUINumberFormat = ({
-  label,
-  name,
-  control,
-  options,
-  className,
-  required,
-  defaultValue,
-  errors,
-}) => (
-  <>
-    <section>
-      <label className={className}>{label} </label>
-      <br />
-      <Controller
-        render={({ field }) => (
-          <NumberFormat
-            defaultValue={defaultValue ? defaultValue : 0}
-            {...field}
-          />
-        )}
-        thousandSeparator
-        name={name}
-        className="input"
-        control={control}
-      />
-      <p className="text-danger">
-        {errors &&
-          errors[name]?.message &&
-          label + " is required. \t" + errors[name]?.message}
-      </p>
-    </section>
-  </>
-);
+
+// export const MUINumberFormat = ({
+//   label,
+//   name,
+//   control,
+//   options,
+//   className,
+//   required,
+//   defaultValue,
+//   errors,
+// }) => (
+//   <>
+//     <section>
+//       <label className={className}>{label} </label>
+//       <br />
+//       <Controller
+//         render={({ field }) => (
+//           <NumberFormat
+//             defaultValue={defaultValue ? defaultValue : 0}
+//             {...field}
+//           />
+//         )}
+//         thousandSeparator
+//         name={name}
+//         className="input"
+//         control={control}
+//       />
+//       <p className="text-danger">
+//         {errors &&
+//           errors[name]?.message &&
+//           label + " is required. \t" + errors[name]?.message}
+//       </p>
+//     </section>
+//   </>
+// );
 
 export const CashDetail = ({
   label,
