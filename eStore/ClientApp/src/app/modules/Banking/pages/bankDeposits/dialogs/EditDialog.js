@@ -5,6 +5,7 @@ import * as actions from "../../../_redux/bankDeposits/Actions";
 import { EditDialogHeader } from "./EditDialogHeader";
 import { EditForm } from "./EditForm";
 import { useUIContext } from "../UIContext";
+import * as commonActions from "../../../../_redux/Actions";
 //bankDeposit
 //BankDeposit
 
@@ -19,11 +20,12 @@ export function EditDialog({ id, show, onHide }) {
 
   // BankDeposits Redux state
   const dispatch = useDispatch();
-  const { actionsLoading, bankDepositForEdit ,bankList} = useSelector(
+  const { actionsLoading, bankDepositForEdit ,bankList,payModes} = useSelector(
     (state) => ({
       actionsLoading: state.bankDeposits.actionsLoading,
       bankDepositForEdit: state.bankDeposits.bankDepositForEdit,
-      bankList:state.bankDeposits.bankEntities
+      bankList:state.bankDeposits.bankEntities,
+      payModes: state.commonTypes.payModes
     }),
     shallowEqual
   );
@@ -32,6 +34,7 @@ export function EditDialog({ id, show, onHide }) {
     // server call for getting BankDeposit by id
     dispatch(actions.fetchBankDeposit(id));
     dispatch(actions.fetchBanks());
+    dispatch(commonActions.fetchEnumValue("payMode"));
   }, [id, dispatch]);
 
   // server request for saving bankDeposit
@@ -60,6 +63,7 @@ export function EditDialog({ id, show, onHide }) {
         bankDeposit={bankDepositForEdit || bankDepositsUIProps.initBankDeposit}
         onHide={onHide}
         bankList={bankList}
+        payModes={payModes}
       />
     </Modal>
   );

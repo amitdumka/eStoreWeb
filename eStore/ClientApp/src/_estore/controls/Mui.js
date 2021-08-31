@@ -27,7 +27,7 @@ export const MUIDatePicker = ({
   control,
   options,
   className,
-  required,
+  required,defaultValue,
   errors,
 }) => (
   <section>
@@ -36,6 +36,7 @@ export const MUIDatePicker = ({
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <Controller
         name={name}
+        defaultValue={defaultValue}
         control={control}
         render={({ field: { ref, ...rest } }) => (
           <KeyboardDatePicker
@@ -193,6 +194,7 @@ export const MUISelect = ({
   options,
   className,
   required,
+  defaultValue,
   errors,
 }) => (
   <>
@@ -202,12 +204,12 @@ export const MUISelect = ({
       <Controller
         render={({ field }) => (
           <Select {...field}>
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
+            {console.log(options)}
+           { options && options.map((item) => (<MenuItem key={item.value}value={item.value}>{item.label}</MenuItem>))}
           </Select>
         )}
         name={name}
+        defaultValue={defaultValue}
         control={control}
       />
       <p className="text-danger">
@@ -349,13 +351,14 @@ export const MUIRDatePicker = ({
       <Controller
         control={control}
         name={name}
+        defaultValue={defaultValue ? defaultValue : new Date()}
         render={({ field }) => (
           <ReactDatePicker
             className="input"
             placeholderText="Select date"
             onChange={(e) => field.onChange(e)}
             selected={field.value}
-            defaultValue={defaultValue ? defaultValue : new Date()}
+            
           />
         )}
       />

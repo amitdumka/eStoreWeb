@@ -30,7 +30,7 @@ export function EditForm({
   saveBankDeposit,
   bankDeposit,
   actionsLoading,
-  onHide,
+  onHide,payModes,
   bankList,
 }) {
   return (
@@ -111,21 +111,15 @@ export function EditForm({
                     />
                   </div>
                   <div className="col-lg-4">
-                    <Select
-                      name="payMode"
-                      placeholder="PayMode"
-                      label="PayMode"
-                    >
+                  <Select name="payMode" placeholder="Mode" label="Mode">
                       <option value="">Select Mode</option>
-                      <option value="1">Cash</option>
-                      <option value="2">Card</option>
-                      <option value="3">Cheque</option>
-                      <option value="4">RTGS</option>
-                      <option value="5">NEFT</option>
-                      <option value="6">IMPS</option>
-                      <option value="7">Others</option>
+                      {payModes.map((item) => (
+                        <option key={item.value} value={item.value}>
+                          {item.name}
+                        </option>
+                      ))}
                     </Select>
-                  </div>
+                                   </div>
                 </div>
                 <div className="form-group row">
                   {/*  State Name*/}

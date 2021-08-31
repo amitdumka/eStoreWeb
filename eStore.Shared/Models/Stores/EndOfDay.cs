@@ -36,6 +36,8 @@ namespace eStore.Shared.Models.Stores
         [Display(Name = "Cash at Store")]
         [DataType(DataType.Currency), Column(TypeName = "money")]
         public decimal CashInHand { get; set; }
+        //public int TailoringBooking { get; set; }
+        //public int TailoringDelivery { get; set; }
 
     }
 

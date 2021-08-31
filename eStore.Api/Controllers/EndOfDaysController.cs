@@ -12,7 +12,7 @@ using eStore.Shared.ViewModels;
 
 namespace eStore.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route ("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class EndOfDaysController : ControllerBase
@@ -28,18 +28,18 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<EndOfDay>>> GetEndOfDays()
         {
-            return await _context.EndOfDays.ToListAsync();
+            return await _context.EndOfDays.ToListAsync ();
         }
 
         // GET: api/EndOfDays/5
-        [HttpGet("{id}")]
+        [HttpGet ("{id}")]
         public async Task<ActionResult<EndOfDay>> GetEndOfDay(int id)
         {
-            var endOfDay = await _context.EndOfDays.FindAsync(id);
+            var endOfDay = await _context.EndOfDays.FindAsync (id);
 
-            if (endOfDay == null)
+            if ( endOfDay == null )
             {
-                return NotFound();
+                return NotFound ();
             }
 
             return endOfDay;
@@ -47,25 +47,25 @@ namespace eStore.API.Controllers
 
         // PUT: api/EndOfDays/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+        [HttpPut ("{id}")]
         public async Task<IActionResult> PutEndOfDay(int id, EndOfDay endOfDay)
         {
-            if (id != endOfDay.EndOfDayId)
+            if ( id != endOfDay.EndOfDayId )
             {
-                return BadRequest();
+                return BadRequest ();
             }
 
-            _context.Entry(endOfDay).State = EntityState.Modified;
+            _context.Entry (endOfDay).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync ();
             }
-            catch (DbUpdateConcurrencyException)
+            catch ( DbUpdateConcurrencyException )
             {
-                if (!EndOfDayExists(id))
+                if ( !EndOfDayExists (id) )
                 {
-                    return NotFound();
+                    return NotFound ();
                 }
                 else
                 {
@@ -73,7 +73,7 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return NoContent();
+            return NoContent ();
         }
 
         // POST: api/EndOfDays
@@ -81,52 +81,52 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<EndOfDay>> PostEndOfDay(EndOfDay endOfDay)
         {
-            _context.EndOfDays.Add(endOfDay);
-            await _context.SaveChangesAsync();
+            _context.EndOfDays.Add (endOfDay);
+            await _context.SaveChangesAsync ();
 
-            return CreatedAtAction("GetEndOfDay", new { id = endOfDay.EndOfDayId }, endOfDay);
+            return CreatedAtAction ("GetEndOfDay", new { id = endOfDay.EndOfDayId }, endOfDay);
         }
 
         // DELETE: api/EndOfDays/5
-        [HttpDelete("{id}")]
+        [HttpDelete ("{id}")]
         public async Task<IActionResult> DeleteEndOfDay(int id)
         {
-            var endOfDay = await _context.EndOfDays.FindAsync(id);
-            if (endOfDay == null)
+            var endOfDay = await _context.EndOfDays.FindAsync (id);
+            if ( endOfDay == null )
             {
-                return NotFound();
+                return NotFound ();
             }
 
-            _context.EndOfDays.Remove(endOfDay);
-            await _context.SaveChangesAsync();
+            _context.EndOfDays.Remove (endOfDay);
+            await _context.SaveChangesAsync ();
 
-            return NoContent();
+            return NoContent ();
         }
 
         private bool EndOfDayExists(int id)
         {
-            return _context.EndOfDays.Any(e => e.EndOfDayId == id);
+            return _context.EndOfDays.Any (e => e.EndOfDayId == id);
         }
 
-        [HttpPost("dayend")]
+        [HttpPost ("dayend")]
         public async Task<ActionResult<EndOfDay>> PostDayEnd(DayEnd endOfDay)
         {
 
-            _context.EndOfDays.Add(endOfDay.EndOfDay);
-            _context.CashDetail.Add(endOfDay.CashDetail);
-            await _context.SaveChangesAsync();
-            return CreatedAtAction("GetEndOfDay", new { id = endOfDay.EndOfDay.EndOfDayId }, endOfDay.EndOfDay);
+            _context.EndOfDays.Add (endOfDay.EndOfDay);
+            _context.CashDetail.Add (endOfDay.CashDetail);
+            int c = await _context.SaveChangesAsync ();            
+            return CreatedAtAction ("GetEndOfDay", new { id = endOfDay.EndOfDay.EndOfDayId }, endOfDay.EndOfDay);
 
         }
         // GET: api/EndOfDays/5
-        [HttpGet("{onDate}")]
+        [HttpGet ("saledata")]
         public async Task<ActionResult<string>> GetSaleData(DateTime onDate)
         {
-           var saleAmount= await _context.DailySales.Where(c => c.SaleDate == onDate).Select(c => c.Amount).SumAsync();
-           var count = await _context.DailySales.Where(c => c.SaleDate == onDate).CountAsync() ;
+            var saleAmount = await _context.DailySales.Where (c => c.SaleDate == onDate).Select (c => c.Amount).SumAsync ();
+            var count = await _context.DailySales.Where (c => c.SaleDate == onDate).CountAsync ();
 
             string r = $"{{ amount:{saleAmount}, count:{count} }}";
-            
+
             //var endOfDay = await _context.EndOfDays.FindAsync(id);
 
             //if (endOfDay == null)

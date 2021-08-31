@@ -1,6 +1,6 @@
 import axios from "axios"; import { BASE_URL } from "../../../../../_estore/URLConstants";
 
-export const API_URL = BASE_URL + "/api/attendances";
+export const API_URL = BASE_URL + "api/attendances";
 
 
 // CREATE =>  POST: add a new attendance to the server
