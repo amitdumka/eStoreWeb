@@ -13,7 +13,7 @@ import {
 import { Alert, AlertTitle } from "@material-ui/lab";
 import axios from "axios";
 import { BASE_URL } from "../../../../../_estore/URLConstants";
-
+import { SweetAlert } from "./CControls";
 //Day end Entry form.
 export const API_URL = BASE_URL + "api/endOfDays";
 export function DayEndPage() {
@@ -138,7 +138,10 @@ export function DayEndPage() {
       getSaleData(onDate);
     }
   };
-  const calculateCash = () => {};
+  const handleFetchData = () => {
+    console.log("handle");
+    SweetAlert({ title: "success", text: "Testing Message", icon: "success" });
+  };
   const handleCalculateButton = () => {
     const data = getValues();
     var tAmt = 0;
@@ -197,6 +200,7 @@ export function DayEndPage() {
               </div>
               <div className="col-lg-3 p-2">
                 <input
+                  onClick={() => handleFetchData()}
                   type="button"
                   value="Fetch Details"
                   className="btn btn-success"
@@ -457,12 +461,28 @@ export async function saveDayEnd(data) {
     .then((response) => {
       console.log(response);
       if (response.status === 201)
-        alert("Day End is processed for \t" + data.cashDetail.onDate);
-      else alert("Day end is not processed for \t" + data.cashDetail.onDate);
+        SweetAlert({
+          title: "success",
+          text: "Day End is processed for \t" + data.cashDetail.onDate,
+          icon: "success",
+        });
+      else
+        SweetAlert({
+          title: "Error",
+          text: "Day end is not processed for \t" + data.cashDetail.onDate,
+          icon: "error",
+        });
     })
     .catch((error) => {
       console.log(error);
-      alert("It failed to save data!, Kindly try again...");
+      //alert("It failed to save data!, Kindly try again...");
+      SweetAlert({
+        title: "Error",
+        text:
+          "It failed to save data!, Kindly try again...\t" +
+          data.cashDetail.onDate,
+        icon: "error",
+      });
     });
 }
 // update rest data
