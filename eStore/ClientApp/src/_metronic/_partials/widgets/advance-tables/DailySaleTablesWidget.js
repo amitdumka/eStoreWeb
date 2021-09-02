@@ -74,8 +74,8 @@ TablePaginationActions.propTypes = {
   page: PropTypes.number.isRequired,
   rowsPerPage: PropTypes.number.isRequired,
 };
-
-export function DailySaleTableWidget({ className, dailySaleList, totalCount }) {
+export const Inr="\u20B9 ";
+export function DailySaleTableWidget({ className, dailySaleList, totalCount,payModes }) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -103,7 +103,7 @@ export function DailySaleTableWidget({ className, dailySaleList, totalCount }) {
             Sale(s)
           </span>
           <span className="text-muted mt-3 font-weight-bold font-size-sm">
-            Bill Count(s):{totalCount}, <span className="text-primary ml-3 font-weight-bold font-size-sm">Sale Amount: {totalSaleAmount}</span>
+            Bill Count(s):{totalCount}, <span className="text-primary ml-3 font-weight-bold font-size-sm">Sale Amount: {Inr}{totalSaleAmount}</span>
           </span>
         </h3>
         <div className="card-toolbar">
@@ -162,13 +162,13 @@ export function DailySaleTableWidget({ className, dailySaleList, totalCount }) {
                       <TableCell align="center">
                         {" "}
                         <span className="text-dark-75 font-weight-bolder d-block font-size-lg">
-                          {row.amount}
+                         {Inr} {row.amount}
                         </span>
                       </TableCell>
                       <TableCell align="center">
                         {" "}
                         <span className="text-danger font-weight-bolder d-block font-size-lg">
-                          {row.payMode}
+                          {payModes &&payModes?payModes[row.payMode].name:row.PayMode}
                         </span>
                       </TableCell>
                       <TableCell align="center">

@@ -1,13 +1,21 @@
 import React from "react";
 import {
-  CashBookTablePageWidget,OverDueTablesWidget,
+  CashBookTablePageWidget,
+  OverDueTablesWidget,
   SaleListWidget,
   TailoringWidget,
-  EmpInfoWidget,DailySaleTableWidget
+  EmpInfoWidget,
+  DailySaleTableWidget,
 } from "../widgets";
 import { NoticeBoardWidget } from "../widgets/advance-tables/NoticeBoardWidget";
 
-export function EStoreDashboard({ totalCashBook, cashBook, masterReports, totalDailySale,dailySaleList  }) {
+export function EStoreDashboard({
+  totalCashBook,
+  cashBook,
+  masterReports,
+  totalDailySale,
+  dailySaleList,payModes
+}) {
   return (
     <>
       {/* <div className="row">
@@ -52,7 +60,7 @@ export function EStoreDashboard({ totalCashBook, cashBook, masterReports, totalD
         </div>
       </div>
        */}
-       {/* begin::Row */}
+      {/* begin::Row */}
       <div className="row">
         <div className="col-lg-6">
           {masterReports && masterReports.empInfoList && (
@@ -85,6 +93,7 @@ export function EStoreDashboard({ totalCashBook, cashBook, masterReports, totalD
             <SaleListWidget
               className="card-stretch gutter-b"
               saleReport={masterReports.saleReport}
+              openingCashInHand={masterReports.openingCashInHand}
             />
           )}
         </div>
@@ -93,11 +102,12 @@ export function EStoreDashboard({ totalCashBook, cashBook, masterReports, totalD
       {/**Begin Row */}
       <div className="row">
         <div className="col-xxl-6 order-2 order-xxl-1">
-         {masterReports && masterReports.bookingOverDues &&
-          <OverDueTablesWidget
-            className="card-stretch gutter-b"
-            overDue={masterReports.bookingOverDues}
-          />}
+          {masterReports && masterReports.bookingOverDues && (
+            <OverDueTablesWidget
+              className="card-stretch gutter-b"
+              overDue={masterReports.bookingOverDues}
+            />
+          )}
         </div>
 
         <div className="col-xxl-6 order-2 order-xxl-1">
@@ -105,21 +115,22 @@ export function EStoreDashboard({ totalCashBook, cashBook, masterReports, totalD
             className="card-stretch gutter-b"
             dailySaleList={dailySaleList}
             totalCount={totalDailySale}
+            payModes={payModes}
           />
         </div>
       </div>
       {/**end Row */}
-       {/**Begin Row */}
-       <div className="row">
-       <div className="col-xxl-6 order-2 order-xxl-1">
+      {/**Begin Row */}
+      <div className="row">
+        <div className="col-xxl-6 order-2 order-xxl-1">
           <NoticeBoardWidget
             className="card-stretch gutter-b"
             dailySaleList={dailySaleList}
             totalCount={totalDailySale}
           />
         </div>
-       </div>
-       {/**end Row */}
+      </div>
+      {/**end Row */}
     </>
   );
 }

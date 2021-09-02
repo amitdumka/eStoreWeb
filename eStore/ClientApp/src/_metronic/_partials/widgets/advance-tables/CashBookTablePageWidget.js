@@ -74,7 +74,7 @@ TablePaginationActions.propTypes = {
   page: PropTypes.number.isRequired,
   rowsPerPage: PropTypes.number.isRequired,
 };
-
+export const Inr="\u20B9 ";
 export function CashBookTablePageWidget({ className, cashBook, totalCount }) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -158,19 +158,19 @@ export function CashBookTablePageWidget({ className, cashBook, totalCount }) {
                       <TableCell align="center">
                         {" "}
                         <span className="text-dark-75 font-weight-bolder d-block font-size-lg">
-                          {row.cashIn}
+                         {Inr} {row.cashIn}
                         </span>
                       </TableCell>
                       <TableCell align="center">
                         {" "}
                         <span className="text-danger font-weight-bolder d-block font-size-lg">
-                          {row.cashOut}
+                        {Inr} {row.cashOut}
                         </span>
                       </TableCell>
                       <TableCell align="center">
                         {" "}
                         <span className="text-warning font-weight-bolder d-block font-size-lg">
-                          {row.cashBalance}
+                        {Inr} {row.cashBalance}
                         </span>
                       </TableCell>
                     </TableRow>

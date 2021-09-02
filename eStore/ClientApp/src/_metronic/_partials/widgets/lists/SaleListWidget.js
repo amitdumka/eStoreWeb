@@ -4,14 +4,30 @@ import SVG from "react-inlinesvg";
 import { Dropdown } from "react-bootstrap";
 import { toAbsoluteUrl } from "../../../_helpers";
 import { DropdownCustomToggler, DropdownMenu2 } from "../../dropdowns";
-
-export function SaleListWidget({ className, saleReport }) {
+export const Inr="\u20B9 ";
+export function SaleListWidget({ className, saleReport ,openingCashInHand}) {
   return (
     <>
       <div className={`card card-custom ${className}`}>
         {/* Header */}
         <div className="card-header border-0">
-          <h3 className="card-title font-weight-bolder text-dark">Sale's</h3>
+          <h3 className="card-title font-weight-bolder text-dark flex-column mt-5 align-items-start">
+            <span className="card-label font-weight-bolder text-dark">
+              Sale's
+            </span>
+            <span className="text-muted font-weight-bold font-size-sm">
+              Opening Balance :{openingCashInHand && Inr} {openingCashInHand && openingCashInHand?openingCashInHand:"Not available"}
+            </span>
+          </h3>
+          {/* <h3 className="card-title align-items-start flex-column">
+            <span className="card-label font-weight-bolder text-dark">
+             Sale's
+            </span>
+            <span className="text-muted mt-3 font-weight-bold font-size-sm">
+              Opening Bal:0
+            </span>
+          </h3> */}
+
           <div className="card-toolbar">
             <Dropdown className="dropdown-inline" alignRight>
               <Dropdown.Toggle
@@ -49,7 +65,7 @@ export function SaleListWidget({ className, saleReport }) {
                   Today's Sale
                 </a>
                 <span className="text-danger font-weight-bold font-size-lg">
-                  {saleReport.dailySale}
+                  {Inr}{saleReport.dailySale}
                 </span>
               </div>
             </div>
@@ -79,7 +95,7 @@ export function SaleListWidget({ className, saleReport }) {
                   Monthly Sale
                 </a>
                 <span className="text-warning font-weight-bold font-size-lg">
-                  {saleReport.monthlySale}
+                {Inr} {saleReport.monthlySale}
                 </span>
               </div>
             </div>
@@ -109,7 +125,7 @@ export function SaleListWidget({ className, saleReport }) {
                   Yearly Sale
                 </a>
                 <span className="text-primary font-size-lg font-weight-bold">
-                  {saleReport.yearlySale}
+                {Inr} {saleReport.yearlySale}
                 </span>
               </div>
             </div>
@@ -137,7 +153,7 @@ export function SaleListWidget({ className, saleReport }) {
                   Weekly Sale
                 </a>
                 <span className="text-primary font-size-lg font-weight-bold">
-                  {saleReport.weeklySale}
+                {Inr}{saleReport.weeklySale}
                 </span>
               </div>
             </div>

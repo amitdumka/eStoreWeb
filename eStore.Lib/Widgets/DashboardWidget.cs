@@ -189,15 +189,36 @@ namespace eStore.BL.Widgets
             MasterViewReport reportView = new MasterViewReport
             {
 
-                SaleReport = GetSaleRecord(_context),
-                TailoringReport = GetTailoringReport(_context),
-                EmpInfoList = GetEmpInfo(_context),
-                AccountsInfo = GetAccoutingRecord(_context),
-                LeadingSalesman = GetTopSalesman(_context),
-                BookingOverDues = GetTailoringBookingOverDue(_context)
+                SaleReport = GetSaleRecord (_context),
+                TailoringReport = GetTailoringReport (_context),
+                EmpInfoList = GetEmpInfo (_context),
+                AccountsInfo = GetAccoutingRecord (_context),
+                LeadingSalesman = GetTopSalesman (_context),
+                BookingOverDues = GetTailoringBookingOverDue (_context),
+                OpeningCashInHand = GetOpeningCashInHand (_context)
+
             };
             return reportView;
         }
+
+        public static decimal GetOpeningCashInHand(eStoreDbContext db, int storeId = 1)
+        {
+            try
+            {
+
+                var d = db.EndOfDays.Where (c => c.StoreId == storeId && c.EOD_Date.Date == DateTime.Today.AddDays (-1).Date).FirstOrDefault ();
+                if ( d != null )
+                    return d.CashInHand;
+                else
+                    return 0;
+            }
+            catch ( Exception )
+            {
+
+                return -1;
+            }
+        }
+
         public static List<string> GetTopSalesman(eStoreDbContext db)
         {
             List<string> topSalesmanName = new List<string>();
@@ -719,6 +740,8 @@ namespace eStore.BL.Widgets
         public AccountsInfo AccountsInfo { get; set; }
         public List<BookingOverDue>? BookingOverDues { get; set; }
         public List<string> LeadingSalesman { get; set; }
+        public decimal OpeningCashInHand { get; set; }
+
 
     }
 
