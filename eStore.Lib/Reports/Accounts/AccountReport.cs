@@ -62,7 +62,7 @@ namespace eStore.BL.Reports.Accounts
     public class AccountReport
     {
         int StoreId; DateTime date;
-        public void SaleReport(eStoreDbContext db, int storeId, DateTime onDate, bool isPdf = true)
+        public string SaleReport(eStoreDbContext db, int storeId, DateTime onDate, bool isPdf = true)
         {
             StoreId = storeId; date = onDate;
             var data = db.DailySales.Include(c=>c.Salesman).Where(c => c.StoreId == storeId && c.SaleDate.Month == onDate.Month && c.SaleDate.Year == onDate.Year).
@@ -76,9 +76,40 @@ namespace eStore.BL.Reports.Accounts
             var onSale = data.Where(c => !c.ManualBill && !c.SaleReturn && !c.Tailoring).ToList();
             var tail = data.Where(c => c.Tailoring).ToList();
 
+            float[] columnWidths = { 1, 1, 1, 5, 5, 1, 5, 1 };
+            Cell[] HeaderCell = new Cell[]{
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("#")),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("ID")),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Date").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Invoice No").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Salesman").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Mode").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Payment Due").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Amount").SetTextAlignment(TextAlignment.CENTER)),
+            };
+            List<Paragraph> pList = new List<Paragraph>();
+            Table onSaleTable = DataToTable(onSale, PDFHelper.GenerateTable(columnWidths, HeaderCell));
+            Table saleReturnTable = DataToTable(saleReturn, PDFHelper.GenerateTable(columnWidths, HeaderCell));
+            Table manualSaleTable = DataToTable(manul, PDFHelper.GenerateTable(columnWidths, HeaderCell));
+            Table tailoringTable = DataToTable(tail, PDFHelper.GenerateTable(columnWidths, HeaderCell));
+            Paragraph p1 = new Paragraph("Software Sale List");
+            p1.Add(onSaleTable);
+            pList.Add(p1);
+            Paragraph p2 = new Paragraph("Sale Return List");
+            p2.Add(saleReturnTable);
+            pList.Add(p2);
+            Paragraph p3 = new Paragraph("Tailoring Sale List");
+            p3.Add(tailoringTable);
+            pList.Add(p3);
+            Paragraph p4 = new Paragraph("Manual Sale List");
+            p4.Add(manualSaleTable);
+            pList.Add(p4);
+            return PDFHelper.CreateReportPdf("MonthlySale", "Monthly Sale Report", pList, true);
+
+
         }
 
-        public void PaymentRecieptReport(eStoreDbContext db, int storeId, DateTime onDate, bool isDdf = true)
+        public string PaymentRecieptReport(eStoreDbContext db, int storeId, DateTime onDate, bool isDdf = true)
         {
             StoreId = storeId; date = onDate;
             var expdata = db.Expenses.Where(c => c.StoreId == storeId && c.OnDate.Month == onDate.Month && c.OnDate.Year == onDate.Year)
@@ -193,7 +224,7 @@ namespace eStore.BL.Reports.Accounts
             Paragraph p5 = new Paragraph("Cash Reciepts List");
             p5.Add(cashRecptTable);
             pList.Add(p5);
-            PDFHelper.CreateReportPdf("PaymentReciept", "Payments, Expenses and Receipts", pList, true);
+            return PDFHelper.CreateReportPdf("PaymentReciept", "Payments, Expenses and Receipts", pList, true);
 
 
         }
@@ -224,7 +255,31 @@ namespace eStore.BL.Reports.Accounts
             }
             return table;
         }
-
+        private Table DataToTable(List<SaleTData> rows, Table table)
+        {
+            int count = 0;
+            decimal total = 0;
+            foreach (var row in rows)
+            {
+                table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph((++count) + "")));
+                table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(row.Id.ToString())));
+                table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(row.Date.ToShortDateString())));
+                table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(String.IsNullOrEmpty(row.InvNo) ? "" : row.InvNo)));
+                table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(String.IsNullOrEmpty(row.Salesman) ? "" : row.Salesman)));
+                table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(row.Mode.ToString())));
+                if (row.IsDue)
+                    table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph("Yes")));
+                else
+                    table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph("no")));
+                table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(row.Amount.ToString("0.##"))));
+                total += row.Amount;
+            }
+            Div d = new Div();
+            Paragraph p = new Paragraph($"Total Amount: {total}");
+            d.Add(p);
+            table.SetCaption(d);
+            return table;
+        }
 
     }
 

@@ -16,12 +16,13 @@ namespace eStore.BL.Reports.Accounts
     {
 
         public void AddTable() { }
-        public void AddParagraph(string textData, iText.Layout.Properties.TextAlignment? alignment ,Color? color) {
+        public Paragraph AddParagraph(string textData, iText.Layout.Properties.TextAlignment? alignment ,Color? color) {
 
             Paragraph p = new Paragraph(textData);
             if(alignment!=null) p.SetTextAlignment(alignment);
             if(color!=null)
             p.SetFontColor(color);
+            return p;
         }
 
         public void GenerateDataTable() { }
