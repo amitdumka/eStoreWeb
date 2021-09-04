@@ -19,7 +19,46 @@ import * as EmpAcction from "../modules/Payrolls/_redux/employees/Actions";
 import axios from "axios";
 import { BASE_URL } from "../../_estore/URLConstants";
 
-export const API_URL = BASE_URL + "/api/Reports";
+//export const API_URL = BASE_URL + "api/Reports";
+export const API_URL = "/" + "api/Reports";
+
+export async function GetMonthlyReport(MonthlyDto){
+    var url=API_URL;
+    switch (MonthlyDto.mode){
+        case 1: url=url+"/monthlySaleReport";
+            break; 
+        case 2: 
+        url=url+"/monthlyPaymentReceiptReport";
+        break;
+        default: 
+        url="";
+        break;
+    }
+    if(url!==""){
+        await axios
+        .post(url, MonthlyDto, {
+            method: "POST",
+            responseType: "blob", //Force to receive data in a Blob Format
+            headers: { "Content-Type": "application/json; charset=utf-8" },
+        })
+        .then((response) => {
+
+            //Create a Blob from the PDF Stream
+            const file = new Blob([response.data], { type: "application/pdf" });
+            //Build a URL from the file
+            const fileURL = URL.createObjectURL(file);
+            //Open the URL on new Window
+            window.open(fileURL);
+        })
+        .catch((error) => {
+            console.log(error);
+            alert("Some error occurred while creating the report file!, Kindly try again!");
+        });
+
+    }else{
+        alert("Invalid Report Option selected!, Kindly select proper option!");
+    }
+}
 export async function GetReport(FinReportDto) {
 
     await axios
@@ -118,6 +157,9 @@ export const FinReportPage = () => {
                 <TableRow>
                     <TableCell> <RequestCard /></TableCell>
                     <TableCell><AttendaceReportCard /></TableCell>
+                </TableRow>
+                <TableRow>
+                <TableCell> <MonthlyReportCard /></TableCell>
                 </TableRow>
             </Table>
         </>
@@ -454,6 +496,168 @@ export const AttendaceReportCard = () => {
                             </button>
                         </TableCell>
 
+                    </TableRow>
+                </Table>
+                <label className="text-danger">*Note: Kindly wait for few mins to open PDF file in new windows!.</label>
+            </CardBody>
+        </Card>
+    );
+};
+
+export const MonthlyReportCard = () => {
+
+    const curYear = new Date().getFullYear() + 1;
+
+    const [yearArray, setYearArray] = useState([]);
+    
+    const [repoMode, setRepoMode] = useState(1);
+    const [store, setStore] = useState(1);
+    const [startDate, setStartDate] = useState(new Date().getMonth());
+    //const [endDate, setEndDate] = useState(3);
+    const [refreshData, setRefreshData] = useState(false);
+    let count = 0;
+    for (let index = 2015; index < curYear; index++) {
+        yearArray[count++] = "" + index + "-" + (index + 1);
+    }
+    const [finYear, setFinYear] = useState(yearArray[count-1]);
+    const handleYearChange = (event) => {
+        setFinYear(event.target.value);
+
+    };
+    const handleModeChange = (event) => {
+        setRepoMode(event.target.value);
+    };
+    const handleRefreshChange = (event) => {
+        setRefreshData(event.target.checked);
+    };
+    const handleStoreChange = (event) => {
+        setStore(event.target.value);
+    };
+
+    const handleStartDate = (event) => {
+        setStartDate(event.target.value);
+    };
+    // const handleEndDate = (event) => {
+    //     setEndDate(event.target.value);
+    // };
+
+    const handleButton = (event) => {
+        const yrs = finYear.split("-");
+        const finReq = {
+            storeId: store,
+            Year: parseInt(startDate)>3?parseInt(yrs[0],10):parseInt(yrs[1]),
+            Month: parseInt(startDate),
+            mode: parseInt(repoMode),
+            forcedRefresh: refreshData,
+            finYear:finYear,
+            isPdf: true
+        };
+        console.log(finReq);
+        GetMonthlyReport(finReq);
+    };
+
+    return (
+        <Card>
+            <CardHeader title="Monthly Report Download">
+                <CardHeaderToolbar>{new Date().toDateString()}</CardHeaderToolbar>
+            </CardHeader>
+            <CardBody>
+                <Table>
+                    <TableRow>
+                        <TableCell className="text-primary">Store</TableCell>
+                        <TableCell>
+                            <Select value={store} onChange={handleStoreChange} id="storeIdSelect">
+                                <MenuItem value={1}>Dumka</MenuItem>
+                                <MenuItem value={2}>Jamshedpur</MenuItem>
+                            </Select>
+                        </TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell className="text-danger">Financial Year</TableCell>
+                        <TableCell>
+                            <Select value={finYear} displayEmpty onChange={handleYearChange} id="finYearSelect">
+                                <MenuItem value="" disabled>Select Financial Year</MenuItem>
+                                {yearArray.map((item) => (
+                                    <MenuItem key={item} value={item}>{item}</MenuItem>
+                                ))}
+                            </Select>
+                        </TableCell>
+                        <TableCell className="text-info">Report</TableCell>
+                        <TableCell>
+                            <Select value={repoMode} onChange={handleModeChange} id="modeSelect">
+                                <MenuItem value={1}>Sale Report</MenuItem>
+                                <MenuItem value={2}>Payment Receipt Report </MenuItem>
+                                <MenuItem value={3} disabled>Salary Report</MenuItem>
+                                <MenuItem value={4} disabled>Expenses Data</MenuItem>
+                                <MenuItem value={5} disabled>Payment Data</MenuItem>
+                                <MenuItem value={6} disabled>Receipts Data</MenuItem>
+                                <MenuItem value={7} disabled>Bank Data</MenuItem>
+                                <MenuItem value={8} disabled>Purchase Report</MenuItem>
+                                <MenuItem value={9} disabled>Cash Expenses</MenuItem>
+                                <MenuItem value={10} disabled>Cash Reciept</MenuItem>
+                                <MenuItem value={11} disabled>Tailoring Report</MenuItem>
+                            </Select>
+                        </TableCell>
+                        <TableCell className="text-danger">Refreshed Data</TableCell>
+                        <TableCell>
+                            <Checkbox
+                                value={refreshData}
+                                onChange={handleRefreshChange}
+                                id="refreshDataCB"
+                                color="primary"
+                                inputProps={{ "aria-label": "secondary checkbox" }}
+                            />{" "}
+                        </TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell className="text-danger"> Month: </TableCell>
+                        <TableCell >
+                            <Select value={startDate} displayEmpty onChange={handleStartDate} id="startDateSelect">
+                                <MenuItem value={4} >April</MenuItem>
+                                <MenuItem value={5} >May</MenuItem>
+                                <MenuItem value={6} >June</MenuItem>
+                                <MenuItem value={7} >July</MenuItem>
+                                <MenuItem value={8} >Aug</MenuItem>
+                                <MenuItem value={9} >Sept</MenuItem>
+                                <MenuItem value={10} >Oct</MenuItem>
+                                <MenuItem value={11} >Nov</MenuItem>
+                                <MenuItem value={12} >Dec</MenuItem>
+                                <MenuItem value={1} >Jan</MenuItem>
+                                <MenuItem value={2} >Feb</MenuItem>
+                                <MenuItem value={3} >March</MenuItem>
+                            
+
+                            </Select>
+                        </TableCell>
+                        {/* <TableCell className="text-danger">End Month:</TableCell>
+                        <TableCell >
+                            <Select value={endDate} displayEmpty onChange={handleEndDate} id="endDateSelect">
+                                <MenuItem value={1} >Jan</MenuItem>
+                                <MenuItem value={2} >Feb</MenuItem>
+                                <MenuItem value={3} >March</MenuItem>
+                                <MenuItem value={4} >April</MenuItem>
+                                <MenuItem value={5} >May</MenuItem>
+                                <MenuItem value={6} >June</MenuItem>
+                                <MenuItem value={7} >July</MenuItem>
+                                <MenuItem value={8} >Aug</MenuItem>
+                                <MenuItem value={9} >Sept</MenuItem>
+                                <MenuItem value={10} >Oct</MenuItem>
+                                <MenuItem value={11} >Nov</MenuItem>
+                                <MenuItem value={12} >Dec</MenuItem>
+
+                            </Select>
+                        </TableCell> */}
+                    </TableRow>
+                    <TableRow>
+                        <TableCell>
+                            <button
+                                type="button"
+                                className="btn btn-primary"
+                                onClick={handleButton}
+                            >
+                                Generate
+              </button>
+                        </TableCell>
                     </TableRow>
                 </Table>
                 <label className="text-danger">*Note: Kindly wait for few mins to open PDF file in new windows!.</label>

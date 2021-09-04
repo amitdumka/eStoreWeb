@@ -1,19 +1,21 @@
-﻿using eStore.Database;
-using eStore.Lib.Reports.Payroll;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using eStore.Database;
+using eStore.Reports.Dtos;
 using eStore.Reports.Pdfs;
 using iText.Kernel.Colors;
 using iText.Layout.Element;
 using iText.Layout.Properties;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace eStore.BL.Reports.Accounts
+namespace eStore.Reports.Accounts
 {
     public class AccountReport
     {
         int StoreId; DateTime date;
+
+       
         public string SaleReport(eStoreDbContext db, int storeId, DateTime onDate, bool isPdf = true)
         {
             StoreId = storeId;
@@ -34,48 +36,40 @@ namespace eStore.BL.Reports.Accounts
                  })
                 .ToList ();
 
-            var manul = data.Where (c => c.ManualBill).ToList ();
-            var saleReturn = data.Where (c => c.SaleReturn).ToList ();
-            var onSale = data.Where (c => !c.ManualBill && !c.SaleReturn && !c.Tailoring).ToList ();
-            var tail = data.Where (c => c.Tailoring).ToList ();
+            var manul = data.Where(c => c.ManualBill).ToList();
+            //var saleReturn = data.Where(c => c.SaleReturn).ToList();
+            //var onSale = data.Where (c => !c.ManualBill && !c.SaleReturn && !c.Tailoring).ToList ();
+            //var tail = data.Where(c => c.Tailoring).ToList();
 
-            float [] columnWidths = { 1, 1, 5, 5, 15, 5, 1, 1 };
+            float [] columnWidths = { 1, 1, 1, 5, 5, 1, 5, 1 };
             Cell [] HeaderCell = new Cell []{
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("#")),
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("ID")),
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Date").SetTextAlignment(TextAlignment.CENTER)),
-                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("InvNo").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Invoice No").SetTextAlignment(TextAlignment.CENTER)),
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Salesman").SetTextAlignment(TextAlignment.CENTER)),
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Mode").SetTextAlignment(TextAlignment.CENTER)),
-                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Due").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Payment Due").SetTextAlignment(TextAlignment.CENTER)),
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Amount").SetTextAlignment(TextAlignment.CENTER)),
             };
             List<Paragraph> pList = new List<Paragraph> ();
-             Table onSaleTable = DataToTable(onSale, columnWidths, HeaderCell);
-             Table saleReturnTable = DataToTable(saleReturn, columnWidths, HeaderCell);
-            Table manualSaleTable = DataToTable (manul, columnWidths, HeaderCell);
-            Table tailoringTable = DataToTable(tail, columnWidths, HeaderCell);
-            Paragraph p1 = new Paragraph("Sale(On Book)\n").SetTextAlignment (TextAlignment.CENTER).SetFontColor(ColorConstants.BLUE);
-            Paragraph pt1 = new Paragraph ();
-            pt1.Add(onSaleTable);
-            pList.Add(p1);
-            pList.Add (pt1);
-            Paragraph p2 = new Paragraph ("Sale Return List\n").SetTextAlignment (TextAlignment.CENTER).SetFontColor (ColorConstants.BLUE);
-            Paragraph pt2 = new Paragraph ();
-            p2.Add (saleReturnTable);
-            pList.Add (p2);
-            pList.Add (pt2);
-            Paragraph p3 = new Paragraph ("Tailoring Sale List\n").SetTextAlignment (TextAlignment.CENTER).SetFontColor (ColorConstants.BLUE);
-            Paragraph pt3 = new Paragraph ();
-            pt3.Add (tailoringTable);
-            pList.Add (p3);
-            pList.Add (pt3);
-            Paragraph p4 = new Paragraph ("Manual Sale List\n").SetTextAlignment (TextAlignment.CENTER).SetFontColor (ColorConstants.BLUE);
-            Paragraph pt4 = new Paragraph ();
-            pt4.Add (manualSaleTable);
+            //Table onSaleTable = DataToTable (onSale, PDFHelper.GenerateTable (columnWidths, HeaderCell));
+            //Table saleReturnTable = DataToTable(saleReturn, PDFHelper.GenerateTable(columnWidths, HeaderCell));
+            Table manualSaleTable = DataToTable(manul, PDFHelper.GenerateTable(columnWidths, HeaderCell));
+            //Table tailoringTable = DataToTable(tail, PDFHelper.GenerateTable(columnWidths, HeaderCell));
+            //Paragraph p1 = new Paragraph ();
+            //p1.Add (onSaleTable);
+            //pList.Add (p1);
+           // Paragraph p2 = new Paragraph ("Sale Return List");
+           // p2.Add(saleReturnTable);
+           // pList.Add (p2);
+           // Paragraph p3 = new Paragraph ("Tailoring Sale List");
+            //p3.Add(tailoringTable);
+           // pList.Add (p3);
+            Paragraph p4 = new Paragraph ("Manual Sale List");
+            p4.Add(manualSaleTable);
             pList.Add (p4);
-            pList.Add (pt4);
-            return PDFHelper.CreateReportPdf ("MonthlySale", "Monthly Sale Report", pList, false);
+            return PDFHelper.CreateReportPdf ("MonthlySale", "Monthly Sale Report", pList, true);
 
 
         }
@@ -149,7 +143,7 @@ namespace eStore.BL.Reports.Accounts
                 })
                 .ToList ();
 
-            float [] columnWidthsCol8 = { 1, 1, 5, 5, 5, 5, 5, 1 };
+            float [] columnWidthsCol8 = { 1, 1, 1, 5, 5, 1, 5, 1 };
             Cell [] HeaderCellExpenses = new Cell []{
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("#")),
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("ID")),
@@ -161,7 +155,7 @@ namespace eStore.BL.Reports.Accounts
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Amount").SetTextAlignment(TextAlignment.CENTER)),
             };
 
-            float [] columnWidthsCol9 = { 1, 1, 5, 15, 15, 5, 15, 5, 1 };
+            float [] columnWidthsCol9 = { 1, 1, 1, 5, 5, 1, 1, 5, 1 };
             Cell [] HeaderCellPayment = new Cell []{
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("#")),
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("ID")),
@@ -184,9 +178,9 @@ namespace eStore.BL.Reports.Accounts
             Paragraph p1 = new Paragraph ("Expenses List");
             p1.Add (expTable);
             pList.Add (p1);
-            //Paragraph p2 = new Paragraph ("Cash Payments/Expenses List");
-            //p2.Add (cashPaymentTable);
-            //pList.Add (p2);
+            Paragraph p2 = new Paragraph ("Cash Payments/Expenses List");
+            p2.Add (cashPaymentTable);
+            pList.Add (p2);
             Paragraph p3 = new Paragraph ("Payments List");
             p3.Add (payTable);
             pList.Add (p3);
@@ -211,11 +205,9 @@ namespace eStore.BL.Reports.Accounts
 
         private Table DataToTable(List<TData> rows, Table table)
         {
-            
             int count = 0;
             foreach ( var row in rows )
             {
-                Console.WriteLine (row.Particulars);
                 table.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (( ++count ) + "")));
                 table.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (row.Id.ToString ())));
                 table.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (row.Date.ToShortDateString ())));
@@ -229,12 +221,10 @@ namespace eStore.BL.Reports.Accounts
             }
             return table;
         }
-        private Table DataToTable(List<SaleTData> rows, float [] columnWidths, Cell [] HeaderCell)
+        private Table DataToTable(List<SaleTData> rows, Table table)
         {
-            Table table = PDFHelper.GenerateTable (columnWidths, HeaderCell);
             int count = 0;
             decimal total = 0;
-
             foreach ( var row in rows )
             {
                 table.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (( ++count ) + "")));
@@ -244,9 +234,9 @@ namespace eStore.BL.Reports.Accounts
                 table.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (String.IsNullOrEmpty (row.Salesman) ? "" : row.Salesman)));
                 table.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (row.Mode.ToString ())));
                 if ( row.IsDue )
-                    table.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph ("Due").SetFontColor(ColorConstants.RED)));
+                    table.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph ("Yes")));
                 else
-                    table.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph ("Paid")));
+                    table.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph ("no")));
                 table.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (row.Amount.ToString ("0.##"))));
                 total += row.Amount;
             }
@@ -258,54 +248,21 @@ namespace eStore.BL.Reports.Accounts
         }
 
     }
-    internal class TableRow
-    {
-        public List<TableCol> Rows { get; set; }
-        private Table DataToTable(TableRow rows, Table table)
-        {
-            int count = 0;
-            foreach ( var row in rows.Rows )
-            {
-                table.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (( ++count ) + "")));
-                foreach ( var col in row.Cols )
-                {
-                    table.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER)
-                        .Add (new Paragraph (String.IsNullOrEmpty (col) ? "" : col)));
-                }
-            }
-            return table;
-        }
-    }
-
-    internal class TableCol
-    {
-        public List<string> Cols { get; set; }
-    }
-    internal class TData
-    {
-        public int Id { get; set; }
-        public DateTime Date { get; set; }
-        public string PName { get; set; }
-        public string Particulars { get; set; }
-        public PaymentMode Mode { get; set; }
-        public string Remarks { get; set; }
-        public string SlipNo { get; set; }
-        public decimal Amount { get; set; }
-    }
-    internal class SaleTData
-    {
-        public int Id { get; set; }
-        public DateTime Date { get; set; }
-        public string InvNo { get; set; }
-        public decimal Amount { get; set; }
-        public PayMode Mode { get; set; }
-        public bool ManualBill { get; set; }
-        public bool SaleReturn { get; set; }
-        public bool Tailoring { get; set; }
-        public string Salesman { get; set; }
-        public bool IsDue { get; set; }
-
-
-    }
+   
 
 }
+//private Table DataToTable(TableRow rows, Table table)
+//{
+//    int count = 0;
+//    foreach ( var row in rows.Rows )
+//    {
+//        table.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (( ++count ) + "")));
+//        foreach ( var col in row.Cols )
+//        {
+//            table.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER)
+//                .Add (new Paragraph (String.IsNullOrEmpty (col) ? "" : col)));
+//        }
+//    }
+//    return table;
+//}
+

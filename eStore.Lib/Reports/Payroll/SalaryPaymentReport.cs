@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using eStore.BL.Reports.CAReports;
 using eStore.Database;
+using eStore.Reports.Pdfs;
 using eStore.Shared.Models.Payroll;
 using iText.Kernel.Colors;
 using iText.Kernel.Geom;

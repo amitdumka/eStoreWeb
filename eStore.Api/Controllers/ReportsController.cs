@@ -10,6 +10,7 @@ using eStore.BL.Reports.Payroll;
 using eStore.BL.Reports.CAReports;
 using System.IO;
 using eStore.Lib.Reports.Payroll;
+using eStore.BL.Reports.Accounts;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -118,8 +119,35 @@ namespace eStore.API.Controllers
             var stream = new FileStream(data, FileMode.Open);
             return File(stream, "application/pdf", "report.pdf");
         }
+       
+        [HttpPost("monthlySaleReport")]
+        public FileStreamResult PostMonthlySaleReport(BasicParamDTO dto)
+        {
+            AccountReport ar = new AccountReport ();
+             var data=ar.SaleReport (db, dto.StoreId, new DateTime (dto.Year, dto.Month, 1));
+            //var data = ar.TestReport ();
+            var stream = new FileStream (data, FileMode.Open);
+            return File (stream, "application/pdf", "report.pdf");
+        }
+        [HttpPost ("monthlyPaymentReceiptReport")]
+        public FileStreamResult PostMonthlyPaymentRecieptReport(BasicParamDTO dto)
+        {
+            AccountReport ar = new AccountReport ();
+            var data = ar.PaymentRecieptReport (db, dto.StoreId, new DateTime (dto.Year, dto.Month, 1));
+            var stream = new FileStream (data, FileMode.Open);
+            return File (stream, "application/pdf", "report.pdf");
+        }
     }
 
+    public class BasicParamDTO
+    {
+        public int StoreId { get; set; }
+        public bool ForcedRefresh { get; set; }
+        public string FinYear { get; set; }
+        public int Month { get; set; }
+        public int Year { get; set; }
+        //public string ReportFormat { get; set; }
+    }
     
 
     public class AttReportDto
