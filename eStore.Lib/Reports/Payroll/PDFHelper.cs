@@ -72,9 +72,14 @@ namespace eStore.Reports.Pdfs
                .SetFontColor (ColorConstants.RED);
             doc.Add (info);
 
+            Paragraph info2 = new Paragraph ($"\n Report Date:{DateTime.Now}.\n\n")
+               .SetTextAlignment (iText.Layout.Properties.TextAlignment.LEFT)
+              .SetFontColor (ColorConstants.DARK_GRAY);
+            doc.Add (info2);
+
             foreach ( var para in pList )
             {
-                doc.Add ((AreaBreak) para);
+                doc.Add( (IBlockElement) para);
             }
             doc.Close ();
             pdfDoc.Close ();

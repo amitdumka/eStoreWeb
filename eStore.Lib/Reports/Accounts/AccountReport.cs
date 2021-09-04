@@ -1,7 +1,9 @@
 ﻿using eStore.Database;
 using eStore.Lib.Reports.Payroll;
 using eStore.Reports.Pdfs;
+using iText.IO.Font.Constants;
 using iText.Kernel.Colors;
+using iText.Kernel.Font;
 using iText.Layout.Element;
 using iText.Layout.Properties;
 using Microsoft.EntityFrameworkCore;
@@ -50,32 +52,41 @@ namespace eStore.BL.Reports.Accounts
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Due").SetTextAlignment(TextAlignment.CENTER)),
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Amount").SetTextAlignment(TextAlignment.CENTER)),
             };
-            List<Paragraph> pList = new List<Paragraph> ();
+            List<Object> oL = new List<Object> ();
              Table onSaleTable = DataToTable(onSale, columnWidths, HeaderCell);
              Table saleReturnTable = DataToTable(saleReturn, columnWidths, HeaderCell);
             Table manualSaleTable = DataToTable (manul, columnWidths, HeaderCell);
             Table tailoringTable = DataToTable(tail, columnWidths, HeaderCell);
+
             Paragraph p1 = new Paragraph("Sale(On Book)\n").SetTextAlignment (TextAlignment.CENTER).SetFontColor(ColorConstants.BLUE);
-            Paragraph pt1 = new Paragraph ();
-            pt1.Add(onSaleTable);
-            pList.Add(p1);
-            pList.Add (pt1);
             Paragraph p2 = new Paragraph ("Sale Return List\n").SetTextAlignment (TextAlignment.CENTER).SetFontColor (ColorConstants.BLUE);
-            Paragraph pt2 = new Paragraph ();
-            p2.Add (saleReturnTable);
-            pList.Add (p2);
-            pList.Add (pt2);
             Paragraph p3 = new Paragraph ("Tailoring Sale List\n").SetTextAlignment (TextAlignment.CENTER).SetFontColor (ColorConstants.BLUE);
-            Paragraph pt3 = new Paragraph ();
-            pt3.Add (tailoringTable);
-            pList.Add (p3);
-            pList.Add (pt3);
             Paragraph p4 = new Paragraph ("Manual Sale List\n").SetTextAlignment (TextAlignment.CENTER).SetFontColor (ColorConstants.BLUE);
-            Paragraph pt4 = new Paragraph ();
-            pt4.Add (manualSaleTable);
-            pList.Add (p4);
-            pList.Add (pt4);
-            return PDFHelper.CreateReportPdf ("MonthlySale", "Monthly Sale Report", pList, false);
+
+            if ( onSale.Count > 0 )
+            {
+                oL.Add (p1);
+                oL.Add (onSaleTable);
+            }
+            if ( saleReturn.Count > 0 )
+            {
+                oL.Add (p2);
+                oL.Add (saleReturnTable);
+            }
+            if ( tail.Count > 0 )
+            {
+                oL.Add (p3);
+                oL.Add (tailoringTable);
+            }
+            if ( manul.Count > 0 )
+            {
+                oL.Add (p4);
+                oL.Add (manualSaleTable);
+            }
+
+
+
+            return PDFHelper.CreateReportPdf ("MonthlySale", "Monthly Sale Report", oL, false);
 
 
         }
@@ -183,31 +194,34 @@ namespace eStore.BL.Reports.Accounts
             List<Paragraph> pList = new List<Paragraph> ();
             List<Object> oL = new List<Object> ();
             Paragraph p1 = new Paragraph ("Expenses List");
-            //p1.Add (expTable);
-            pList.Add (p1);
             Paragraph p2 = new Paragraph ("Cash Payments/Expenses List");
-            //p2.Add (cashPaymentTable);
-            pList.Add (p2);
             Paragraph p3 = new Paragraph ("Payments List");
-            //p3.Add (payTable);
-            pList.Add (p3);
             Paragraph p4 = new Paragraph ("Reciepts List");
-            //p4.Add (recptTable);
-            pList.Add (p4);
             Paragraph p5 = new Paragraph ("Cash Reciepts List");
-            //p5.Add (cashRecptTable);
-            pList.Add (p5);
-            oL.Add (p1);
-            oL.Add (expTable);
 
+            if ( expdata.Count > 0 )
+            {
+                oL.Add (p1);
+                oL.Add (expTable); }
+            if ( cashPayData.Count > 0 )
+            { 
             oL.Add (p2);
-            oL.Add (cashPaymentTable);
-            oL.Add (p3);
-            oL.Add (payTable);
-            oL.Add (p4);
-            oL.Add (recptTable);
-            oL.Add (p5);
-            oL.Add (cashRecptTable);
+            oL.Add (cashPaymentTable); }
+            if ( payData.Count > 0 )
+            {
+                oL.Add (p3);
+                oL.Add (payTable);
+            }
+            if ( recptData.Count > 0 )
+            {
+                oL.Add (p4);
+                oL.Add (recptTable);
+            }
+            if ( cashRecptData.Count > 0 )
+            {
+                oL.Add (p5);
+                oL.Add (cashRecptTable);
+            }
 
 
 
@@ -228,6 +242,7 @@ namespace eStore.BL.Reports.Accounts
         {
             
             int count = 0;
+            decimal total = 0;
             foreach ( var row in rows )
             {
                 Console.WriteLine ($"{row.Particulars}\t{row.SlipNo}\t{row.Id}\t{row.Mode}\t{row.Amount}\t{row.Date.ToShortDateString()}");
@@ -242,7 +257,14 @@ namespace eStore.BL.Reports.Accounts
                     //.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph ( "A")));
                 table.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (String.IsNullOrEmpty (row.SlipNo) ? "" : row.SlipNo)));
                 table.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (row.Amount.ToString ("0.##"))));
+                total += row.Amount;
             }
+            Div d = new Div ();
+            PdfFont font = PdfFontFactory.CreateFont (StandardFonts.TIMES_ITALIC);
+            Paragraph p = new Paragraph ($"Total :{total}").SetFont(font)
+                .SetTextAlignment (TextAlignment.RIGHT).SetFontColor (ColorConstants.BLUE);
+            d.Add (p);
+            table.SetCaption (d);
             return table;
         }
         private Table DataToTable(List<SaleTData> rows, float [] columnWidths, Cell [] HeaderCell)
