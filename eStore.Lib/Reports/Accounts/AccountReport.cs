@@ -18,6 +18,8 @@ namespace eStore.BL.Reports.Accounts
         public int EmpId { get; set; }
         public string StaffName { get; set; }
         public List<SData> Data { get; set; }
+        public decimal TotalPaid { get; set; }
+        public decimal TotalRec { get; set; }
     }
     class SData
     {
@@ -54,10 +56,21 @@ namespace eStore.BL.Reports.Accounts
 
                 };
 
-                var da = payData.Where(c => c.EmployeeId == id).Select(c =>
-                new SData { Date=c.PaymentDate, ID=c.SalaryPaymentId, InAmount=c.Amount , Mode=c.PayMode, OutAmount=0}).ToList();
+                e.Data = payData.Where(c => c.EmployeeId == id).Select(c =>
+                new SData { Date=c.PaymentDate, ID=c.SalaryPaymentId, InAmount=c.Amount , Mode=c.PayMode, OutAmount=0,SlipNo=c.Details,
+                    PaymentReson=c.SalaryMonth}).ToList();
+                var r = recData.Where(c => c.EmployeeId == id).Select(c => new SData {
+                    Date=c.ReceiptDate, ID=c.StaffAdvanceReceiptId, InAmount=0, Mode=c.PayMode, OutAmount=c.Amount,
+                    PaymentReson="Payment Recived or Adjusted ", SlipNo=c.Details
+                }).ToList();
 
+                if (r.Count > 0) e.Data.AddRange(r);
+                e.TotalPaid = payData.Where(c => c.EmployeeId == id).Sum(c => c.Amount);
+                e.TotalRec = recData.Where(c => c.EmployeeId == id).Sum(c => c.Amount);
+                eList.Add(e);
             }
+
+
 
 
 
