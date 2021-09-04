@@ -149,7 +149,7 @@ namespace eStore.BL.Reports.Accounts
                 })
                 .ToList ();
 
-            float [] columnWidthsCol8 = { 1, 1, 5, 5, 5, 5, 5, 1 };
+            float [] columnWidthsCol8 = { 1, 1, 5, 15, 15, 5, 15, 1 };
             Cell [] HeaderCellExpenses = new Cell []{
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("#")),
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("ID")),
@@ -177,26 +177,41 @@ namespace eStore.BL.Reports.Accounts
 
             Table expTable = DataToTable (expdata, PDFHelper.GenerateTable (columnWidthsCol8, HeaderCellExpenses));
             Table payTable = DataToTable (payData, PDFHelper.GenerateTable (columnWidthsCol9, HeaderCellPayment));
-            Table recptTable = DataToTable (recptData, PDFHelper.GenerateTable (columnWidthsCol8, HeaderCellPayment));
-            Table cashPaymentTable = DataToTable (cashPayData, PDFHelper.GenerateTable (columnWidthsCol8, HeaderCellPayment));
-            Table cashRecptTable = DataToTable (cashRecptData, PDFHelper.GenerateTable (columnWidthsCol8, HeaderCellPayment));
+            Table recptTable = DataToTable (recptData, PDFHelper.GenerateTable (columnWidthsCol9, HeaderCellPayment));
+            Table cashPaymentTable = DataToTable (cashPayData, PDFHelper.GenerateTable (columnWidthsCol9, HeaderCellPayment));
+            Table cashRecptTable = DataToTable (cashRecptData, PDFHelper.GenerateTable (columnWidthsCol9, HeaderCellPayment));
             List<Paragraph> pList = new List<Paragraph> ();
+            List<Object> oL = new List<Object> ();
             Paragraph p1 = new Paragraph ("Expenses List");
-            p1.Add (expTable);
+            //p1.Add (expTable);
             pList.Add (p1);
-            //Paragraph p2 = new Paragraph ("Cash Payments/Expenses List");
+            Paragraph p2 = new Paragraph ("Cash Payments/Expenses List");
             //p2.Add (cashPaymentTable);
-            //pList.Add (p2);
+            pList.Add (p2);
             Paragraph p3 = new Paragraph ("Payments List");
-            p3.Add (payTable);
+            //p3.Add (payTable);
             pList.Add (p3);
             Paragraph p4 = new Paragraph ("Reciepts List");
-            p4.Add (recptTable);
+            //p4.Add (recptTable);
             pList.Add (p4);
             Paragraph p5 = new Paragraph ("Cash Reciepts List");
-            p5.Add (cashRecptTable);
+            //p5.Add (cashRecptTable);
             pList.Add (p5);
-            return PDFHelper.CreateReportPdf ("PaymentReciept", "Payments, Expenses and Receipts", pList, true);
+            oL.Add (p1);
+            oL.Add (expTable);
+
+            oL.Add (p2);
+            oL.Add (cashPaymentTable);
+            oL.Add (p3);
+            oL.Add (payTable);
+            oL.Add (p4);
+            oL.Add (recptTable);
+            oL.Add (p5);
+            oL.Add (cashRecptTable);
+
+
+
+            return PDFHelper.CreateReportPdf ("PaymentReciept", "Payments, Expenses and Receipts", oL, true);
 
 
         }
@@ -215,7 +230,7 @@ namespace eStore.BL.Reports.Accounts
             int count = 0;
             foreach ( var row in rows )
             {
-                Console.WriteLine (row.Particulars);
+                Console.WriteLine ($"{row.Particulars}\t{row.SlipNo}\t{row.Id}\t{row.Mode}\t{row.Amount}\t{row.Date.ToShortDateString()}");
                 table.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (( ++count ) + "")));
                 table.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (row.Id.ToString ())));
                 table.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (row.Date.ToShortDateString ())));
@@ -224,7 +239,8 @@ namespace eStore.BL.Reports.Accounts
                 table.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (row.Mode.ToString ())));
                 table.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (String.IsNullOrEmpty (row.Remarks) ? "" : row.Remarks)));
                 if ( row.SlipNo != null )
-                    table.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (String.IsNullOrEmpty (row.SlipNo) ? "" : row.SlipNo)));
+                    //.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph ( "A")));
+                table.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (String.IsNullOrEmpty (row.SlipNo) ? "" : row.SlipNo)));
                 table.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (row.Amount.ToString ("0.##"))));
             }
             return table;
