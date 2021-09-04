@@ -30,6 +30,9 @@ export async function GetMonthlyReport(MonthlyDto){
         case 2: 
         url=url+"/monthlyPaymentReceiptReport";
         break;
+        case 3: 
+        url=url+"/monthlySalaryReport";
+        break;
         default: 
         url="";
         break;
@@ -587,7 +590,7 @@ export const MonthlyReportCard = () => {
                             <Select value={repoMode} onChange={handleModeChange} id="modeSelect">
                                 <MenuItem value={1}>Sale Report</MenuItem>
                                 <MenuItem value={2}>Payment Receipt Report </MenuItem>
-                                <MenuItem value={3} disabled>Salary Report</MenuItem>
+                                <MenuItem value={3}>Salary Report</MenuItem>
                                 <MenuItem value={4} disabled>Expenses Data</MenuItem>
                                 <MenuItem value={5} disabled>Payment Data</MenuItem>
                                 <MenuItem value={6} disabled>Receipts Data</MenuItem>

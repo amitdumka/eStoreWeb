@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using eStore.BL.Reports.CAReports;
+using iText.IO.Font.Constants;
 using iText.Kernel.Colors;
+using iText.Kernel.Font;
 using iText.Kernel.Geom;
 using iText.Kernel.Pdf;
 using iText.Layout;
@@ -103,12 +105,13 @@ namespace eStore.Reports.Pdfs
                 new Cell(1,2).Add(new Paragraph("D:"+DateTime.Now) .SetFontColor(DeviceGray.GRAY)),
             };
             Table table = new Table(UnitValue.CreatePercentArray(columnWidths)).SetBorder(new OutsetBorder(2));
-
+           // PdfFont font = PdfFontFactory.CreateFont (StandardFonts.TIMES_ROMAN);
             table.SetFontColor(ColorConstants.BLUE);
             table.SetFontSize(10);
             table.SetPadding(10f);
             table.SetMarginRight(5f);
             table.SetMarginTop(10f);
+            //table.SetFont (font);
 
             foreach (Cell hfCell in HeaderCell)
             {

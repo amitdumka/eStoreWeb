@@ -137,6 +137,14 @@ namespace eStore.API.Controllers
             var stream = new FileStream (data, FileMode.Open);
             return File (stream, "application/pdf", "report.pdf");
         }
+        [HttpPost ("monthlySalaryReport")]
+        public FileStreamResult PostMonthlySalaryReport(BasicParamDTO dto)
+        {
+            AccountReport ar = new AccountReport ();
+            var data = ar.SalaryReport (db, dto.StoreId, new DateTime (dto.Year, dto.Month, 1));
+            var stream = new FileStream (data, FileMode.Open);
+            return File (stream, "application/pdf", "report.pdf");
+        }
     }
 
     public class BasicParamDTO
