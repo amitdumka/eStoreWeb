@@ -13,9 +13,59 @@ using System.Linq;
 
 namespace eStore.BL.Reports.Accounts
 {
+    class EData
+    {
+        public int EmpId { get; set; }
+        public string StaffName { get; set; }
+        public List<SData> Data { get; set; }
+    }
+    class SData
+    {
+        public int ID { get; set; }
+
+        public DateTime Date { get; set; }
+        public string SlipNo { get; set; }
+        public PayMode Mode { get; set; }
+        public string PaymentReson { get; set; }
+        public decimal InAmount { get; set; }
+        public decimal OutAmount { get; set; }
+        
+    }
+
     public class AccountReport
     {
         int StoreId; DateTime date;
+
+       
+
+        public void SalaryReport(eStoreDbContext db, int storeId, DateTime onDate, bool isPdf = true)
+        {
+            StoreId = storeId; date = onDate;
+            var payData = db.SalaryPayments.Where(c => c.StoreId == storeId && c.PaymentDate.Date == onDate.Date).OrderBy(c => c.EmployeeId).ToList();
+            var recData = db.StaffAdvanceReceipts.Where(c => c.StoreId == storeId && c.ReceiptDate.Date == onDate.Date).OrderBy(c => c.EmployeeId).ToList();
+
+            var empIds = payData.Select(c => c.EmployeeId).OrderBy(c => c).ToList();
+            SortedList<int, string> emp = new SortedList<int, string>();
+            var d = db.Employees.Select(c => new { c.EmployeeId, c.StaffName }).ToList();
+            List<EData> eList = new List<EData>();
+            foreach (var id in empIds)
+            {
+                EData e = new EData { EmpId=id, StaffName= d.Where(c=>c.EmployeeId==id).FirstOrDefault().StaffName
+
+                };
+
+                var da = payData.Where(c => c.EmployeeId == id).Select(c =>
+                new SData { Date=c.PaymentDate, ID=c.SalaryPaymentId, InAmount=c.Amount , Mode=c.PayMode, OutAmount=0}).ToList();
+
+            }
+
+
+
+
+            
+        }
+
+
         public string SaleReport(eStoreDbContext db, int storeId, DateTime onDate, bool isPdf = true)
         {
             StoreId = storeId;
