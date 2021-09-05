@@ -29,16 +29,72 @@ namespace eStore.BL.Reports.Accounts
 
 
     }
+
+    public class OtherReport
+    {
+        public void GetTailoringReport(eStoreDbContext db, int storeId, DateTime date)
+        {
+
+            var booking = db.TalioringBookings.Where(c => c.StoreId == storeId && c.BookingDate.Month == date.Month && c.BookingDate.Year == date.Year).
+                Select(c => new { c.BookingDate, c.BookingSlipNo, c.CustName, c.DeliveryDate, c.TotalAmount, c.TotalQty, c.IsDelivered, c.TalioringBookingId })
+                .ToList();
+
+            var delivery = db.TailoringDeliveries.Where(c => c.StoreId == storeId && c.DeliveryDate.Month == date.Month && c.DeliveryDate.Year == date.Year).
+                Select(c => new { c.DeliveryDate, c.Amount, c.InvNo, c.TalioringBookingId, c.TalioringDeliveryId })
+                .ToList();
+
+            var dIdList = booking.Select(c => c.TalioringBookingId).ToList();
+            var bIdList = delivery.Select(c => c.TalioringBookingId).ToList();
+            var PIdList = bIdList.ToList();
+            foreach (var id in dIdList)
+            {
+                PIdList.Remove(id);
+
+            }
+
+            if (PIdList.Count > 0)
+            {
+
+            }
+            float[] columnWidths = { 1, 1, 5, 5, 5, 5, 5, 5, 5, 1 };
+            Cell[] HeaderCell = new Cell[]{
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("#")),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("ID")),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Date").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Slip No").SetTextAlignment(TextAlignment.CENTER)),
+
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Customer Name").SetTextAlignment(TextAlignment.CENTER)),
+
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Total Qty").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Total Amount").SetTextAlignment(TextAlignment.CENTER)),
+
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Delivery Date").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Inv No").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Paid Amount").SetTextAlignment(TextAlignment.CENTER)),
+
+                   };
+
+
+
+
+        }
+        public void GetBankingReport() { }
+    }
+
     public class VoucherReport
     {
-        int storeId; DateTime date;
+        // int storeId; DateTime date;
 
-        public void GetVoucherReport(eStoreDbContext db, int storeId, VoucherReportType rType, DateTime sDate, DateTime eDate, bool isPdf = true)
+        public string GetVoucherReport(eStoreDbContext db, int storeId, VoucherReportType rType, DateTime sDate, DateTime eDate, ReportOutputType oType = 0)
         {
             List<VData> data = null;
+            string ReportName = "report";
+            string ReportHeading = "";
             switch (rType)
             {
                 case VoucherReportType.Payment:
+                    ReportName = "PaymentReport";
+                    ReportHeading = $"Payment Report for period {sDate} - {eDate}.";
                     data = db.Payments.Where(c => c.StoreId == storeId && c.OnDate.Date >= sDate.Date && c.OnDate.Date <= eDate.Date).OrderBy(c => c.OnDate)
                         .Select(c => new VData
                         {
@@ -53,65 +109,122 @@ namespace eStore.BL.Reports.Accounts
                         }).ToList();
                     break;
                 case VoucherReportType.Expenses:
-                    data = db.Payments.Where(c => c.StoreId == storeId && c.OnDate.Date >= sDate.Date && c.OnDate.Date <= eDate.Date).OrderBy(c => c.OnDate)
+                    ReportName = "ExpensesReport";
+                    ReportHeading = $"Expenses Report for period {sDate} - {eDate}.";
+                    data = db.Expenses.Where(c => c.StoreId == storeId && c.OnDate.Date >= sDate.Date && c.OnDate.Date <= eDate.Date).OrderBy(c => c.OnDate)
                         .Select(c => new VData
                         {
-                            Id = c.PaymentId,
+                            Id = c.ExpenseId,
                             Date = c.OnDate,
                             Amount = c.Amount,
                             Mode = c.PayMode,
                             PartyName = c.PartyName,
-                            Particulars = c.PaymentDetails,
+                            Particulars = c.Particulars,
                             Remarks = c.Remarks,
-                            SlipNo = c.PaymentSlipNo
+                            SlipNo = c.PaymentDetails
                         }).ToList();
                     break;
                 case VoucherReportType.Receipts:
-                    data = db.Payments.Where(c => c.StoreId == storeId && c.OnDate.Date >= sDate.Date && c.OnDate.Date <= eDate.Date).OrderBy(c => c.OnDate)
+                    ReportName = "ReceiptReport";
+                    ReportHeading = $"Receipt Report for period {sDate} - {eDate}.";
+                    data = db.Receipts.Where(c => c.StoreId == storeId && c.OnDate.Date >= sDate.Date && c.OnDate.Date <= eDate.Date).OrderBy(c => c.OnDate)
                         .Select(c => new VData
                         {
-                            Id = c.PaymentId,
+                            Id = c.ReceiptId,
                             Date = c.OnDate,
                             Amount = c.Amount,
                             Mode = c.PayMode,
                             PartyName = c.PartyName,
                             Particulars = c.PaymentDetails,
                             Remarks = c.Remarks,
-                            SlipNo = c.PaymentSlipNo
+                            SlipNo = c.RecieptSlipNo
                         }).ToList();
                     break;
                 case VoucherReportType.CashPayment:
-                    data = db.Payments.Where(c => c.StoreId == storeId && c.OnDate.Date >= sDate.Date && c.OnDate.Date <= eDate.Date).OrderBy(c => c.OnDate)
+                    ReportName = "CashPaymentReport";
+                    ReportHeading = $" Cash Payment Report for period {sDate} - {eDate}.";
+                    data = db.CashPayments.Include(c => c.Mode).Where(c => c.StoreId == storeId && c.PaymentDate.Date >= sDate.Date && c.PaymentDate.Date <= eDate.Date).OrderBy(c => c.PaymentDate)
                         .Select(c => new VData
                         {
-                            Id = c.PaymentId,
-                            Date = c.OnDate,
+                            Id = c.CashPaymentId,
+                            Date = c.PaymentDate,
                             Amount = c.Amount,
-                            Mode = c.PayMode,
-                            PartyName = c.PartyName,
-                            Particulars = c.PaymentDetails,
+                            Mode = PaymentMode.Cash,
+                            PartyName = c.PaidTo,
+                            Particulars = c.Mode.Transcation,
                             Remarks = c.Remarks,
-                            SlipNo = c.PaymentSlipNo
+                            SlipNo = c.SlipNo
                         }).ToList();
                     break;
                 case VoucherReportType.CashReceipts:
-                    data = db.Payments.Where(c => c.StoreId == storeId && c.OnDate.Date >= sDate.Date && c.OnDate.Date <= eDate.Date).OrderBy(c => c.OnDate)
+                    ReportName = "CashReceiptReport";
+                    ReportHeading = $"Cash Receipt Report for period {sDate} - {eDate}.";
+                    data = db.CashReceipts.Include(c => c.Mode).Where(c => c.StoreId == storeId && c.InwardDate.Date >= sDate.Date && c.InwardDate.Date <= eDate.Date).OrderBy(c => c.InwardDate)
                         .Select(c => new VData
                         {
-                            Id = c.PaymentId,
-                            Date = c.OnDate,
+                            Id = c.CashReceiptId,
+                            Date = c.InwardDate,
                             Amount = c.Amount,
-                            Mode = c.PayMode,
-                            PartyName = c.PartyName,
-                            Particulars = c.PaymentDetails,
+                            Mode = PaymentMode.Cash,
+                            PartyName = c.ReceiptFrom,
+                            Particulars = c.Mode.Transcation,
                             Remarks = c.Remarks,
-                            SlipNo = c.PaymentSlipNo
+                            SlipNo = c.SlipNo
                         }).ToList();
                     break;
                 default:
                     break;
             }
+            List<Object> oL = new List<object>();
+            if (data != null && data.Count > 0)
+            {
 
+                float[] columnWidths = { 1, 1, 5, 15, 15, 5, 15, 5, 1 };
+                Cell[] HeaderCell = new Cell[]{
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("#")),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("ID")),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Date").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Party Name").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Particulars").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Mode").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Remarks").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Slip No").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Amount").SetTextAlignment(TextAlignment.CENTER)),
+            };
+
+
+
+            }
+
+            return PDFHelper.CreateReportPdf(ReportName, ReportHeading, oL, true);
+
+        }
+        private Table DataToTable(List<VData> rows, Table table)
+        {
+            int count = 0;
+            decimal total = 0;
+            foreach (var row in rows)
+            {
+                table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph((++count) + "")));
+                table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(row.Id.ToString())));
+                table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(row.Date.ToShortDateString())));
+                table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(String.IsNullOrEmpty(row.PartyName) ? "" : row.PartyName)));
+                table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(String.IsNullOrEmpty(row.Particulars) ? "" : row.Particulars)));
+                table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(row.Mode.ToString())));
+                table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(String.IsNullOrEmpty(row.Remarks) ? "" : row.Remarks)));
+                if (row.SlipNo != null)
+
+                    table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(String.IsNullOrEmpty(row.SlipNo) ? "" : row.SlipNo)));
+                table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(row.Amount.ToString("0.##"))));
+                total += row.Amount;
+            }
+            Div d = new Div();
+            PdfFont font = PdfFontFactory.CreateFont(StandardFonts.TIMES_ITALIC);
+            Paragraph p = new Paragraph($"Total :{total}").SetFont(font)
+                .SetTextAlignment(TextAlignment.RIGHT).SetFontColor(ColorConstants.RED);
+            d.Add(p);
+            table.SetCaption(d);
+            return table;
         }
 
 
@@ -475,7 +588,7 @@ namespace eStore.BL.Reports.Accounts
                 table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(row.Mode.ToString())));
                 table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(String.IsNullOrEmpty(row.Remarks) ? "" : row.Remarks)));
                 if (row.SlipNo != null)
-                    //.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph ( "A")));
+
                     table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(String.IsNullOrEmpty(row.SlipNo) ? "" : row.SlipNo)));
                 table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(row.Amount.ToString("0.##"))));
                 total += row.Amount;
