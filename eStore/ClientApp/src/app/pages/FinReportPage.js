@@ -25,16 +25,21 @@ export const API_URL = "/" + "api/Reports";
 export async function GetMonthlyReport(MonthlyDto){
     var url=API_URL;
     switch (MonthlyDto.mode){
-        case 1: url=url+"/monthlySaleReport";
+
+        case 8: url=url+"/monthlySaleReport";
             break; 
-        case 2: 
+        case 9: 
         url=url+"/monthlyPaymentReceiptReport";
         break;
-        case 3: 
+        case 10: 
         url=url+"/monthlySalaryReport";
         break;
-        default: 
-        url="";
+        
+        default:
+            if(MonthlyDto.mode<=5){
+                url="/voucherReport";
+            } else url="";
+        
         break;
     }
     if(url!==""){
@@ -588,17 +593,20 @@ export const MonthlyReportCard = () => {
                         <TableCell className="text-info">Report</TableCell>
                         <TableCell>
                             <Select value={repoMode} onChange={handleModeChange} id="modeSelect">
-                                <MenuItem value={1}>Sale Report</MenuItem>
-                                <MenuItem value={2}>Payment Receipt Report </MenuItem>
-                                <MenuItem value={3}>Salary Report</MenuItem>
-                                <MenuItem value={4} disabled>Expenses Data</MenuItem>
-                                <MenuItem value={5} disabled>Payment Data</MenuItem>
-                                <MenuItem value={6} disabled>Receipts Data</MenuItem>
-                                <MenuItem value={7} disabled>Bank Data</MenuItem>
-                                <MenuItem value={8} disabled>Purchase Report</MenuItem>
-                                <MenuItem value={9} disabled>Cash Expenses</MenuItem>
-                                <MenuItem value={10} disabled>Cash Reciept</MenuItem>
-                                <MenuItem value={11} disabled>Tailoring Report</MenuItem>
+                                <MenuItem value={8}>Sale Report</MenuItem>
+                                <MenuItem value={9}>Payment Receipt Report </MenuItem>
+                                <MenuItem value={10}>Salary Report</MenuItem>
+
+                                <MenuItem value={0} >Payment Data</MenuItem>
+                                <MenuItem value={1} >Expenses Data</MenuItem>
+                                <MenuItem value={2} >Receipts Data</MenuItem>
+                                <MenuItem value={3} >Cash Expenses</MenuItem>
+                                <MenuItem value={4} >Cash Reciept</MenuItem>
+                                
+                                <MenuItem value={5} disabled>Bank Data</MenuItem>
+                                <MenuItem value={6} disabled>Purchase Report</MenuItem>
+                                <MenuItem value={7} disabled>Tailoring Report</MenuItem>
+                                
                             </Select>
                         </TableCell>
                         <TableCell className="text-danger">Refreshed Data</TableCell>
