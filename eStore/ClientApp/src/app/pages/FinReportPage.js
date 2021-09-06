@@ -136,24 +136,52 @@ export async function GetSalReport(RequestData) {
 }
 export async function GetSalCalReport(RequestData) {
   console.log(RequestData);
-  await axios
-    .post(`${API_URL}/SalaryCalReport`, RequestData, {
-      method: "POST",
-      responseType: "blob", //Force to receive data in a Blob Format
-      headers: { "Content-Type": "application/json; charset=utf-8" },
-    })
-    .then((response) => {
-      // Create a Blob from the PDF Stream
-      const file = new Blob([response.data], { type: "application/pdf" });
-      // Build a URL from the file
-      const fileURL = URL.createObjectURL(file);
-      // Open the URL on new Window
-      window.open(fileURL);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-  alert("Kindly wait , Data is Downloading....");
+
+  if (RequestData.finYear === "All") {
+    if (RequestData.month === "0") {
+      await axios
+        .post(`${API_URL}/SalaryCalReport`, RequestData, {
+          method: "POST",
+          responseType: "blob", //Force to receive data in a Blob Format
+          headers: { "Content-Type": "application/json; charset=utf-8" },
+        })
+        .then((response) => {
+          // Create a Blob from the PDF Stream
+          const file = new Blob([response.data], { type: "application/pdf" });
+          // Build a URL from the file
+          const fileURL = URL.createObjectURL(file);
+          // Open the URL on new Window
+          window.open(fileURL);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      alert("Feature is not available");
+    }
+  } else {
+    if (RequestData.month > 0)
+      await axios
+        .post(`${API_URL}/MonthlySalaryCalReport`, RequestData, {
+          method: "POST",
+          responseType: "blob", //Force to receive data in a Blob Format
+          headers: { "Content-Type": "application/json; charset=utf-8" },
+        })
+        .then((response) => {
+          // Create a Blob from the PDF Stream
+          const file = new Blob([response.data], { type: "application/pdf" });
+          // Build a URL from the file
+          const fileURL = URL.createObjectURL(file);
+          // Open the URL on new Window
+          window.open(fileURL);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    else {
+      alert("Feature is not available!");
+    }
+  }
 }
 
 export const FinReportPage = () => {
@@ -566,7 +594,7 @@ export const AttendaceReportCard = () => {
                 className="btn btn-primary"
                 onClick={handleButtonSalaryCal}
               >
-                Salary Cal
+                Salary
               </button>
             </TableCell>
           </TableRow>

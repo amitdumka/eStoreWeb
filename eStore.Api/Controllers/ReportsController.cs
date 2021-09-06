@@ -119,8 +119,21 @@ namespace eStore.API.Controllers
             var stream = new FileStream(data, FileMode.Open);
             return File(stream, "application/pdf", "report.pdf");
         }
+        [HttpPost ("MonthlySalaryCalReport")]
+        public FileStreamResult PostMSalarCalReport(AttReportDto dto)
+        {
+            var yrs = dto.FinYear.Split ("-");
+            int year =int.Parse( yrs [0].Trim());
+            if(dto.Month<4)
+                year = int.Parse (yrs [1].Trim ());
+            MonthlySalaryCal cal = new MonthlySalaryCal (db, dto.StoreId, dto.Month,year);
+            var data = cal.CalucalteSalarySlip();
+            var stream = new FileStream (data, FileMode.Open);
+            return File (stream, "application/pdf", "report.pdf");
+        }
 
-        [HttpPost("monthlySaleReport")]
+
+        [HttpPost ("monthlySaleReport")]
         public FileStreamResult PostMonthlySaleReport(BasicParamDTO dto)
         {
             AccountReport ar = new AccountReport();
