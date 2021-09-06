@@ -1,17 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using eStore.BL.Reports.CAReports;
+﻿using eStore.BL.Reports.CAReports;
 using eStore.Database;
 using eStore.Reports.Pdfs;
 using eStore.Shared.Models.Payroll;
+using iText.IO.Font.Constants;
 using iText.Kernel.Colors;
+using iText.Kernel.Font;
 using iText.Kernel.Geom;
 using iText.Kernel.Pdf;
 using iText.Layout;
 using iText.Layout.Borders;
 using iText.Layout.Element;
 using iText.Layout.Properties;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Path = System.IO.Path;
 
 namespace eStore.Lib.Reports.Payroll
@@ -29,21 +31,27 @@ namespace eStore.Lib.Reports.Payroll
         public decimal PaidSunday { get; set; }
         public decimal Absent { get; set; }
         public int NoofAttendance { get; set; }
+        public decimal SalaryAdvance { get; set; }
+        public decimal OtherDeducation { get; set; }
+        public string DeducationResaons { get; set; }
     }
 
     public class SalaryCal
     {
         //TODO: Need to Implement in calculation for Incentive, WOWBill and Last pcs.
         //TODO: Need to Add, Staff Welfare part also in calucaltion and Payment part.
-        private bool IsIncentive=false, IsWowBill=false, IsLastPcs=false;
+        private bool IsIncentive = false, IsWowBill = false, IsLastPcs = false;
+
         private EmpType EmpType;
         private eStoreDbContext db;
         private int StoreId;
         private string StaffName;
         private int EmployeeId;
         private List<int> YearList;
+
         //private List<SalarySlip> MonthList;
         private List<List<SalarySlip>> YearlySalarySlip;
+
         private bool IsSundayWorking;
         private List<CurrentSalary> Salaries;
 
@@ -60,7 +68,7 @@ namespace eStore.Lib.Reports.Payroll
             YearlySalarySlip = new List<List<SalarySlip>> ();
         }
 
-        public string SalarCalulationForMonth(int empId,int year, int month)
+        public string SalarCalulationForMonth(int empId, int year, int month)
         {
             SalarySlip slip = CalucalteAttendance (month, year);
             List<SalarySlip> monSS = new List<SalarySlip> ();
@@ -69,10 +77,8 @@ namespace eStore.Lib.Reports.Payroll
             return CreatePdf (false);
         }
 
-
         public string SalaryCalculation()
         {
-            
             foreach ( var year in YearList )
             {
                 List<SalarySlip> monSS = new List<SalarySlip> ();
@@ -80,14 +86,14 @@ namespace eStore.Lib.Reports.Payroll
                     monSS.Add (CalucalteAttendance (i, year));
                 YearlySalarySlip.Add (monSS);
             }
-            return CreatePdf(false);
-
+            return CreatePdf (false);
         }
-        private string CreatePdf(bool isLandscape=false)
-        {
-            float[] columnWidths = { 1, 5, 5, 5, 5, 5, 1};
 
-            Cell[] HeaderCell = new Cell[]{
+        private string CreatePdf(bool isLandscape = false)
+        {
+            float [] columnWidths = { 1, 5, 5, 5, 5, 5, 1 };
+
+            Cell [] HeaderCell = new Cell []{
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("#")),
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Month/Year").SetTextAlignment(TextAlignment.CENTER)),
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Working Days / Count").SetTextAlignment(TextAlignment.CENTER)),
@@ -97,49 +103,46 @@ namespace eStore.Lib.Reports.Payroll
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Salary").SetTextAlignment(TextAlignment.CENTER)),
             };
 
-            List<Paragraph> pList = new List<Paragraph>();
-            Paragraph Line1 = new Paragraph("Salary Calculation Report").SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
-               .SetFontColor(ColorConstants.RED);
-            Line1.Add($"\nEmployee Name: {StaffName}\t\t\t Report Date: {DateTime.Now}");
-            pList.Add(Line1);
+            List<Paragraph> pList = new List<Paragraph> ();
+            Paragraph Line1 = new Paragraph ("Salary Calculation Report").SetTextAlignment (iText.Layout.Properties.TextAlignment.CENTER)
+               .SetFontColor (ColorConstants.RED);
+            Line1.Add ($"\nEmployee Name: {StaffName}\t\t\t Report Date: {DateTime.Now}");
+            pList.Add (Line1);
             decimal TotalSalary = 0;
-            foreach (var item in YearlySalarySlip)
+            foreach ( var item in YearlySalarySlip )
             {
-                var YearName = item[0].Year;
-                Div d = new Div();
-                
-                Table table = PDFHelper.GenerateTable(columnWidths, HeaderCell);          
+                var YearName = item [0].Year;
+                Div d = new Div ();
+
+                Table table = PDFHelper.GenerateTable (columnWidths, HeaderCell);
                 int count = 0;
                 decimal totalPayment = 0;
-                foreach (var sData in item)
+                foreach ( var sData in item )
                 {
                     //table.AddCell()
-                    table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph((++count) + "")));
-                    table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(sData.Month.ToString()+"/"+sData.Year.ToString())));
-                    table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(sData.NoOfWorkingDays.ToString()+"/"+sData.NoofAttendance.ToString())));
+                    table.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (( ++count ) + "")));
+                    table.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (sData.Month.ToString () + "/" + sData.Year.ToString ())));
+                    table.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (sData.NoOfWorkingDays.ToString () + "/" + sData.NoofAttendance.ToString ())));
                     table.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (sData.SalaryPerDays.ToString ("0.##"))));
-                    table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(sData.NetAttendance.ToString("0.##"))));
-                    table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(sData.Absent.ToString())));
-                    table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(sData.GrossSalary.ToString("0.##"))));
+                    table.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (sData.NetAttendance.ToString ("0.##"))));
+                    table.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (sData.Absent.ToString ())));
+                    table.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (sData.GrossSalary.ToString ("0.##"))));
                     totalPayment += sData.GrossSalary;
-
                 }
                 TotalSalary += totalPayment;
-                Paragraph p = new Paragraph($"Year: {YearName}");
-                p.Add($"\nTotal Yearly Salary:Rs. {totalPayment.ToString("0.##")} /-");
-                d.Add(p);
-                table.SetCaption(d);
-                Paragraph pTable = new Paragraph().SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
-                pTable.Add(table);
-                pList.Add(pTable);
+                Paragraph p = new Paragraph ($"Year: {YearName}");
+                p.Add ($"\nTotal Yearly Salary:Rs. {totalPayment.ToString ("0.##")} /-");
+                d.Add (p);
+                table.SetCaption (d);
+                Paragraph pTable = new Paragraph ().SetTextAlignment (iText.Layout.Properties.TextAlignment.CENTER);
+                pTable.Add (table);
+                pList.Add (pTable);
             }
-            Paragraph BaseLine = new Paragraph($"\n\nTotal Salary: Rs. {TotalSalary.ToString("0.##")}").SetFontColor(ColorConstants.RED);
-            pList.Add(BaseLine);
+            Paragraph BaseLine = new Paragraph ($"\n\nTotal Salary: Rs. {TotalSalary.ToString ("0.##")}").SetFontColor (ColorConstants.RED);
+            pList.Add (BaseLine);
 
-          return  PDFHelper.CreateReportPdf("SalaryReport",$"Salary Report of {StaffName}.\n", pList, isLandscape);
-            
+            return PDFHelper.CreateReportPdf ("SalaryReport", $"Salary Report of {StaffName}.\n", pList, isLandscape);
         }
-
 
         private SalarySlip CalucalteAttendance(int month, int year)
         {
@@ -156,7 +159,6 @@ namespace eStore.Lib.Reports.Payroll
                 Absent = 0,
                 PaidSunday = 0,
                 NoofAttendance = 0
-
             };
             slip.NoofAttendance = db.Attendances.Where (c => c.EmployeeId == EmployeeId && c.AttDate.Year == year && c.AttDate.Month == month).Count ();
 
@@ -188,7 +190,6 @@ namespace eStore.Lib.Reports.Payroll
                 {
                     SalaryAmount = sdata.BasicSalary;
                 }
-
             }
             if ( data.Count == 0 )
             {
@@ -204,7 +205,6 @@ namespace eStore.Lib.Reports.Payroll
                 //Calcualte Half Salary
                 slip.SalaryPerDays = SalaryAmount / 30;
                 slip.GrossSalary = SalaryAmount / 2;
-
             }
             else if ( slip.NetAttendance < 15 )
             {
@@ -226,14 +226,10 @@ namespace eStore.Lib.Reports.Payroll
 
             return slip;
         }
-
-
     }
-
 
     public class SalaryPaymentReport
     {
-
         private eStoreDbContext db;
         private int StoreId;
         private string StaffName;
@@ -246,7 +242,6 @@ namespace eStore.Lib.Reports.Payroll
             db = con;
             StoreId = store;
         }
-
 
         public string GetSalaryPaymentReport(int EmpId, int Month, string FinYear)
         {
@@ -266,12 +261,11 @@ namespace eStore.Lib.Reports.Payroll
 
             return CreateReportPDF ();
         }
-    
+
         private Table GenerateTableRow(List<SalaryPayment> pList, float [] columnWidths, Cell [] HeaderCell)
         {
             if ( pList.Count < 1 )
                 return null;
-
 
             Table table = PDFHelper.GenerateTable (columnWidths, HeaderCell);
             int count = 0;
@@ -291,9 +285,7 @@ namespace eStore.Lib.Reports.Payroll
             d.Add (new Paragraph ($"\n\t\tTotal Payment: {totalPayment}").SetFontColor (ColorConstants.RED));
             table.SetCaption (d);
             return table;
-
         }
-
 
         private string CreateReportPDF(bool IsLandscape = false)
         {
@@ -322,7 +314,6 @@ namespace eStore.Lib.Reports.Payroll
             p1.Add ($"\n\tEmployee Name: {StaffName}\nReport Date: {DateTime.Now}");
             doc.Add (p1);
 
-
             Paragraph x1 = new Paragraph ("\nPayment Summary\n").SetTextAlignment (iText.Layout.Properties.TextAlignment.CENTER)
                .SetFontColor (ColorConstants.BLUE);
 
@@ -330,7 +321,6 @@ namespace eStore.Lib.Reports.Payroll
             x1.Add ($"\nIncentive: {Incentive} \t Wow Bill: {WOWBill}\tLast Pcs:{LastPcs}");
             x1.Add ($"\nOthers: {Others} \t Sick Leaves: {SickLeave}\tPaid Leaves:{PaidLeave}");
             doc.Add (x1);
-
 
             float [] columnWidths = { 1, 1, 5, 5, 5, 5, 1 };
 
@@ -444,42 +434,35 @@ namespace eStore.Lib.Reports.Payroll
             pdfDoc.Close ();
             pdfWriter.Close ();
             return PDFHelper.AddPageNumber (FileName, "Report_" + FileName);
-
         }
-        
     }
-
-
 
     public class MonthlySalaryCal
     {
-        eStoreDbContext db;
-         int StoreId;
-        int month, year;
-        SortedDictionary<string, SalarySlip> mos = new SortedDictionary<string, SalarySlip> ();
+        private eStoreDbContext db;
+        private int StoreId;
+        private int month, year;
+        private SortedDictionary<string, SalarySlip> mos = new SortedDictionary<string, SalarySlip> ();
 
-
-        public MonthlySalaryCal(eStoreDbContext con, int storeid,int mon, int yrs)
+        public MonthlySalaryCal(eStoreDbContext con, int storeid, int mon, int yrs)
         {
             db = con;
-            month = mon; year = yrs;StoreId = storeid;
+            month = mon;
+            year = yrs;
+            StoreId = storeid;
             mos = new SortedDictionary<string, SalarySlip> ();
-
         }
 
         public string CalucalteSalarySlip()
         {
-            var empList = db.Attendances.Where (c => c.StoreId == StoreId && c.AttDate.Year == year && c.AttDate.Month == month).Select (c => c.EmployeeId).OrderBy (c => c).ToList ();
-           
+            var empList = db.Attendances.Where (c => c.StoreId == StoreId && c.AttDate.Year == year && c.AttDate.Month == month).Select (c => c.EmployeeId).Distinct ().OrderBy (c => c).ToList ();
+
             foreach ( var id in empList )
             {
-                mos.Add (db.Employees.Find(id).StaffName,CalucalteAttendance (id, month, year)); 
+                mos.Add (db.Employees.Find (id).StaffName, CalucalteAttendance (id, month, year));
             }
             return CreatePdf (false);
-
         }
-
-
 
         private SalarySlip CalucalteAttendance(int EmployeeId, int month, int year)
         {
@@ -495,8 +478,8 @@ namespace eStore.Lib.Reports.Payroll
                 SalaryPerDays = 0,
                 Absent = 0,
                 PaidSunday = 0,
-                NoofAttendance = 0
-
+                NoofAttendance = 0, DeducationResaons = null, OtherDeducation=0, SalaryAdvance=0
+                
             };
             slip.NoofAttendance = db.Attendances.Where (c => c.EmployeeId == EmployeeId && c.AttDate.Year == year && c.AttDate.Month == month).Count ();
 
@@ -519,7 +502,7 @@ namespace eStore.Lib.Reports.Payroll
 
             decimal SalaryAmount = 0;
 
-            var data = db.Salaries.Where (c =>c.EmployeeId==EmployeeId && c.EffectiveDate.Year <= year && c.EffectiveDate.Month <= month).ToList ();
+            var data = db.Salaries.Where (c => c.EmployeeId == EmployeeId && c.EffectiveDate.Year <= year && c.EffectiveDate.Month <= month).ToList ();
             if ( data.Count > 1 )
             {
                 var sdata = data.Where (c => c.CloseDate != null && c.CloseDate.Value.Year <= year && c.CloseDate.Value.Month <= month).FirstOrDefault ();
@@ -529,7 +512,6 @@ namespace eStore.Lib.Reports.Payroll
                     SalaryAmount = sdata.BasicSalary;
                     slip.IsSundayWorking = sdata.IsSundayBillable;
                 }
-
             }
             if ( data.Count == 0 )
             {
@@ -538,7 +520,7 @@ namespace eStore.Lib.Reports.Payroll
             else
             {
                 SalaryAmount = data [0].BasicSalary;
-                slip.IsSundayWorking = data[0].IsSundayBillable;
+                slip.IsSundayWorking = data [0].IsSundayBillable;
             }
 
             if ( slip.NetAttendance == 15 )
@@ -546,7 +528,6 @@ namespace eStore.Lib.Reports.Payroll
                 //Calcualte Half Salary
                 slip.SalaryPerDays = SalaryAmount / 30;
                 slip.GrossSalary = SalaryAmount / 2;
-
             }
             else if ( slip.NetAttendance < 15 )
             {
@@ -566,12 +547,14 @@ namespace eStore.Lib.Reports.Payroll
                 slip.NetAttendance += ( slip.PaidSunday * slip.SalaryPerDays );
             }
 
+           slip.SalaryAdvance= db.SalaryPayments.Where (c => c.EmployeeId == EmployeeId && c.PaymentDate.Year == year && c.PaymentDate.Month == month && c.SalaryComponet==SalaryComponet.Advance).Sum (c => c.Amount);
+
             return slip;
         }
-        
+
         private string CreatePdf(bool isLandscape = false)
         {
-            float [] columnWidths = { 1, 5, 5, 5, 5, 5, 1 };
+            float [] columnWidths = { 1, 5, 5, 5, 5, 5, 1,1,1 };
 
             Cell [] HeaderCell = new Cell []{
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("#")),
@@ -581,54 +564,69 @@ namespace eStore.Lib.Reports.Payroll
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Attendance").SetTextAlignment(TextAlignment.CENTER)),
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Absent").SetTextAlignment(TextAlignment.CENTER)),
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Salary").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Advance").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Net Salary").SetTextAlignment(TextAlignment.CENTER)),
             };
 
             List<Object> pList = new List<Object> ();
+            
+            
+
             Paragraph Line1 = new Paragraph ("Salary Calculation Report").SetTextAlignment (iText.Layout.Properties.TextAlignment.CENTER)
-               .SetFontColor (ColorConstants.RED);
-            Line1.Add ($"\n\t For Month of {month} / {year}");
-            Line1.Add ($"\nReport Date: {DateTime.Now}");
+               .SetFontColor (ColorConstants.BLUE).SetBackgroundColor(ColorConstants.LIGHT_GRAY);
+            Line1.Add ($"\t For Month of {month} / {year}");
+            
             pList.Add (Line1);
 
-            decimal TotalSalary = 0;
+
+            int nDays = DateTime.DaysInMonth (year, month);
+            Paragraph Line2 = new Paragraph ($"No of Day in Month: { nDays}\n").SetTextAlignment (TextAlignment.CENTER).SetFontColor (ColorConstants.DARK_GRAY);
+            pList.Add (Line2);
+            Div d = new Div ();
+
+            Table table = PDFHelper.GenerateTable (columnWidths, HeaderCell);
+            int count = 0;
+            decimal totalPayment = 0;
+            bool isValid = true;
             foreach ( var item in mos )
             {
                 var StaffName = item.Key;
-                
-                Div d = new Div ();
 
-                Table table = PDFHelper.GenerateTable (columnWidths, HeaderCell);
-                int count = 0;
-                decimal totalPayment = 0;
-                   
-                    table.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (( ++count ) + "")));
-                    table.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (StaffName)));
-                    table.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (item.Value.NoOfWorkingDays.ToString () + "/" + item.Value.NoofAttendance.ToString ())));
-                    table.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (item.Value.SalaryPerDays.ToString ("0.##"))));
-                    table.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (item.Value.NetAttendance.ToString ("0.##"))));
-                    table.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (item.Value.Absent.ToString ())));
-                    table.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (item.Value.GrossSalary.ToString ("0.##"))));
-                    totalPayment += item.Value.GrossSalary;
-
-                TotalSalary += totalPayment;
-                Paragraph p = new Paragraph ();
-                p.Add ($"\nTotal Monthly Salary:Rs. {totalPayment.ToString ("0.##")} /-");
-                d.Add (p);
-                table.SetCaption (d);
-                
-               
-                pList.Add (table);
-                Paragraph px = new Paragraph ("Note: Salary Advances and any other deducation has not be been considered. That is will be deducated in actuals if applicable").SetTextAlignment (iText.Layout.Properties.TextAlignment.CENTER).SetFontColor(ColorConstants.RED);
-                pList.Add (px);
+                table.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (( ++count ) + "")));
+                table.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (StaffName)));
+                table.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (item.Value.NoOfWorkingDays.ToString () + "/" + item.Value.NoofAttendance.ToString ())));
+                table.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (item.Value.SalaryPerDays.ToString ("0.##"))));
+                table.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (item.Value.NetAttendance.ToString ("0.##"))));
+                table.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (item.Value.Absent.ToString ())));
+                table.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (item.Value.GrossSalary.ToString ("0.##"))));
+                table.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (item.Value.SalaryAdvance.ToString ("0.##"))));
+                table.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph ((item.Value.GrossSalary-item.Value.SalaryAdvance).ToString ("0.##"))));
+                totalPayment += (item.Value.GrossSalary-item.Value.SalaryAdvance);
+                if ( item.Value.NoofAttendance != nDays )
+                    isValid = false;
             }
-            
-            return PDFHelper.CreateReportPdf ("SalaryReport", $"Salary Report Month of{month}/{year}.\n", pList, isLandscape);
+            pList.Add (table);
+            if ( !isValid )
+            {
+                PdfFont font = PdfFontFactory.CreateFont (StandardFonts.COURIER_OBLIQUE);
+                Paragraph pRrr = new Paragraph ("\nImportant Note: In one or Few or all Employee Salary Calculation is correct as No of Attendance and No of Days in Month in matching. So which ever Employee's No of attendance and days not matching, there attendance need to be corrected and again this report need to be generated! \n").SetFontColor (ColorConstants.RED).SetTextAlignment (TextAlignment.CENTER);
+                pRrr.SetItalic ();
+                pRrr.SetFont (font); 
+                
+                var Br = new SolidBorder (1);
+                Br.SetColor (ColorConstants.BLUE);
+                pRrr.SetBorder (Br);
+                pList.Add (pRrr); 
+            }
+            Paragraph px = new Paragraph ("Note: Salary Advances and any other deducation has not be been considered. That is will be deducated in actuals if applicable").SetTextAlignment (iText.Layout.Properties.TextAlignment.CENTER).SetFontColor (ColorConstants.RED);
+            pList.Add (px);
 
+            Paragraph p = new Paragraph ();
+            p.Add ($"\nTotal Monthly Salary:Rs. {totalPayment.ToString ("0.##")} /-");
+            d.Add (p);
+            table.SetCaption (d);
+
+            return PDFHelper.CreateReportPdf ("SalaryReport", $"Salary Report Month of {month}/{year}.\n", pList, isLandscape);
         }
-
-
-
     }
-
 }
-

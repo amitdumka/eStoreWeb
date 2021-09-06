@@ -414,7 +414,7 @@ export const AttendaceReportCard = () => {
 
   const curYear = new Date().getFullYear() + 1;
   const [yearArray, setYearArray] = useState([]);
-  const [emp, setEmp] = useState("");
+  const [emp, setEmp] = useState(0);
   const [repoMode, setRepoMode] = useState(2);
   const [store, setStore] = useState(1);
   const [refreshData, setRefreshData] = useState(false);
