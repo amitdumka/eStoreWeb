@@ -76,7 +76,7 @@ namespace eStore.Lib.Reports.Payroll
         }
         private string CreatePdf(bool isLandscape=false)
         {
-            float[] columnWidths = { 1, 1, 1, 1, 1, 1, 1 ,1};
+            float[] columnWidths = { 1, 5, 5, 5, 5, 5, 1};
 
             Cell[] HeaderCell = new Cell[]{
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("#")),
@@ -117,14 +117,14 @@ namespace eStore.Lib.Reports.Payroll
                 }
                 TotalSalary += totalPayment;
                 Paragraph p = new Paragraph($"Year: {YearName}");
-                p.Add($"\nTotal Yearl Salary:Rs. {totalPayment} /-");
+                p.Add($"\nTotal Yearly Salary:Rs. {totalPayment.ToString("0.##")} /-");
                 d.Add(p);
                 table.SetCaption(d);
                 Paragraph pTable = new Paragraph().SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                 pTable.Add(table);
                 pList.Add(pTable);
             }
-            Paragraph BaseLine = new Paragraph($"Total Salary: Rs. {TotalSalary}").SetFontColor(ColorConstants.RED);
+            Paragraph BaseLine = new Paragraph($"\n\nTotal Salary: Rs. {TotalSalary.ToString("0.##")}").SetFontColor(ColorConstants.RED);
             pList.Add(BaseLine);
 
           return  PDFHelper.CreateReportPdf("SalaryReport",$"Salary Report of {StaffName}.\n", pList, isLandscape);
@@ -150,6 +150,11 @@ namespace eStore.Lib.Reports.Payroll
 
             };
             slip.NoofAttendance = db.Attendances.Where (c => c.EmployeeId == EmployeeId && c.AttDate.Year == year && c.AttDate.Month == month).Count ();
+
+            if ( slip.NoofAttendance <= 0 )
+            {
+                return slip;
+            }
 
             slip.NetAttendance = db.Attendances.Where (c => c.EmployeeId == EmployeeId && c.AttDate.Year == year && c.AttDate.Month == month && ( c.Status == AttUnit.Present ||
             c.Status == AttUnit.PaidLeave || c.Status == AttUnit.StoreClosed || c.Status == AttUnit.Holiday || c.Status == AttUnit.StoreClosed ||

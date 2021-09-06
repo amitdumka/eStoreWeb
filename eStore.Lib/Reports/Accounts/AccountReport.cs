@@ -32,6 +32,78 @@ namespace eStore.BL.Reports.Accounts
 
     public class OtherReport
     {
+        public void CardCashReport(eStoreDbContext db, int storeId, DateTime date)
+        {
+            var sale = db.DailySales.Where (c => c.StoreId == storeId && c.SaleDate.Year == date.Year && c.SaleDate.Month == date.Month)
+                .Select(c=> new { c.SaleDate, c.PayMode,c.InvNo, c.Amount, c.CashAmount})
+                .ToList ();
+            var cashSale = sale.Where (c => c.PayMode == PayMode.Cash).ToList (); 
+            var cardSale = sale.Where (c => c.PayMode == PayMode.Card).ToList ();
+            var nonCashSale = sale.Where (c => c.PayMode != PayMode.Cash && c.PayMode != PayMode.Card).ToList ();
+           
+            float [] columnWidths = { 1, 5, 5, 1 };
+            
+            Cell [] HeaderCell = new Cell []
+            {
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("#")),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Date").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Invoice No").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Amount").SetTextAlignment(TextAlignment.CENTER)),
+            };
+
+            Table cashTable = PDFHelper.GenerateTable (columnWidths, HeaderCell);
+            int count = 0; decimal cashAmount = 0; decimal cardAmount = 0; decimal nonCashAmt = 0;
+
+            foreach ( var row in cashSale )
+            {
+                cashTable.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (( ++count ) + "")));
+                cashTable.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (row.SaleDate.ToShortDateString ())));
+                cashTable.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (String.IsNullOrEmpty (row.InvNo) ? "" : row.InvNo)));
+                cashTable.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (row.Amount.ToString ("0.##"))));
+                cashAmount += row.Amount;
+            }
+
+            float [] columnWidths2 = { 1, 5, 5,5, 1 };
+
+            Cell [] HeaderCell2 = new Cell []
+            {
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("#")),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Date").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Invoice No").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Mode").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Amount").SetTextAlignment(TextAlignment.CENTER)),
+            };
+            Table cardTable = PDFHelper.GenerateTable (columnWidths, HeaderCell);
+             count = 0;
+            
+
+            foreach ( var row in cardSale )
+            {
+                cardTable.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (( ++count ) + "")));
+                cardTable.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (row.SaleDate.ToShortDateString ())));
+                cardTable.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (String.IsNullOrEmpty (row.InvNo) ? "" : row.InvNo)));
+                cardTable.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph ((row.Amount-row.CashAmount).ToString ("0.##"))));
+                cashAmount += row.CashAmount;
+                cardAmount += ( row.Amount - row.CashAmount );
+            }
+
+            Table NonCashTable = PDFHelper.GenerateTable (columnWidths, HeaderCell);
+            count = 0;
+
+
+            foreach ( var row in cardSale )
+            {
+                NonCashTable.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (( ++count ) + "")));
+                NonCashTable.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (row.SaleDate.ToShortDateString ())));
+                NonCashTable.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (String.IsNullOrEmpty (row.InvNo) ? "" : row.InvNo)));
+                NonCashTable.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (row.PayMode.ToString())));
+                NonCashTable.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (( row.Amount - row.CashAmount ).ToString ("0.##"))));
+                cashAmount += row.CashAmount;
+                nonCashAmt += ( row.Amount - row.CashAmount );
+            }
+
+
+        }
 
         public string GetDueReport(eStoreDbContext db, int storeId, DateTime date)
         {
@@ -220,7 +292,7 @@ namespace eStore.BL.Reports.Accounts
             foreach (var row in booking)
             {
                 PendingTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph((++count) + "")));
-                PendingTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(row.TalioringBookingId.ToString() + "/" + row.TalioringDeliveryId.ToString())));
+                PendingTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(  row.TalioringBookingId.ToString())));
                 PendingTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(row.BookingDate.ToShortDateString())));
                 PendingTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(String.IsNullOrEmpty(row.BookingSlipNo) ? "" : row.BookingSlipNo)));
 
@@ -230,7 +302,7 @@ namespace eStore.BL.Reports.Accounts
 
                 PendingTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(row.DeliveryDate.ToShortDateString())));
 
-                var days = row.BookingDate.Subtract(DateTime.Today).TotalDays;
+                var days = row.DeliveryDate.Subtract(DateTime.Today).TotalDays;
                 PendingTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(days.ToString("0.##"))));
 
                 qtotalQty += row.TotalQty;
