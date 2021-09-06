@@ -32,6 +32,87 @@ namespace eStore.BL.Reports.Accounts
 
     public class OtherReport
     {
+
+        public string GetDueReport(eStoreDbContext db, int storeId, DateTime date)
+        {
+            var dueList = db.DuesLists.Include(c => c.DailySale).Where(c => c.StoreId == storeId && !c.IsRecovered)
+                .Select(c => new { c.Amount, c.DailySale.SaleDate, c.DailySale.InvNo, c.IsPartialRecovery, c.DuesListId })
+                .ToList();
+            var recovery = db.DueRecoverds.Where(c => c.StoreId == storeId && c.PaidDate.Month == date.Month && c.PaidDate.Year == date.Year)
+                .Select(c => new { c.DueRecoverdId, c.AmountPaid, c.IsPartialPayment, c.PaidDate, c.DuesList.DailySale.InvNo, c.DuesList.DailySale.SaleDate, c.DuesList.Amount })
+                .ToList();
+
+            float[] columnWidths2 = { 1, 1, 5, 5, 5, 5, 5, 1 };
+            float[] columnWidths = { 1, 1, 5, 5, 5, 5 };
+            Cell[] HeaderCell = new Cell[]
+            {
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("#")),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("ID")),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Date").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Invoice No").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Partial Recovered").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Amount").SetTextAlignment(TextAlignment.CENTER)),
+            };
+            Cell[] HeaderCell2 = new Cell[]
+            {
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("#")),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("ID")),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Paid Date").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Due Date").SetTextAlignment(TextAlignment.CENTER)),
+
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Invoice No").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Due Amount").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Paid Amount").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Partialy Paid").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Days").SetTextAlignment(TextAlignment.CENTER)),
+            };
+
+            Table dueTable = PDFHelper.GenerateTable(columnWidths, HeaderCell);
+            Table recTable = PDFHelper.GenerateTable(columnWidths2, HeaderCell2);
+
+            int count = 0; decimal dueAmount = 0; decimal paidAmount = 0;
+            foreach (var row in dueList)
+            {
+                dueTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph((++count) + "")));
+                dueTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(row.DuesListId.ToString())));
+                dueTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(row.SaleDate.ToShortDateString())));
+                dueTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(String.IsNullOrEmpty(row.InvNo) ? "" : row.InvNo)));
+                if (row.IsPartialRecovery)
+                    dueTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph("Yes")));
+                else dueTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(" ")));
+                dueTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(row.Amount.ToString("0.##"))));
+                dueAmount += row.Amount;
+            }
+            foreach (var row in recovery)
+            {
+                dueTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph((++count) + "")));
+                dueTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(row.DueRecoverdId.ToString())));
+                dueTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(row.PaidDate.ToShortDateString())));
+                dueTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(row.SaleDate.ToShortDateString())));
+
+                dueTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(String.IsNullOrEmpty(row.InvNo) ? "" : row.InvNo)));
+                dueTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(row.Amount.ToString("0.##"))));
+                dueTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(row.AmountPaid.ToString("0.##"))));
+
+
+                if (row.IsPartialPayment)
+                    dueTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph("Yes")));
+                else dueTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(" ")));
+
+                var days = row.SaleDate.Subtract(row.PaidDate).TotalDays;
+                dueTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(days.ToString("0.##"))));
+
+
+                dueAmount += row.Amount;
+            }
+
+            List<Object> oL = new List<object>();
+            return PDFHelper.CreateReportPdf("DueReport", $"Dues Report for month of{date.Month}/{date.Year}", oL, false);
+
+
+        }
+
+
         public string GetTailoringReport(eStoreDbContext db, int storeId, DateTime date)
         {
 
@@ -184,7 +265,7 @@ namespace eStore.BL.Reports.Accounts
 
         }
 
-        public void GetBankingReport(eStoreDbContext db, int storeId, DateTime date)
+        public string GetBankingReport(eStoreDbContext db, int storeId, DateTime date)
         {
             var deposit = db.BankDeposits.Include(c => c.Account).Where(c => c.StoreId == storeId && c.OnDate.Year == date.Year && c.OnDate.Month == date.Month)
                 .Select(c => new { c.Amount, c.OnDate, c.InNameOf, c.ChequeNo, c.Account.Account, c.PayMode, ID = c.BankDepositId })
@@ -231,14 +312,14 @@ namespace eStore.BL.Reports.Accounts
 
             }
             Div d = new Div();
-            Paragraph pDiv = new Paragraph($"Total Amount: {totalAmt}");            
+            Paragraph pDiv = new Paragraph($"Total Amount: {totalAmt}");
             d.Add(pDiv);
             DepositTable.SetCaption(d);
 
 
             Table WithTable = PDFHelper.GenerateTable(columnWidths, HeaderCell);
-             count = 0;  totalAmt = 0;
-            foreach (var row in deposit)
+            count = 0; totalAmt = 0;
+            foreach (var row in withdrawl)
             {
                 WithTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph((++count) + "")));
                 WithTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(row.ID.ToString())));
@@ -260,6 +341,14 @@ namespace eStore.BL.Reports.Accounts
             Paragraph pDiv2 = new Paragraph($"Total Amount: {totalAmt}");
             d2.Add(pDiv2);
             WithTable.SetCaption(d2);
+
+            List<Object> oL = new List<object>();
+            oL.Add(pH1);
+            oL.Add(DepositTable);
+            oL.Add(pH2);
+            oL.Add(WithTable);
+            return PDFHelper.CreateReportPdf("BankReport", $"Bank Report for month of {date.Month}/ {date.Year}", oL, false);
+
 
         }
     }

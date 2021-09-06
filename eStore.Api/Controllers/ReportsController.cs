@@ -155,6 +155,26 @@ namespace eStore.API.Controllers
             var stream = new FileStream(data, FileMode.Open);
             return File(stream, "application/pdf", "report.pdf");
         }
+        [HttpPost("monthlyTailoringReport")]
+        public FileStreamResult PostMonthlyTailoringReport(BasicParamDTO dto)
+        {
+
+            OtherReport ar = new OtherReport();
+            var data = ar.GetTailoringReport(db, dto.StoreId,
+                new DateTime(dto.Year, dto.Month, 1));
+            var stream = new FileStream(data, FileMode.Open);
+            return File(stream, "application/pdf", "report.pdf");
+        }
+        [HttpPost("monthlyBankReport")]
+        public FileStreamResult PostMonthlyBankReport(BasicParamDTO dto)
+        {
+
+            OtherReport ar = new OtherReport();
+            var data = ar.GetBankingReport(db, dto.StoreId,
+                new DateTime(dto.Year, dto.Month, 1));
+            var stream = new FileStream(data, FileMode.Open);
+            return File(stream, "application/pdf", "report.pdf");
+        }
     }
 
     public class BasicParamDTO
