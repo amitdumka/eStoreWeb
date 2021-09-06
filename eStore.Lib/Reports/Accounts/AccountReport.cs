@@ -35,29 +35,25 @@ namespace eStore.BL.Reports.Accounts
         public void GetTailoringReport(eStoreDbContext db, int storeId, DateTime date)
         {
 
-            var booking = db.TalioringBookings.Where(c => c.StoreId == storeId && c.BookingDate.Month == date.Month && c.BookingDate.Year == date.Year).
+            var booking = db.TalioringBookings.Where(c => c.StoreId == storeId && c.BookingDate.Month == date.Month && c.BookingDate.Year == date.Year && !c.IsDelivered).
                 Select(c => new { c.BookingDate, c.BookingSlipNo, c.CustName, c.DeliveryDate, c.TotalAmount, c.TotalQty, c.IsDelivered, c.TalioringBookingId })
                 .ToList();
 
-            var delivery = db.TailoringDeliveries.Where(c => c.StoreId == storeId && c.DeliveryDate.Month == date.Month && c.DeliveryDate.Year == date.Year).
-                Select(c => new { c.DeliveryDate, c.Amount, c.InvNo, c.TalioringBookingId, c.TalioringDeliveryId })
+            var delivery = db.TailoringDeliveries.Include(c=>c.Booking).Where(c => c.StoreId == storeId && c.DeliveryDate.Month == date.Month && c.DeliveryDate.Year == date.Year).
+                Select(c => new { c.DeliveryDate, c.Amount, c.InvNo, c.TalioringBookingId, c.TalioringDeliveryId , c.Booking.BookingDate
+                ,c.Booking.BookingSlipNo, c.Booking.TotalAmount, c.Booking.TotalQty,ProposeDate=c.Booking.DeliveryDate,c.Booking.CustName })
                 .ToList();
+
+            var BookedQty = delivery.Where(c => c.BookingDate.Year == date.Year && c.BookingDate.Month == date.Month).Sum(c => c.TotalQty);
+            var BookedAmt = delivery.Where(c => c.BookingDate.Year == date.Year && c.BookingDate.Month == date.Month).Sum(c => c.TotalAmount);
 
             var dIdList = booking.Select(c => c.TalioringBookingId).ToList();
             var bIdList = delivery.Select(c => c.TalioringBookingId).ToList();
-            var PIdList = bIdList.ToList();
-            foreach (var id in dIdList)
-            {
-                PIdList.Remove(id);
 
-            }
 
-            if (PIdList.Count > 0)
-            {
-
-            }
             float[] columnWidths = { 1, 1, 5, 5, 5, 5, 5, 5, 5, 1 };
-            Cell[] HeaderCell = new Cell[]{
+            Cell[] HeaderCell = new Cell[]
+            {
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("#")),
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("ID")),
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Date").SetTextAlignment(TextAlignment.CENTER)),
@@ -72,13 +68,99 @@ namespace eStore.BL.Reports.Accounts
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Inv No").SetTextAlignment(TextAlignment.CENTER)),
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Paid Amount").SetTextAlignment(TextAlignment.CENTER)),
 
-                   };
+            };
+
+            float[] columnWidthsPendingDelivery = { 1, 1, 5, 5, 5, 1, 1, 5, 5  };
+            Cell[] HeaderCellPendingDelivery = new Cell[]
+            {
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("#")),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("ID")),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Date").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Slip No").SetTextAlignment(TextAlignment.CENTER)),
+
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Customer Name").SetTextAlignment(TextAlignment.CENTER)),
+
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Total Qty").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Total Amount").SetTextAlignment(TextAlignment.CENTER)),
+
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Delivery Date").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Over Due Date").SetTextAlignment(TextAlignment.CENTER)),
+                   
+            };
+
+            Table DeliveryTable = PDFHelper.GenerateTable(columnWidths, HeaderCell);
+            int count = 0;
+            int totalQty = 0; decimal totalAmt = 0; decimal totalBAmt = 0;
+            foreach (var row in delivery)
+            {
+                DeliveryTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph((++count) + "")));
+                DeliveryTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(row.TalioringBookingId.ToString()+"/"+row.TalioringDeliveryId.ToString())));
+                DeliveryTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(row.BookingDate.ToShortDateString())));
+                DeliveryTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(String.IsNullOrEmpty(row.BookingSlipNo) ? "" : row.BookingSlipNo)));
+
+                DeliveryTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(String.IsNullOrEmpty(row.CustName) ? "" : row.CustName)));
+                DeliveryTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(row.TotalQty.ToString())));
+                DeliveryTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(row.TotalAmount.ToString())));
+
+                DeliveryTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(row.DeliveryDate.ToShortDateString())));
+                DeliveryTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(String.IsNullOrEmpty(row.InvNo) ? "" : row.InvNo)));
+                DeliveryTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(row.Amount.ToString("0.##"))));
+
+                totalAmt += row.Amount;
+                totalQty += row.TotalQty;
+                totalBAmt += row.TotalAmount;
+
+            }
+            Div d = new Div();
+            Paragraph pDiv = new Paragraph($"Total Qty: {totalQty}\t\t Total: Amount: {totalBAmt}\t\t Total Paid Amount: {totalAmt}");
+            if ((totalBAmt - totalAmt) != 0)
+                pDiv.Add($"\nTotal Pending Amount: {totalBAmt - totalAmt}");
+            d.Add(pDiv);
+            DeliveryTable.SetCaption(d);
+
+            Table Pending = PDFHelper.GenerateTable(columnWidthsPendingDelivery, HeaderCellPendingDelivery);
+
+            count = 0;
+
+            int qtotalQty = 0;  decimal  qtotalBAmt = 0;
+            foreach (var row in booking)
+            {
+                DeliveryTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph((++count) + "")));
+                DeliveryTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(row.TalioringBookingId.ToString() + "/" + row.TalioringDeliveryId.ToString())));
+                DeliveryTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(row.BookingDate.ToShortDateString())));
+                DeliveryTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(String.IsNullOrEmpty(row.BookingSlipNo) ? "" : row.BookingSlipNo)));
+
+                DeliveryTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(String.IsNullOrEmpty(row.CustName) ? "" : row.CustName)));
+                DeliveryTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(row.TotalQty.ToString())));
+                DeliveryTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(row.TotalAmount.ToString())));
+
+                DeliveryTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(row.DeliveryDate.ToShortDateString())));
+               
+                var days = row.BookingDate.Subtract(DateTime.Today).TotalDays;
+                DeliveryTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(days.ToString("0.##"))));
+
+                qtotalQty += row.TotalQty;
+                qtotalBAmt += row.TotalAmount;
+
+            }
+            Div d2 = new Div();
+            Paragraph pDiv2 = new Paragraph($"Total Qty: {qtotalQty}\t\t Total: Amount: {qtotalBAmt}");
+            d2.Add(pDiv2);
+            Pending.SetCaption(d2);
+            BookedQty += qtotalQty;
+            BookedAmt += qtotalBAmt;
+            Paragraph summary = new Paragraph();
+            summary.Add($"\nTotal Booked Qty:{BookedQty}\t\t Total Booked Amount:{BookedAmt}");
+            summary.Add($"\nTotal Delivered Qty:{totalQty}\t\t Total Delivered Amount:{totalAmt}");
+
 
 
 
 
         }
-        public void GetBankingReport() { }
+        public void GetBankingReport() {
+
+        }
     }
 
     public class VoucherReport
