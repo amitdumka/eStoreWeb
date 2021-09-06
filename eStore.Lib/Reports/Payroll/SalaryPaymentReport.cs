@@ -461,7 +461,7 @@ namespace eStore.Lib.Reports.Payroll
             {
                 mos.Add (db.Employees.Find (id).StaffName, CalucalteAttendance (id, month, year));
             }
-            return CreatePdf (false);
+            return CreatePdf (true);
         }
 
         private SalarySlip CalucalteAttendance(int EmployeeId, int month, int year)
@@ -609,7 +609,7 @@ namespace eStore.Lib.Reports.Payroll
             if ( !isValid )
             {
                 PdfFont font = PdfFontFactory.CreateFont (StandardFonts.COURIER_OBLIQUE);
-                Paragraph pRrr = new Paragraph ("\nImportant Note: In one or Few or all Employee Salary Calculation is correct as No of Attendance and No of Days in Month in matching. So which ever Employee's No of attendance and days not matching, there attendance need to be corrected and again this report need to be generated! \n").SetFontColor (ColorConstants.RED).SetTextAlignment (TextAlignment.CENTER);
+                Paragraph pRrr = new Paragraph ("\nImportant Note: In one or few or all Employee Salary Calculation is incorrect as No. of Attendance and No. of Days in Month in matching. So which ever Employee's No. of attendance and days not matching, there attendance need to be corrected and again this report need to be generated! \n").SetFontColor (ColorConstants.RED).SetTextAlignment (TextAlignment.CENTER);
                 pRrr.SetItalic ();
                 pRrr.SetFont (font); 
                 
