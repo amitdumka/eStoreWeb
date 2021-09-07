@@ -3,6 +3,7 @@ using eStore.Reports.Pdfs;
 using iText.IO.Font.Constants;
 using iText.Kernel.Colors;
 using iText.Kernel.Font;
+using iText.Layout.Borders;
 using iText.Layout.Element;
 using iText.Layout.Properties;
 using Microsoft.EntityFrameworkCore;
@@ -32,18 +33,18 @@ namespace eStore.BL.Reports.Accounts
 
     public class OtherReport
     {
-        public void CardCashReport(eStoreDbContext db, int storeId, DateTime date)
+        public string CardCashReport(eStoreDbContext db, int storeId, DateTime date)
         {
-            var sale = db.DailySales.Where (c => c.StoreId == storeId && c.SaleDate.Year == date.Year && c.SaleDate.Month == date.Month)
-                .Select(c=> new { c.SaleDate, c.PayMode,c.InvNo, c.Amount, c.CashAmount})
-                .ToList ();
-            var cashSale = sale.Where (c => c.PayMode == PayMode.Cash).ToList (); 
-            var cardSale = sale.Where (c => c.PayMode == PayMode.Card).ToList ();
-            var nonCashSale = sale.Where (c => c.PayMode != PayMode.Cash && c.PayMode != PayMode.Card).ToList ();
-           
-            float [] columnWidths = { 1, 5, 5, 1 };
-            
-            Cell [] HeaderCell = new Cell []
+            var sale = db.DailySales.Where(c => c.StoreId == storeId && c.SaleDate.Year == date.Year && c.SaleDate.Month == date.Month)
+                .Select(c => new { c.SaleDate, c.PayMode, c.InvNo, c.Amount, c.CashAmount })
+                .ToList();
+            var cashSale = sale.Where(c => c.PayMode == PayMode.Cash).ToList();
+            var cardSale = sale.Where(c => c.PayMode == PayMode.Card).ToList();
+            var nonCashSale = sale.Where(c => c.PayMode != PayMode.Cash && c.PayMode != PayMode.Card).ToList();
+
+            float[] columnWidths = { 1, 5, 5, 1 };
+
+            Cell[] HeaderCell = new Cell[]
             {
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("#")),
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Date").SetTextAlignment(TextAlignment.CENTER)),
@@ -51,21 +52,24 @@ namespace eStore.BL.Reports.Accounts
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Amount").SetTextAlignment(TextAlignment.CENTER)),
             };
 
-            Table cashTable = PDFHelper.GenerateTable (columnWidths, HeaderCell);
+            Table cashTable = PDFHelper.GenerateTable(columnWidths, HeaderCell);
             int count = 0; decimal cashAmount = 0; decimal cardAmount = 0; decimal nonCashAmt = 0;
 
-            foreach ( var row in cashSale )
+            foreach (var row in cashSale)
             {
-                cashTable.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (( ++count ) + "")));
-                cashTable.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (row.SaleDate.ToShortDateString ())));
-                cashTable.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (String.IsNullOrEmpty (row.InvNo) ? "" : row.InvNo)));
-                cashTable.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (row.Amount.ToString ("0.##"))));
+                cashTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph((++count) + "")));
+                cashTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(row.SaleDate.ToShortDateString())));
+                cashTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(String.IsNullOrEmpty(row.InvNo) ? "" : row.InvNo)));
+                cashTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(row.Amount.ToString("0.##"))));
                 cashAmount += row.Amount;
             }
+            Div d1 = new Div();
+            Paragraph p1 = new Paragraph($"Cash Sale List\n Total Cash Sale: {cashAmount} ");
+            d1.Add(p1); cashTable.SetCaption(d1);
 
-            float [] columnWidths2 = { 1, 5, 5,5, 1 };
+            float[] columnWidths2 = { 1, 5, 5, 5, 1 };
 
-            Cell [] HeaderCell2 = new Cell []
+            Cell[] HeaderCell2 = new Cell[]
             {
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("#")),
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Date").SetTextAlignment(TextAlignment.CENTER)),
@@ -73,34 +77,56 @@ namespace eStore.BL.Reports.Accounts
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Mode").SetTextAlignment(TextAlignment.CENTER)),
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Amount").SetTextAlignment(TextAlignment.CENTER)),
             };
-            Table cardTable = PDFHelper.GenerateTable (columnWidths, HeaderCell);
-             count = 0;
-            
-
-            foreach ( var row in cardSale )
-            {
-                cardTable.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (( ++count ) + "")));
-                cardTable.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (row.SaleDate.ToShortDateString ())));
-                cardTable.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (String.IsNullOrEmpty (row.InvNo) ? "" : row.InvNo)));
-                cardTable.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph ((row.Amount-row.CashAmount).ToString ("0.##"))));
-                cashAmount += row.CashAmount;
-                cardAmount += ( row.Amount - row.CashAmount );
-            }
-
-            Table NonCashTable = PDFHelper.GenerateTable (columnWidths, HeaderCell);
+            Table cardTable = PDFHelper.GenerateTable(columnWidths, HeaderCell);
             count = 0;
 
 
-            foreach ( var row in cardSale )
+            foreach (var row in cardSale)
             {
-                NonCashTable.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (( ++count ) + "")));
-                NonCashTable.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (row.SaleDate.ToShortDateString ())));
-                NonCashTable.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (String.IsNullOrEmpty (row.InvNo) ? "" : row.InvNo)));
-                NonCashTable.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (row.PayMode.ToString())));
-                NonCashTable.AddCell (new Cell ().SetTextAlignment (TextAlignment.CENTER).Add (new Paragraph (( row.Amount - row.CashAmount ).ToString ("0.##"))));
+                cardTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph((++count) + "")));
+                cardTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(row.SaleDate.ToShortDateString())));
+                cardTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(String.IsNullOrEmpty(row.InvNo) ? "" : row.InvNo)));
+                cardTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph((row.Amount - row.CashAmount).ToString("0.##"))));
                 cashAmount += row.CashAmount;
-                nonCashAmt += ( row.Amount - row.CashAmount );
+                cardAmount += (row.Amount - row.CashAmount);
             }
+            Div d2 = new Div();
+            Paragraph p2 = new Paragraph($"Card Sale List\n Total Card Sale: {cardAmount} ");
+            d2.Add(p2); cardTable.SetCaption(d2);
+
+            Table NonCashTable = PDFHelper.GenerateTable(columnWidths, HeaderCell);
+            count = 0;
+
+
+            foreach (var row in cardSale)
+            {
+                NonCashTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph((++count) + "")));
+                NonCashTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(row.SaleDate.ToShortDateString())));
+                NonCashTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(String.IsNullOrEmpty(row.InvNo) ? "" : row.InvNo)));
+                NonCashTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(row.PayMode.ToString())));
+                NonCashTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph((row.Amount - row.CashAmount).ToString("0.##"))));
+                cashAmount += row.CashAmount;
+                nonCashAmt += (row.Amount - row.CashAmount);
+            }
+            Div d3 = new Div();
+            Paragraph p3 = new Paragraph($"Non Cash Sale List\n Total Non Cash Sale: {nonCashAmt} ");
+            d3.Add(p3); NonCashTable.SetCaption(d3);
+
+            Paragraph pL = new Paragraph($"Total Cash Sale: Rs. {cashAmount}\t Card Sale: Rs. {cardAmount} \t Non Cash Sale: Rs. {nonCashAmt}");
+            pL.Add($"\n Total Sale Amount: Rs. {cashAmount + cardAmount + nonCashAmt}");
+            pL.SetFontColor(ColorConstants.RED).SetTextAlignment(TextAlignment.CENTER).SetItalic();
+            pL.SetBorder(new SolidBorder(1));
+            PdfFont font = PdfFontFactory.CreateFont(StandardFonts.COURIER_BOLDOBLIQUE);
+            pL.SetFont(font).SetFontSize(14);
+
+
+            List<Object> oL = new List<object>();
+            oL.Add(cashTable);
+            oL.Add(cardTable);
+            oL.Add(NonCashTable);
+            oL.Add(pL);
+
+            return PDFHelper.CreateReportPdf("SaleReport", $"Monthly Sale Report for month of {date.Month}/ {date.Year}", oL, false);
 
 
         }
@@ -292,7 +318,7 @@ namespace eStore.BL.Reports.Accounts
             foreach (var row in booking)
             {
                 PendingTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph((++count) + "")));
-                PendingTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(  row.TalioringBookingId.ToString())));
+                PendingTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(row.TalioringBookingId.ToString())));
                 PendingTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(row.BookingDate.ToShortDateString())));
                 PendingTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(String.IsNullOrEmpty(row.BookingSlipNo) ? "" : row.BookingSlipNo)));
 

@@ -119,21 +119,21 @@ namespace eStore.API.Controllers
             var stream = new FileStream(data, FileMode.Open);
             return File(stream, "application/pdf", "report.pdf");
         }
-        [HttpPost ("MonthlySalaryCalReport")]
+        [HttpPost("MonthlySalaryCalReport")]
         public FileStreamResult PostMSalarCalReport(AttReportDto dto)
         {
-            var yrs = dto.FinYear.Split ("-");
-            int year =int.Parse( yrs [0].Trim());
-            if(dto.Month<4)
-                year = int.Parse (yrs [1].Trim ());
-            MonthlySalaryCal cal = new MonthlySalaryCal (db, dto.StoreId, dto.Month,year);
+            var yrs = dto.FinYear.Split("-");
+            int year = int.Parse(yrs[0].Trim());
+            if (dto.Month < 4)
+                year = int.Parse(yrs[1].Trim());
+            MonthlySalaryCal cal = new MonthlySalaryCal(db, dto.StoreId, dto.Month, year);
             var data = cal.CalucalteSalarySlip();
-            var stream = new FileStream (data, FileMode.Open);
-            return File (stream, "application/pdf", "report.pdf");
+            var stream = new FileStream(data, FileMode.Open);
+            return File(stream, "application/pdf", "report.pdf");
         }
 
 
-        [HttpPost ("monthlySaleReport")]
+        [HttpPost("monthlySaleReport")]
         public FileStreamResult PostMonthlySaleReport(BasicParamDTO dto)
         {
             AccountReport ar = new AccountReport();
@@ -184,6 +184,26 @@ namespace eStore.API.Controllers
 
             OtherReport ar = new OtherReport();
             var data = ar.GetBankingReport(db, dto.StoreId,
+                new DateTime(dto.Year, dto.Month, 1));
+            var stream = new FileStream(data, FileMode.Open);
+            return File(stream, "application/pdf", "report.pdf");
+        }
+        [HttpPost("monthlySaleSummaryReport")]
+        public FileStreamResult PostMonthlySalesReport(BasicParamDTO dto)
+        {
+
+            OtherReport ar = new OtherReport();
+            var data = ar.CardCashReport(db, dto.StoreId,
+                new DateTime(dto.Year, dto.Month, 1));
+            var stream = new FileStream(data, FileMode.Open);
+            return File(stream, "application/pdf", "report.pdf");
+        }
+        [HttpPost("monthlyDuesReport")]
+        public FileStreamResult PostMonthlyDuesReport(BasicParamDTO dto)
+        {
+
+            OtherReport ar = new OtherReport();
+            var data = ar.GetDueReport(db, dto.StoreId,
                 new DateTime(dto.Year, dto.Month, 1));
             var stream = new FileStream(data, FileMode.Open);
             return File(stream, "application/pdf", "report.pdf");
