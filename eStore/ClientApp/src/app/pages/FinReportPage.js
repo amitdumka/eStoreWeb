@@ -41,6 +41,12 @@ export async function GetMonthlyReport(MonthlyDto) {
     case 5:
       url = url + "/monthlyBankReport";
       break;
+      case 11:
+      url = url + "/monthlyDuesReport";
+      break;
+    case 12:
+      url = url + "/monthlySaleSummaryReport";
+      break;
     default:
       if (MonthlyDto.mode < 5) {
         url = url + "/voucherReport";
@@ -718,6 +724,9 @@ export const MonthlyReportCard = () => {
                   Purchase Report
                 </MenuItem>
                 <MenuItem value={7}>Tailoring Report</MenuItem>
+                <MenuItem value={11}>Dues Report</MenuItem>
+                <MenuItem value={12}>Card/Cash Sale Report</MenuItem>
+
               </Select>
             </TableCell>
             <TableCell className="text-danger">Refreshed Data</TableCell>
