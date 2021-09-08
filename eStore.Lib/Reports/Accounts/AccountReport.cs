@@ -67,7 +67,7 @@ namespace eStore.BL.Reports.Accounts
             Paragraph p1 = new Paragraph($"Cash Sale List\n Total Cash Sale: {cashAmount} ");
             d1.Add(p1); cashTable.SetCaption(d1);
 
-            
+
             Table cardTable = PDFHelper.GenerateTable(columnWidths, HeaderCell);
             count = 0;
 
@@ -108,6 +108,7 @@ namespace eStore.BL.Reports.Accounts
                 cashAmount += row.CashAmount;
                 nonCashAmt += (row.Amount - row.CashAmount);
             }
+
             Div d3 = new Div();
             Paragraph p3 = new Paragraph($"Non Cash Sale List\n Total Non Cash Sale: {nonCashAmt} ");
             d3.Add(p3); NonCashTable.SetCaption(d3);
@@ -118,7 +119,6 @@ namespace eStore.BL.Reports.Accounts
             pL.SetBorder(new SolidBorder(1));
             PdfFont font = PdfFontFactory.CreateFont(StandardFonts.COURIER_BOLDOBLIQUE);
             pL.SetFont(font).SetFontSize(14);
-
 
             List<Object> oL = new List<object>();
             oL.Add(cashTable);
@@ -213,26 +213,27 @@ namespace eStore.BL.Reports.Accounts
 
         public string GetTailoringReport(eStoreDbContext db, int storeId, DateTime date)
         {
-            var tId = db.TailoringDeliveries.Select(c => c.TalioringBookingId).ToList();
-            foreach (var id in tId)
-            {
-                var tb = db.TalioringBookings.Find(id);
-                if (tb != null)
-                {
-                    tb.IsDelivered = true;
-                    db.TalioringBookings.Update(tb);
-                }
+            //var tId = db.TailoringDeliveries.Select(c => c.TalioringBookingId).ToList();
+            //foreach (var id in tId)
+            //{
+            //    var tb = db.TalioringBookings.Find(id);
+            //    if (tb != null)
+            //    {
+            //        tb.IsDelivered = true;
+            //        db.TalioringBookings.Update(tb);
+            //    }
 
-            }
-            db.SaveChanges();
+            //}
+            //db.SaveChanges();
 
 
             var booking = db.TalioringBookings.Where(c => c.StoreId == storeId && c.BookingDate.Month == date.Month &&
-            c.BookingDate.Year == date.Year && c.IsDelivered==false).
+            c.BookingDate.Year == date.Year && c.IsDelivered == false).
                 Select(c => new { c.BookingDate, c.BookingSlipNo, c.CustName, c.DeliveryDate, c.TotalAmount, c.TotalQty, c.IsDelivered, c.TalioringBookingId })
                 .ToList();
 
-            var delivery = db.TailoringDeliveries.Include(c => c.Booking).Where(c => c.StoreId == storeId && c.DeliveryDate.Month == date.Month && c.DeliveryDate.Year == date.Year).
+            var delivery = db.TailoringDeliveries.Include(c => c.Booking)
+                .Where(c => c.StoreId == storeId && c.DeliveryDate.Month == date.Month && c.DeliveryDate.Year == date.Year).
                 Select(c => new
                 {
                     c.DeliveryDate,
