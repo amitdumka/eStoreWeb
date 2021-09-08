@@ -75,6 +75,35 @@ export function SaleListWidget({ className, saleReport ,openingCashInHand}) {
               section
             </p> */}
           </div>
+          <div className="mb-6">
+            <div className="d-flex align-items-center">
+              <div className="symbol symbol-45 symbol-light mr-5">
+                <span className="symbol-label">
+                  <SVG
+                    className="h-50 align-self-center"
+                    src={toAbsoluteUrl("/media/svg/misc/015-telegram.svg")}
+                  ></SVG>
+                </span>
+              </div>
+
+              <div className="d-flex flex-column flex-grow-1">
+                <a
+                  href="#"
+                  className="font-weight-bold text-dark-75 text-hover-primary font-size-lg mb-1"
+                >
+                  Previous Day Sale
+                </a>
+                <span className="text-warning font-weight-bold font-size-lg">
+                {Inr} {saleReport.yesterdaySale}
+                </span>
+              </div>
+            </div>
+
+            {/* <p className="text-dark-50 m-0 pt-5 font-weight-normal">
+              A brief write up about the Popular Authors that fits within this
+              section
+            </p> */}
+          </div>
 
           <div className="mb-6">
             <div className="d-flex align-items-center">
