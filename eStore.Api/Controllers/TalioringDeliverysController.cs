@@ -58,6 +58,10 @@ namespace eStore.API.Controllers
 
             try
             {
+                var tb = _context.TalioringBookings.Find(talioringDelivery.TalioringBookingId);
+                if (tb != null)
+                    tb.IsDelivered = true;
+                _context.TalioringBookings.Update(tb);
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
@@ -81,6 +85,10 @@ namespace eStore.API.Controllers
         public async Task<ActionResult<TalioringDelivery>> PostTalioringDelivery(TalioringDelivery talioringDelivery)
         {
             _context.TailoringDeliveries.Add(talioringDelivery);
+            var tb = _context.TalioringBookings.Find(talioringDelivery.TalioringBookingId);
+            if (tb != null)
+                tb.IsDelivered = true;
+            _context.TalioringBookings.Update(tb);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetTalioringDelivery", new { id = talioringDelivery.TalioringDeliveryId }, talioringDelivery);
@@ -97,6 +105,9 @@ namespace eStore.API.Controllers
             }
 
             _context.TailoringDeliveries.Remove(talioringDelivery);
+            var tb = _context.TalioringBookings.Find(talioringDelivery);
+            if (tb != null) tb.IsDelivered = false;
+            _context.TalioringBookings.Update(tb);
             await _context.SaveChangesAsync();
 
             return NoContent();

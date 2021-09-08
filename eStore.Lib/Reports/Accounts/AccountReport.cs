@@ -213,8 +213,22 @@ namespace eStore.BL.Reports.Accounts
 
         public string GetTailoringReport(eStoreDbContext db, int storeId, DateTime date)
         {
+            var tId = db.TailoringDeliveries.Select(c => c.TalioringBookingId).ToList();
+            foreach (var id in tId)
+            {
+                var tb = db.TalioringBookings.Find(id);
+                if (tb != null)
+                {
+                    tb.IsDelivered = true;
+                    db.TalioringBookings.Update(tb);
+                }
 
-            var booking = db.TalioringBookings.Where(c => c.StoreId == storeId && c.BookingDate.Month == date.Month && c.BookingDate.Year == date.Year && !c.IsDelivered).
+            }
+            db.SaveChanges();
+
+
+            var booking = db.TalioringBookings.Where(c => c.StoreId == storeId && c.BookingDate.Month == date.Month &&
+            c.BookingDate.Year == date.Year && !c.IsDelivered).
                 Select(c => new { c.BookingDate, c.BookingSlipNo, c.CustName, c.DeliveryDate, c.TotalAmount, c.TotalQty, c.IsDelivered, c.TalioringBookingId })
                 .ToList();
 
