@@ -136,6 +136,7 @@ namespace eStore.BL.Reports.Accounts
             var dueList = db.DuesLists.Include(c => c.DailySale).Where(c => c.StoreId == storeId && !c.IsRecovered)
                 .Select(c => new { c.Amount, c.DailySale.SaleDate, c.DailySale.InvNo, c.IsPartialRecovery, c.DuesListId })
                 .ToList();
+
             var recovery = db.DueRecoverds.Where(c => c.StoreId == storeId && c.PaidDate.Month == date.Month && c.PaidDate.Year == date.Year)
                 .Select(c => new { c.DueRecoverdId, c.AmountPaid, c.IsPartialPayment, c.PaidDate, c.DuesList.DailySale.InvNo, c.DuesList.DailySale.SaleDate, c.DuesList.Amount })
                 .ToList();
@@ -181,6 +182,12 @@ namespace eStore.BL.Reports.Accounts
                 dueTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(row.Amount.ToString("0.##"))));
                 dueAmount += row.Amount;
             }
+            Div d1 = new Div();
+            Paragraph p1 = new Paragraph($"Due List \nTotal Due Amount: {dueAmount}");
+            d1.Add(p1);
+            dueTable.SetCaption(d1);
+            //dueAmount = 0;
+
             foreach (var row in recovery)
             {
                 dueTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph((++count) + "")));
@@ -202,9 +209,18 @@ namespace eStore.BL.Reports.Accounts
 
 
                 dueAmount += row.Amount;
+                paidAmount += row.AmountPaid;
+
             }
+            Div d2 = new Div();
+            Paragraph p2 = new Paragraph($"Recovery List\nTotal Due Amount: {dueAmount}\t Total Due Recovery: {paidAmount}");
+            d2.Add(p2);
+            recTable.SetCaption(d2);
 
             List<Object> oL = new List<object>();
+            oL.Add(dueTable);
+            oL.Add(recTable);
+
             return PDFHelper.CreateReportPdf("DueReport", $"Dues Report for month of{date.Month}/{date.Year}", oL, false);
 
 
