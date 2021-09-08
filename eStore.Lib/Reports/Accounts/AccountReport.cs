@@ -98,7 +98,7 @@ namespace eStore.BL.Reports.Accounts
             count = 0;
 
 
-            foreach (var row in cardSale)
+            foreach (var row in nonCashSale)
             {
                 NonCashTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph((++count) + "")));
                 NonCashTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(row.SaleDate.ToShortDateString())));
@@ -112,7 +112,7 @@ namespace eStore.BL.Reports.Accounts
             Paragraph p3 = new Paragraph($"Non Cash Sale List\n Total Non Cash Sale: {nonCashAmt} ");
             d3.Add(p3); NonCashTable.SetCaption(d3);
 
-            Paragraph pL = new Paragraph($"Total Cash Sale: Rs. {cashAmount}\t Card Sale: Rs. {cardAmount} \t Non Cash Sale: Rs. {nonCashAmt}");
+            Paragraph pL = new Paragraph($"Total Cash Sale: Rs. {cashAmount}\n Card Sale: Rs. {cardAmount} \n Non Cash Sale: Rs. {nonCashAmt}");
             pL.Add($"\n Total Sale Amount: Rs. {cashAmount + cardAmount + nonCashAmt}");
             pL.SetFontColor(ColorConstants.RED).SetTextAlignment(TextAlignment.CENTER).SetItalic();
             pL.SetBorder(new SolidBorder(1));
@@ -228,7 +228,7 @@ namespace eStore.BL.Reports.Accounts
 
 
             var booking = db.TalioringBookings.Where(c => c.StoreId == storeId && c.BookingDate.Month == date.Month &&
-            c.BookingDate.Year == date.Year && !c.IsDelivered).
+            c.BookingDate.Year == date.Year && c.IsDelivered==false).
                 Select(c => new { c.BookingDate, c.BookingSlipNo, c.CustName, c.DeliveryDate, c.TotalAmount, c.TotalQty, c.IsDelivered, c.TalioringBookingId })
                 .ToList();
 
