@@ -492,10 +492,11 @@ namespace eStore.Lib.Reports.Payroll
             }
 
             slip.NetAttendance = db.Attendances.Where(c => c.EmployeeId == EmployeeId && c.AttDate.Year == year && c.AttDate.Month == month && (c.Status == AttUnit.Present ||
-           c.Status == AttUnit.PaidLeave || c.Status == AttUnit.StoreClosed || c.Status == AttUnit.Holiday || c.Status == AttUnit.StoreClosed ||
+           c.Status == AttUnit.PaidLeave || c.Status == AttUnit.StoreClosed || c.Status == AttUnit.Holiday || 
            c.Status == AttUnit.SickLeave)).Count();
 
             slip.PaidSunday = db.Attendances.Where(c => c.EmployeeId == EmployeeId && c.AttDate.Year == year && c.AttDate.Month == month && c.Status == AttUnit.Sunday).Count();
+
             slip.Absent = db.Attendances.Where(c => c.EmployeeId == EmployeeId && c.AttDate.Year == year && c.AttDate.Month == month && (c.Status == AttUnit.Absent
            || c.Status == AttUnit.CasualLeave || c.Status == AttUnit.OnLeave)).Count();
 
@@ -557,7 +558,7 @@ namespace eStore.Lib.Reports.Payroll
 
         private string CreatePdf(bool isLandscape = false)
         {
-            float[] columnWidths = { 1, 5, 5, 5, 5, 5, 1, 1, 1 };
+            float[] columnWidths = { 1, 5, 5, 1, 1, 1, 1,1, 1, 1 };
 
             Cell[] HeaderCell = new Cell[]{
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("#")),
@@ -566,6 +567,7 @@ namespace eStore.Lib.Reports.Payroll
                      new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("@Salary(PD)").SetTextAlignment(TextAlignment.CENTER)),
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Attendance").SetTextAlignment(TextAlignment.CENTER)),
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Absent").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Sunday").SetTextAlignment(TextAlignment.CENTER)),
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Salary").SetTextAlignment(TextAlignment.CENTER)),
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Advance").SetTextAlignment(TextAlignment.CENTER)),
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Net Salary").SetTextAlignment(TextAlignment.CENTER)),
@@ -601,10 +603,13 @@ namespace eStore.Lib.Reports.Payroll
                 table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(item.Value.SalaryPerDays.ToString("0.##"))));
                 table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(item.Value.NetAttendance.ToString("0.##"))));
                 table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(item.Value.Absent.ToString())));
+                table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(item.Value.PaidSunday.ToString())));
                 table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(item.Value.GrossSalary.ToString("0.##"))));
                 table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(item.Value.SalaryAdvance.ToString("0.##"))));
                 table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph((item.Value.GrossSalary - item.Value.SalaryAdvance).ToString("0.##"))));
+
                 totalPayment += (item.Value.GrossSalary - item.Value.SalaryAdvance);
+
                 if (item.Value.NoofAttendance != nDays)
                     isValid = false;
             }
