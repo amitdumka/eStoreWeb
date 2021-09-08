@@ -67,16 +67,7 @@ namespace eStore.BL.Reports.Accounts
             Paragraph p1 = new Paragraph($"Cash Sale List\n Total Cash Sale: {cashAmount} ");
             d1.Add(p1); cashTable.SetCaption(d1);
 
-            float[] columnWidths2 = { 1, 5, 5, 5, 1 };
-
-            Cell[] HeaderCell2 = new Cell[]
-            {
-                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("#")),
-                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Date").SetTextAlignment(TextAlignment.CENTER)),
-                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Invoice No").SetTextAlignment(TextAlignment.CENTER)),
-                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Mode").SetTextAlignment(TextAlignment.CENTER)),
-                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Amount").SetTextAlignment(TextAlignment.CENTER)),
-            };
+            
             Table cardTable = PDFHelper.GenerateTable(columnWidths, HeaderCell);
             count = 0;
 
@@ -93,8 +84,17 @@ namespace eStore.BL.Reports.Accounts
             Div d2 = new Div();
             Paragraph p2 = new Paragraph($"Card Sale List\n Total Card Sale: {cardAmount} ");
             d2.Add(p2); cardTable.SetCaption(d2);
+            float[] columnWidths2 = { 1, 5, 5, 5, 1 };
 
-            Table NonCashTable = PDFHelper.GenerateTable(columnWidths, HeaderCell);
+            Cell[] HeaderCell2 = new Cell[]
+            {
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("#")),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Date").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Invoice No").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Mode").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Amount").SetTextAlignment(TextAlignment.CENTER)),
+            };
+            Table NonCashTable = PDFHelper.GenerateTable(columnWidths2, HeaderCell2);
             count = 0;
 
 
