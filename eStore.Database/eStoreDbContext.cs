@@ -172,9 +172,12 @@ namespace eStore.Database
         public DbSet<PersonalExpense> PersonalExpenses { get; set; }
 
         //Vendor system
-        // public DbSet<Vendor> Vendors { get; set; }
-        // public DbSet<VendorPayment> VendorPayments { get; set; }
-        // public DbSet<VendorDebitCreditNote> VendorNotes { get; set; }
+         public DbSet<Vendor> Vendors { get; set; }
+         public DbSet<VendorPayment> VendorPayments { get; set; }
+         public DbSet<VendorDebitCreditNote> VendorNotes { get; set; }
+
+        public DbSet<PrintedSlipBook> PrintedSlipBooks { get; set; }
+        public DbSet<UsedSlip> UsedSlips { get; set; }
 
 
 

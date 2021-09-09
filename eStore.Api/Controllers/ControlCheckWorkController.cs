@@ -1,17 +1,8 @@
-﻿using System;
-using eStore.BL.Widgets;
-using eStore.Database;
+﻿using eStore.Database;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using eStore.BL.Reports.Payroll;
-using eStore.BL.Reports.CAReports;
-using System.IO;
-using eStore.Lib.Reports.Payroll;
-using eStore.BL.Reports.Accounts;
 using Microsoft.EntityFrameworkCore;
 
 namespace eStore.Api.Controllers
@@ -29,7 +20,7 @@ namespace eStore.Api.Controllers
 
 
         [HttpGet("tailoringCheck")]
-        public ActionResult<string> GetTailoringCheck(int storeId)
+        public ActionResult<TailoringCheck> GetTailoringCheck(int storeId)
         {
             var booking = db.TalioringBookings.Where(c => c.StoreId == storeId && !c.IsDelivered)
                 .Select(c=>new {c.BookingDate, c.BookingSlipNo, c.CustName, c.DeliveryDate, c.TotalAmount, c.TotalQty, c.IsDelivered})
@@ -40,6 +31,7 @@ namespace eStore.Api.Controllers
                     c.TalioringBookingId , c.Booking.BookingDate, c.Booking.BookingSlipNo}).ToList();
 
             SortedDictionary<int, string> InvErrorList = new SortedDictionary<int, string>();
+           
             foreach (var del in deliver)
             {
                 if(!del.IsDelivered)
@@ -65,25 +57,74 @@ namespace eStore.Api.Controllers
                         msg += "Propose date and delivery date is not matching";
                         int Days = (int)del.ProposeDate.Subtract(del.DeliveryDate).TotalDays;
                         int DaysInTotal= (int)del.BookingDate.Subtract(del.DeliveryDate).TotalDays;
-                    }
-
-                    
+                       if(Days>0) msg += $"Late delivery , Late by {Days} days;";
+                        msg += $"Delivery is done in {DaysInTotal} days from Booking;";
+                    }   
+                }
+                else
+                {
+                    msg += "Invoice not found in Daily Sale list;";
                 }
                 InvErrorList.Add(del.TalioringBookingId, msg);
 
             }
            int noOfDelivery= db.SaveChanges();
-           //Veryify Delivery check
+            //Veryify Delivery check
 
-
+            TailoringCheck tc = new TailoringCheck { NoOfDelivery = noOfDelivery, InvErrorList=InvErrorList };
+            return tc;
 
         }
+        [HttpGet ("invCheck")]
+        public ActionResult<DuplicateInvCheck> GetDuplicateBillCheck(int storeId)
+        {
+            var data = db.DailySales.Where (c => c.StoreId == storeId)
+                .Select (c => new {c.DailySaleId, c.InvNo,c.Amount })
+                .ToList ();
+
+            bool isOk = false;
+            var invList = data.Select (c => c.InvNo).OrderBy (c=>c).ToList ();
+            var unq = invList.Distinct ().ToList ();
+            if ( invList.Count != unq.Count )
+            {
+                foreach ( var item in unq )
+                    invList.Remove (item);
+            }
+            else
+            {
+                isOk = true;
+                // No Duplicate record
+            }
+
+            return new DuplicateInvCheck { DupInv = invList, IsOk = isOk };
+
+        }
+
+
+        public void AttendanceCheck(int storeId)
+        {
+            // Need extendsive check and marking as final also.
+        }
+
+
+        public void SlipNumbering(int storeId)
+        {
+
+        }
+    
+    
+    }
+    public class DuplicateInvCheck
+    {
+        public bool IsOk { get; set; }
+        public List<string> DupInv { get; set; }
     }
 
 
-    class TailoringCheck
+    public class TailoringCheck
     {
         public int NoOfDelivery { get; set; }
+        public SortedDictionary<int, string> InvErrorList { get; set; }
 
     }
 }

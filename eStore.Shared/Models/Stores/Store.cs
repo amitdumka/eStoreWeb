@@ -112,4 +112,32 @@ namespace eStore.Shared.Models.Stores
         public int StoreCloseId { get; set; }
 
     }
+
+
+    public enum SlipBookType { Payment, Reciept, PaymentRecieptCombo, DailyBook, DebitNote, CreditNote, TailoringBook}
+    
+    public class PrintedSlipBook
+    {
+        public int PrintedSlipBookId { get; set; }
+        public DateTime PrintedDate { get; set; }
+        public DateTime FirstUseDate { get; set; }
+        public SlipBookType SlipBookType { get; set; }
+        public string SlipHeader { get; set; }
+        public int StaringNumber { get; set; }
+        public int EndingNumber { get; set; }
+        public string BookCode { get; set; }
+        public int StoreId { get; set; }
+
+        public virtual Store Store { get; set; }
+    }
+    public class UsedSlip
+    {
+        public int UsedSlipId { get; set; }
+        public string SlipNumber { get; set; }
+        public string VoucherType { get; set; }
+        public int RefId { get; set; }
+        public DateTime RefDate { get; set; }
+        public int StoreId { get; set; }
+        public virtual Store Store { get; set; }
+    }
 }
