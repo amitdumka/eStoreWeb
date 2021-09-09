@@ -359,8 +359,8 @@ namespace eStore.BL.Reports.Accounts
 
                 PendingTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(row.DeliveryDate.ToShortDateString())));
 
-                var days = row.DeliveryDate.Subtract(DateTime.Today).TotalDays;
-                PendingTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(days.ToString("0.##"))));
+                int days = (int)row.DeliveryDate.Subtract(DateTime.Today).TotalDays;
+                PendingTable.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(days.ToString("0.#"))));
 
                 qtotalQty += row.TotalQty;
                 qtotalBAmt += row.TotalAmount;
