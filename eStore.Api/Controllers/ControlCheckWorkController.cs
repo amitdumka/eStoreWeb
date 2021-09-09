@@ -71,10 +71,12 @@ namespace eStore.Api.Controllers
                         isO = true;
                         msg += "\tPropose date and delivery date is not matching;";
 
-                        int Days = (int)del.ProposeDate.Subtract(del.DeliveryDate).TotalDays;
+                        int Days = (int)del.DeliveryDate.Subtract(del.ProposeDate).TotalDays;
                         int DaysInTotal= (int)del.DeliveryDate.Subtract(del.BookingDate).TotalDays;
                        
                         if(Days>0) msg += $"\tLate delivery , Late by {Days} days;";
+                        else if(Days<0 )
+                            msg += $"\tEarly delivery , Early by {Days} days;";
 
                         msg += $"\tDelivery is done in {DaysInTotal} days from Booking;";
                     }

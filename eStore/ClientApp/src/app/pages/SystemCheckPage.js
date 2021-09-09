@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useSubheader } from "../../_metronic/layout";
 import {
   Card,
@@ -9,9 +9,17 @@ import {
 } from "../../_metronic/_partials/controls";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import * as actions from "./_redux/Actions";
-import { Select, MenuItem, Button } from "@material-ui/core";
-import { Alert } from "react-bootstrap";
+import { Select, MenuItem, Button, IconButton } from "@material-ui/core";
+//import {PrintIcon} from "@material-ui/icons";
 
+import LocalPrintshopIcon from "@material-ui/icons/LocalPrintshop";
+
+import { Alert } from "react-bootstrap";
+import { useReactToPrint } from "react-to-print";
+export const pageStyle = `  @media all {    .page-break {      display: none;    }  }
+    @media print {    html, body {      height: initial !important;      overflow: initial !important;      -webkit-print-color-adjust: exact;    }}
+  @media print {.page-break { margin-top: 1rem; display: block; page-break-before: auto;    }  }
+   @page {    size: auto;    margin: 20mm;  }`;
 export const SystemCheckPage = () => {
   const suhbeader = useSubheader();
   suhbeader.setTitle("eStore System Check");
@@ -39,6 +47,12 @@ export const TailoringCheck = () => {
   const [store, setStore] = useState();
 
   const { tailoringCheckList } = currentState;
+  const [bOn, setBOn] = useState(true);
+  const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+    pageStyle: () => pageStyle,
+  });
 
   //  Redux state
   const dispatch = useDispatch();
@@ -63,12 +77,21 @@ export const TailoringCheck = () => {
     // console.log(listData);
     // var itemList;
     if (listData != null) {
+      setBOn(false);
       //listData.map((item,index)=>itemList+=stringMessage(item));
       const itemList = Object.keys(listData).map(function(keyName, keyIndex) {
         return stringMessage(listData[keyName]);
       });
-      return <ol>{itemList && itemList.map((item) => <li>{item}</li>)}</ol>;
-    }
+      return (
+        <>
+          <h2 className="text-info text-center">
+            {" "}
+            List of Error(s) found in Tailoring entries.
+          </h2>
+          <ol>{itemList && itemList.map((item) => <li>{item}</li>)}</ol>
+        </>
+      );
+    } else setBOn(true);
   };
   const stringMessage = (msg) => {
     console.log(msg);
@@ -90,7 +113,7 @@ export const TailoringCheck = () => {
               Amount/Paid : Rs. {dMsg[9]} / Rs. {dMsg[8]}
             </li>
 
-            <li className="text-danger mb-2">
+            <li className="text-danger mb-2">Error(s)
               <ol>
                 {error.map((e) =>
                   e && e != "" ? <li className="p-1">{e}</li> : ""
@@ -108,7 +131,8 @@ export const TailoringCheck = () => {
   return (
     <Card>
       <CardHeader title="Tailoring Verification" className="text-success">
-        <Select className="text-center center-align text-primary"
+        <Select
+          className="text-center center-align text-primary"
           value={store}
           displayEmpty
           onChange={(event) => setStore(event.target.value)}
@@ -124,23 +148,34 @@ export const TailoringCheck = () => {
         </Select>
 
         <CardHeaderToolbar>
-          <input
+          <IconButton
+            className="btn btn-success mr-3"
+            onClick={handlePrint}
+            disabled={bOn}
+          >
+            <LocalPrintshopIcon />
+          </IconButton>
+          <Button
             type="button"
-            class="mr-3 btn btn-info"
+            className="mr-3 btn btn-info"
             value="Reset"
             onClick={() => {
               handleReset();
             }}
-          />
-          <input
+          >
+            Reset
+          </Button>
+          <Button
             type="button"
             onClick={() => handleButton()}
-            class="btn btn-primary"
-            value="Tailoring Check"
-          />
+            className="btn btn-primary"
+            value="Invoice Check"
+          >
+            Tailoring Check
+          </Button>
         </CardHeaderToolbar>
       </CardHeader>
-      <CardBody>
+      <CardBody ref={componentRef}>
         {tailoringCheckList && (
           <HandleInvLists listData={tailoringCheckList.invErrorList} />
         )}
@@ -154,6 +189,7 @@ export const DuplicateInvoiceCheck = () => {
     shallowEqual
   );
   const [store, setStore] = useState();
+  const [bOn, setBOn] = useState(true);
 
   const { duplicateInvCheckList } = currentState;
 
@@ -182,26 +218,33 @@ export const DuplicateInvoiceCheck = () => {
   };
   const ErrorList = ({ eList }) => {
     console.log(eList);
+    if (eList != null) setBOn(false);
+    else setBOn(true);
     return (
       <>
         {eList && (
-          <div className="h3 text-center text-danger">
+          <h3 className="h3 text-center text-danger display-4">
             Duplicate Invoice Entry found
-            <span class="badge badge-pill badge-success ml-5">
+            <span className="badge badge-pill badge-success ml-5">
               {eList.length}
             </span>
-          </div>
+          </h3>
         )}
         {eList && (
-          <div className="h5 text-left text-info">
+          <h5 className="h5 text-left text-info">
             Duplicate Invoice List below.
-          </div>
+          </h5>
         )}
         {eList && (
           <ul className="border border-primary rounded">
             {eList &&
               eList.map((e) => (
-                <li className="text-warning">Invoice No: {e}</li>
+                <li className="text-warning">
+                  Invoice No:{" "}
+                  <span className="text-primary  ml-2">
+                    <em>{e}</em>
+                  </span>
+                </li>
               ))}
           </ul>
         )}
@@ -211,10 +254,17 @@ export const DuplicateInvoiceCheck = () => {
   const handleReset = (event) => {
     dispatch(actions.resetDupInv());
   };
+  const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+    pageStyle: () => pageStyle,
+  });
+
   return (
     <Card>
       <CardHeader title="Invoice Duplicate Verification" className="text-info">
-        <Select className="text-center center-align text-primary"
+        <Select
+          className="text-center center-align text-primary"
           value={store}
           displayEmpty
           onChange={(event) => setStore(event.target.value)}
@@ -230,23 +280,35 @@ export const DuplicateInvoiceCheck = () => {
         </Select>
 
         <CardHeaderToolbar>
-          <input
+          <IconButton
+            className="btn btn-success mr-3"
+            onClick={handlePrint}
+            disabled={bOn}
+          >
+            <LocalPrintshopIcon />
+          </IconButton>
+          <Button
             type="button"
-            class="mr-3 btn btn-info"
+            className="mr-3 btn btn-info"
             value="Reset"
             onClick={() => {
               handleReset();
             }}
-          />
-          <input
+          >
+            Reset
+          </Button>
+          <Button
             type="button"
             onClick={() => handleButton()}
-            class="btn btn-primary"
+            className="btn btn-primary"
             value="Invoice Check"
-          />
+          >
+            Invoice Check
+          </Button>
+          {/* <ReactToPrint trigger={() => <button>Print</button>}content={() => componentRef.current} /> */}
         </CardHeaderToolbar>
       </CardHeader>
-      <CardBody>
+      <CardBody ref={componentRef} pageStyle={pageStyle}>
         {duplicateInvCheckList && duplicateInvCheckList.isOk ? (
           <div className=" text-center text-warning h2">
             No Duplicate Invoice found!
@@ -269,24 +331,3 @@ export const DuplicateInvoiceCheck = () => {
     </Card>
   );
 };
-
-function AlertDismissible({ msg }) {
-  const [show, setShow] = useState(true);
-
-  return (
-    <>
-      <Alert show={show} variant="success">
-        <Alert.Heading>How's it going?!</Alert.Heading>
-        <p>{msg}</p>
-        <hr />
-        <div className="d-flex justify-content-end">
-          <Button onClick={() => setShow(false)} variant="outline-success">
-            Close me!
-          </Button>
-        </div>
-      </Alert>
-
-      {!show && <Button onClick={() => setShow(true)}>Show Alert</Button>}
-    </>
-  );
-}
