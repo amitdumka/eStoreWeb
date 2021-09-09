@@ -88,7 +88,7 @@ export const TailoringCheck = () => {
             {" "}
             List of Error(s) found in Tailoring entries.
           </h2>
-          <ol>{itemList && itemList.map((item) => <li>{item}</li>)}</ol>
+          <ol className="list list-primary border border-primary rounded  pr-4 pl-5">{itemList && itemList.map((item) => <li className="ml-5 p-4">{item}</li>)}</ol>
         </>
       );
     } else setBOn(true);
@@ -100,20 +100,20 @@ export const TailoringCheck = () => {
       var error = dMsg[dMsg.length - 1].split(";");
       return (
         <>
-          <ul className="mb-2 mt-3 border border-warning rounded">
-            <li className="text-success mt-2">InvNo : {dMsg[1]}</li>
-            <li className="text-warning">
+          <ul className=" border border-warning rounded row pl-4">
+            <li className="text-success mt-2 ml-4 col-md-2">InvNo : {dMsg[1]}</li>
+            <li className="text-warning ml-4 col-md-2">
               Booking/Delivery ID : {dMsg[2]}/{dMsg[6]}
             </li>
-            <li className="text-success">Slip No: {dMsg[3]}</li>
-            <li className="text-primary">Booking Date: {dMsg[4]}</li>
-            <li className="text-info">Deliver Date: {dMsg[5]}</li>
-            <li className="text-primary">Propose Date: {dMsg[7]}</li>
-            <li className="text-info">
+            <li className="text-success ml-4 col-md-2">Slip No: {dMsg[3]}</li>
+            <li className="text-primary ml-4 col">Booking Date: {dMsg[4]}</li>
+            <li className="text-info ml-4 col">Deliver Date: {dMsg[5]}</li>
+            <li className="text-primary ml-4 col">Propose Date: {dMsg[7]}</li>
+            <li className="text-info ml-4 col">
               Amount/Paid : Rs. {dMsg[9]} / Rs. {dMsg[8]}
             </li>
 
-            <li className="text-danger mb-2">Error(s)
+            <li className="text-danger mb-2 ml-4 col-md-4">Error(s)
               <ol>
                 {error.map((e) =>
                   e && e != "" ? <li className="p-1">{e}</li> : ""
@@ -232,14 +232,15 @@ export const DuplicateInvoiceCheck = () => {
         )}
         {eList && (
           <h5 className="h5 text-left text-info">
-            Duplicate Invoice List below.
+            Duplicate Invoice List below.<br/>
+            <hr className="text-danger"/>
           </h5>
         )}
         {eList && (
-          <ul className="border border-primary rounded">
+          <ul className="border border-primary rounded  row">
             {eList &&
               eList.map((e) => (
-                <li className="text-warning">
+                <li className="text-warning ml-3 col-lg-3">
                   Invoice No:{" "}
                   <span className="text-primary  ml-2">
                     <em>{e}</em>
