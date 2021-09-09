@@ -6,6 +6,7 @@ import { MyPage } from "./pages/MyPage";
 //import MyReports from "./pages/MyReports";
 import { DashboardPage } from "./pages/DashboardPage";
 import {FinReportPage} from "./pages/FinReportPage";
+import {SystemCheckPage} from "./pages/SystemCheckPage";
 //import {  SecureRoute, LoginCallback } from "@okta/okta-react";
 //import CustomLoginComponent from "./modules/okta/Login";
 //import Messages from "./modules/okta/Messages";
@@ -68,7 +69,7 @@ export default function BasePage() {
         <Route path="/stores" component={StoreOperationsMainPage} />
         <Route path="/reports" component={ReportsPage}/>
         <Route path="/sales" component={SalesPage}/>
-        
+        <Route path="/systemchecks" component={SystemCheckPage}/>
         {/* <SecureRoute path="/messages" component={Messages} /> */}
         <Redirect to="error/error-v1" />
       </Switch>

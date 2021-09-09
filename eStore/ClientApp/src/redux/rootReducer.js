@@ -45,9 +45,10 @@ import {contactsSlice} from "../app/modules/Stores/_redux/Contacts/Slice";
 import {transcationModesSlice} from "../app/modules/Accounting/_redux/TranscationModes/Slice";
 import {staffAdvanceReceiptsSlice} from "../app/modules/Payrolls/_redux/StaffAdvanceReceipts/Slice";
 import {salariesSlice} from "../app/modules/Payrolls/_redux/Salaries/Slice";
-
+import {commonPageTypesSlice} from "../app/pages/_redux/Slice";
 export const rootReducer = combineReducers({
   auth: auth.reducer,
+  commonPageTypes: commonPageTypesSlice.reducer,
   ledgerTypes: ledgerTypesSlice.reducer,
   salaries: salariesSlice.reducer,
   staffAdvanceReceipts: staffAdvanceReceiptsSlice.reducer,

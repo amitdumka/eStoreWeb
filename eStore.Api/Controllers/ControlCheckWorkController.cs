@@ -27,11 +27,13 @@ namespace eStore.Api.Controllers
                 .ToList();
             var deliver = db.TailoringDeliveries.Include(c=>c.Booking).Where(c => c.StoreId == storeId)
                 .Select(c=>new {c.Amount,c.DeliveryDate,c.InvNo,ProposeDate=c.Booking.DeliveryDate,c.Booking.TotalAmount,
-                    c.Booking.IsDelivered,
+                    c.Booking.IsDelivered, c.TalioringDeliveryId,
                     c.TalioringBookingId , c.Booking.BookingDate, c.Booking.BookingSlipNo}).ToList();
 
             SortedDictionary<int, string> InvErrorList = new SortedDictionary<int, string>();
-           
+
+            int ctr = 0;
+            bool isO = false;
             foreach (var del in deliver)
             {
                 if(!del.IsDelivered)
@@ -41,31 +43,52 @@ namespace eStore.Api.Controllers
                     db.TalioringBookings.Update(b);
                 }
 
+                string msg = $"#{del.InvNo}#{del.TalioringBookingId}#{del.BookingSlipNo}#{del.BookingDate}#{del.DeliveryDate}#{del.TalioringDeliveryId}#{del.ProposeDate}#{del.Amount}#{del.TotalAmount}#;";
                 var ds = db.DailySales.Where(c => c.InvNo.ToLower().Contains(del.InvNo.ToLower()) && c.IsTailoringBill).FirstOrDefault();
-                string msg = "";
+               
+                
                 if (ds != null)
                 {
-                    
+                    isO = false;
+
                     if (ds.SaleDate.Date != del.DeliveryDate.Date)
                     {
-                        msg += "Dates are not matching;";
+                        isO = true;
+                        msg += "\tDates are not matching;";
                     }
-                    if (ds.Amount != del.Amount) msg += " Delivery and sale amount not matching;";
-                    if (del.Amount != del.TotalAmount) msg += "Delivery and Booking amount not matching;";
+                    if ( ds.Amount != del.Amount )
+                    {
+                        msg += "\tDelivery and sale amount not matching;";
+                        isO = true;
+                    }
+                    if ( del.Amount != del.TotalAmount )
+                    {
+                        isO = true;
+                        msg += "\tDelivery and Booking amount not matching;";
+                    }
                     if (del.ProposeDate.Date != del.DeliveryDate.Date)
                     {
-                        msg += "Propose date and delivery date is not matching";
+                        isO = true;
+                        msg += "\tPropose date and delivery date is not matching;";
+
                         int Days = (int)del.ProposeDate.Subtract(del.DeliveryDate).TotalDays;
-                        int DaysInTotal= (int)del.BookingDate.Subtract(del.DeliveryDate).TotalDays;
-                       if(Days>0) msg += $"Late delivery , Late by {Days} days;";
-                        msg += $"Delivery is done in {DaysInTotal} days from Booking;";
-                    }   
+                        int DaysInTotal= (int)del.DeliveryDate.Subtract(del.BookingDate).TotalDays;
+                       
+                        if(Days>0) msg += $"\tLate delivery , Late by {Days} days;";
+
+                        msg += $"\tDelivery is done in {DaysInTotal} days from Booking;";
+                    }
+                    if(isO)
+                        InvErrorList.Add (ctr, msg);
                 }
                 else
                 {
-                    msg += "Invoice not found in Daily Sale list;";
+                    msg += $"\tInvoice No {del.InvNo} not found in Daily Sale list;";
+                    InvErrorList.Add (ctr, msg);
                 }
-                InvErrorList.Add(del.TalioringBookingId, msg);
+            
+               
+                ctr++;
 
             }
            int noOfDelivery= db.SaveChanges();
@@ -100,14 +123,14 @@ namespace eStore.Api.Controllers
 
         }
 
-
-        public void AttendanceCheck(int storeId)
+        [HttpGet ("attendanceCheck")]
+        public void GetAttendanceCheck(int storeId)
         {
             // Need extendsive check and marking as final also.
         }
 
-
-        public void SlipNumbering(int storeId)
+        [HttpGet ("slipNumberCheck")]
+        public void GetSlipNumbering(int storeId)
         {
 
         }

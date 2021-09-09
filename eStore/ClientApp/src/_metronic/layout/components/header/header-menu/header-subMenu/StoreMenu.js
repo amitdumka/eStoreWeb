@@ -194,12 +194,12 @@ function StoreMenu({ layoutProps }) {
                   {/*begin::3 Level*/}
                   <li
                     className={`menu-item ${getMenuItemActive(
-                      "/stores/navigation/bottom-navigation"
+                      "/stores/"
                     )}`}
                   >
                     <NavLink
                       className="menu-link"
-                      to="/stores/navigation/bottom-navigation"
+                      to="/stores/"
                     >
                       <i className="menu-bullet menu-bullet-dot">
                         <span />
@@ -259,6 +259,23 @@ function StoreMenu({ layoutProps }) {
                         <span />
                       </i>
                       <span className="menu-text">Master Report</span>
+                    </NavLink>
+                  </li>
+                  {/*end::3 Level*/}
+                  {/*begin::3 Level*/}
+                  <li
+                    className={`menu-item ${getMenuItemActive(
+                      "/systemchecks"
+                    )}`}
+                  >
+                    <NavLink
+                      className="menu-link"
+                      to="/systemchecks"
+                    >
+                      <i className="menu-bullet menu-bullet-dot">
+                        <span />
+                      </i>
+                      <span className="menu-text">System Check</span>
                     </NavLink>
                   </li>
                   {/*end::3 Level*/}
