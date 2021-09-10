@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
+
 namespace eStore.Shared.Models.Identity
 {
     /// <summary>
@@ -15,11 +16,14 @@ namespace eStore.Shared.Models.Identity
 
         [PersonalData]
         public bool IsEmployee { get; set; }
+
         [PersonalData]
         public int EmployeeId { get; set; }
+
         [PersonalData]
         public bool IsWorking { get; set; }
     }
+
     public class RegisteredUser
     {
         public string RegisteredUserId { get; set; }
@@ -30,13 +34,11 @@ namespace eStore.Shared.Models.Identity
         public DateTime CreatedOn { get; set; }
         public DateTime LastLoggedIn { get; set; }
         public bool IsUserLoggedIn { get; set; }
-
     }
+
     public class RoleUserView
     {
         public string UserId { get; set; }
         public string RoleId { get; set; }
     }
-
-     
 }

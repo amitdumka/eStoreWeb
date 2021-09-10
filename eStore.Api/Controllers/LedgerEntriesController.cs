@@ -1,17 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using eStore.Database;
 using eStore.Shared.Models.Accounts;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route ("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class LedgerEntriesController : ControllerBase
@@ -27,18 +25,18 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<LedgerEntry>>> GetLedgerEntries()
         {
-            return await _context.LedgerEntries.ToListAsync();
+            return await _context.LedgerEntries.ToListAsync ();
         }
 
         // GET: api/LedgerEntries/5
-        [HttpGet("{id}")]
+        [HttpGet ("{id}")]
         public async Task<ActionResult<LedgerEntry>> GetLedgerEntry(int id)
         {
-            var ledgerEntry = await _context.LedgerEntries.FindAsync(id);
+            var ledgerEntry = await _context.LedgerEntries.FindAsync (id);
 
-            if (ledgerEntry == null)
+            if ( ledgerEntry == null )
             {
-                return NotFound();
+                return NotFound ();
             }
 
             return ledgerEntry;
@@ -46,25 +44,25 @@ namespace eStore.API.Controllers
 
         // PUT: api/LedgerEntries/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+        [HttpPut ("{id}")]
         public async Task<IActionResult> PutLedgerEntry(int id, LedgerEntry ledgerEntry)
         {
-            if (id != ledgerEntry.LedgerEntryId)
+            if ( id != ledgerEntry.LedgerEntryId )
             {
-                return BadRequest();
+                return BadRequest ();
             }
 
-            _context.Entry(ledgerEntry).State = EntityState.Modified;
+            _context.Entry (ledgerEntry).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync ();
             }
-            catch (DbUpdateConcurrencyException)
+            catch ( DbUpdateConcurrencyException )
             {
-                if (!LedgerEntryExists(id))
+                if ( !LedgerEntryExists (id) )
                 {
-                    return NotFound();
+                    return NotFound ();
                 }
                 else
                 {
@@ -72,7 +70,7 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return NoContent();
+            return NoContent ();
         }
 
         // POST: api/LedgerEntries
@@ -80,31 +78,31 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<LedgerEntry>> PostLedgerEntry(LedgerEntry ledgerEntry)
         {
-            _context.LedgerEntries.Add(ledgerEntry);
-            await _context.SaveChangesAsync();
+            _context.LedgerEntries.Add (ledgerEntry);
+            await _context.SaveChangesAsync ();
 
-            return CreatedAtAction("GetLedgerEntry", new { id = ledgerEntry.LedgerEntryId }, ledgerEntry);
+            return CreatedAtAction ("GetLedgerEntry", new { id = ledgerEntry.LedgerEntryId }, ledgerEntry);
         }
 
         // DELETE: api/LedgerEntries/5
-        [HttpDelete("{id}")]
+        [HttpDelete ("{id}")]
         public async Task<IActionResult> DeleteLedgerEntry(int id)
         {
-            var ledgerEntry = await _context.LedgerEntries.FindAsync(id);
-            if (ledgerEntry == null)
+            var ledgerEntry = await _context.LedgerEntries.FindAsync (id);
+            if ( ledgerEntry == null )
             {
-                return NotFound();
+                return NotFound ();
             }
 
-            _context.LedgerEntries.Remove(ledgerEntry);
-            await _context.SaveChangesAsync();
+            _context.LedgerEntries.Remove (ledgerEntry);
+            await _context.SaveChangesAsync ();
 
-            return NoContent();
+            return NoContent ();
         }
 
         private bool LedgerEntryExists(int id)
         {
-            return _context.LedgerEntries.Any(e => e.LedgerEntryId == id);
+            return _context.LedgerEntries.Any (e => e.LedgerEntryId == id);
         }
     }
 }

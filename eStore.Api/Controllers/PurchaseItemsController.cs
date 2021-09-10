@@ -1,17 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using eStore.Database;
 using eStore.Shared.Models.Purchases;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route ("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class PurchaseItemsController : ControllerBase
@@ -27,18 +25,18 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PurchaseItem>>> GetPurchaseItem()
         {
-            return await _context.PurchaseItem.ToListAsync();
+            return await _context.PurchaseItem.ToListAsync ();
         }
 
         // GET: api/PurchaseItems/5
-        [HttpGet("{id}")]
+        [HttpGet ("{id}")]
         public async Task<ActionResult<PurchaseItem>> GetPurchaseItem(int id)
         {
-            var purchaseItem = await _context.PurchaseItem.FindAsync(id);
+            var purchaseItem = await _context.PurchaseItem.FindAsync (id);
 
-            if (purchaseItem == null)
+            if ( purchaseItem == null )
             {
-                return NotFound();
+                return NotFound ();
             }
 
             return purchaseItem;
@@ -46,25 +44,25 @@ namespace eStore.API.Controllers
 
         // PUT: api/PurchaseItems/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+        [HttpPut ("{id}")]
         public async Task<IActionResult> PutPurchaseItem(int id, PurchaseItem purchaseItem)
         {
-            if (id != purchaseItem.PurchaseItemId)
+            if ( id != purchaseItem.PurchaseItemId )
             {
-                return BadRequest();
+                return BadRequest ();
             }
 
-            _context.Entry(purchaseItem).State = EntityState.Modified;
+            _context.Entry (purchaseItem).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync ();
             }
-            catch (DbUpdateConcurrencyException)
+            catch ( DbUpdateConcurrencyException )
             {
-                if (!PurchaseItemExists(id))
+                if ( !PurchaseItemExists (id) )
                 {
-                    return NotFound();
+                    return NotFound ();
                 }
                 else
                 {
@@ -72,7 +70,7 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return NoContent();
+            return NoContent ();
         }
 
         // POST: api/PurchaseItems
@@ -80,31 +78,31 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<PurchaseItem>> PostPurchaseItem(PurchaseItem purchaseItem)
         {
-            _context.PurchaseItem.Add(purchaseItem);
-            await _context.SaveChangesAsync();
+            _context.PurchaseItem.Add (purchaseItem);
+            await _context.SaveChangesAsync ();
 
-            return CreatedAtAction("GetPurchaseItem", new { id = purchaseItem.PurchaseItemId }, purchaseItem);
+            return CreatedAtAction ("GetPurchaseItem", new { id = purchaseItem.PurchaseItemId }, purchaseItem);
         }
 
         // DELETE: api/PurchaseItems/5
-        [HttpDelete("{id}")]
+        [HttpDelete ("{id}")]
         public async Task<IActionResult> DeletePurchaseItem(int id)
         {
-            var purchaseItem = await _context.PurchaseItem.FindAsync(id);
-            if (purchaseItem == null)
+            var purchaseItem = await _context.PurchaseItem.FindAsync (id);
+            if ( purchaseItem == null )
             {
-                return NotFound();
+                return NotFound ();
             }
 
-            _context.PurchaseItem.Remove(purchaseItem);
-            await _context.SaveChangesAsync();
+            _context.PurchaseItem.Remove (purchaseItem);
+            await _context.SaveChangesAsync ();
 
-            return NoContent();
+            return NoContent ();
         }
 
         private bool PurchaseItemExists(int id)
         {
-            return _context.PurchaseItem.Any(e => e.PurchaseItemId == id);
+            return _context.PurchaseItem.Any (e => e.PurchaseItemId == id);
         }
     }
 }

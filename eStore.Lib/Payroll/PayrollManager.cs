@@ -1,12 +1,12 @@
-﻿using System;
-using eStore.Shared.Models.Payroll;
-using System.Linq;
-using eStore.Services.Mails;
-using eStore.BL.Triggers;
+﻿using eStore.BL.Triggers;
 using eStore.Database;
-using System.Threading.Tasks;
-using eStore.Validator;
+using eStore.Services.Mails;
+using eStore.Shared.Models.Payroll;
 using eStore.Shared.Models.Stores;
+using eStore.Validator;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace eStore.Payroll
 {
@@ -20,7 +20,6 @@ namespace eStore.Payroll
         /// <returns></returns>
         public static async Task AddSaleman(eStoreDbContext db, Employee employee)
         {
-
             if ( DBDataChecker.IsSalesmanExists (db, employee.FirstName + " " + employee.LastName, employee.StoreId) )
             {
                 var sm = db.Salesmen.Where (c => c.SalesmanName == employee.FirstName + " " + employee.LastName && c.StoreId == employee.StoreId).First ();
@@ -30,7 +29,6 @@ namespace eStore.Payroll
             }
             else
             {
-
                 Salesman sm = new Salesman
                 {
                     EmployeeId = employee.EmployeeId,
@@ -43,8 +41,8 @@ namespace eStore.Payroll
                 db.Salesmen.Add (sm);
             }
             await db.SaveChangesAsync ();
-
         }
+
         /// <summary>
         /// CRUD Trigger.
         /// </summary>
@@ -302,6 +300,4 @@ namespace eStore.Payroll
             }
         }
     }
-
 }
-

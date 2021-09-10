@@ -1,13 +1,14 @@
 ﻿using System;
+
 public enum ExpenseCategory
 {
     Clothing, Travelling, Hotels, Fooding,
     Comunications, Gifts, UnSecuredLoan, HomeExpenses, Others, Personal, Eletronics, MobilePhone,
     Payments, CreditCard, Medicine, MedicalExpenses, PremiumItems, PettyCash
 }
+
 namespace eStore.Shared.Models.Personals
 {
- 
     public class PersonalExpense
     {
         public int PersonalExpenseId { get; set; }
@@ -27,5 +28,4 @@ namespace eStore.Shared.Models.Personals
         public bool IsReadOnly { get; set; }
         public string User { get; set; }
     }
-
 }

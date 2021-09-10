@@ -1,7 +1,7 @@
-﻿using System;
+﻿using eStore.Shared.Models.Common;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using eStore.Shared.Models.Common;
 
 namespace eStore.Shared.Models.Accounts
 {
@@ -12,22 +12,24 @@ namespace eStore.Shared.Models.Accounts
     {
         public int CashReceiptId { get; set; }
 
-        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        [Display(Name = "Receipt Date")]
+        [DataType (DataType.Date), DisplayFormat (DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [Display (Name = "Receipt Date")]
         public DateTime InwardDate { get; set; }
 
-        [Display(Name = "Mode")]
+        [Display (Name = "Mode")]
         public int TranscationModeId { get; set; }
+
         public TranscationMode Mode { get; set; }
 
-        [Display(Name = "Receipt From"), Required]
+        [Display (Name = "Receipt From"), Required]
         public string ReceiptFrom { get; set; }
 
-        [DataType(DataType.Currency), Column(TypeName = "money")]
+        [DataType (DataType.Currency), Column (TypeName = "money")]
         public decimal Amount { get; set; }
-        [Display(Name = "Receipt No")]
+
+        [Display (Name = "Receipt No")]
         public string SlipNo { get; set; }
+
         public string Remarks { get; set; }
     }
-
 }

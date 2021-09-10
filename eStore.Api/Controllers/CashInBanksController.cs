@@ -1,17 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using eStore.Database;
 using eStore.Shared.Models.Common;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route ("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class CashInBanksController : ControllerBase
@@ -27,18 +25,18 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CashInBank>>> GetCashInBanks()
         {
-            return await _context.CashInBanks.ToListAsync();
+            return await _context.CashInBanks.ToListAsync ();
         }
 
         // GET: api/CashInBanks/5
-        [HttpGet("{id}")]
+        [HttpGet ("{id}")]
         public async Task<ActionResult<CashInBank>> GetCashInBank(int id)
         {
-            var cashInBank = await _context.CashInBanks.FindAsync(id);
+            var cashInBank = await _context.CashInBanks.FindAsync (id);
 
-            if (cashInBank == null)
+            if ( cashInBank == null )
             {
-                return NotFound();
+                return NotFound ();
             }
 
             return cashInBank;
@@ -46,25 +44,25 @@ namespace eStore.API.Controllers
 
         // PUT: api/CashInBanks/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+        [HttpPut ("{id}")]
         public async Task<IActionResult> PutCashInBank(int id, CashInBank cashInBank)
         {
-            if (id != cashInBank.CashInBankId)
+            if ( id != cashInBank.CashInBankId )
             {
-                return BadRequest();
+                return BadRequest ();
             }
 
-            _context.Entry(cashInBank).State = EntityState.Modified;
+            _context.Entry (cashInBank).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync ();
             }
-            catch (DbUpdateConcurrencyException)
+            catch ( DbUpdateConcurrencyException )
             {
-                if (!CashInBankExists(id))
+                if ( !CashInBankExists (id) )
                 {
-                    return NotFound();
+                    return NotFound ();
                 }
                 else
                 {
@@ -72,7 +70,7 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return NoContent();
+            return NoContent ();
         }
 
         // POST: api/CashInBanks
@@ -80,31 +78,31 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<CashInBank>> PostCashInBank(CashInBank cashInBank)
         {
-            _context.CashInBanks.Add(cashInBank);
-            await _context.SaveChangesAsync();
+            _context.CashInBanks.Add (cashInBank);
+            await _context.SaveChangesAsync ();
 
-            return CreatedAtAction("GetCashInBank", new { id = cashInBank.CashInBankId }, cashInBank);
+            return CreatedAtAction ("GetCashInBank", new { id = cashInBank.CashInBankId }, cashInBank);
         }
 
         // DELETE: api/CashInBanks/5
-        [HttpDelete("{id}")]
+        [HttpDelete ("{id}")]
         public async Task<IActionResult> DeleteCashInBank(int id)
         {
-            var cashInBank = await _context.CashInBanks.FindAsync(id);
-            if (cashInBank == null)
+            var cashInBank = await _context.CashInBanks.FindAsync (id);
+            if ( cashInBank == null )
             {
-                return NotFound();
+                return NotFound ();
             }
 
-            _context.CashInBanks.Remove(cashInBank);
-            await _context.SaveChangesAsync();
+            _context.CashInBanks.Remove (cashInBank);
+            await _context.SaveChangesAsync ();
 
-            return NoContent();
+            return NoContent ();
         }
 
         private bool CashInBankExists(int id)
         {
-            return _context.CashInBanks.Any(e => e.CashInBankId == id);
+            return _context.CashInBanks.Any (e => e.CashInBankId == id);
         }
     }
 }

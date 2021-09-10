@@ -12,10 +12,10 @@ namespace eStore.Shared.Models.Sales
         public string Address { get; set; }
         public List<SaleItemList> SaleItems { get; set; }
 
-        [MinLength(10), MaxLength(15)]
+        [MinLength (10), MaxLength (15)]
         public string MobileNo { get; set; }
 
-        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true), Display(Name = "Sale Date")]
+        [DataType (DataType.Date), DisplayFormat (DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true), Display (Name = "Sale Date")]
         public DateTime OnDate { get; set; }
 
         public PaymentInfo PaymentInfo { get; set; }
@@ -27,10 +27,10 @@ namespace eStore.Shared.Models.Sales
         public string Name { get; set; }
         public string InvoiceNo { get; set; }
 
-        [MinLength(10), MaxLength(15)]
+        [MinLength (10), MaxLength (15)]
         public string MobileNo { get; set; }
 
-        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true), Display(Name = "Sale Date")]
+        [DataType (DataType.Date), DisplayFormat (DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true), Display (Name = "Sale Date")]
         public DateTime OnDate { get; set; }
 
         public List<SaleItemList> SaleItems { get; set; }
@@ -60,13 +60,7 @@ namespace eStore.Shared.Models.Sales
 
     #endregion DTO
 
-
     public class MixPayment
     {
-
     }
-
-
-
-
 }

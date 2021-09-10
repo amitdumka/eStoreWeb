@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using eStore.Extensions;
+using Microsoft.AspNetCore.Http;
 using System.Text.Json;
-using eStore.Extensions;
 
 //TODO: Remove this if it is not revelent
 namespace eStore.Ops.Session
@@ -14,18 +14,19 @@ namespace eStore.Ops.Session
         public const string StoreCity = "StoreCity";
         public const string LastLoginTime = "LastLogin";
         public const string AdminAccess = "AdminAccess";
-
     }
+
     public static class SessionOps
     {
         public static void Write<T>(ISession session, string KeyName, T ValueData)
         {
-            session.Set<T>(KeyName, ValueData);
+            session.Set<T> (KeyName, ValueData);
         }
+
         public static T Read<T>(ISession session, string key)
         {
-            var value = session.GetString(key);
-            return value == null ? default : JsonSerializer.Deserialize<T>(value);
+            var value = session.GetString (key);
+            return value == null ? default : JsonSerializer.Deserialize<T> (value);
         }
     }
 }

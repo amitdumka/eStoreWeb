@@ -13,17 +13,20 @@ using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route ("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class SelectDataController : ControllerBase
     {
         private readonly IMapper _mapper;
         private eStoreDbContext db;
+
         public SelectDataController(eStoreDbContext context, IMapper mapper)
         {
-            db = context;_mapper = mapper;
+            db = context;
+            _mapper = mapper;
         }
+
         // GET: api/SelectData
         [HttpGet]
         public string Get()
@@ -32,38 +35,35 @@ namespace eStore.API.Controllers
         }
 
         // GET api/SelectData/5
-        [HttpGet("{id}")]
+        [HttpGet ("{id}")]
         public string Get(int id)
         {
-            return Get();
+            return Get ();
         }
 
         // GET: api/SelectData/BookingList
-        [HttpGet("bookingList/{isDeliveried}")]
+        [HttpGet ("bookingList/{isDeliveried}")]
         public async Task<List<BookingBasicDto>> GetBookingListAsync(bool isDeliveried = false)
         {
-           
-            var data = await db.TalioringBookings.Where(c => c.IsDelivered == isDeliveried).Select(c=> new BookingBasicDto { TalioringBookingId=c.TalioringBookingId, BookingSlipNo=c.BookingSlipNo, BookingDate=c.BookingDate, DeliveryDate=c.DeliveryDate, IsDelivered=c.IsDelivered }) .ToListAsync();
+            var data = await db.TalioringBookings.Where (c => c.IsDelivered == isDeliveried).Select (c => new BookingBasicDto { TalioringBookingId = c.TalioringBookingId, BookingSlipNo = c.BookingSlipNo, BookingDate = c.BookingDate, DeliveryDate = c.DeliveryDate, IsDelivered = c.IsDelivered }).ToListAsync ();
             return data;
-            
         }
-        [HttpGet("StoreList")]
+
+        [HttpGet ("StoreList")]
         public async Task<List<StoreIdList>> GetStoreListAsync()
         {
-            return await db.Stores.Select(c => new StoreIdList { StoreId = c.StoreId, StoreCode = c.StoreCode, StoreName = c.StoreName + " " + c.City }).OrderBy(c => c.StoreId).ToListAsync();
+            return await db.Stores.Select (c => new StoreIdList { StoreId = c.StoreId, StoreCode = c.StoreCode, StoreName = c.StoreName + " " + c.City }).OrderBy (c => c.StoreId).ToListAsync ();
         }
-         [HttpGet("bookingList/dto")]
-        public  IEnumerable<BookingBasicDto> GetBookingListDto() => _mapper.Map<IEnumerable<BookingBasicDto>>( db.TalioringBookings.Where(c=>!c.IsDelivered).OrderByDescending(c => c.DeliveryDate).ToList());
-        
 
-
-
+        [HttpGet ("bookingList/dto")]
+        public IEnumerable<BookingBasicDto> GetBookingListDto() => _mapper.Map<IEnumerable<BookingBasicDto>> (db.TalioringBookings.Where (c => !c.IsDelivered).OrderByDescending (c => c.DeliveryDate).ToList ());
     }
 }
 
 namespace eStore.ViewModes.Dtos
 {
     public class StoreIdList { public int StoreId; public string StoreCode; public string StoreName; }
+
     public class BookingBasicDto
     {
         public int TalioringBookingId { get; set; }

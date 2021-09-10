@@ -11,11 +11,5 @@ namespace eStore.Shared.Models.Stores
         public DateTime ClosingTime { get; set; }
         public int StoreOpenId { get; set; }
         public int StoreCloseId { get; set; }
-
     }
-
-
-    
-
-
 }

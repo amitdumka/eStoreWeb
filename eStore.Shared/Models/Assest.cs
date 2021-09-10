@@ -17,7 +17,4 @@ namespace eStore.Shared.Models.Stores
         public string CurrentStaus { get; set; }
         public AssestCategory Category { get; set; }
     }
-
-
-
 }

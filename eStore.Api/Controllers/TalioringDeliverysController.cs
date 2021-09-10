@@ -1,17 +1,16 @@
+using eStore.Database;
+using eStore.Shared.Models.Tailoring;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using eStore.Database;
-using eStore.Shared.Models.Tailoring;
-using Microsoft.AspNetCore.Authorization;
 
 namespace eStore.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route ("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class TalioringDeliverysController : ControllerBase
@@ -27,18 +26,18 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TalioringDelivery>>> GetTailoringDeliveries()
         {
-            return await _context.TailoringDeliveries.Include(c=>c.Booking).Where(c => c.DeliveryDate.Year == DateTime.Today.Year).OrderByDescending(c => c.DeliveryDate).ToListAsync();
+            return await _context.TailoringDeliveries.Include (c => c.Booking).Where (c => c.DeliveryDate.Year == DateTime.Today.Year).OrderByDescending (c => c.DeliveryDate).ToListAsync ();
         }
 
         // GET: api/TalioringDeliverys/5
-        [HttpGet("{id}")]
+        [HttpGet ("{id}")]
         public async Task<ActionResult<TalioringDelivery>> GetTalioringDelivery(int id)
         {
-            var talioringDelivery = await _context.TailoringDeliveries.FindAsync(id);
+            var talioringDelivery = await _context.TailoringDeliveries.FindAsync (id);
 
-            if (talioringDelivery == null)
+            if ( talioringDelivery == null )
             {
-                return NotFound();
+                return NotFound ();
             }
 
             return talioringDelivery;
@@ -46,29 +45,29 @@ namespace eStore.API.Controllers
 
         // PUT: api/TalioringDeliverys/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+        [HttpPut ("{id}")]
         public async Task<IActionResult> PutTalioringDelivery(int id, TalioringDelivery talioringDelivery)
         {
-            if (id != talioringDelivery.TalioringDeliveryId)
+            if ( id != talioringDelivery.TalioringDeliveryId )
             {
-                return BadRequest();
+                return BadRequest ();
             }
 
-            _context.Entry(talioringDelivery).State = EntityState.Modified;
+            _context.Entry (talioringDelivery).State = EntityState.Modified;
 
             try
             {
-                var tb = _context.TalioringBookings.Find(talioringDelivery.TalioringBookingId);
-                if (tb != null)
+                var tb = _context.TalioringBookings.Find (talioringDelivery.TalioringBookingId);
+                if ( tb != null )
                     tb.IsDelivered = true;
-                _context.TalioringBookings.Update(tb);
-                await _context.SaveChangesAsync();
+                _context.TalioringBookings.Update (tb);
+                await _context.SaveChangesAsync ();
             }
-            catch (DbUpdateConcurrencyException)
+            catch ( DbUpdateConcurrencyException )
             {
-                if (!TalioringDeliveryExists(id))
+                if ( !TalioringDeliveryExists (id) )
                 {
-                    return NotFound();
+                    return NotFound ();
                 }
                 else
                 {
@@ -76,7 +75,7 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return NoContent();
+            return NoContent ();
         }
 
         // POST: api/TalioringDeliverys
@@ -84,38 +83,39 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<TalioringDelivery>> PostTalioringDelivery(TalioringDelivery talioringDelivery)
         {
-            _context.TailoringDeliveries.Add(talioringDelivery);
-            var tb = _context.TalioringBookings.Find(talioringDelivery.TalioringBookingId);
-            if (tb != null)
+            _context.TailoringDeliveries.Add (talioringDelivery);
+            var tb = _context.TalioringBookings.Find (talioringDelivery.TalioringBookingId);
+            if ( tb != null )
                 tb.IsDelivered = true;
-            _context.TalioringBookings.Update(tb);
-            await _context.SaveChangesAsync();
+            _context.TalioringBookings.Update (tb);
+            await _context.SaveChangesAsync ();
 
-            return CreatedAtAction("GetTalioringDelivery", new { id = talioringDelivery.TalioringDeliveryId }, talioringDelivery);
+            return CreatedAtAction ("GetTalioringDelivery", new { id = talioringDelivery.TalioringDeliveryId }, talioringDelivery);
         }
 
         // DELETE: api/TalioringDeliverys/5
-        [HttpDelete("{id}")]
+        [HttpDelete ("{id}")]
         public async Task<IActionResult> DeleteTalioringDelivery(int id)
         {
-            var talioringDelivery = await _context.TailoringDeliveries.FindAsync(id);
-            if (talioringDelivery == null)
+            var talioringDelivery = await _context.TailoringDeliveries.FindAsync (id);
+            if ( talioringDelivery == null )
             {
-                return NotFound();
+                return NotFound ();
             }
 
-            _context.TailoringDeliveries.Remove(talioringDelivery);
-            var tb = _context.TalioringBookings.Find(talioringDelivery);
-            if (tb != null) tb.IsDelivered = false;
-            _context.TalioringBookings.Update(tb);
-            await _context.SaveChangesAsync();
+            _context.TailoringDeliveries.Remove (talioringDelivery);
+            var tb = _context.TalioringBookings.Find (talioringDelivery);
+            if ( tb != null )
+                tb.IsDelivered = false;
+            _context.TalioringBookings.Update (tb);
+            await _context.SaveChangesAsync ();
 
-            return NoContent();
+            return NoContent ();
         }
 
         private bool TalioringDeliveryExists(int id)
         {
-            return _context.TailoringDeliveries.Any(e => e.TalioringDeliveryId == id);
+            return _context.TailoringDeliveries.Any (e => e.TalioringDeliveryId == id);
         }
     }
 }

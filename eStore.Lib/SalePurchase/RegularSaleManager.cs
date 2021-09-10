@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using eStore.BL.Ops.Printers;
+﻿using eStore.BL.Ops.Printers;
 using eStore.Database;
 using eStore.Shared.Models.Purchases;
 using eStore.Shared.Models.Sales;
@@ -9,6 +6,9 @@ using eStore.Shared.Models.Stores;
 using eStore.Shared.ViewModels.Printers;
 using eStore.Shared.ViewModels.SalePuchase;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace eStore.BL.SalePurchase
 {
@@ -24,14 +24,18 @@ namespace eStore.BL.SalePurchase
         {
             try
             {
-                var inv = db.RegularInvoices.Where(c => c.IsManualBill && c.StoreId == StoreId).OrderBy(c => c.RegularInvoiceId).Select(c => new { c.RegularInvoiceId, c.InvoiceNo }).LastOrDefault();
-                if (inv != null) return inv.InvoiceNo; else return String.Empty;
+                var inv = db.RegularInvoices.Where (c => c.IsManualBill && c.StoreId == StoreId).OrderBy (c => c.RegularInvoiceId).Select (c => new { c.RegularInvoiceId, c.InvoiceNo }).LastOrDefault ();
+                if ( inv != null )
+                    return inv.InvoiceNo;
+                else
+                    return String.Empty;
             }
-            catch (Exception)
+            catch ( Exception )
             {
                 return String.Empty;
             }
         }
+
         //public InvoiceNo GenerateInvoiceNo2(eStoreDbContext db, int StoreId, bool IsManual = true)
         //{
         //    InvoiceNo inv = new InvoiceNo(ManualSeries);
@@ -67,10 +71,10 @@ namespace eStore.BL.SalePurchase
         /// <returns></returns>
         public string GenerateInvoiceNo(eStoreDbContext db, int StoreId, bool isManual = true)
         {
-            string inv = GetLastInvoiceNo(db, StoreId, true);
-            if (String.IsNullOrEmpty(inv))
+            string inv = GetLastInvoiceNo (db, StoreId, true);
+            if ( String.IsNullOrEmpty (inv) )
             {
-                if (isManual)
+                if ( isManual )
                 {
                     inv = FPart + ManualSeries + SeriesStart;
                 }
@@ -79,22 +83,22 @@ namespace eStore.BL.SalePurchase
                     inv = FPart + ArvindSeries + SeriesStartA;
                 }
             }
-            string iNo = inv.Substring(5);
+            string iNo = inv.Substring (5);
             //long i = ;
-            string newInv = inv.Substring(0, 5) + (long.Parse(iNo) + 1);
+            string newInv = inv.Substring (0, 5) + ( long.Parse (iNo) + 1 );
             return newInv;
-
         }
+
         public InvoiceSaveReturn OnInsert(eStoreDbContext db, SaveOrderDTO sales, string userName, int StoreId = 1)
         {
-            Customer cust = db.Customers.Where(c => c.MobileNo == sales.MobileNo).FirstOrDefault();
-            if (cust == null)
+            Customer cust = db.Customers.Where (c => c.MobileNo == sales.MobileNo).FirstOrDefault ();
+            if ( cust == null )
             {
-                string[] names = sales.Name.Split(" ");
-                string FName = names[0];
+                string [] names = sales.Name.Split (" ");
+                string FName = names [0];
                 string LName = "";
-                for (int i = 1; i < names.Length; i++)
-                    LName += names[i] + " ";
+                for ( int i = 1 ; i < names.Length ; i++ )
+                    LName += names [i] + " ";
 
                 cust = new Customer
                 {
@@ -108,13 +112,12 @@ namespace eStore.BL.SalePurchase
                     TotalAmount = 0,
                     CreatedDate = DateTime.Now.Date
                 };
-                db.Customers.Add(cust);
-
+                db.Customers.Add (cust);
             }
-            string InvNo = GenerateInvoiceNo(db, StoreId, true);
-            List<RegularSaleItem> itemList = new List<RegularSaleItem>();
-            List<Stock> stockList = new List<Stock>();
-            foreach (var item in sales.SaleItems)
+            string InvNo = GenerateInvoiceNo (db, StoreId, true);
+            List<RegularSaleItem> itemList = new List<RegularSaleItem> ();
+            List<Stock> stockList = new List<Stock> ();
+            foreach ( var item in sales.SaleItems )
             {
                 RegularSaleItem sItem = new RegularSaleItem
                 {
@@ -130,37 +133,35 @@ namespace eStore.BL.SalePurchase
                     ProductItemId = -1,
                     BillAmount = 0,
                     SaleTaxTypeId = 1, //TODO: default tax id needed
-
                 };
-                ProductItem pItem = db.ProductItems.Where(c => c.Barcode == item.BarCode).FirstOrDefault();
-                Stock stock = db.Stocks.Where(c => c.ProductItemId == pItem.ProductItemId && c.StoreId == StoreId).FirstOrDefault();
+                ProductItem pItem = db.ProductItems.Where (c => c.Barcode == item.BarCode).FirstOrDefault ();
+                Stock stock = db.Stocks.Where (c => c.ProductItemId == pItem.ProductItemId && c.StoreId == StoreId).FirstOrDefault ();
 
                 sItem.ProductItemId = pItem.ProductItemId;
-                decimal amt = (decimal)item.Quantity * item.Price;
-                sItem.BasicAmount = (amt * 100) / (100 + pItem.TaxRate);
-                sItem.TaxAmount = (sItem.BasicAmount * pItem.TaxRate) / 100;
+                decimal amt = (decimal) item.Quantity * item.Price;
+                sItem.BasicAmount = ( amt * 100 ) / ( 100 + pItem.TaxRate );
+                sItem.TaxAmount = ( sItem.BasicAmount * pItem.TaxRate ) / 100;
                 sItem.BillAmount = sItem.BasicAmount + sItem.TaxAmount;
                 //SaleTax Id
-                var taxid = db.SaleTaxTypes.Where(c => c.CompositeRate == pItem.TaxRate).Select(c => c.SaleTaxTypeId).FirstOrDefault();
-                if (taxid <= 0)
+                var taxid = db.SaleTaxTypes.Where (c => c.CompositeRate == pItem.TaxRate).Select (c => c.SaleTaxTypeId).FirstOrDefault ();
+                if ( taxid <= 0 )
                 {
                     taxid = 1; //TODO: Handle it for creating new saletax id
                 }
                 sItem.SaleTaxTypeId = taxid;
 
-                itemList.Add(sItem);
-
+                itemList.Add (sItem);
 
                 stock.SaleQty += item.Quantity;
                 //TODO:Quantity stock.Quantity -= item.Quantity;
-                stockList.Add(stock);
+                stockList.Add (stock);
             }
-            var totalBillamt = itemList.Sum(c => c.BillAmount);
-            var totaltaxamt = itemList.Sum(c => c.TaxAmount);
-            var totalDiscount = itemList.Sum(c => c.Discount);
-            var totalQty = itemList.Sum(c => c.Qty);
+            var totalBillamt = itemList.Sum (c => c.BillAmount);
+            var totaltaxamt = itemList.Sum (c => c.TaxAmount);
+            var totalDiscount = itemList.Sum (c => c.Discount);
+            var totalQty = itemList.Sum (c => c.Qty);
             var totalitem = itemList.Count;
-            decimal roundoffamt = Math.Round(totalBillamt) - totalBillamt;
+            decimal roundoffamt = Math.Round (totalBillamt) - totalBillamt;
             PaymentDetail pd = new PaymentDetail
             {
                 CardAmount = sales.PaymentInfo.CardAmount,
@@ -170,9 +171,9 @@ namespace eStore.BL.SalePurchase
                 MixAmount = 0,
                 PayMode = SalePayMode.Cash
             };
-            if (sales.PaymentInfo.CardAmount > 0)
+            if ( sales.PaymentInfo.CardAmount > 0 )
             {
-                if (sales.PaymentInfo.CashAmount > 0)
+                if ( sales.PaymentInfo.CashAmount > 0 )
                 {
                     pd.PayMode = SalePayMode.Mix;
                 }
@@ -185,25 +186,24 @@ namespace eStore.BL.SalePurchase
                 {
                     CardCode = CardType.Visa,//TODO: default
                     Amount = sales.PaymentInfo.CardAmount,
-                    AuthCode = (int)Int64.Parse(sales.PaymentInfo.AuthCode),
+                    AuthCode = (int) Int64.Parse (sales.PaymentInfo.AuthCode),
                     InvoiceNo = InvNo,
-                    LastDigit = (int)Int64.Parse(sales.PaymentInfo.CardNo),
-                    CardType = CardMode.DebitCard//TODO: default 
-
+                    LastDigit = (int) Int64.Parse (sales.PaymentInfo.CardNo),
+                    CardType = CardMode.DebitCard//TODO: default
                 };
 
-                if (sales.PaymentInfo.CardType.Contains("Debit") || sales.PaymentInfo.CardType.Contains("debit") || sales.PaymentInfo.CardType.Contains("DEBIT"))
+                if ( sales.PaymentInfo.CardType.Contains ("Debit") || sales.PaymentInfo.CardType.Contains ("debit") || sales.PaymentInfo.CardType.Contains ("DEBIT") )
                 { cd.CardType = CardMode.DebitCard; }
-                else if (sales.PaymentInfo.CardType.Contains("Credit") || sales.PaymentInfo.CardType.Contains("credit") || sales.PaymentInfo.CardType.Contains("CREDIT"))
+                else if ( sales.PaymentInfo.CardType.Contains ("Credit") || sales.PaymentInfo.CardType.Contains ("credit") || sales.PaymentInfo.CardType.Contains ("CREDIT") )
                 { cd.CardType = CardMode.CreditCard; }
 
-                if (sales.PaymentInfo.CardType.Contains("visa") || sales.PaymentInfo.CardType.Contains("Visa") || sales.PaymentInfo.CardType.Contains("VISA"))
+                if ( sales.PaymentInfo.CardType.Contains ("visa") || sales.PaymentInfo.CardType.Contains ("Visa") || sales.PaymentInfo.CardType.Contains ("VISA") )
                 { cd.CardCode = CardType.Visa; }
-                else if (sales.PaymentInfo.CardType.Contains("MasterCard") || sales.PaymentInfo.CardType.Contains("mastercard") || sales.PaymentInfo.CardType.Contains("MASTERCARD"))
+                else if ( sales.PaymentInfo.CardType.Contains ("MasterCard") || sales.PaymentInfo.CardType.Contains ("mastercard") || sales.PaymentInfo.CardType.Contains ("MASTERCARD") )
                 { cd.CardCode = CardType.MasterCard; }
-                else if (sales.PaymentInfo.CardType.Contains("Rupay") || sales.PaymentInfo.CardType.Contains("rupay") || sales.PaymentInfo.CardType.Contains("RUPAY"))
+                else if ( sales.PaymentInfo.CardType.Contains ("Rupay") || sales.PaymentInfo.CardType.Contains ("rupay") || sales.PaymentInfo.CardType.Contains ("RUPAY") )
                 { cd.CardCode = CardType.Rupay; }
-                else if (sales.PaymentInfo.CardType.Contains("MASTRO") || sales.PaymentInfo.CardType.Contains("mastro") || sales.PaymentInfo.CardType.Contains("Mastro"))
+                else if ( sales.PaymentInfo.CardType.Contains ("MASTRO") || sales.PaymentInfo.CardType.Contains ("mastro") || sales.PaymentInfo.CardType.Contains ("Mastro") )
                 { cd.CardCode = CardType.Rupay; }
 
                 pd.CardDetail = cd;
@@ -225,36 +225,35 @@ namespace eStore.BL.SalePurchase
                 RoundOffAmount = roundoffamt,
                 PaymentDetail = pd,
                 UserId = userName
-
             };
-            db.RegularInvoices.Add(Invoice);
-            db.Stocks.UpdateRange(stockList);
+            db.RegularInvoices.Add (Invoice);
+            db.Stocks.UpdateRange (stockList);
             InvoiceSaveReturn returnData = new InvoiceSaveReturn
             {
-                NoOfRecord = db.SaveChanges(),
+                NoOfRecord = db.SaveChanges (),
                 FileName = "NotSaved"
             };
-            if (returnData.NoOfRecord > 0)
+            if ( returnData.NoOfRecord > 0 )
             {
-                ReceiptHeader header = PrinterHelper.GetReceiptHeader(db, StoreId);
-                ReceiptDetails details = PrinterHelper.GetReceiptDetails(Invoice.InvoiceNo, Invoice.OnDate, DateTime.Now.ToShortTimeString(), sales.Name);
-                ReceiptItemTotal itemtotal = PrinterHelper.GetReceiptItemTotal(Invoice);
-                List<ReceiptItemDetails> itemDetailList = PrinterHelper.GetInvoiceDetails(db, itemList);
-                returnData.FileName = "/" + InvoicePrinter.PrintManaulInvoice(header, itemtotal, details, itemDetailList, false);
+                ReceiptHeader header = PrinterHelper.GetReceiptHeader (db, StoreId);
+                ReceiptDetails details = PrinterHelper.GetReceiptDetails (Invoice.InvoiceNo, Invoice.OnDate, DateTime.Now.ToShortTimeString (), sales.Name);
+                ReceiptItemTotal itemtotal = PrinterHelper.GetReceiptItemTotal (Invoice);
+                List<ReceiptItemDetails> itemDetailList = PrinterHelper.GetInvoiceDetails (db, itemList);
+                returnData.FileName = "/" + InvoicePrinter.PrintManaulInvoice (header, itemtotal, details, itemDetailList, false);
             }
             return returnData;
         }
 
         public InvoiceSaveReturn OnEdit(eStoreDbContext db, EditOrderDTO sales, int StoreId = 1)
         {
-            Customer cust = db.Customers.Where(c => c.MobileNo == sales.MobileNo).FirstOrDefault();
-            if (cust == null)
+            Customer cust = db.Customers.Where (c => c.MobileNo == sales.MobileNo).FirstOrDefault ();
+            if ( cust == null )
             {
-                string[] names = sales.Name.Split(" ");
-                string FName = names[0];
+                string [] names = sales.Name.Split (" ");
+                string FName = names [0];
                 string LName = "";
-                for (int i = 1; i < names.Length; i++)
-                    LName += names[i] + " ";
+                for ( int i = 1 ; i < names.Length ; i++ )
+                    LName += names [i] + " ";
 
                 cust = new Customer
                 {
@@ -268,62 +267,57 @@ namespace eStore.BL.SalePurchase
                     TotalAmount = 0,
                     CreatedDate = DateTime.Now.Date
                 };
-                db.Customers.Add(cust);
-                db.SaveChanges();
+                db.Customers.Add (cust);
+                db.SaveChanges ();
             }
-            RegularInvoice inv = db.RegularInvoices.Find(sales.InvoiceNo);
-            if (inv == null)
+            RegularInvoice inv = db.RegularInvoices.Find (sales.InvoiceNo);
+            if ( inv == null )
             {
                 return null;
             }
-            inv.SaleItems = db.RegularSaleItems.Where(c => c.InvoiceNo == sales.InvoiceNo).ToList();
-            inv.PaymentDetail = db.PaymentDetails.Include(c => c.CardAmount).Where(c => c.InvoiceNo == sales.InvoiceNo).FirstOrDefault();
+            inv.SaleItems = db.RegularSaleItems.Where (c => c.InvoiceNo == sales.InvoiceNo).ToList ();
+            inv.PaymentDetail = db.PaymentDetails.Include (c => c.CardAmount).Where (c => c.InvoiceNo == sales.InvoiceNo).FirstOrDefault ();
 
             return null;//TODO: temp
-
         }
 
         public RegularSaleItem AddSaleItem(eStoreDbContext db, SaleItemList saleitem, int StoreId = 1)
         {
-            ProductItem pItem = db.ProductItems.Include(c => c.Units).Where(c => c.Barcode == saleitem.BarCode).FirstOrDefault();
-            if (pItem == null) { }
+            ProductItem pItem = db.ProductItems.Include (c => c.Units).Where (c => c.Barcode == saleitem.BarCode).FirstOrDefault ();
+            if ( pItem == null )
+            { }
 
             RegularSaleItem rSale = new RegularSaleItem
             {
                 BarCode = saleitem.BarCode
             };
-            Stock stock = db.Stocks.Where(c => c.StoreId == StoreId && c.ProductItemId == rSale.ProductItemId).FirstOrDefault();
+            Stock stock = db.Stocks.Where (c => c.StoreId == StoreId && c.ProductItemId == rSale.ProductItemId).FirstOrDefault ();
 
             stock.SaleQty += rSale.Qty;
             //TODO:Quantity  stock.Quantity -= rSale.Qty;
-            db.Stocks.Update(stock);
+            db.Stocks.Update (stock);
             return rSale;
         }
 
         public bool RemoveSaleItem(eStoreDbContext db, RegularSaleItem saleItem, int StoreId = 1)
         {
-            Stock stock = db.Stocks.Where(c => c.StoreId == StoreId && c.ProductItemId == saleItem.ProductItemId).FirstOrDefault();
-            if (stock == null) return false;
+            Stock stock = db.Stocks.Where (c => c.StoreId == StoreId && c.ProductItemId == saleItem.ProductItemId).FirstOrDefault ();
+            if ( stock == null )
+                return false;
             stock.SaleQty -= saleItem.Qty;
             //TODO:Quantity  stock.Quantity += saleItem.Qty;
-            db.Stocks.Update(stock);
-            db.RegularSaleItems.Remove(saleItem);
+            db.Stocks.Update (stock);
+            db.RegularSaleItems.Remove (saleItem);
             return true;
-
         }
-
-
 
         public string RePrintManaulInvoice(eStoreDbContext db, RegularInvoice invoice, int StoreId = 1)
         {
-            ReceiptHeader header = PrinterHelper.GetReceiptHeader(db, StoreId);
-            ReceiptDetails details = PrinterHelper.GetReceiptDetails(invoice.InvoiceNo, invoice.OnDate, DateTime.Now.ToShortTimeString(), invoice.Customer.FullName);
-            ReceiptItemTotal itemtotal = PrinterHelper.GetReceiptItemTotal(invoice);
-            List<ReceiptItemDetails> itemDetailList = PrinterHelper.GetInvoiceDetails(db, invoice.SaleItems.ToList());
-            return InvoicePrinter.PrintManaulInvoice(header, itemtotal, details, itemDetailList, true);
+            ReceiptHeader header = PrinterHelper.GetReceiptHeader (db, StoreId);
+            ReceiptDetails details = PrinterHelper.GetReceiptDetails (invoice.InvoiceNo, invoice.OnDate, DateTime.Now.ToShortTimeString (), invoice.Customer.FullName);
+            ReceiptItemTotal itemtotal = PrinterHelper.GetReceiptItemTotal (invoice);
+            List<ReceiptItemDetails> itemDetailList = PrinterHelper.GetInvoiceDetails (db, invoice.SaleItems.ToList ());
+            return InvoicePrinter.PrintManaulInvoice (header, itemtotal, details, itemDetailList, true);
         }
-
-
     }
-
 }

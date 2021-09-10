@@ -1,17 +1,15 @@
-﻿using System;
+﻿using eStore.Database;
+using eStore.Shared.Models.Stores;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using eStore.Database;
-using eStore.Shared.Models.Stores;
-using Microsoft.AspNetCore.Authorization;
 
 namespace eStore.Controllers
 {
-    [Route("api/[controller]")]
+    [Route ("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class PrintedSlipBooksController : ControllerBase
@@ -27,18 +25,18 @@ namespace eStore.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PrintedSlipBook>>> GetPrintedSlipBooks()
         {
-            return await _context.PrintedSlipBooks.ToListAsync();
+            return await _context.PrintedSlipBooks.ToListAsync ();
         }
 
         // GET: api/PrintedSlipBooks/5
-        [HttpGet("{id}")]
+        [HttpGet ("{id}")]
         public async Task<ActionResult<PrintedSlipBook>> GetPrintedSlipBook(int id)
         {
-            var printedSlipBook = await _context.PrintedSlipBooks.FindAsync(id);
+            var printedSlipBook = await _context.PrintedSlipBooks.FindAsync (id);
 
-            if (printedSlipBook == null)
+            if ( printedSlipBook == null )
             {
-                return NotFound();
+                return NotFound ();
             }
 
             return printedSlipBook;
@@ -46,25 +44,25 @@ namespace eStore.Controllers
 
         // PUT: api/PrintedSlipBooks/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+        [HttpPut ("{id}")]
         public async Task<IActionResult> PutPrintedSlipBook(int id, PrintedSlipBook printedSlipBook)
         {
-            if (id != printedSlipBook.PrintedSlipBookId)
+            if ( id != printedSlipBook.PrintedSlipBookId )
             {
-                return BadRequest();
+                return BadRequest ();
             }
 
-            _context.Entry(printedSlipBook).State = EntityState.Modified;
+            _context.Entry (printedSlipBook).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync ();
             }
-            catch (DbUpdateConcurrencyException)
+            catch ( DbUpdateConcurrencyException )
             {
-                if (!PrintedSlipBookExists(id))
+                if ( !PrintedSlipBookExists (id) )
                 {
-                    return NotFound();
+                    return NotFound ();
                 }
                 else
                 {
@@ -72,7 +70,7 @@ namespace eStore.Controllers
                 }
             }
 
-            return NoContent();
+            return NoContent ();
         }
 
         // POST: api/PrintedSlipBooks
@@ -80,31 +78,31 @@ namespace eStore.Controllers
         [HttpPost]
         public async Task<ActionResult<PrintedSlipBook>> PostPrintedSlipBook(PrintedSlipBook printedSlipBook)
         {
-            _context.PrintedSlipBooks.Add(printedSlipBook);
-            await _context.SaveChangesAsync();
+            _context.PrintedSlipBooks.Add (printedSlipBook);
+            await _context.SaveChangesAsync ();
 
-            return CreatedAtAction("GetPrintedSlipBook", new { id = printedSlipBook.PrintedSlipBookId }, printedSlipBook);
+            return CreatedAtAction ("GetPrintedSlipBook", new { id = printedSlipBook.PrintedSlipBookId }, printedSlipBook);
         }
 
         // DELETE: api/PrintedSlipBooks/5
-        [HttpDelete("{id}")]
+        [HttpDelete ("{id}")]
         public async Task<IActionResult> DeletePrintedSlipBook(int id)
         {
-            var printedSlipBook = await _context.PrintedSlipBooks.FindAsync(id);
-            if (printedSlipBook == null)
+            var printedSlipBook = await _context.PrintedSlipBooks.FindAsync (id);
+            if ( printedSlipBook == null )
             {
-                return NotFound();
+                return NotFound ();
             }
 
-            _context.PrintedSlipBooks.Remove(printedSlipBook);
-            await _context.SaveChangesAsync();
+            _context.PrintedSlipBooks.Remove (printedSlipBook);
+            await _context.SaveChangesAsync ();
 
-            return NoContent();
+            return NoContent ();
         }
 
         private bool PrintedSlipBookExists(int id)
         {
-            return _context.PrintedSlipBooks.Any(e => e.PrintedSlipBookId == id);
+            return _context.PrintedSlipBooks.Any (e => e.PrintedSlipBookId == id);
         }
     }
 }

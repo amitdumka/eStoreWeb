@@ -25,6 +25,5 @@ namespace eStore.Shared.Models.Stores
         public string BankAccountNo { get; set; }
         public string IFSCCode { get; set; }
         public string BankNameWithCity { get; set; }
-
     }
 }

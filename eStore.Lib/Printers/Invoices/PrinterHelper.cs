@@ -1,15 +1,11 @@
-﻿
-using eStore.Database;
+﻿using eStore.Database;
 using eStore.Shared.Models.Sales;
 using eStore.Shared.ViewModels.Printers;
 using System;
 using System.Collections.Generic;
 
-
 namespace eStore.BL.Ops.Printers
 {
-
-
     public class PrinterHelper
     {
         /// <summary>
@@ -20,30 +16,30 @@ namespace eStore.BL.Ops.Printers
         /// <returns></returns>
         public static List<ReceiptItemDetails> GetInvoiceDetails(eStoreDbContext db, List<RegularSaleItem> saleItem)
         {
-            List<ReceiptItemDetails> itemList = new List<ReceiptItemDetails>();
-            foreach (var item in saleItem)
+            List<ReceiptItemDetails> itemList = new List<ReceiptItemDetails> ();
+            foreach ( var item in saleItem )
             {
                 ReceiptItemDetails rid = new ReceiptItemDetails
                 {
-                    BasicPrice = item.BasicAmount.ToString("0.##"),
-                    Discount = item.Discount.ToString("0.##"),
-                    MRP = item.MRP.ToString("0.##"),
-                    QTY = item.Qty.ToString("0.##"),
-                    GSTAmount = (item.TaxAmount / 2).ToString("0.##"),
+                    BasicPrice = item.BasicAmount.ToString ("0.##"),
+                    Discount = item.Discount.ToString ("0.##"),
+                    MRP = item.MRP.ToString ("0.##"),
+                    QTY = item.Qty.ToString ("0.##"),
+                    GSTAmount = ( item.TaxAmount / 2 ).ToString ("0.##"),
                     HSN = "",
                     GSTPercentage = "",
                     SKUDescription = item.BarCode,
-                    Amount = item.BillAmount.ToString("0.##")
+                    Amount = item.BillAmount.ToString ("0.##")
                 };
 
-                if (item.HSNCode != null) rid.HSN = item.HSNCode.ToString();
-                rid.SKUDescription += "/" + db.ProductItems.Find(item.ProductItemId).ItemDesc;
-                rid.GSTPercentage = (db.SaleTaxTypes.Find(item.SaleTaxTypeId).CompositeRate / 2).ToString("0.##");
-                itemList.Add(rid);
+                if ( item.HSNCode != null )
+                    rid.HSN = item.HSNCode.ToString ();
+                rid.SKUDescription += "/" + db.ProductItems.Find (item.ProductItemId).ItemDesc;
+                rid.GSTPercentage = ( db.SaleTaxTypes.Find (item.SaleTaxTypeId).CompositeRate / 2 ).ToString ("0.##");
+                itemList.Add (rid);
             }
             return itemList;
         }
-
 
         /// <summary>
         /// Get RecieptTotals
@@ -54,16 +50,12 @@ namespace eStore.BL.Ops.Printers
         {
             ReceiptItemTotal total = new ReceiptItemTotal
             {
-                ItemCount = inv.TotalItems.ToString(),
-                TotalItem = inv.TotalQty.ToString("0.##"),
-                NetAmount = inv.TotalBillAmount.ToString("0.##"),
-                CashAmount = inv.PaymentDetail.CashAmount.ToString("0.##"),
-
-
+                ItemCount = inv.TotalItems.ToString (),
+                TotalItem = inv.TotalQty.ToString ("0.##"),
+                NetAmount = inv.TotalBillAmount.ToString ("0.##"),
+                CashAmount = inv.PaymentDetail.CashAmount.ToString ("0.##"),
             };
             return total;
-
-
         }
 
         /// <summary>
@@ -76,9 +68,8 @@ namespace eStore.BL.Ops.Printers
         /// <returns></returns>
         public static ReceiptDetails GetReceiptDetails(string invNo, DateTime onDate, string time, string custName)
         {
-            return new ReceiptDetails(invNo, onDate, time, custName);
+            return new ReceiptDetails (invNo, onDate, time, custName);
         }
-
 
         /// <summary>
         /// Return RecieptHeader based on StoreId
@@ -88,7 +79,7 @@ namespace eStore.BL.Ops.Printers
         /// <returns></returns>
         public static ReceiptHeader GetReceiptHeader(eStoreDbContext db, int Storeid)
         {
-            var store = db.Stores.Find(Storeid);
+            var store = db.Stores.Find (Storeid);
 
             ReceiptHeader header = new ReceiptHeader
             {
@@ -100,9 +91,5 @@ namespace eStore.BL.Ops.Printers
             };
             return header;
         }
-
     }
-
-
-
 }

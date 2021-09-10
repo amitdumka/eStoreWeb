@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace eStore.Shared.Dtos
 {
     public class StoreIdList { public int StoreId; public string StoreCode; public string StoreName; }
+
     public class BookingBasicDto
     {
         public int TalioringBookingId { get; set; }

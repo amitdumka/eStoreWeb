@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using eStore.Shared.Models.Payroll;
 using System.ComponentModel.DataAnnotations;
-using eStore.Shared.Models.Payroll;
 
 namespace eStore.Shared.Models.Stores
 {
@@ -11,7 +9,8 @@ namespace eStore.Shared.Models.Stores
     public class Salesman : BaseST
     {
         public int SalesmanId { get; set; }
-        [Display(Name = "Salesman")]
+
+        [Display (Name = "Salesman")]
         public string SalesmanName { get; set; }
 
         //public virtual ICollection<DailySale> DailySales { get; set; }

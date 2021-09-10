@@ -1,17 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using eStore.Database;
 using eStore.Shared.Models.Accounts;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route ("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class LedgerTypesController : ControllerBase
@@ -27,18 +25,18 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<LedgerType>>> GetLedgerTypes()
         {
-            return await _context.LedgerTypes.ToListAsync();
+            return await _context.LedgerTypes.ToListAsync ();
         }
 
         // GET: api/LedgerTypes/5
-        [HttpGet("{id}")]
+        [HttpGet ("{id}")]
         public async Task<ActionResult<LedgerType>> GetLedgerType(int id)
         {
-            var ledgerType = await _context.LedgerTypes.FindAsync(id);
+            var ledgerType = await _context.LedgerTypes.FindAsync (id);
 
-            if (ledgerType == null)
+            if ( ledgerType == null )
             {
-                return NotFound();
+                return NotFound ();
             }
 
             return ledgerType;
@@ -46,25 +44,25 @@ namespace eStore.API.Controllers
 
         // PUT: api/LedgerTypes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+        [HttpPut ("{id}")]
         public async Task<IActionResult> PutLedgerType(int id, LedgerType ledgerType)
         {
-            if (id != ledgerType.LedgerTypeId)
+            if ( id != ledgerType.LedgerTypeId )
             {
-                return BadRequest();
+                return BadRequest ();
             }
 
-            _context.Entry(ledgerType).State = EntityState.Modified;
+            _context.Entry (ledgerType).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync ();
             }
-            catch (DbUpdateConcurrencyException)
+            catch ( DbUpdateConcurrencyException )
             {
-                if (!LedgerTypeExists(id))
+                if ( !LedgerTypeExists (id) )
                 {
-                    return NotFound();
+                    return NotFound ();
                 }
                 else
                 {
@@ -72,7 +70,7 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return NoContent();
+            return NoContent ();
         }
 
         // POST: api/LedgerTypes
@@ -80,31 +78,31 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<LedgerType>> PostLedgerType(LedgerType ledgerType)
         {
-            _context.LedgerTypes.Add(ledgerType);
-            await _context.SaveChangesAsync();
+            _context.LedgerTypes.Add (ledgerType);
+            await _context.SaveChangesAsync ();
 
-            return CreatedAtAction("GetLedgerType", new { id = ledgerType.LedgerTypeId }, ledgerType);
+            return CreatedAtAction ("GetLedgerType", new { id = ledgerType.LedgerTypeId }, ledgerType);
         }
 
         // DELETE: api/LedgerTypes/5
-        [HttpDelete("{id}")]
+        [HttpDelete ("{id}")]
         public async Task<IActionResult> DeleteLedgerType(int id)
         {
-            var ledgerType = await _context.LedgerTypes.FindAsync(id);
-            if (ledgerType == null)
+            var ledgerType = await _context.LedgerTypes.FindAsync (id);
+            if ( ledgerType == null )
             {
-                return NotFound();
+                return NotFound ();
             }
 
-            _context.LedgerTypes.Remove(ledgerType);
-            await _context.SaveChangesAsync();
+            _context.LedgerTypes.Remove (ledgerType);
+            await _context.SaveChangesAsync ();
 
-            return NoContent();
+            return NoContent ();
         }
 
         private bool LedgerTypeExists(int id)
         {
-            return _context.LedgerTypes.Any(e => e.LedgerTypeId == id);
+            return _context.LedgerTypes.Any (e => e.LedgerTypeId == id);
         }
     }
 }

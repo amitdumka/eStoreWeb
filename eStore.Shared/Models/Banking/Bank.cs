@@ -1,6 +1,4 @@
-﻿using eStore.Shared.ViewModels.Banking;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace eStore.Shared.Models.Banking
 {
@@ -12,15 +10,12 @@ namespace eStore.Shared.Models.Banking
     {
         public int BankId { get; set; }
 
-        [Display(Name = "Bank Name")]
+        [Display (Name = "Bank Name")]
         public string BankName { get; set; }
 
         //public ICollection<AccountNumber> Accounts { get; set; }
         //public ICollection<BankAccountInfo> BankAccounts { get; set; }
         //public ICollection<Areas.Uploader.Models.BankSetting> BankSettings { get; set; }
         //public ICollection<Areas.Accountings.Models.BankAccount> BankAcc { get; set; }
-
     }
-
-
 }

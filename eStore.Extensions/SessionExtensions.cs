@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.Text.Json;
+
 namespace eStore.Extensions
 {
     public static class SessionExtensions
@@ -11,8 +12,8 @@ namespace eStore.Extensions
 
         public static T Get<T>(this ISession session, string key)
         {
-            var value = session.GetString(key);
-            return value == null ? default : JsonSerializer.Deserialize<T>(value);
+            var value = session.GetString (key);
+            return value == null ? default : JsonSerializer.Deserialize<T> (value);
         }
     }
 }

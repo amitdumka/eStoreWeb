@@ -86,6 +86,7 @@ namespace eStore.API.Controllers
             return _mapper.Map<IEnumerable<AttendanceDto>> (attList);
             //return (Task<ActionResult<IEnumerable<AttendanceDto>>>)GetToDto(attList);
         }
+
         // POST: api/Attendances
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]

@@ -1,21 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using eStore.Database;
+﻿using eStore.Database;
 using eStore.Reports.Dtos;
 using eStore.Reports.Pdfs;
 using iText.Kernel.Colors;
 using iText.Layout.Element;
 using iText.Layout.Properties;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace eStore.Reports.Accounts
 {
     public class AccountReport
     {
-        int StoreId; DateTime date;
+        private int StoreId; private DateTime date;
 
-       
         public string SaleReport(eStoreDbContext db, int storeId, DateTime onDate, bool isPdf = true)
         {
             StoreId = storeId;
@@ -36,7 +35,7 @@ namespace eStore.Reports.Accounts
                  })
                 .ToList ();
 
-            var manul = data.Where(c => c.ManualBill).ToList();
+            var manul = data.Where (c => c.ManualBill).ToList ();
             //var saleReturn = data.Where(c => c.SaleReturn).ToList();
             //var onSale = data.Where (c => !c.ManualBill && !c.SaleReturn && !c.Tailoring).ToList ();
             //var tail = data.Where(c => c.Tailoring).ToList();
@@ -55,23 +54,21 @@ namespace eStore.Reports.Accounts
             List<Paragraph> pList = new List<Paragraph> ();
             //Table onSaleTable = DataToTable (onSale, PDFHelper.GenerateTable (columnWidths, HeaderCell));
             //Table saleReturnTable = DataToTable(saleReturn, PDFHelper.GenerateTable(columnWidths, HeaderCell));
-            Table manualSaleTable = DataToTable(manul, PDFHelper.GenerateTable(columnWidths, HeaderCell));
+            Table manualSaleTable = DataToTable (manul, PDFHelper.GenerateTable (columnWidths, HeaderCell));
             //Table tailoringTable = DataToTable(tail, PDFHelper.GenerateTable(columnWidths, HeaderCell));
             //Paragraph p1 = new Paragraph ();
             //p1.Add (onSaleTable);
             //pList.Add (p1);
-           // Paragraph p2 = new Paragraph ("Sale Return List");
-           // p2.Add(saleReturnTable);
-           // pList.Add (p2);
-           // Paragraph p3 = new Paragraph ("Tailoring Sale List");
+            // Paragraph p2 = new Paragraph ("Sale Return List");
+            // p2.Add(saleReturnTable);
+            // pList.Add (p2);
+            // Paragraph p3 = new Paragraph ("Tailoring Sale List");
             //p3.Add(tailoringTable);
-           // pList.Add (p3);
+            // pList.Add (p3);
             Paragraph p4 = new Paragraph ("Manual Sale List");
-            p4.Add(manualSaleTable);
+            p4.Add (manualSaleTable);
             pList.Add (p4);
             return PDFHelper.CreateReportPdf ("MonthlySale", "Monthly Sale Report", pList, true);
-
-
         }
 
         public string PaymentRecieptReport(eStoreDbContext db, int storeId, DateTime onDate, bool isDdf = true)
@@ -168,7 +165,6 @@ namespace eStore.Reports.Accounts
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Amount").SetTextAlignment(TextAlignment.CENTER)),
             };
 
-
             Table expTable = DataToTable (expdata, PDFHelper.GenerateTable (columnWidthsCol8, HeaderCellExpenses));
             Table payTable = DataToTable (payData, PDFHelper.GenerateTable (columnWidthsCol9, HeaderCellPayment));
             Table recptTable = DataToTable (recptData, PDFHelper.GenerateTable (columnWidthsCol8, HeaderCellPayment));
@@ -191,17 +187,12 @@ namespace eStore.Reports.Accounts
             p5.Add (cashRecptTable);
             pList.Add (p5);
             return PDFHelper.CreateReportPdf ("PaymentReciept", "Payments, Expenses and Receipts", pList, true);
-
-
         }
+
         private void CreatePaymentRecieptPdf()
         {
             string fileName = $"PaymentRecieptReportForMonth_{date.Month}_{date.Year}.pdf";
-
-
         }
-
-
 
         private Table DataToTable(List<TData> rows, Table table)
         {
@@ -221,6 +212,7 @@ namespace eStore.Reports.Accounts
             }
             return table;
         }
+
         private Table DataToTable(List<SaleTData> rows, Table table)
         {
             int count = 0;
@@ -246,11 +238,9 @@ namespace eStore.Reports.Accounts
             table.SetCaption (d);
             return table;
         }
-
     }
-   
-
 }
+
 //private Table DataToTable(TableRow rows, Table table)
 //{
 //    int count = 0;
@@ -265,4 +255,3 @@ namespace eStore.Reports.Accounts
 //    }
 //    return table;
 //}
-

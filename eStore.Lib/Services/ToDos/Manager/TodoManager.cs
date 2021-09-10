@@ -15,15 +15,15 @@ namespace eStore.Services.ToDos
         [Authorize]
         public async Task<HomeViewModel> ListTodoItemAsync(ITodoItemService todoItemService, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager/*, IFileStorageService fileStorageService*/)
         {
-            var currentUser = await userManager.GetUserAsync(signInManager.Context.User);
-            if (currentUser == null)
+            var currentUser = await userManager.GetUserAsync (signInManager.Context.User);
+            if ( currentUser == null )
                 return null;
             var currentDateTime = DateTime.Now;
-            var calendar = new CalendarViewModel(currentDateTime.Month, currentDateTime.Year);
-            var recentlyAddedTodos = await todoItemService.GetRecentlyAddedItemsAsync(currentUser);
-            var dueTo2daysTodos = await todoItemService.GetDueTo2DaysItems(currentUser);
-            var monthlyItems = await todoItemService.GetMonthlyItems(currentUser, currentDateTime.Month);
-            var homeViewModel = new HomeViewModel()
+            var calendar = new CalendarViewModel (currentDateTime.Month, currentDateTime.Year);
+            var recentlyAddedTodos = await todoItemService.GetRecentlyAddedItemsAsync (currentUser);
+            var dueTo2daysTodos = await todoItemService.GetDueTo2DaysItems (currentUser);
+            var monthlyItems = await todoItemService.GetMonthlyItems (currentUser, currentDateTime.Month);
+            var homeViewModel = new HomeViewModel ()
             {
                 RecentlyAddedTodos = recentlyAddedTodos,
                 CloseDueToTodos = dueTo2daysTodos,
@@ -33,6 +33,7 @@ namespace eStore.Services.ToDos
             return homeViewModel;
         }
     }
+
     public class ToDoManager
     {
         public void AddToDoList(eStoreDbContext db, string title, string msg, DateTime duedate)
@@ -46,19 +47,19 @@ namespace eStore.Services.ToDos
                 Status = "Pending",
                 Title = title
             };
-            db.ToDoMessages.Add(todo);
-            db.SaveChanges();
+            db.ToDoMessages.Add (todo);
+            db.SaveChanges ();
         }
+
         public List<ToDoMessage> ListToDoList(eStoreDbContext db)
         {
-            return db.ToDoMessages.Where(c => !c.IsOver).OrderByDescending(c => c.DueDate).ToList();
+            return db.ToDoMessages.Where (c => !c.IsOver).OrderByDescending (c => c.DueDate).ToList ();
         }
+
         public void UpDateToDoList(eStoreDbContext db, ToDoMessage todo)
         {
-            db.Update(todo);
-            db.SaveChanges();
+            db.Update (todo);
+            db.SaveChanges ();
         }
     }
 }
-
-

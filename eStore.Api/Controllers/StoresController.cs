@@ -1,17 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using eStore.Database;
 using eStore.Shared.Models.Stores;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace eStore.Areas.Api
 {
-    [Route("api/[controller]")]
+    [Route ("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class StoresController : ControllerBase
@@ -27,18 +25,18 @@ namespace eStore.Areas.Api
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Store>>> GetStores()
         {
-            return await _context.Stores.ToListAsync();
+            return await _context.Stores.ToListAsync ();
         }
 
         // GET: api/Stores/5
-        [HttpGet("{id}")]
+        [HttpGet ("{id}")]
         public async Task<ActionResult<Store>> GetStore(int id)
         {
-            var store = await _context.Stores.FindAsync(id);
+            var store = await _context.Stores.FindAsync (id);
 
-            if (store == null)
+            if ( store == null )
             {
-                return NotFound();
+                return NotFound ();
             }
 
             return store;
@@ -46,25 +44,25 @@ namespace eStore.Areas.Api
 
         // PUT: api/Stores/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+        [HttpPut ("{id}")]
         public async Task<IActionResult> PutStore(int id, Store store)
         {
-            if (id != store.StoreId)
+            if ( id != store.StoreId )
             {
-                return BadRequest();
+                return BadRequest ();
             }
 
-            _context.Entry(store).State = EntityState.Modified;
+            _context.Entry (store).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync ();
             }
-            catch (DbUpdateConcurrencyException)
+            catch ( DbUpdateConcurrencyException )
             {
-                if (!StoreExists(id))
+                if ( !StoreExists (id) )
                 {
-                    return NotFound();
+                    return NotFound ();
                 }
                 else
                 {
@@ -72,7 +70,7 @@ namespace eStore.Areas.Api
                 }
             }
 
-            return NoContent();
+            return NoContent ();
         }
 
         // POST: api/Stores
@@ -80,31 +78,31 @@ namespace eStore.Areas.Api
         [HttpPost]
         public async Task<ActionResult<Store>> PostStore(Store store)
         {
-            _context.Stores.Add(store);
-            await _context.SaveChangesAsync();
+            _context.Stores.Add (store);
+            await _context.SaveChangesAsync ();
 
-            return CreatedAtAction("GetStore", new { id = store.StoreId }, store);
+            return CreatedAtAction ("GetStore", new { id = store.StoreId }, store);
         }
 
         // DELETE: api/Stores/5
-        [HttpDelete("{id}")]
+        [HttpDelete ("{id}")]
         public async Task<IActionResult> DeleteStore(int id)
         {
-            var store = await _context.Stores.FindAsync(id);
-            if (store == null)
+            var store = await _context.Stores.FindAsync (id);
+            if ( store == null )
             {
-                return NotFound();
+                return NotFound ();
             }
 
-            _context.Stores.Remove(store);
-            await _context.SaveChangesAsync();
+            _context.Stores.Remove (store);
+            await _context.SaveChangesAsync ();
 
-            return NoContent();
+            return NoContent ();
         }
 
         private bool StoreExists(int id)
         {
-            return _context.Stores.Any(e => e.StoreId == id);
+            return _context.Stores.Any (e => e.StoreId == id);
         }
     }
 }

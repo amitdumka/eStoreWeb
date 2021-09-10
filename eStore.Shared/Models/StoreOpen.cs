@@ -8,9 +8,4 @@ namespace eStore.Shared.Models.Stores
         public DateTime OpenningTime { get; set; }
         public string Remarks { get; set; }
     }
-
-
-    
-
-
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using MailKit.Net.Smtp;
+﻿using MailKit.Net.Smtp;
 using MailKit.Security;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -10,6 +6,7 @@ using MimeKit;
 using MimeKit.Text;
 using System;
 using System.ComponentModel.DataAnnotations;
+
 //using WebApi.Helpers;
 using System.Globalization;
 
@@ -19,7 +16,6 @@ namespace eStore.Services.Mails
     {
     }
 }
-
 
 //https://jasonwatmore.com/post/2020/07/06/aspnet-core-3-boilerplate-api-with-email-sign-up-verification-authentication-forgot-password#app-settings-cs
 namespace AprajitaRetails.Services.Mails
@@ -35,13 +31,16 @@ namespace AprajitaRetails.Services.Mails
     "acceptTerms": true
 }
      */
+
     [Owned]
     public class RefreshToken
     {
         [Key]
         public int Id { get; set; }
+
         // public Account Account { get; set; }
         public string Token { get; set; }
+
         public DateTime Expires { get; set; }
         public bool IsExpired => DateTime.UtcNow >= Expires;
         public DateTime Created { get; set; }
@@ -51,6 +50,7 @@ namespace AprajitaRetails.Services.Mails
         public string ReplacedByToken { get; set; }
         public bool IsActive => Revoked == null && !IsExpired;
     }
+
     public class AppSettings
     {
         public string Secret { get; set; }
@@ -60,17 +60,23 @@ namespace AprajitaRetails.Services.Mails
         public string SmtpUser { get; set; }
         public string SmtpPass { get; set; }
     }
+
     public class AppException : Exception
     {
-        public AppException() : base () { }
+        public AppException() : base ()
+        {
+        }
 
-        public AppException(string message) : base (message) { }
+        public AppException(string message) : base (message)
+        {
+        }
 
         public AppException(string message, params object [] args)
             : base (String.Format (CultureInfo.CurrentCulture, message, args))
         {
         }
     }
+
     public interface IEmailService
     {
         void Send(string from, string to, string subject, string html);
@@ -102,9 +108,4 @@ namespace AprajitaRetails.Services.Mails
             smtp.Disconnect (true);
         }
     }
-
-
-
-
-
 }

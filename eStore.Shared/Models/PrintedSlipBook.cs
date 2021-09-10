@@ -16,7 +16,4 @@ namespace eStore.Shared.Models.Stores
 
         public virtual Store Store { get; set; }
     }
-
-
-
 }

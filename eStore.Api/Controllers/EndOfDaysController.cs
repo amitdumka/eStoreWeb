@@ -1,14 +1,13 @@
+using eStore.Database;
+using eStore.Shared.Models.Stores;
+using eStore.Shared.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using eStore.Database;
-using eStore.Shared.Models.Stores;
-using Microsoft.AspNetCore.Authorization;
-using eStore.Shared.ViewModels;
 
 namespace eStore.API.Controllers
 {
@@ -111,13 +110,12 @@ namespace eStore.API.Controllers
         [HttpPost ("dayend")]
         public async Task<ActionResult<EndOfDay>> PostDayEnd(DayEnd endOfDay)
         {
-
             _context.EndOfDays.Add (endOfDay.EndOfDay);
             _context.CashDetail.Add (endOfDay.CashDetail);
-            int c = await _context.SaveChangesAsync ();            
+            int c = await _context.SaveChangesAsync ();
             return CreatedAtAction ("GetEndOfDay", new { id = endOfDay.EndOfDay.EndOfDayId }, endOfDay.EndOfDay);
-
         }
+
         // GET: api/EndOfDays/5
         [HttpGet ("saledata")]
         public async Task<ActionResult<string>> GetSaleData(DateTime onDate)
@@ -137,6 +135,5 @@ namespace eStore.API.Controllers
             //return endOfDay;
             return r;
         }
-
     }
 }

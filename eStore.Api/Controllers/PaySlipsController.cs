@@ -1,17 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using eStore.Database;
 using eStore.Shared.Models.Payroll;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route ("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class PaySlipsController : ControllerBase
@@ -27,18 +25,18 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PaySlip>>> GetPaySlips()
         {
-            return await _context.PaySlips.ToListAsync();
+            return await _context.PaySlips.ToListAsync ();
         }
 
         // GET: api/PaySlips/5
-        [HttpGet("{id}")]
+        [HttpGet ("{id}")]
         public async Task<ActionResult<PaySlip>> GetPaySlip(int id)
         {
-            var paySlip = await _context.PaySlips.FindAsync(id);
+            var paySlip = await _context.PaySlips.FindAsync (id);
 
-            if (paySlip == null)
+            if ( paySlip == null )
             {
-                return NotFound();
+                return NotFound ();
             }
 
             return paySlip;
@@ -46,25 +44,25 @@ namespace eStore.API.Controllers
 
         // PUT: api/PaySlips/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+        [HttpPut ("{id}")]
         public async Task<IActionResult> PutPaySlip(int id, PaySlip paySlip)
         {
-            if (id != paySlip.PaySlipId)
+            if ( id != paySlip.PaySlipId )
             {
-                return BadRequest();
+                return BadRequest ();
             }
 
-            _context.Entry(paySlip).State = EntityState.Modified;
+            _context.Entry (paySlip).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync ();
             }
-            catch (DbUpdateConcurrencyException)
+            catch ( DbUpdateConcurrencyException )
             {
-                if (!PaySlipExists(id))
+                if ( !PaySlipExists (id) )
                 {
-                    return NotFound();
+                    return NotFound ();
                 }
                 else
                 {
@@ -72,7 +70,7 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return NoContent();
+            return NoContent ();
         }
 
         // POST: api/PaySlips
@@ -80,31 +78,31 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<PaySlip>> PostPaySlip(PaySlip paySlip)
         {
-            _context.PaySlips.Add(paySlip);
-            await _context.SaveChangesAsync();
+            _context.PaySlips.Add (paySlip);
+            await _context.SaveChangesAsync ();
 
-            return CreatedAtAction("GetPaySlip", new { id = paySlip.PaySlipId }, paySlip);
+            return CreatedAtAction ("GetPaySlip", new { id = paySlip.PaySlipId }, paySlip);
         }
 
         // DELETE: api/PaySlips/5
-        [HttpDelete("{id}")]
+        [HttpDelete ("{id}")]
         public async Task<IActionResult> DeletePaySlip(int id)
         {
-            var paySlip = await _context.PaySlips.FindAsync(id);
-            if (paySlip == null)
+            var paySlip = await _context.PaySlips.FindAsync (id);
+            if ( paySlip == null )
             {
-                return NotFound();
+                return NotFound ();
             }
 
-            _context.PaySlips.Remove(paySlip);
-            await _context.SaveChangesAsync();
+            _context.PaySlips.Remove (paySlip);
+            await _context.SaveChangesAsync ();
 
-            return NoContent();
+            return NoContent ();
         }
 
         private bool PaySlipExists(int id)
         {
-            return _context.PaySlips.Any(e => e.PaySlipId == id);
+            return _context.PaySlips.Any (e => e.PaySlipId == id);
         }
     }
 }

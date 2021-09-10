@@ -1,5 +1,3 @@
-using System;
-using System.Threading.Tasks;
 using eStore.BL;
 using eStore.BL.Importer;
 using eStore.Database;
@@ -7,6 +5,8 @@ using eStore.Services.BTask;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
@@ -16,7 +16,6 @@ namespace eStore.API.Controllers
         public dynamic JsonData { get; set; }
         public string EmailId { get; set; }
         public string CallBackUrl { get; set; }
-
     }
 
     [Route ("api/[controller]")]
@@ -27,6 +26,7 @@ namespace eStore.API.Controllers
         public IBackgroundTaskQueue _queue { get; }
         private readonly IServiceScopeFactory _serviceScopeFactory;
         private readonly eStoreDbContext db;
+
         public ImporterController(IBackgroundTaskQueue queue, IServiceScopeFactory serviceScopeFactory, eStoreDbContext con)
         {
             _queue = queue;
@@ -49,7 +49,8 @@ namespace eStore.API.Controllers
             });
             return Ok ("Uploader is processing! It will be inform after completation. ");
         }
-        [HttpPost("voyagerImport")]
+
+        [HttpPost ("voyagerImport")]
         public ActionResult PostVoyagerData(ImportDto import)
         {
             _queue.QueueBackgroundWorkItem (async token =>
@@ -57,23 +58,23 @@ namespace eStore.API.Controllers
                 using ( var scope = _serviceScopeFactory.CreateScope () )
                 {
                     var db = scope.ServiceProvider.GetRequiredService<eStoreDbContext> ();
-                     ImportVoyData.ImportJsonAsync (db, import.CommandMode, import.JsonData, import.EmailId, import.CallBackUrl);
+                    ImportVoyData.ImportJsonAsync (db, import.CommandMode, import.JsonData, import.EmailId, import.CallBackUrl);
                     await Task.Delay (TimeSpan.FromSeconds (5), token);
                 }
             });
             return Ok ("Uploader is processing! It will be inform after completation. ");
         }
 
-        [HttpPost("ProcessVoyager")]
+        [HttpPost ("ProcessVoyager")]
         public ActionResult PostProcessVoyagerUpload(ProcessorCommand command)
         {
             if (
            // new UploadProcessor().ProcessVoyagerUpload(db, command))
            UploadProcessor.ProcessUpload (db, command) )
 
-                return Ok("Command Processed");
+                return Ok ("Command Processed");
             else
-                return Ok("Error occured");
+                return Ok ("Error occured");
         }
     }
 }

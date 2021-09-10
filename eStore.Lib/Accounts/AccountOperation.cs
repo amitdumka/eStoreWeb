@@ -1,10 +1,7 @@
 ﻿using eStore.Database;
 using eStore.Shared.Models.Accounts;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace eStore.Lib.Accounts
 {
@@ -20,7 +17,6 @@ namespace eStore.Lib.Accounts
             };
             db.Add (master);
             return db.SaveChanges ();
-
         }
 
         public static int UpdateLedgerMaster(eStoreDbContext db, Party party)

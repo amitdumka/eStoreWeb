@@ -19,19 +19,21 @@ namespace eStore.Shared.Models.Accounts.Expenses
         public string ConusumerId { get; set; }
         public ConnectionType Connection { get; set; }
 
-        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true), Display(Name = "Connection Date")]
+        [DataType (DataType.Date), DisplayFormat (DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true), Display (Name = "Connection Date")]
         public DateTime ConnectinDate { get; set; }
 
-        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true), Display(Name = "Disconnection Date")]
+        [DataType (DataType.Date), DisplayFormat (DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true), Display (Name = "Disconnection Date")]
         public DateTime? DisconnectionDate { get; set; }
 
         public int KVLoad { get; set; }
         public bool OwnedMetter { get; set; }
 
-        [Display(Name = "Connection Amount"), DataType(DataType.Currency), Column(TypeName = "money")]
+        [Display (Name = "Connection Amount"), DataType (DataType.Currency), Column (TypeName = "money")]
         public decimal TotalConnectionCharges { get; set; }
-        [Display(Name = "Security Deposit"), DataType(DataType.Currency), Column(TypeName = "money")]
+
+        [Display (Name = "Security Deposit"), DataType (DataType.Currency), Column (TypeName = "money")]
         public decimal SecurityDeposit { get; set; }
+
         public string Remarks { get; set; }
     }
 }

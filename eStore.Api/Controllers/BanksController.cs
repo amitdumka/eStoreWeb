@@ -1,24 +1,24 @@
+using eStore.Database;
+using eStore.Shared.Models.Banking;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using eStore.Shared.Models.Banking;
-using Microsoft.AspNetCore.Authorization;
-using eStore.Database;
-using Microsoft.Extensions.Logging;
 
 namespace eStore.API.Controllers
 {
     [AllowAnonymous]
     [ApiController]
-    [Route("api/[controller]")]
+    [Route ("api/[controller]")]
     public class BanksController : ControllerBase
     {
         private readonly eStoreDbContext _context;
         private readonly ILogger<BanksController> _logger;
+
         public BanksController(eStoreDbContext context, ILogger<BanksController> logger)
         {
             try
@@ -26,16 +26,11 @@ namespace eStore.API.Controllers
                 _context = context;
                 _logger = logger;
             }
-            catch ( Exception e)
+            catch ( Exception e )
             {
-
                 Console.WriteLine (e.Message);
             }
-            
         }
-
-        
-
 
         // GET: api/Banks
         [HttpGet]

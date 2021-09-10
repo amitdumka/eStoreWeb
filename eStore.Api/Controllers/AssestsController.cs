@@ -1,17 +1,15 @@
-﻿using System;
+﻿using eStore.Database;
+using eStore.Shared.Models.Stores;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using eStore.Database;
-using eStore.Shared.Models.Stores;
-using Microsoft.AspNetCore.Authorization;
 
 namespace eStore.Controllers
 {
-    [Route("api/[controller]")]
+    [Route ("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class AssestsController : ControllerBase
@@ -27,18 +25,18 @@ namespace eStore.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Assest>>> GetAssests()
         {
-            return await _context.Assests.ToListAsync();
+            return await _context.Assests.ToListAsync ();
         }
 
         // GET: api/Assests/5
-        [HttpGet("{id}")]
+        [HttpGet ("{id}")]
         public async Task<ActionResult<Assest>> GetAssest(int id)
         {
-            var assest = await _context.Assests.FindAsync(id);
+            var assest = await _context.Assests.FindAsync (id);
 
-            if (assest == null)
+            if ( assest == null )
             {
-                return NotFound();
+                return NotFound ();
             }
 
             return assest;
@@ -46,25 +44,25 @@ namespace eStore.Controllers
 
         // PUT: api/Assests/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+        [HttpPut ("{id}")]
         public async Task<IActionResult> PutAssest(int id, Assest assest)
         {
-            if (id != assest.AssestId)
+            if ( id != assest.AssestId )
             {
-                return BadRequest();
+                return BadRequest ();
             }
 
-            _context.Entry(assest).State = EntityState.Modified;
+            _context.Entry (assest).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync ();
             }
-            catch (DbUpdateConcurrencyException)
+            catch ( DbUpdateConcurrencyException )
             {
-                if (!AssestExists(id))
+                if ( !AssestExists (id) )
                 {
-                    return NotFound();
+                    return NotFound ();
                 }
                 else
                 {
@@ -72,7 +70,7 @@ namespace eStore.Controllers
                 }
             }
 
-            return NoContent();
+            return NoContent ();
         }
 
         // POST: api/Assests
@@ -80,31 +78,31 @@ namespace eStore.Controllers
         [HttpPost]
         public async Task<ActionResult<Assest>> PostAssest(Assest assest)
         {
-            _context.Assests.Add(assest);
-            await _context.SaveChangesAsync();
+            _context.Assests.Add (assest);
+            await _context.SaveChangesAsync ();
 
-            return CreatedAtAction("GetAssest", new { id = assest.AssestId }, assest);
+            return CreatedAtAction ("GetAssest", new { id = assest.AssestId }, assest);
         }
 
         // DELETE: api/Assests/5
-        [HttpDelete("{id}")]
+        [HttpDelete ("{id}")]
         public async Task<IActionResult> DeleteAssest(int id)
         {
-            var assest = await _context.Assests.FindAsync(id);
-            if (assest == null)
+            var assest = await _context.Assests.FindAsync (id);
+            if ( assest == null )
             {
-                return NotFound();
+                return NotFound ();
             }
 
-            _context.Assests.Remove(assest);
-            await _context.SaveChangesAsync();
+            _context.Assests.Remove (assest);
+            await _context.SaveChangesAsync ();
 
-            return NoContent();
+            return NoContent ();
         }
 
         private bool AssestExists(int id)
         {
-            return _context.Assests.Any(e => e.AssestId == id);
+            return _context.Assests.Any (e => e.AssestId == id);
         }
     }
 }

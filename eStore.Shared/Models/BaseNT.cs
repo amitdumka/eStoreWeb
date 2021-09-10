@@ -1,15 +1,15 @@
-﻿using System.ComponentModel;
+﻿using eStore.Shared.Models.Stores;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using eStore.Shared.Models.Stores;
 
 namespace eStore.Shared.Models
 {
-
     public class BaseST : BaseGT
     {
-        [DefaultValue(1)]
-        [Display(Name = "Store")]
+        [DefaultValue (1)]
+        [Display (Name = "Store")]
         public int StoreId { get; set; }
+
         public virtual Store Store { get; set; }
     }
 
@@ -20,7 +20,6 @@ namespace eStore.Shared.Models
         public bool IsReadOnly { get; set; }
     }
 
-
     public class BaseNT
     {
         public string UserId { get; set; }
@@ -29,11 +28,10 @@ namespace eStore.Shared.Models
 
     public class BaseSNT : BaseNT
     {
-        [DefaultValue(1)]
-        [Display(Name = "Store")]
+        [DefaultValue (1)]
+        [Display (Name = "Store")]
         public int StoreId { get; set; }
+
         public virtual Store Store { get; set; }
     }
-
-
 }

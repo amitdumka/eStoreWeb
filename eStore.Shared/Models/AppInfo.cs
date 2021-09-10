@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace eStore.Shared.Models
 {
     /// <summary>

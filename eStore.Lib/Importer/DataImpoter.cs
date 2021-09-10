@@ -176,10 +176,12 @@ namespace eStore.BL
 
                         await db.AddRangeAsync (JsonSerializer.Deserialize<IEnumerable<SaleWithCustomer>> (returndata));
                         break;
+
                     case "ItemCategory":
-                        await db.AddRangeAsync(JsonSerializer.Deserialize<IEnumerable<Category>>(returndata));
+                        await db.AddRangeAsync (JsonSerializer.Deserialize<IEnumerable<Category>> (returndata));
 
                         break;
+
                     case "ItemData":
                         await db.AddRangeAsync (JsonSerializer.Deserialize<IEnumerable<ItemData>> (returndata));
 

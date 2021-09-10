@@ -20,13 +20,17 @@ namespace eStore.Services.Mails
         //     not intended to be used directly from your code. This API may change or be removed
         //     in future releases.
         public Task SendEmailAsync(string email, string subject, string htmlMessage);
+
         public Task SendEmailAsync(List<string> emails, string subject, string htmlMessage);
     }
+
     public interface IEmailSender
     {
         public Task SendEmailAsync(string email, string subject, string message);
+
         public Task SendEmailAsync(List<string> emails, string subject, string htmlMessage);
     }
+
     public class EmailSender : IEmailSender
     {
         public Task SendEmailAsync(List<string> emails, string subject, string htmlMessage)
@@ -103,7 +107,6 @@ namespace eStore.Services.Mails
             await client.SendAsync (message);
             await client.DisconnectAsync (true);
         }
-
 
         // SendGrid Email
         /// <summary>

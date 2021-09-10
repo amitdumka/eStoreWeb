@@ -1,10 +1,8 @@
-﻿
-using eStore.Shared.Models.Identity;
+﻿using eStore.Shared.Models.Identity;
 using IdentityServer4.EntityFramework.Options;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-
 
 namespace eStore.Database
 {
@@ -12,7 +10,7 @@ namespace eStore.Database
     {
         public AuthDbContext(
             DbContextOptions options,
-            IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
+            IOptions<OperationalStoreOptions> operationalStoreOptions) : base (options, operationalStoreOptions)
         {
         }
     }
@@ -25,7 +23,4 @@ namespace eStore.Database
     //    {
     //    }
     //}
-
-
-
 }

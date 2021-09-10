@@ -13,7 +13,5 @@
         public const string FooterLastMessage = "Visit Again";
 
         public const string DotedLine = "--------------------------------------------------\n";
-
-
     }
 }

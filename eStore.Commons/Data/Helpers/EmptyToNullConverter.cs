@@ -11,19 +11,19 @@ namespace eStore.Commons.Data.Helpers
 {
     public class EmptyToNullConverter : JsonConverter
     {
-        private JsonSerializer _stringSerializer = new JsonSerializer();
+        private JsonSerializer _stringSerializer = new JsonSerializer ();
 
         public override bool CanConvert(Type objectType)
         {
-            return objectType == typeof(string);
+            return objectType == typeof (string);
         }
 
         public override object ReadJson(JsonReader reader, Type objectType,
                                         object existingValue, JsonSerializer serializer)
         {
-            string value = _stringSerializer.Deserialize<string>(reader);
+            string value = _stringSerializer.Deserialize<string> (reader);
 
-            if (string.IsNullOrEmpty(value))
+            if ( string.IsNullOrEmpty (value) )
             {
                 value = null;
             }
@@ -34,7 +34,7 @@ namespace eStore.Commons.Data.Helpers
         public override void WriteJson(JsonWriter writer, object value,
                                        JsonSerializer serializer)
         {
-            _stringSerializer.Serialize(writer, value);
+            _stringSerializer.Serialize (writer, value);
         }
     }
 }

@@ -1,17 +1,15 @@
-﻿using System;
+﻿using eStore.Database;
+using eStore.Shared.Models.Stores;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using eStore.Database;
-using eStore.Shared.Models.Stores;
-using Microsoft.AspNetCore.Authorization;
 
 namespace eStore.Controllers
 {
-    [Route("api/[controller]")]
+    [Route ("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class VendorsController : ControllerBase
@@ -27,18 +25,18 @@ namespace eStore.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Vendor>>> GetVendors()
         {
-            return await _context.Vendors.ToListAsync();
+            return await _context.Vendors.ToListAsync ();
         }
 
         // GET: api/Vendors/5
-        [HttpGet("{id}")]
+        [HttpGet ("{id}")]
         public async Task<ActionResult<Vendor>> GetVendor(int id)
         {
-            var vendor = await _context.Vendors.FindAsync(id);
+            var vendor = await _context.Vendors.FindAsync (id);
 
-            if (vendor == null)
+            if ( vendor == null )
             {
-                return NotFound();
+                return NotFound ();
             }
 
             return vendor;
@@ -46,25 +44,25 @@ namespace eStore.Controllers
 
         // PUT: api/Vendors/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+        [HttpPut ("{id}")]
         public async Task<IActionResult> PutVendor(int id, Vendor vendor)
         {
-            if (id != vendor.VendorId)
+            if ( id != vendor.VendorId )
             {
-                return BadRequest();
+                return BadRequest ();
             }
 
-            _context.Entry(vendor).State = EntityState.Modified;
+            _context.Entry (vendor).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync ();
             }
-            catch (DbUpdateConcurrencyException)
+            catch ( DbUpdateConcurrencyException )
             {
-                if (!VendorExists(id))
+                if ( !VendorExists (id) )
                 {
-                    return NotFound();
+                    return NotFound ();
                 }
                 else
                 {
@@ -72,7 +70,7 @@ namespace eStore.Controllers
                 }
             }
 
-            return NoContent();
+            return NoContent ();
         }
 
         // POST: api/Vendors
@@ -80,31 +78,31 @@ namespace eStore.Controllers
         [HttpPost]
         public async Task<ActionResult<Vendor>> PostVendor(Vendor vendor)
         {
-            _context.Vendors.Add(vendor);
-            await _context.SaveChangesAsync();
+            _context.Vendors.Add (vendor);
+            await _context.SaveChangesAsync ();
 
-            return CreatedAtAction("GetVendor", new { id = vendor.VendorId }, vendor);
+            return CreatedAtAction ("GetVendor", new { id = vendor.VendorId }, vendor);
         }
 
         // DELETE: api/Vendors/5
-        [HttpDelete("{id}")]
+        [HttpDelete ("{id}")]
         public async Task<IActionResult> DeleteVendor(int id)
         {
-            var vendor = await _context.Vendors.FindAsync(id);
-            if (vendor == null)
+            var vendor = await _context.Vendors.FindAsync (id);
+            if ( vendor == null )
             {
-                return NotFound();
+                return NotFound ();
             }
 
-            _context.Vendors.Remove(vendor);
-            await _context.SaveChangesAsync();
+            _context.Vendors.Remove (vendor);
+            await _context.SaveChangesAsync ();
 
-            return NoContent();
+            return NoContent ();
         }
 
         private bool VendorExists(int id)
         {
-            return _context.Vendors.Any(e => e.VendorId == id);
+            return _context.Vendors.Any (e => e.VendorId == id);
         }
     }
 }

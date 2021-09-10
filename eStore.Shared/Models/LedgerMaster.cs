@@ -8,19 +8,18 @@ namespace eStore.Shared.Models.Accounts
     {
         public int LedgerMasterId { get; set; }
 
-        [ForeignKey("Parties")]
+        [ForeignKey ("Parties")]
         public int PartyId { get; set; }
+
         public Party Party { get; set; }
 
-        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        [Display(Name = "Date")]
+        [DataType (DataType.Date), DisplayFormat (DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [Display (Name = "Date")]
         public DateTime CreatingDate { get; set; }
 
-        [Display(Name = "Ledger Type")]
+        [Display (Name = "Ledger Type")]
         public int LedgerTypeId { get; set; }
+
         public virtual LedgerType LedgerType { get; set; }
-
-
     }
-
 }

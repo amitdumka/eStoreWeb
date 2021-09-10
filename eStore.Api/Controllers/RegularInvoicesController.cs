@@ -1,17 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using eStore.Database;
 using eStore.Shared.Models.Sales;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route ("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class RegularInvoicesController : ControllerBase
@@ -27,18 +25,18 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<RegularInvoice>>> GetRegularInvoices()
         {
-            return await _context.RegularInvoices.ToListAsync();
+            return await _context.RegularInvoices.ToListAsync ();
         }
 
         // GET: api/RegularInvoices/5
-        [HttpGet("{id}")]
+        [HttpGet ("{id}")]
         public async Task<ActionResult<RegularInvoice>> GetRegularInvoice(string id)
         {
-            var regularInvoice = await _context.RegularInvoices.FindAsync(id);
+            var regularInvoice = await _context.RegularInvoices.FindAsync (id);
 
-            if (regularInvoice == null)
+            if ( regularInvoice == null )
             {
-                return NotFound();
+                return NotFound ();
             }
 
             return regularInvoice;
@@ -46,25 +44,25 @@ namespace eStore.API.Controllers
 
         // PUT: api/RegularInvoices/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+        [HttpPut ("{id}")]
         public async Task<IActionResult> PutRegularInvoice(string id, RegularInvoice regularInvoice)
         {
-            if (id != regularInvoice.InvoiceNo)
+            if ( id != regularInvoice.InvoiceNo )
             {
-                return BadRequest();
+                return BadRequest ();
             }
 
-            _context.Entry(regularInvoice).State = EntityState.Modified;
+            _context.Entry (regularInvoice).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync ();
             }
-            catch (DbUpdateConcurrencyException)
+            catch ( DbUpdateConcurrencyException )
             {
-                if (!RegularInvoiceExists(id))
+                if ( !RegularInvoiceExists (id) )
                 {
-                    return NotFound();
+                    return NotFound ();
                 }
                 else
                 {
@@ -72,7 +70,7 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return NoContent();
+            return NoContent ();
         }
 
         // POST: api/RegularInvoices
@@ -80,16 +78,16 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<RegularInvoice>> PostRegularInvoice(RegularInvoice regularInvoice)
         {
-            _context.RegularInvoices.Add(regularInvoice);
+            _context.RegularInvoices.Add (regularInvoice);
             try
             {
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync ();
             }
-            catch (DbUpdateException)
+            catch ( DbUpdateException )
             {
-                if (RegularInvoiceExists(regularInvoice.InvoiceNo))
+                if ( RegularInvoiceExists (regularInvoice.InvoiceNo) )
                 {
-                    return Conflict();
+                    return Conflict ();
                 }
                 else
                 {
@@ -97,28 +95,28 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return CreatedAtAction("GetRegularInvoice", new { id = regularInvoice.InvoiceNo }, regularInvoice);
+            return CreatedAtAction ("GetRegularInvoice", new { id = regularInvoice.InvoiceNo }, regularInvoice);
         }
 
         // DELETE: api/RegularInvoices/5
-        [HttpDelete("{id}")]
+        [HttpDelete ("{id}")]
         public async Task<IActionResult> DeleteRegularInvoice(string id)
         {
-            var regularInvoice = await _context.RegularInvoices.FindAsync(id);
-            if (regularInvoice == null)
+            var regularInvoice = await _context.RegularInvoices.FindAsync (id);
+            if ( regularInvoice == null )
             {
-                return NotFound();
+                return NotFound ();
             }
 
-            _context.RegularInvoices.Remove(regularInvoice);
-            await _context.SaveChangesAsync();
+            _context.RegularInvoices.Remove (regularInvoice);
+            await _context.SaveChangesAsync ();
 
-            return NoContent();
+            return NoContent ();
         }
 
         private bool RegularInvoiceExists(string id)
         {
-            return _context.RegularInvoices.Any(e => e.InvoiceNo == id);
+            return _context.RegularInvoices.Any (e => e.InvoiceNo == id);
         }
     }
 }

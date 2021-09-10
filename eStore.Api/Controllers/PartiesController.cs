@@ -1,18 +1,16 @@
-using System;
+using eStore.Database;
+using eStore.Lib.Accounts;
+using eStore.Shared.Models.Accounts;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using eStore.Database;
-using eStore.Shared.Models.Accounts;
-using Microsoft.AspNetCore.Authorization;
-using eStore.Lib.Accounts;
 
 namespace eStore.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route ("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class PartiesController : ControllerBase
@@ -28,18 +26,18 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Party>>> GetParties()
         {
-            return await _context.Parties.Include(c=>c.LedgerType).ToListAsync();
+            return await _context.Parties.Include (c => c.LedgerType).ToListAsync ();
         }
 
         // GET: api/Parties/5
-        [HttpGet("{id}")]
+        [HttpGet ("{id}")]
         public async Task<ActionResult<Party>> GetParty(int id)
         {
-            var party = await _context.Parties.FindAsync(id);
+            var party = await _context.Parties.FindAsync (id);
 
-            if (party == null)
+            if ( party == null )
             {
-                return NotFound();
+                return NotFound ();
             }
 
             return party;
@@ -47,26 +45,26 @@ namespace eStore.API.Controllers
 
         // PUT: api/Parties/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+        [HttpPut ("{id}")]
         public async Task<IActionResult> PutParty(int id, Party party)
         {
-            if (id != party.PartyId)
+            if ( id != party.PartyId )
             {
-                return BadRequest();
+                return BadRequest ();
             }
 
-            _context.Entry(party).State = EntityState.Modified;
+            _context.Entry (party).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync ();
                 AccountOperation.UpdateLedgerMaster (_context, party);
             }
-            catch (DbUpdateConcurrencyException)
+            catch ( DbUpdateConcurrencyException )
             {
-                if (!PartyExists(id))
+                if ( !PartyExists (id) )
                 {
-                    return NotFound();
+                    return NotFound ();
                 }
                 else
                 {
@@ -74,7 +72,7 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return NoContent();
+            return NoContent ();
         }
 
         // POST: api/Parties
@@ -82,32 +80,32 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Party>> PostParty(Party party)
         {
-            _context.Parties.Add(party);
-            await _context.SaveChangesAsync();
+            _context.Parties.Add (party);
+            await _context.SaveChangesAsync ();
             AccountOperation.CreateLedgerMaster (_context, party);
 
-            return CreatedAtAction("GetParty", new { id = party.PartyId }, party);
+            return CreatedAtAction ("GetParty", new { id = party.PartyId }, party);
         }
 
         // DELETE: api/Parties/5
-        [HttpDelete("{id}")]
+        [HttpDelete ("{id}")]
         public async Task<IActionResult> DeleteParty(int id)
         {
-            var party = await _context.Parties.FindAsync(id);
-            if (party == null)
+            var party = await _context.Parties.FindAsync (id);
+            if ( party == null )
             {
-                return NotFound();
+                return NotFound ();
             }
 
-            _context.Parties.Remove(party);
-            await _context.SaveChangesAsync();
+            _context.Parties.Remove (party);
+            await _context.SaveChangesAsync ();
 
-            return NoContent();
+            return NoContent ();
         }
 
         private bool PartyExists(int id)
         {
-            return _context.Parties.Any(e => e.PartyId == id);
+            return _context.Parties.Any (e => e.PartyId == id);
         }
     }
 }

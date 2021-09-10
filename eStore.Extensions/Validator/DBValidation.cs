@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using eStore.Database;
 using eStore.Shared.Models.Payroll;
-
-using eStore.Database;
+using System.Linq;
 
 namespace eStore.Validator
 {
@@ -18,19 +14,20 @@ namespace eStore.Validator
         /// <returns></returns>
         public static bool AttendanceDuplicateCheck(eStoreDbContext db, Attendance att)
         {
-            var d = db.Attendances.Where(c => c.AttDate == att.AttDate && c.EmployeeId == att.EmployeeId).Select(c => new { c.AttendanceId }).FirstOrDefault();
-            if (d != null)
+            var d = db.Attendances.Where (c => c.AttDate == att.AttDate && c.EmployeeId == att.EmployeeId).Select (c => new { c.AttendanceId }).FirstOrDefault ();
+            if ( d != null )
                 return true;
             else
                 return false;
         }
+
         public static bool AttendanceDuplicateCheckWithID(eStoreDbContext db, Attendance att)
         {
             var d = db.Attendances.Where (c => c.AttDate == att.AttDate && c.EmployeeId == att.EmployeeId).Select (c => new { c.AttendanceId }).FirstOrDefault ();
             if ( d != null )
-            {   
-                if(d.AttendanceId!=att.AttendanceId)
-                    return true; 
+            {
+                if ( d.AttendanceId != att.AttendanceId )
+                    return true;
             }
             return false;
         }
@@ -47,8 +44,8 @@ namespace eStore.Validator
         /// <returns></returns>
         public static bool IsSalesmanExists(eStoreDbContext db, string name, int storeid)
         {
-            var d = db.Salesmen.Where(c => c.SalesmanName == name && c.StoreId == storeid).FirstOrDefault();
-            if (d != null)
+            var d = db.Salesmen.Where (c => c.SalesmanName == name && c.StoreId == storeid).FirstOrDefault ();
+            if ( d != null )
                 return true;
             else
                 return false;

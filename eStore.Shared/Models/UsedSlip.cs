@@ -12,7 +12,4 @@ namespace eStore.Shared.Models.Stores
         public int StoreId { get; set; }
         public virtual Store Store { get; set; }
     }
-
-
-
 }

@@ -49,7 +49,7 @@ namespace eStore.BL.Reports.CAReports
             isPDF = IsPdf;
         }
 
-        public string GetFinYearReport(int rep, bool isRefreshed=true)
+        public string GetFinYearReport(int rep, bool isRefreshed = true)
         {
             switch ( rep )
             {
@@ -70,6 +70,7 @@ namespace eStore.BL.Reports.CAReports
 
                 case 6:
                     return GenerateReceiptData (isRefreshed);
+
                 case 7:
                     return GenerateBankData (isRefreshed);
 
@@ -90,9 +91,9 @@ namespace eStore.BL.Reports.CAReports
                 if ( fn != "ERROR" )
                     return fn;
             }
-            var depo= db.BankDeposits.Include(c=>c.Account).ThenInclude(c=>c.Bank).Where (c => c.StoreId == StoreId && c.OnDate.Date >= StartDate.Date && c.OnDate.Date <= EndDate.Date).ToList ();
-            var withdrw=db.BankWithdrawals.Include(c=>c.Account).ThenInclude (c => c.Bank).Where (c => c.StoreId == StoreId && c.OnDate.Date >= StartDate.Date && c.OnDate.Date <= EndDate.Date).ToList ();
-            float [] columnWidths = { 1, 5, 5, 5, 5, 5, 5, 5, 5,5 };
+            var depo = db.BankDeposits.Include (c => c.Account).ThenInclude (c => c.Bank).Where (c => c.StoreId == StoreId && c.OnDate.Date >= StartDate.Date && c.OnDate.Date <= EndDate.Date).ToList ();
+            var withdrw = db.BankWithdrawals.Include (c => c.Account).ThenInclude (c => c.Bank).Where (c => c.StoreId == StoreId && c.OnDate.Date >= StartDate.Date && c.OnDate.Date <= EndDate.Date).ToList ();
+            float [] columnWidths = { 1, 5, 5, 5, 5, 5, 5, 5, 5, 5 };
 
             Cell [] HeaderCell = new Cell []{
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("#")),
@@ -147,7 +148,7 @@ namespace eStore.BL.Reports.CAReports
             List<Table> dataTable = new List<Table> ();
             dataTable.Add (table);
             dataTable.Add (table2);
-           
+
             return PrintPDF ("Banks", dataTable);
         }
 
@@ -411,7 +412,7 @@ namespace eStore.BL.Reports.CAReports
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Remarks").SetTextAlignment(TextAlignment.CENTER)),
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Amount").SetTextAlignment(TextAlignment.CENTER))
             };
-            float [] columnWidths2 = { 1, 5, 5, 5, 5, 5, 5,  };
+            float [] columnWidths2 = { 1, 5, 5, 5, 5, 5, 5, };
             Table table2 = GenTable (columnWidths2, HeaderCell);
             Div d2 = new Div ();
             d2.Add (new Paragraph ("Cash Expenses").SetFontColor (ColorConstants.MAGENTA));
@@ -558,7 +559,7 @@ namespace eStore.BL.Reports.CAReports
 
             foreach ( Cell hfCell in HeaderCell )
             {
-                table.AddHeaderCell (hfCell.SetFontColor (ColorConstants.RED).SetFontSize (12).SetItalic ().SetBackgroundColor(ColorConstants.YELLOW));
+                table.AddHeaderCell (hfCell.SetFontColor (ColorConstants.RED).SetFontSize (12).SetItalic ().SetBackgroundColor (ColorConstants.YELLOW));
             }
             foreach ( Cell hfCell in FooterCell )
             {
@@ -620,7 +621,7 @@ namespace eStore.BL.Reports.CAReports
                 // Write aligned text to the specified by parameters point
                 //doc.ShowTextAligned (new Paragraph ("Page " + i + " of " + numberOfPages),
                 //        559, 806, i, TextAlignment.RIGHT, VerticalAlignment.TOP, 0);
-                doc.ShowTextAligned (new Paragraph ("Page " + i + " of " + numberOfPages).SetFontColor(ColorConstants.DARK_GRAY),
+                doc.ShowTextAligned (new Paragraph ("Page " + i + " of " + numberOfPages).SetFontColor (ColorConstants.DARK_GRAY),
                        1, 1, i, TextAlignment.RIGHT, VerticalAlignment.BOTTOM, 0);
             }
 
@@ -651,7 +652,7 @@ namespace eStore.BL.Reports.CAReports
             }
             return true;
         }
-    
+
         private string IsExist(string repName)
         {
             string fileName = $"FinReport_{repName}_{StartYear}_{EndYear}.pdf";
@@ -662,7 +663,7 @@ namespace eStore.BL.Reports.CAReports
         }
 
         /// <summary>
-        /// Add Page number at top of pdf file. 
+        /// Add Page number at top of pdf file.
         /// </summary>
         /// <param name="fileName"></param>
         /// <returns> filename saved as</returns>
@@ -684,6 +685,5 @@ namespace eStore.BL.Reports.CAReports
             doc2.Close ();
             return fName;
         }
-
     }
 }

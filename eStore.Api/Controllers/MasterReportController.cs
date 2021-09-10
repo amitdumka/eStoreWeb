@@ -2,60 +2,65 @@
 using eStore.Database;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace eStore.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route ("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class MasterReportController : ControllerBase
     {
         private readonly eStoreDbContext _context;
+
         public MasterReportController(eStoreDbContext context)
         {
             _context = context;
         }
+
         // GET: api/MasterReport
         [HttpGet]
         public MasterViewReport Get()
         {
-            return DashboardWidget.GetMasterViewReport(_context);
+            return DashboardWidget.GetMasterViewReport (_context);
         }
-        [HttpGet("sales")]
+
+        [HttpGet ("sales")]
         public DailySaleReport GetSales()
         {
-            return DashboardWidget.GetSaleRecord(_context);
+            return DashboardWidget.GetSaleRecord (_context);
         }
-        [HttpGet("tailoring")]
+
+        [HttpGet ("tailoring")]
         public TailoringReport GetTaioring()
         {
-            return DashboardWidget.GetTailoringReport(_context);
+            return DashboardWidget.GetTailoringReport (_context);
         }
-        [HttpGet("employee")]
+
+        [HttpGet ("employee")]
         public IEnumerable<EmployeeInfo> GetEmployee()
         {
-            return DashboardWidget.GetEmpInfo(_context);
+            return DashboardWidget.GetEmpInfo (_context);
         }
-        [HttpGet("accounting")]
+
+        [HttpGet ("accounting")]
         public AccountsInfo GetAccounting()
         {
-            return DashboardWidget.GetAccoutingRecord(_context);
+            return DashboardWidget.GetAccoutingRecord (_context);
         }
-        [HttpGet("leadingSalesman")]
+
+        [HttpGet ("leadingSalesman")]
         public List<string> GetTopSalesman()
         {
-            return DashboardWidget.GetTopSalesman(_context);
+            return DashboardWidget.GetTopSalesman (_context);
         }
-        [HttpGet("pendingdeliver")]
+
+        [HttpGet ("pendingdeliver")]
         public IEnumerable<BookingOverDue> GetPendingDelivery()
         {
-            return DashboardWidget.GetTailoringBookingOverDue(_context);
+            return DashboardWidget.GetTailoringBookingOverDue (_context);
         }
 
         //// GET api/<MasterReportController>/5
@@ -64,13 +69,11 @@ namespace eStore.API.Controllers
         //{
         //    return "value";
         //}
-
-
     }
 }
 
-                //SaleReport = GetSaleRecord(_context),
-                //TailoringReport = GetTailoringReport(_context),
-                //EmpInfoList = GetEmpInfo(_context),
-                //AccountsInfo = GetAccoutingRecord(_context),
-                //BookingOverDues = GetTailoringBookingOverDue(_context)
+//SaleReport = GetSaleRecord(_context),
+//TailoringReport = GetTailoringReport(_context),
+//EmpInfoList = GetEmpInfo(_context),
+//AccountsInfo = GetAccoutingRecord(_context),
+//BookingOverDues = GetTailoringBookingOverDue(_context)

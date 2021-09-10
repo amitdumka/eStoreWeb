@@ -1,17 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using eStore.Database;
 using eStore.Shared.Models.Sales;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route ("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class DueRecoveredsController : ControllerBase
@@ -27,18 +25,18 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<DueRecoverd>>> GetDueRecoverds()
         {
-            return await _context.DueRecoverds.Include(c=>c.DuesList).ThenInclude(c=>c.DailySale).OrderByDescending(c=>c.PaidDate).ToListAsync();
+            return await _context.DueRecoverds.Include (c => c.DuesList).ThenInclude (c => c.DailySale).OrderByDescending (c => c.PaidDate).ToListAsync ();
         }
 
         // GET: api/DueRecovereds/5
-        [HttpGet("{id}")]
+        [HttpGet ("{id}")]
         public async Task<ActionResult<DueRecoverd>> GetDueRecoverd(int id)
         {
-            var dueRecoverd = await _context.DueRecoverds.FindAsync(id);
+            var dueRecoverd = await _context.DueRecoverds.FindAsync (id);
 
-            if (dueRecoverd == null)
+            if ( dueRecoverd == null )
             {
-                return NotFound();
+                return NotFound ();
             }
 
             return dueRecoverd;
@@ -46,25 +44,25 @@ namespace eStore.API.Controllers
 
         // PUT: api/DueRecovereds/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+        [HttpPut ("{id}")]
         public async Task<IActionResult> PutDueRecoverd(int id, DueRecoverd dueRecoverd)
         {
-            if (id != dueRecoverd.DueRecoverdId)
+            if ( id != dueRecoverd.DueRecoverdId )
             {
-                return BadRequest();
+                return BadRequest ();
             }
 
-            _context.Entry(dueRecoverd).State = EntityState.Modified;
+            _context.Entry (dueRecoverd).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync ();
             }
-            catch (DbUpdateConcurrencyException)
+            catch ( DbUpdateConcurrencyException )
             {
-                if (!DueRecoverdExists(id))
+                if ( !DueRecoverdExists (id) )
                 {
-                    return NotFound();
+                    return NotFound ();
                 }
                 else
                 {
@@ -72,7 +70,7 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return NoContent();
+            return NoContent ();
         }
 
         // POST: api/DueRecovereds
@@ -80,31 +78,31 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<DueRecoverd>> PostDueRecoverd(DueRecoverd dueRecoverd)
         {
-            _context.DueRecoverds.Add(dueRecoverd);
-            await _context.SaveChangesAsync();
+            _context.DueRecoverds.Add (dueRecoverd);
+            await _context.SaveChangesAsync ();
 
-            return CreatedAtAction("GetDueRecoverd", new { id = dueRecoverd.DueRecoverdId }, dueRecoverd);
+            return CreatedAtAction ("GetDueRecoverd", new { id = dueRecoverd.DueRecoverdId }, dueRecoverd);
         }
 
         // DELETE: api/DueRecovereds/5
-        [HttpDelete("{id}")]
+        [HttpDelete ("{id}")]
         public async Task<IActionResult> DeleteDueRecoverd(int id)
         {
-            var dueRecoverd = await _context.DueRecoverds.FindAsync(id);
-            if (dueRecoverd == null)
+            var dueRecoverd = await _context.DueRecoverds.FindAsync (id);
+            if ( dueRecoverd == null )
             {
-                return NotFound();
+                return NotFound ();
             }
 
-            _context.DueRecoverds.Remove(dueRecoverd);
-            await _context.SaveChangesAsync();
+            _context.DueRecoverds.Remove (dueRecoverd);
+            await _context.SaveChangesAsync ();
 
-            return NoContent();
+            return NoContent ();
         }
 
         private bool DueRecoverdExists(int id)
         {
-            return _context.DueRecoverds.Any(e => e.DueRecoverdId == id);
+            return _context.DueRecoverds.Any (e => e.DueRecoverdId == id);
         }
     }
 }

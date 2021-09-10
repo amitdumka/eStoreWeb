@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace eStore.Reports.Dtos
 {
@@ -15,6 +12,7 @@ namespace eStore.Reports.Dtos
     {
         public List<string> Cols { get; set; }
     }
+
     internal class TData
     {
         public int Id { get; set; }
@@ -26,6 +24,7 @@ namespace eStore.Reports.Dtos
         public string SlipNo { get; set; }
         public decimal Amount { get; set; }
     }
+
     internal class SaleTData
     {
         public int Id { get; set; }
@@ -38,7 +37,5 @@ namespace eStore.Reports.Dtos
         public bool Tailoring { get; set; }
         public string Salesman { get; set; }
         public bool IsDue { get; set; }
-
-
     }
 }

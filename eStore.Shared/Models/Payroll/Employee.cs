@@ -1,9 +1,8 @@
-﻿using System;
-
+﻿using eStore.Shared.Models.Stores;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using eStore.Shared.Models.Stores;
 
 namespace eStore.Shared.Models.Payroll
 {
@@ -15,41 +14,42 @@ namespace eStore.Shared.Models.Payroll
     {
         public int EmployeeId { get; set; }
 
-        [Display(Name = "First Name")]
+        [Display (Name = "First Name")]
         public string FirstName { get; set; }
-        [Display(Name = "Last    Name")]
+
+        [Display (Name = "Last    Name")]
         public string LastName { get; set; }
 
-        [Display(Name = "Employee Name")]
-        public string StaffName { get { return (FirstName + " " + LastName).Trim(); } }
+        [Display (Name = "Employee Name")]
+        public string StaffName { get { return ( FirstName + " " + LastName ).Trim (); } }
 
-        [Display(Name = "Mobile No"), Phone]
+        [Display (Name = "Mobile No"), Phone]
         public string MobileNo { get; set; }
 
-        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        [Display(Name = "Joining Date")]
+        [DataType (DataType.Date), DisplayFormat (DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [Display (Name = "Joining Date")]
         public DateTime JoiningDate { get; set; }
 
-        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        [Display(Name = "Leaving Date")]
+        [DataType (DataType.Date), DisplayFormat (DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [Display (Name = "Leaving Date")]
         public DateTime? LeavingDate { get; set; }
 
-        [Display(Name = "Working")]
+        [Display (Name = "Working")]
         public bool IsWorking { get; set; }
 
-        [Display(Name = "Job Category")]
-        [DefaultValue(0)]
+        [Display (Name = "Job Category")]
+        [DefaultValue (0)]
         public EmpType Category { get; set; }
 
-        [DefaultValue(false)]
-        [Display(Name = "Tailoring Division")]
+        [DefaultValue (false)]
+        [Display (Name = "Tailoring Division")]
         public bool IsTailors { get; set; }
 
-        [Display(Name = "eMail"), EmailAddress]
+        [Display (Name = "eMail"), EmailAddress]
         public string EMail { get; set; }
 
-        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        [Display(Name = "Date Of Birth")]
+        [DataType (DataType.Date), DisplayFormat (DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [Display (Name = "Date Of Birth")]
         public DateTime DateOfBirth { get; set; }
 
         public string AdharNumber { get; set; }
@@ -81,11 +81,10 @@ namespace eStore.Shared.Models.Payroll
             d = d + $"{this.FatherName}\t{this.EntryStatus}\t{this.EMail}\t{this.DateOfBirth}\t{this.City}\t{this.Category}\t";
             d = d + $"{this.AdharNumber}\t{this.Address}\t";
 
-
             return d;
         }
-
     }
+
     /// <summary>
     /// Employee User
     /// </summary>

@@ -1,20 +1,21 @@
-﻿using Microsoft.AspNetCore.Mvc.Razor;
+﻿using eStore.Dl.Services.ToDos.Interfaces;
+using eStore.Services.ToDos.Interfaces;
+using eStore.Services.ToDos.Services;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Collections.Generic;
 using NodaTime;
+using System.Collections.Generic;
+
 //using SendGrid;
 //using SendGrid.Helpers.Mail;
 using System.Globalization;
-using Microsoft.AspNetCore.Localization;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using System.Threading.Tasks;
 using System.Text.Encodings.Web;
-using eStore.Services.ToDos.Services;
-using eStore.Dl.Services.ToDos.Interfaces;
-using eStore.Services.ToDos.Interfaces;
+using System.Threading.Tasks;
 
 namespace eStore.Services.ToDos
 {
@@ -22,25 +23,26 @@ namespace eStore.Services.ToDos
     {
         public static Task SendEmailConfirmationAsync(this IEmailSender emailSender, string email, string link)
         {
-            return emailSender.SendEmailAsync(email, "Confirm your email",
-                $"Please confirm your account by clicking this link: <a href='{HtmlEncoder.Default.Encode(link)}'>link</a>");
+            return emailSender.SendEmailAsync (email, "Confirm your email",
+                $"Please confirm your account by clicking this link: <a href='{HtmlEncoder.Default.Encode (link)}'>link</a>");
         }
     }
+
     public static class ServiceCollectionExtensions
     {
         public static void ConfigureLocalization(this IServiceCollection services)
         {
-            services.AddLocalization(opts => { opts.ResourcesPath = "Resources"; });
-            services.AddMvc()
-                .AddViewLocalization(
+            services.AddLocalization (opts => { opts.ResourcesPath = "Resources"; });
+            services.AddMvc ()
+                .AddViewLocalization (
                     LanguageViewLocationExpanderFormat.Suffix,
                     opts => { opts.ResourcesPath = "Resources"; })
-                .AddDataAnnotationsLocalization();
+                .AddDataAnnotationsLocalization ();
         }
 
         public static void ConfigureSupportedCultures(this IServiceCollection services)
         {
-            services.Configure<RequestLocalizationOptions>(
+            services.Configure<RequestLocalizationOptions> (
                 opts =>
                 {
                     var supportedCultures = new List<CultureInfo>
@@ -50,7 +52,7 @@ namespace eStore.Services.ToDos
                         new CultureInfo("hi-IN")
                     };
 
-                    opts.DefaultRequestCulture = new RequestCulture("en-GB");
+                    opts.DefaultRequestCulture = new RequestCulture ("en-GB");
 
                     // Formatting numbers, dates, etc.
                     opts.SupportedCultures = supportedCultures;
@@ -61,29 +63,32 @@ namespace eStore.Services.ToDos
 
         public static void ConfigureCookiePolicy(this IServiceCollection services)
         {
-            services.Configure<CookiePolicyOptions>(options =>
-            {
+            services.Configure<CookiePolicyOptions> (options =>
+             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
+                 options.MinimumSameSitePolicy = SameSiteMode.None;
+             });
         }
+
         public static void ConfigureSecurity(this IServiceCollection services)
         {
             // Angular's default header name for sending the XSRF token.
-            services.AddAntiforgery(options => options.HeaderName = "X-XSRF-TOKEN");
+            services.AddAntiforgery (options => options.HeaderName = "X-XSRF-TOKEN");
         }
+
         public static void ConfigureStorage(this IServiceCollection services, IConfiguration configuration)
         {
-            var storageService = new LocalFileStorageService(configuration["LocalFileStorageBasePath"]);
-            services.AddSingleton<IFileStorageService>(storageService);
+            var storageService = new LocalFileStorageService (configuration ["LocalFileStorageBasePath"]);
+            services.AddSingleton<IFileStorageService> (storageService);
         }
 
         public static void ConfigureServices(this IServiceCollection services)
         {
-            services.AddSingleton<IClock>(SystemClock.Instance);
-            services.AddScoped<ITodoItemService, TodoItemService>();
+            services.AddSingleton<IClock> (SystemClock.Instance);
+            services.AddScoped<ITodoItemService, TodoItemService> ();
         }
+
         public static void ConfigureSocialAuthentication(this IServiceCollection services, IConfiguration config)
         {
             //// Facebook login support
@@ -138,6 +143,5 @@ namespace eStore.Services.ToDos
             //        });
             //}
         }
-
     }
 }

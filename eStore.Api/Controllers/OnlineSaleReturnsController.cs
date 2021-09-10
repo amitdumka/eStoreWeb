@@ -1,17 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using eStore.Database;
 using eStore.Shared.Models.Sales;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route ("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class OnlineSaleReturnsController : ControllerBase
@@ -27,18 +25,18 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<OnlineSaleReturn>>> GetOnlineSaleReturns()
         {
-            return await _context.OnlineSaleReturns.ToListAsync();
+            return await _context.OnlineSaleReturns.ToListAsync ();
         }
 
         // GET: api/OnlineSaleReturns/5
-        [HttpGet("{id}")]
+        [HttpGet ("{id}")]
         public async Task<ActionResult<OnlineSaleReturn>> GetOnlineSaleReturn(int id)
         {
-            var onlineSaleReturn = await _context.OnlineSaleReturns.FindAsync(id);
+            var onlineSaleReturn = await _context.OnlineSaleReturns.FindAsync (id);
 
-            if (onlineSaleReturn == null)
+            if ( onlineSaleReturn == null )
             {
-                return NotFound();
+                return NotFound ();
             }
 
             return onlineSaleReturn;
@@ -46,25 +44,25 @@ namespace eStore.API.Controllers
 
         // PUT: api/OnlineSaleReturns/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+        [HttpPut ("{id}")]
         public async Task<IActionResult> PutOnlineSaleReturn(int id, OnlineSaleReturn onlineSaleReturn)
         {
-            if (id != onlineSaleReturn.OnlineSaleReturnId)
+            if ( id != onlineSaleReturn.OnlineSaleReturnId )
             {
-                return BadRequest();
+                return BadRequest ();
             }
 
-            _context.Entry(onlineSaleReturn).State = EntityState.Modified;
+            _context.Entry (onlineSaleReturn).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync ();
             }
-            catch (DbUpdateConcurrencyException)
+            catch ( DbUpdateConcurrencyException )
             {
-                if (!OnlineSaleReturnExists(id))
+                if ( !OnlineSaleReturnExists (id) )
                 {
-                    return NotFound();
+                    return NotFound ();
                 }
                 else
                 {
@@ -72,7 +70,7 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return NoContent();
+            return NoContent ();
         }
 
         // POST: api/OnlineSaleReturns
@@ -80,31 +78,31 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<OnlineSaleReturn>> PostOnlineSaleReturn(OnlineSaleReturn onlineSaleReturn)
         {
-            _context.OnlineSaleReturns.Add(onlineSaleReturn);
-            await _context.SaveChangesAsync();
+            _context.OnlineSaleReturns.Add (onlineSaleReturn);
+            await _context.SaveChangesAsync ();
 
-            return CreatedAtAction("GetOnlineSaleReturn", new { id = onlineSaleReturn.OnlineSaleReturnId }, onlineSaleReturn);
+            return CreatedAtAction ("GetOnlineSaleReturn", new { id = onlineSaleReturn.OnlineSaleReturnId }, onlineSaleReturn);
         }
 
         // DELETE: api/OnlineSaleReturns/5
-        [HttpDelete("{id}")]
+        [HttpDelete ("{id}")]
         public async Task<IActionResult> DeleteOnlineSaleReturn(int id)
         {
-            var onlineSaleReturn = await _context.OnlineSaleReturns.FindAsync(id);
-            if (onlineSaleReturn == null)
+            var onlineSaleReturn = await _context.OnlineSaleReturns.FindAsync (id);
+            if ( onlineSaleReturn == null )
             {
-                return NotFound();
+                return NotFound ();
             }
 
-            _context.OnlineSaleReturns.Remove(onlineSaleReturn);
-            await _context.SaveChangesAsync();
+            _context.OnlineSaleReturns.Remove (onlineSaleReturn);
+            await _context.SaveChangesAsync ();
 
-            return NoContent();
+            return NoContent ();
         }
 
         private bool OnlineSaleReturnExists(int id)
         {
-            return _context.OnlineSaleReturns.Any(e => e.OnlineSaleReturnId == id);
+            return _context.OnlineSaleReturns.Any (e => e.OnlineSaleReturnId == id);
         }
     }
 }

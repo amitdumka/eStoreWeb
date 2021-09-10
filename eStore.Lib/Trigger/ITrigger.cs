@@ -1,6 +1,4 @@
 ﻿using eStore.Database;
-using System.Collections.Generic;
-using System.Text;
 
 namespace eStore.BL.Triggers
 {
@@ -11,9 +9,13 @@ namespace eStore.BL.Triggers
     public interface ITrigger
     {
         public void OnInsert<T>(eStoreDbContext db, T objectValue);
+
         public void OnUpdate<T>(eStoreDbContext db, T objectValue);
+
         public void OnDelete<T>(eStoreDbContext db, T objectValue);
+
         public void OnInsertOrUpdate<T>(eStoreDbContext db, T objectValue, bool isUpdate);
+
         public void OnChange<T>(eStoreDbContext db, T objectValue);
     }
 }

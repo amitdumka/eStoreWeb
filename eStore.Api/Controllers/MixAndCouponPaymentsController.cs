@@ -1,17 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using eStore.Database;
 using eStore.Shared.Models.Sales;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route ("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class MixAndCouponPaymentsController : ControllerBase
@@ -27,18 +25,18 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MixAndCouponPayment>>> GetMixPayments()
         {
-            return await _context.MixPayments.ToListAsync();
+            return await _context.MixPayments.ToListAsync ();
         }
 
         // GET: api/MixAndCouponPayments/5
-        [HttpGet("{id}")]
+        [HttpGet ("{id}")]
         public async Task<ActionResult<MixAndCouponPayment>> GetMixAndCouponPayment(int id)
         {
-            var mixAndCouponPayment = await _context.MixPayments.FindAsync(id);
+            var mixAndCouponPayment = await _context.MixPayments.FindAsync (id);
 
-            if (mixAndCouponPayment == null)
+            if ( mixAndCouponPayment == null )
             {
-                return NotFound();
+                return NotFound ();
             }
 
             return mixAndCouponPayment;
@@ -46,25 +44,25 @@ namespace eStore.API.Controllers
 
         // PUT: api/MixAndCouponPayments/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+        [HttpPut ("{id}")]
         public async Task<IActionResult> PutMixAndCouponPayment(int id, MixAndCouponPayment mixAndCouponPayment)
         {
-            if (id != mixAndCouponPayment.MixAndCouponPaymentId)
+            if ( id != mixAndCouponPayment.MixAndCouponPaymentId )
             {
-                return BadRequest();
+                return BadRequest ();
             }
 
-            _context.Entry(mixAndCouponPayment).State = EntityState.Modified;
+            _context.Entry (mixAndCouponPayment).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync ();
             }
-            catch (DbUpdateConcurrencyException)
+            catch ( DbUpdateConcurrencyException )
             {
-                if (!MixAndCouponPaymentExists(id))
+                if ( !MixAndCouponPaymentExists (id) )
                 {
-                    return NotFound();
+                    return NotFound ();
                 }
                 else
                 {
@@ -72,7 +70,7 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return NoContent();
+            return NoContent ();
         }
 
         // POST: api/MixAndCouponPayments
@@ -80,31 +78,31 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<MixAndCouponPayment>> PostMixAndCouponPayment(MixAndCouponPayment mixAndCouponPayment)
         {
-            _context.MixPayments.Add(mixAndCouponPayment);
-            await _context.SaveChangesAsync();
+            _context.MixPayments.Add (mixAndCouponPayment);
+            await _context.SaveChangesAsync ();
 
-            return CreatedAtAction("GetMixAndCouponPayment", new { id = mixAndCouponPayment.MixAndCouponPaymentId }, mixAndCouponPayment);
+            return CreatedAtAction ("GetMixAndCouponPayment", new { id = mixAndCouponPayment.MixAndCouponPaymentId }, mixAndCouponPayment);
         }
 
         // DELETE: api/MixAndCouponPayments/5
-        [HttpDelete("{id}")]
+        [HttpDelete ("{id}")]
         public async Task<IActionResult> DeleteMixAndCouponPayment(int id)
         {
-            var mixAndCouponPayment = await _context.MixPayments.FindAsync(id);
-            if (mixAndCouponPayment == null)
+            var mixAndCouponPayment = await _context.MixPayments.FindAsync (id);
+            if ( mixAndCouponPayment == null )
             {
-                return NotFound();
+                return NotFound ();
             }
 
-            _context.MixPayments.Remove(mixAndCouponPayment);
-            await _context.SaveChangesAsync();
+            _context.MixPayments.Remove (mixAndCouponPayment);
+            await _context.SaveChangesAsync ();
 
-            return NoContent();
+            return NoContent ();
         }
 
         private bool MixAndCouponPaymentExists(int id)
         {
-            return _context.MixPayments.Any(e => e.MixAndCouponPaymentId == id);
+            return _context.MixPayments.Any (e => e.MixAndCouponPaymentId == id);
         }
     }
 }

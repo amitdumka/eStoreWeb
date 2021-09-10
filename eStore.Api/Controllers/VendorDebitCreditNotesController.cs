@@ -1,17 +1,15 @@
-﻿using System;
+﻿using eStore.Database;
+using eStore.Shared.Models.Stores;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using eStore.Database;
-using eStore.Shared.Models.Stores;
-using Microsoft.AspNetCore.Authorization;
 
 namespace eStore.Controllers
 {
-    [Route("api/[controller]")]
+    [Route ("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class VendorDebitCreditNotesController : ControllerBase
@@ -27,18 +25,18 @@ namespace eStore.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<VendorDebitCreditNote>>> GetVendorNotes()
         {
-            return await _context.VendorNotes.ToListAsync();
+            return await _context.VendorNotes.ToListAsync ();
         }
 
         // GET: api/VendorDebitCreditNotes/5
-        [HttpGet("{id}")]
+        [HttpGet ("{id}")]
         public async Task<ActionResult<VendorDebitCreditNote>> GetVendorDebitCreditNote(int id)
         {
-            var vendorDebitCreditNote = await _context.VendorNotes.FindAsync(id);
+            var vendorDebitCreditNote = await _context.VendorNotes.FindAsync (id);
 
-            if (vendorDebitCreditNote == null)
+            if ( vendorDebitCreditNote == null )
             {
-                return NotFound();
+                return NotFound ();
             }
 
             return vendorDebitCreditNote;
@@ -46,25 +44,25 @@ namespace eStore.Controllers
 
         // PUT: api/VendorDebitCreditNotes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+        [HttpPut ("{id}")]
         public async Task<IActionResult> PutVendorDebitCreditNote(int id, VendorDebitCreditNote vendorDebitCreditNote)
         {
-            if (id != vendorDebitCreditNote.VendorDebitCreditNoteId)
+            if ( id != vendorDebitCreditNote.VendorDebitCreditNoteId )
             {
-                return BadRequest();
+                return BadRequest ();
             }
 
-            _context.Entry(vendorDebitCreditNote).State = EntityState.Modified;
+            _context.Entry (vendorDebitCreditNote).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync ();
             }
-            catch (DbUpdateConcurrencyException)
+            catch ( DbUpdateConcurrencyException )
             {
-                if (!VendorDebitCreditNoteExists(id))
+                if ( !VendorDebitCreditNoteExists (id) )
                 {
-                    return NotFound();
+                    return NotFound ();
                 }
                 else
                 {
@@ -72,7 +70,7 @@ namespace eStore.Controllers
                 }
             }
 
-            return NoContent();
+            return NoContent ();
         }
 
         // POST: api/VendorDebitCreditNotes
@@ -80,31 +78,31 @@ namespace eStore.Controllers
         [HttpPost]
         public async Task<ActionResult<VendorDebitCreditNote>> PostVendorDebitCreditNote(VendorDebitCreditNote vendorDebitCreditNote)
         {
-            _context.VendorNotes.Add(vendorDebitCreditNote);
-            await _context.SaveChangesAsync();
+            _context.VendorNotes.Add (vendorDebitCreditNote);
+            await _context.SaveChangesAsync ();
 
-            return CreatedAtAction("GetVendorDebitCreditNote", new { id = vendorDebitCreditNote.VendorDebitCreditNoteId }, vendorDebitCreditNote);
+            return CreatedAtAction ("GetVendorDebitCreditNote", new { id = vendorDebitCreditNote.VendorDebitCreditNoteId }, vendorDebitCreditNote);
         }
 
         // DELETE: api/VendorDebitCreditNotes/5
-        [HttpDelete("{id}")]
+        [HttpDelete ("{id}")]
         public async Task<IActionResult> DeleteVendorDebitCreditNote(int id)
         {
-            var vendorDebitCreditNote = await _context.VendorNotes.FindAsync(id);
-            if (vendorDebitCreditNote == null)
+            var vendorDebitCreditNote = await _context.VendorNotes.FindAsync (id);
+            if ( vendorDebitCreditNote == null )
             {
-                return NotFound();
+                return NotFound ();
             }
 
-            _context.VendorNotes.Remove(vendorDebitCreditNote);
-            await _context.SaveChangesAsync();
+            _context.VendorNotes.Remove (vendorDebitCreditNote);
+            await _context.SaveChangesAsync ();
 
-            return NoContent();
+            return NoContent ();
         }
 
         private bool VendorDebitCreditNoteExists(int id)
         {
-            return _context.VendorNotes.Any(e => e.VendorDebitCreditNoteId == id);
+            return _context.VendorNotes.Any (e => e.VendorDebitCreditNoteId == id);
         }
     }
 }

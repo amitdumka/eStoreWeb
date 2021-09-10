@@ -1,5 +1,4 @@
-﻿using System;
-namespace eStore.Ops
+﻿namespace eStore.Ops
 {
     public class StoreInfo
     {

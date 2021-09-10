@@ -1,17 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using eStore.Database;
 using eStore.Shared.ViewModels.Banking;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route ("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class BankDepositsController : ControllerBase
@@ -27,18 +25,18 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<BankDeposit>>> GetBankDeposits()
         {
-            return await _context.BankDeposits.Include(c=>c.Account).OrderByDescending(c=>c.OnDate).ToListAsync();
+            return await _context.BankDeposits.Include (c => c.Account).OrderByDescending (c => c.OnDate).ToListAsync ();
         }
 
         // GET: api/BankDeposits/5
-        [HttpGet("{id}")]
+        [HttpGet ("{id}")]
         public async Task<ActionResult<BankDeposit>> GetBankDeposit(int id)
         {
-            var bankDeposit = await _context.BankDeposits.FindAsync(id);
+            var bankDeposit = await _context.BankDeposits.FindAsync (id);
 
-            if (bankDeposit == null)
+            if ( bankDeposit == null )
             {
-                return NotFound();
+                return NotFound ();
             }
 
             return bankDeposit;
@@ -46,25 +44,25 @@ namespace eStore.API.Controllers
 
         // PUT: api/BankDeposits/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+        [HttpPut ("{id}")]
         public async Task<IActionResult> PutBankDeposit(int id, BankDeposit bankDeposit)
         {
-            if (id != bankDeposit.BankDepositId)
+            if ( id != bankDeposit.BankDepositId )
             {
-                return BadRequest();
+                return BadRequest ();
             }
 
-            _context.Entry(bankDeposit).State = EntityState.Modified;
+            _context.Entry (bankDeposit).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync ();
             }
-            catch (DbUpdateConcurrencyException)
+            catch ( DbUpdateConcurrencyException )
             {
-                if (!BankDepositExists(id))
+                if ( !BankDepositExists (id) )
                 {
-                    return NotFound();
+                    return NotFound ();
                 }
                 else
                 {
@@ -72,7 +70,7 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return NoContent();
+            return NoContent ();
         }
 
         // POST: api/BankDeposits
@@ -80,31 +78,31 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<BankDeposit>> PostBankDeposit(BankDeposit bankDeposit)
         {
-            _context.BankDeposits.Add(bankDeposit);
-            await _context.SaveChangesAsync();
+            _context.BankDeposits.Add (bankDeposit);
+            await _context.SaveChangesAsync ();
 
-            return CreatedAtAction("GetBankDeposit", new { id = bankDeposit.BankDepositId }, bankDeposit);
+            return CreatedAtAction ("GetBankDeposit", new { id = bankDeposit.BankDepositId }, bankDeposit);
         }
 
         // DELETE: api/BankDeposits/5
-        [HttpDelete("{id}")]
+        [HttpDelete ("{id}")]
         public async Task<IActionResult> DeleteBankDeposit(int id)
         {
-            var bankDeposit = await _context.BankDeposits.FindAsync(id);
-            if (bankDeposit == null)
+            var bankDeposit = await _context.BankDeposits.FindAsync (id);
+            if ( bankDeposit == null )
             {
-                return NotFound();
+                return NotFound ();
             }
 
-            _context.BankDeposits.Remove(bankDeposit);
-            await _context.SaveChangesAsync();
+            _context.BankDeposits.Remove (bankDeposit);
+            await _context.SaveChangesAsync ();
 
-            return NoContent();
+            return NoContent ();
         }
 
         private bool BankDepositExists(int id)
         {
-            return _context.BankDeposits.Any(e => e.BankDepositId == id);
+            return _context.BankDeposits.Any (e => e.BankDepositId == id);
         }
     }
 }

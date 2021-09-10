@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route ("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class DayClosingController : ControllerBase
@@ -25,65 +25,59 @@ namespace eStore.API.Controllers
 
         public DayClosingController(eStoreDbContext context, IMapper mapper)
         {
-            _context = context; _mapper = mapper;
+            _context = context;
+            _mapper = mapper;
         }
+
         // GET: api/<DayClosingController>
         [HttpGet]
         public async Task<ActionResult<DayClosings>> GetAsync()
         {
             DayClosings dayClosings = new DayClosings
             {
-                PettyCashBooks = await _context.PettyCashBooks.ToListAsync(),
-                EODs = await _context.EndOfDays.ToListAsync(),
-                CashDetails = await _context.CashDetail.ToListAsync()
-
+                PettyCashBooks = await _context.PettyCashBooks.ToListAsync (),
+                EODs = await _context.EndOfDays.ToListAsync (),
+                CashDetails = await _context.CashDetail.ToListAsync ()
             };
             return dayClosings;
-
         }
 
         // GET api/<DayClosingController>/5
-        [HttpGet("{onDate}")]
+        [HttpGet ("{onDate}")]
         public ActionResult<DayClosing> GetDayClosing(DateTime onDate)
         {
             DayClosing dayClosing = new DayClosing
             {
-                CashDetail = _context.CashDetail.Where(c => c.OnDate.Date == onDate.Date).FirstOrDefault(),
-                EOD = _context.EndOfDays.Where(c => c.EOD_Date.Date == onDate.Date).FirstOrDefault(),
-                PettyCashBook = _context.PettyCashBooks.Where(c => c.OnDate.Date == onDate.Date).FirstOrDefault(),
+                CashDetail = _context.CashDetail.Where (c => c.OnDate.Date == onDate.Date).FirstOrDefault (),
+                EOD = _context.EndOfDays.Where (c => c.EOD_Date.Date == onDate.Date).FirstOrDefault (),
+                PettyCashBook = _context.PettyCashBooks.Where (c => c.OnDate.Date == onDate.Date).FirstOrDefault (),
             };
             return dayClosing;
         }
 
-
-        [HttpGet("GeneratePettyCashSlip")]
+        [HttpGet ("GeneratePettyCashSlip")]
         public ActionResult<PettyCashBook> GetPettyCashSlip(int storeId = 1)
         {
             DateTime date = DateTime.Today.Date;
-            return StoreManager.GeneratePettyCashBook(_context, storeId);
-
+            return StoreManager.GeneratePettyCashBook (_context, storeId);
         }
-
-
 
         // POST api/<DayClosingController>
         [HttpPost]
         public async Task<ActionResult<DayClosing>> PostAsync(DayClosing dayClosing)
         {
-            if (dayClosing != null)
+            if ( dayClosing != null )
             {
-                if (dayClosing.EOD != null)
-                    _context.EndOfDays.Add(dayClosing.EOD);
-                if (dayClosing.CashDetail != null)
-                    _context.CashDetail.Add(dayClosing.CashDetail);
-                if (dayClosing.PettyCashBook != null)
-                    _context.PettyCashBooks.Add(dayClosing.PettyCashBook);
+                if ( dayClosing.EOD != null )
+                    _context.EndOfDays.Add (dayClosing.EOD);
+                if ( dayClosing.CashDetail != null )
+                    _context.CashDetail.Add (dayClosing.CashDetail);
+                if ( dayClosing.PettyCashBook != null )
+                    _context.PettyCashBooks.Add (dayClosing.PettyCashBook);
 
-                await _context.SaveChangesAsync();
-
+                await _context.SaveChangesAsync ();
             }
-            return CreatedAtAction("GetDayClosing", new { onDate = dayClosing.EOD.EOD_Date }, dayClosing);
-
+            return CreatedAtAction ("GetDayClosing", new { onDate = dayClosing.EOD.EOD_Date }, dayClosing);
         }
 
         //// PUT api/<DayClosingController>/5
@@ -105,11 +99,11 @@ namespace eStore.API.Controllers
         public CashDetail CashDetail { get; set; }
         public PettyCashBook PettyCashBook { get; set; }
     }
+
     public class DayClosings
     {
         public List<EndOfDay> EODs { get; set; }
         public List<CashDetail> CashDetails { get; set; }
         public List<PettyCashBook> PettyCashBooks { get; set; }
     }
-
 }

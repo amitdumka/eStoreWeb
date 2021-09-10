@@ -1,12 +1,11 @@
-﻿using System;
+﻿using eStore.Database;
+using eStore.Shared.Models.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using eStore.Database;
-using eStore.Shared.Models.Identity;
 
 namespace eStore.API.Controllers
 {
@@ -27,6 +26,7 @@ namespace eStore.API.Controllers
         {
             return await _context.RegisteredUsers.ToListAsync ();
         }
+
         //[HttpGet("Roles")]
         //public async Task<ActionResult<IEnumerable<Microsoft.AspNetCore.Identity.IdentityUserRole<string>>>> GetRoles()
         //{
@@ -96,9 +96,8 @@ namespace eStore.API.Controllers
             user.LastLoggedIn = DateTime.Now;
             await _context.SaveChangesAsync ();
             return Ok ("New Logged In");
-
-
         }
+
         [HttpPost ("Logout")]
         public async Task<ActionResult<RegisteredUser>> PostPerformLogOut(string userId)
         {
@@ -113,9 +112,7 @@ namespace eStore.API.Controllers
                 return Ok ("Logged Out");
             }
             return Ok ("Already Logged Out");
-
         }
-
 
         // POST: api/RegisteredUsers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -189,7 +186,6 @@ namespace eStore.API.Controllers
         //    }
         //    catch ( DbUpdateException )
         //    {
-
         //        throw;
 
         //    }
@@ -199,7 +195,6 @@ namespace eStore.API.Controllers
         //[HttpDelete ("Role{id}")]
         //public async Task<IActionResult> DeleteUserRole(string id, string roleId)
         //{
-
         //    var role = await _context.UserRoles.Where (c => c.UserId == id && c.RoleId == roleId).FirstOrDefaultAsync ();
         //    if ( role != null )
         //        _context.UserRoles.Remove (role);
@@ -208,8 +203,5 @@ namespace eStore.API.Controllers
         //    await _context.SaveChangesAsync ();
         //    return NoContent ();
         //}
-
-
-
     }
 }

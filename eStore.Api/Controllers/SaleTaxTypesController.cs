@@ -1,17 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using eStore.Database;
 using eStore.Shared.Models.Common;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route ("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class SaleTaxTypesController : ControllerBase
@@ -27,18 +25,18 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SaleTaxType>>> GetSaleTaxTypes()
         {
-            return await _context.SaleTaxTypes.ToListAsync();
+            return await _context.SaleTaxTypes.ToListAsync ();
         }
 
         // GET: api/SaleTaxTypes/5
-        [HttpGet("{id}")]
+        [HttpGet ("{id}")]
         public async Task<ActionResult<SaleTaxType>> GetSaleTaxType(int id)
         {
-            var saleTaxType = await _context.SaleTaxTypes.FindAsync(id);
+            var saleTaxType = await _context.SaleTaxTypes.FindAsync (id);
 
-            if (saleTaxType == null)
+            if ( saleTaxType == null )
             {
-                return NotFound();
+                return NotFound ();
             }
 
             return saleTaxType;
@@ -46,25 +44,25 @@ namespace eStore.API.Controllers
 
         // PUT: api/SaleTaxTypes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+        [HttpPut ("{id}")]
         public async Task<IActionResult> PutSaleTaxType(int id, SaleTaxType saleTaxType)
         {
-            if (id != saleTaxType.SaleTaxTypeId)
+            if ( id != saleTaxType.SaleTaxTypeId )
             {
-                return BadRequest();
+                return BadRequest ();
             }
 
-            _context.Entry(saleTaxType).State = EntityState.Modified;
+            _context.Entry (saleTaxType).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync ();
             }
-            catch (DbUpdateConcurrencyException)
+            catch ( DbUpdateConcurrencyException )
             {
-                if (!SaleTaxTypeExists(id))
+                if ( !SaleTaxTypeExists (id) )
                 {
-                    return NotFound();
+                    return NotFound ();
                 }
                 else
                 {
@@ -72,7 +70,7 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return NoContent();
+            return NoContent ();
         }
 
         // POST: api/SaleTaxTypes
@@ -80,31 +78,31 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<SaleTaxType>> PostSaleTaxType(SaleTaxType saleTaxType)
         {
-            _context.SaleTaxTypes.Add(saleTaxType);
-            await _context.SaveChangesAsync();
+            _context.SaleTaxTypes.Add (saleTaxType);
+            await _context.SaveChangesAsync ();
 
-            return CreatedAtAction("GetSaleTaxType", new { id = saleTaxType.SaleTaxTypeId }, saleTaxType);
+            return CreatedAtAction ("GetSaleTaxType", new { id = saleTaxType.SaleTaxTypeId }, saleTaxType);
         }
 
         // DELETE: api/SaleTaxTypes/5
-        [HttpDelete("{id}")]
+        [HttpDelete ("{id}")]
         public async Task<IActionResult> DeleteSaleTaxType(int id)
         {
-            var saleTaxType = await _context.SaleTaxTypes.FindAsync(id);
-            if (saleTaxType == null)
+            var saleTaxType = await _context.SaleTaxTypes.FindAsync (id);
+            if ( saleTaxType == null )
             {
-                return NotFound();
+                return NotFound ();
             }
 
-            _context.SaleTaxTypes.Remove(saleTaxType);
-            await _context.SaveChangesAsync();
+            _context.SaleTaxTypes.Remove (saleTaxType);
+            await _context.SaveChangesAsync ();
 
-            return NoContent();
+            return NoContent ();
         }
 
         private bool SaleTaxTypeExists(int id)
         {
-            return _context.SaleTaxTypes.Any(e => e.SaleTaxTypeId == id);
+            return _context.SaleTaxTypes.Any (e => e.SaleTaxTypeId == id);
         }
     }
 }

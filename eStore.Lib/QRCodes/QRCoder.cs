@@ -1,11 +1,7 @@
 ﻿using QRCoder;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace eStore.Lib.QRCodes
 {
@@ -19,6 +15,7 @@ namespace eStore.Lib.QRCodes
             Bitmap qrCodeImage = qrCode.GetGraphic (20);
             return ( BitmapToBytesCode (qrCodeImage) );
         }
+
         private static Byte [] BitmapToBytesCode(Bitmap image)
         {
             using ( MemoryStream stream = new MemoryStream () )

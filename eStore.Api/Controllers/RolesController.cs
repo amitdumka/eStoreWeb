@@ -1,14 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace eStore.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route ("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class RolesController : ControllerBase
@@ -17,11 +13,11 @@ namespace eStore.API.Controllers
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            return new string[] { "value1", "value2" };
+            return new string [] { "value1", "value2" };
         }
 
         // GET: api/Roles/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet ("{id}", Name = "Get")]
         public string Get(int id)
         {
             return "value";
@@ -34,13 +30,13 @@ namespace eStore.API.Controllers
         }
 
         // PUT: api/Roles/5
-        [HttpPut("{id}")]
+        [HttpPut ("{id}")]
         public void Put(int id, [FromBody] string value)
         {
         }
 
         // DELETE: api/Roles/5
-        [HttpDelete("{id}")]
+        [HttpDelete ("{id}")]
         public void Delete(int id)
         {
         }

@@ -3,11 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-
 namespace eStore.BL.Reports.Payroll
 {
-
-
     public class Att
     {
         public int Id { get; set; }
@@ -138,13 +135,11 @@ namespace eStore.BL.Reports.Payroll
                 .OrderByDescending (c => c.AttDate).Select (c => new Att { OnDate = c.AttDate, Remarks = c.Remarks, Status = c.Status, IsValid = false, Unit = 0, Id = c.AttendanceId }).ToList ();
             if ( finyear > 0 && finmonth == 0 )
             {
-
                 DateTime sDate = new DateTime (finyear, 04, 01);
                 DateTime eDate = new DateTime (finyear + 1, 03, 31);
 
-
                 attList = db.Attendances.Where (c => c.EmployeeId == emp.EmployeeId &&
-                 c.AttDate.Date >= sDate  && c.AttDate.Date<=eDate)
+                 c.AttDate.Date >= sDate && c.AttDate.Date <= eDate)
                  .OrderByDescending (c => c.AttDate).Select (c => new Att { OnDate = c.AttDate, Remarks = c.Remarks, Status = c.Status, IsValid = false, Unit = 0, Id = c.AttendanceId }).ToList ();
                 MonthlyAttendance monthly = new MonthlyAttendance { EmployeeId = emp.EmployeeId, OnDate = new DateTime (finyear, 01, 01) };
                 monthly.Jan = new List<Att> ();
@@ -163,7 +158,6 @@ namespace eStore.BL.Reports.Payroll
                 monthly = SortMonthly (atts, monthly, ref attList);
                 rep.MonthlyAttendances.Add (monthly);
             }
-
             else if ( finmonth > 0 && finyear > 0 )
             {
                 attList = db.Attendances.Where (c => c.EmployeeId == emp.EmployeeId && c.AttDate.Month == finmonth && c.AttDate.Year == finyear)
@@ -208,11 +202,11 @@ namespace eStore.BL.Reports.Payroll
                     monthly = SortMonthly (atts, monthly, ref attList);
                     rep.MonthlyAttendances.Add (monthly);
                 }
-
             }
 
             return rep;
         }
+
         private static MonthlyAttendance SortMonthly(List<Att> atts, MonthlyAttendance monthly, ref List<Att> attList)
         {
             DateTime date = DateTime.Now;
@@ -229,39 +223,51 @@ namespace eStore.BL.Reports.Payroll
                     case 1:
                         monthly.Jan.Add (att);
                         break;
+
                     case 2:
                         monthly.Feb.Add (att);
                         break;
+
                     case 3:
                         monthly.Mar.Add (att);
                         break;
+
                     case 4:
                         monthly.Apr.Add (att);
                         break;
+
                     case 5:
                         monthly.May.Add (att);
                         break;
+
                     case 6:
                         monthly.Jun.Add (att);
                         break;
+
                     case 7:
                         monthly.Jul.Add (att);
                         break;
+
                     case 8:
                         monthly.Aug.Add (att);
                         break;
+
                     case 9:
                         monthly.Sept.Add (att);
                         break;
+
                     case 10:
                         monthly.Oct.Add (att);
                         break;
+
                     case 11:
                         monthly.Nov.Add (att);
                         break;
+
                     case 12:
                         monthly.Dec.Add (att);
                         break;
+
                     default:
                         break;
                 }

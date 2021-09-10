@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using MailKit.Net.Smtp;
+﻿using MailKit.Net.Smtp;
 using MailKit.Security;
 using MimeKit;
 
@@ -16,6 +12,7 @@ namespace eStore.BL.Mails
         public const int SMTPPort = 465;
         public const bool SSL = true;
     }
+
     public static class MyMail
     {
         public static void SendEmail(string subjects, string messages, string toAddress)
@@ -33,6 +30,7 @@ namespace eStore.BL.Mails
             client.Send (message);
             client.Disconnect (true);
         }
+
         public static void SendEmails(string subjects, string messages, string toAddress)
         {
             var message = new MimeMessage ();
@@ -53,11 +51,11 @@ namespace eStore.BL.Mails
             client.Disconnect (true);
         }
     }
+
     public static class MLogs
     {
         public static void MailLog(string messages, string? subjects)
         {
-
             var message = new MimeMessage ();
             message.From.Add (new MailboxAddress ("Aprajita Retails", MailConfig.UserName));
             message.To.Add (new MailboxAddress (/*"",*/"amitnarayansah@gmail.com"));
@@ -77,16 +75,24 @@ namespace eStore.BL.Mails
             client.Authenticate (MailConfig.UserName, MailConfig.Password);
             client.Send (message);
             client.Disconnect (true);
-
         }
+
         public static void MailError(string messages)
         {
             MailLog (messages, "Error Log:");
         }
-        public static void MailInfo(string messages) { MailLog (messages, "Info Log:"); }
-        public static void MailWarning(string messages) { MailLog (messages, "Warning Log:"); }
 
+        public static void MailInfo(string messages)
+        {
+            MailLog (messages, "Info Log:");
+        }
+
+        public static void MailWarning(string messages)
+        {
+            MailLog (messages, "Warning Log:");
+        }
     }
+
     //https://github.com/jstedfast/MailKit
 
     //S.No Email Provider SMTP Server(Host ) Port Number

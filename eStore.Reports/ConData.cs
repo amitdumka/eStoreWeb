@@ -1,5 +1,4 @@
-﻿
-namespace eStore.Reports
+﻿namespace eStore.Reports
 {
     internal class ConData
     {

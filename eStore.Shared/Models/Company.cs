@@ -15,9 +15,4 @@ namespace eStore.Shared.Models.Stores
 
         public virtual ICollection<Store> Stores { get; set; }
     }
-
-
-    
-
-
 }
