@@ -26,6 +26,7 @@ namespace eStore.Database
             //ApplyMigrations(this);
         }
 
+        public DbSet<Assest> Assests { get; set; }
         public DbSet<Shared.Models.Sales.DailySalePayment> DailySalePayments { get; set; }
 
         public DbSet<WalletPayment> WalletPayments { get; set; }

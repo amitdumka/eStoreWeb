@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace eStore.Shared.Models.Stores
@@ -61,83 +60,8 @@ namespace eStore.Shared.Models.Stores
 
     }
 
-    public class Company
-    {
-        public int CompanyId { get; set; }
-        public string Name { get; set; }
-        public string Address { get; set; }
-        public string PhoneNo { get; set; }
-        public string ContactPersonName { get; set; }
-        public string ContactPersonEmail { get; set; }
-        public string ContactPersonPhoneNo { get; set; }
-        public string WebSite { get; set; }
 
-        public virtual ICollection<Store> Stores { get; set; }
-    }
-
-    public class StoreHolidays
-    {
-        public StoreHoliday Holiday { get; set; } 
-        public DateTime EndDate { get; set; }
-    }
-
-    public class StoreHoliday:BaseST
-    {
-        public int StoreHolidayId { get; set; }
-        public DateTime OnDate { get; set; }
-        public HolidayReason Reason { get; set; }
-        public string Remarks { get; set; }
-        public string ApprovedBy { get; set; }
-    }
-    public class StoreClose: BaseSNT
-    {
-        public int StoreCloseId { get; set; }
-        public DateTime ClosingDate { get; set; }
-        public string Remarks { get; set; }
-    }
-    public class StoreOpen : BaseSNT
-    {
-        public int StoreOpenId { get; set; }
-        public DateTime OpenningTime { get; set; }
-        public string Remarks { get; set; }
-    }
-    public class StoreDailyOperation : BaseSNT
-    {
-        public int StoreDailyOperationId { get; set; }
-        public DateTime OnDate { get; set; }
-        public string Remarks { get; set; }
-        public DateTime OpenningTime { get; set; }
-        public DateTime ClosingTime { get; set; }
-        public int StoreOpenId { get; set; }
-        public int StoreCloseId { get; set; }
-
-    }
-
-
-    public enum SlipBookType { Payment, Reciept, PaymentRecieptCombo, DailyBook, DebitNote, CreditNote, TailoringBook}
     
-    public class PrintedSlipBook
-    {
-        public int PrintedSlipBookId { get; set; }
-        public DateTime PrintedDate { get; set; }
-        public DateTime FirstUseDate { get; set; }
-        public SlipBookType SlipBookType { get; set; }
-        public string SlipHeader { get; set; }
-        public int StaringNumber { get; set; }
-        public int EndingNumber { get; set; }
-        public string BookCode { get; set; }
-        public int StoreId { get; set; }
 
-        public virtual Store Store { get; set; }
-    }
-    public class UsedSlip
-    {
-        public int UsedSlipId { get; set; }
-        public string SlipNumber { get; set; }
-        public string VoucherType { get; set; }
-        public int RefId { get; set; }
-        public DateTime RefDate { get; set; }
-        public int StoreId { get; set; }
-        public virtual Store Store { get; set; }
-    }
+
 }
