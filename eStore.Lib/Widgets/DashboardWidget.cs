@@ -49,10 +49,25 @@ namespace eStore.BL.Widgets
                 SaleReport = GetSaleRecord (_context),
                 TailoringReport = GetTailoringReport (_context),
                 EmpInfoList = GetEmpInfo (_context),
-                AccountsInfo = GetAccoutingRecord (_context),
+                AccountsInfo = GetAccountRecord (_context,1),
                 LeadingSalesman = GetTopSalesman (_context),
                 BookingOverDues = GetTailoringBookingOverDue (_context),
                 OpeningCashInHand = GetOpeningCashInHand (_context)
+            };
+            return reportView;
+        }
+        //TODO: Need to implement Store Wise Master View Report. at earliest as possible.
+        public static MasterViewReport GetMasterViewReport(eStoreDbContext _context, int StoreId)
+        {
+            MasterViewReport reportView = new MasterViewReport
+            {
+                SaleReport = GetSaleRecord(_context),
+                TailoringReport = GetTailoringReport(_context),
+                EmpInfoList = GetEmpInfo(_context),
+                AccountsInfo = GetAccountRecord(_context, 1),
+                LeadingSalesman = GetTopSalesman(_context),
+                BookingOverDues = GetTailoringBookingOverDue(_context),
+                OpeningCashInHand = GetOpeningCashInHand(_context)
             };
             return reportView;
         }
@@ -183,6 +198,33 @@ namespace eStore.BL.Widgets
         }
 
         //Income/Expenses/Accounting
+        public static AccountsInfo GetAccountRecord(eStoreDbContext db, int StoreId)
+        {
+            AccountsInfo info = new AccountsInfo();
+
+            info = new AccountsInfo {
+                CashFromBank=0, CashIn=0, CashInBank=0, CashInHand=0, CashOut=0, CashToBank=0, OpenningBal=0,
+                 TotalCashPayments=0, TotalExpenses=0, TotalPayments=0
+            };
+
+            info.OpenningBal = db.EndOfDays.Where(c => c.StoreId == StoreId && c.EOD_Date.Date == DateTime.Today.AddDays(1).Date).FirstOrDefault().CashInHand;
+            info.CashIn=db.DailySales.Where(c => c.StoreId == StoreId && c.SaleDate.Date == DateTime.Today.Date).Sum(c => c.CashAmount);
+            info.TotalCashPayments = db.CashPayments.Where(c => c.PaymentDate.Date == DateTime.Today.Date && c.StoreId == StoreId).Sum(c => (decimal?)c.Amount) ?? 0;
+            info.TotalPayments = (decimal?)db.Expenses.Where(c => c.OnDate.Date == DateTime.Today.Date).Select(c => c.Amount).Sum()??0;
+            info.TotalExpenses = (decimal?)db.Payments.Where(c => c.OnDate.Date == DateTime.Today.Date).Select(c => c.Amount).Sum()??0;
+            info.CashIn += db.Receipts.Where(c => c.StoreId == StoreId && c.OnDate.Date == DateTime.Today.Date && c.PayMode == PaymentMode.Cash).Sum(c => c.Amount);
+            info.CashIn += db.CashReceipts.Where(c => c.StoreId == StoreId && c.InwardDate.Date == DateTime.Today.Date).Sum(c => c.Amount);
+            info.CashOut += db.Expenses.Where(c => c.StoreId == StoreId && c.OnDate.Date == DateTime.Today.Date && c.PayMode == PaymentMode.Cash).Sum(c => c.Amount);
+            info.CashOut += db.Payments.Where(c => c.StoreId == StoreId && c.OnDate.Date == DateTime.Today.Date && c.PayMode == PaymentMode.Cash).Sum(c => c.Amount);
+
+            info.CashToBank = db.BankDeposits.Where(c => c.StoreId == StoreId && c.OnDate.Date == DateTime.Today.Date && c.PayMode == PaymentMode.Cash).Sum(c => c.Amount);
+            info.CashFromBank = db.BankWithdrawals.Where(c => c.StoreId == StoreId && c.OnDate.Date == DateTime.Today.Date).Sum(c => c.Amount);
+
+            //This should be last line
+            info.CashOut += info.TotalCashPayments + info.CashToBank;
+            info.CashInHand = info.OpenningBal + info.CashIn - info.CashOut;
+            return info;
+        }
         public static AccountsInfo GetAccoutingRecord(eStoreDbContext db, int StoreId)
         {
             AccountsInfo info = new AccountsInfo ();
@@ -204,13 +246,8 @@ namespace eStore.BL.Widgets
                 info.CashInBank = cib.InHand;
             }
 
-            // var CashExp = db.CashPayments.Where(c => (c.PaymentDate) == (DateTime.Today) && c.StoreId == StoreId);
             var CashPay = db.CashPayments.Where (c => ( c.PaymentDate ) == ( DateTime.Today ) && c.StoreId == StoreId);
 
-            //if (CashExp != null)
-            //{
-            //    info.TotalCashPayments = (decimal?)CashExp.Sum(c => (decimal?)c.Amount) ?? 0;
-            //}
             if ( CashPay != null )
             {
                 info.TotalCashPayments += (decimal?) CashPay.Sum (c => (decimal?) c.Amount) ?? 0;
