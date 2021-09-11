@@ -6,6 +6,7 @@ import {
   TailoringWidget,
   EmpInfoWidget,
   DailySaleTableWidget,
+  TilesWidget11,MixedWidget1,ListsWidget9,ListsWidget4,TilesWidget1,MixedWidget6,StatsWidget12,TilesWidget12,StatsWidget11
 } from "../widgets";
 import { NoticeBoardWidget } from "../widgets/advance-tables/NoticeBoardWidget";
 
@@ -18,48 +19,7 @@ export function EStoreDashboard({
 }) {
   return (
     <>
-      {/* <div className="row">
-        <div className="col-lg-6 col-xxl-4">
-          <MixedWidget1 className="card-stretch gutter-b" />
-        </div>
-        <div className="col-lg-6 col-xxl-4 ">
-          <ListsWidget9 className="card-stretch gutter-b" />
-        </div>
-        <div className="col-lg-6 col-xxl-4 ">
-          <ListsWidget4 className="card-stretch gutter-b" />
-        </div> 
-        <div className="col-xl-4 ">
-          <TilesWidget1 className="gutter-b card-stretch" chartColor="danger" />
-        </div>
-        <div className="col-lg-6 col-xxl-4 ">
-          <MixedWidget6 className="gutter-b card-stretch" chartColor="danger" />
-        </div>
-        <div className="col-lg-6 col-xxl-4">
-          <StatsWidget11
-            className="card-stretch card-stretch-half gutter-b"
-            symbolShape="circle"
-            baseColor="success"
-          />
-          <StatsWidget12 className="card-stretch card-stretch-half gutter-b" />
-        </div>
-        <div className="row order-1 order-xxl-2 ">
-          <div className="col-xl-6">
-            <TilesWidget11
-              className="gutter-b"
-              baseColor="primary"
-              widgetHeight="150px"
-            />
-          </div>
-          <div className="col-xl-6">
-            <TilesWidget12
-              className="gutter-b"
-              iconColor="success"
-              widgetHeight="150px"
-            />
-          </div>
-        </div>
-      </div>
-       */}
+       
       {/* begin::Row */}
       <div className="row">
         <div className="col-lg-6">
@@ -131,6 +91,48 @@ export function EStoreDashboard({
         </div>
       </div>
       {/**end Row */}
+      <div className="row">
+        {/* <div className="col-lg-6 col-xxl-4">
+          <MixedWidget1 className="card-stretch gutter-b" />
+        </div> */}
+        {/* <div className="col-lg-6 col-xxl-4 ">
+          <ListsWidget9 className="card-stretch gutter-b" />
+        </div>
+        <div className="col-lg-6 col-xxl-4 ">
+          <ListsWidget4 className="card-stretch gutter-b" />
+        </div> 
+        <div className="col-xl-4 ">
+          <TilesWidget1 className="gutter-b card-stretch" chartColor="danger" />
+        </div> */}
+        {/* <div className="col-lg-6 col-xxl-4 ">
+          <MixedWidget6 className="gutter-b card-stretch" chartColor="danger" />
+        </div> */}
+        {/* <div className="col-lg-6 col-xxl-4">
+          <StatsWidget11
+            className="card-stretch card-stretch-half gutter-b"
+            symbolShape="circle"
+            baseColor="success"
+          />
+          <StatsWidget12 className="card-stretch card-stretch-half gutter-b" />
+        </div> */}
+        {/* <div className="row order-1 order-xxl-2 ">
+          <div className="col-xl-6">
+            <TilesWidget11
+              className="gutter-b"
+              baseColor="primary"
+              widgetHeight="150px"
+            />
+          </div>
+          <div className="col-xl-6">
+            <TilesWidget12
+              className="gutter-b"
+              iconColor="success"
+              widgetHeight="150px"
+            />
+          </div>
+        </div> */}
+      </div>
+      
     </>
   );
 }
