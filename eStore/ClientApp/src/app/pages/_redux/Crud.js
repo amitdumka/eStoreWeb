@@ -1,9 +1,6 @@
 import axios from "axios"; 
 import { BASE_URL } from  "../../../_estore/URLConstants";
 
-//const ENUMAPI = BASE_URL + "/api/enumvalue/";
-
-
 export async function getStores() {
   return axios.get(BASE_URL+"api/stores");
 }

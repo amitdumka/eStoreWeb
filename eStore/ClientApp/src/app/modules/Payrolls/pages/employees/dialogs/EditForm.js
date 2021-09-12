@@ -177,7 +177,7 @@ export function EditForm({ saveEmployee, employee, actionsLoading, onHide }) {
                 <div className="form-group row">
                   {/* Department */}
                   <div className="col-lg-4">
-                    <Select name="categoryId" label="Department">
+                    <Select name="category" label="Department">
                       <option value="1">Store Manager</option>
                       <option value="2">Salesman</option>
                       <option value="3">HouseKeeping</option>

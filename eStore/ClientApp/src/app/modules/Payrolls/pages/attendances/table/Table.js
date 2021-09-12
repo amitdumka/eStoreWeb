@@ -24,7 +24,7 @@ import { useUIContext } from "../UIContext";
 import FieldDateFormater from "../../../../../../_estore/formaters/FieldDateFormater";
 
 
-export function AttendancesTable() {
+export function AttendancesTable({yesterday}) {
   // Attendances UI Context
   const attendancesUIContext = useUIContext();
   const attendancesUIProps = useMemo(() => {
@@ -38,9 +38,11 @@ export function AttendancesTable() {
     };
   }, [attendancesUIContext]);
 
+  attendancesUIProps.queryParams.yesterday=yesterday;
+
   // Getting current state of attendances list from store (Redux)
-  const { currentState } = useSelector(
-    (state) => ({ currentState: state.attendances }),
+  const { currentState,store } = useSelector(
+    (state) => ({ currentState: state.attendances,store: state.commonTypes.storeList }),
     shallowEqual
   );
   const { totalCount, entities, listLoading } = currentState;
@@ -50,6 +52,7 @@ export function AttendancesTable() {
   useEffect(() => {
     // clear selections list
     attendancesUIProps.setIds([]);
+    console.log(attendancesUIProps.queryParams);
     // server call by queryParams
     dispatch(actions.fetchAttendances(attendancesUIProps.queryParams));
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -101,11 +104,12 @@ export function AttendancesTable() {
       headerSortingClasses,
     },
     {
-      dataField: "employee.store.storeName",
+      dataField: "employee.storeId",
       text: "Store",
       sort: true,
       sortCaret: sortCaret,
       headerSortingClasses,
+      formatter:(cellContent, row)=>store && store[cellContent-1].storeName
     },
     {
       dataField: "action",
@@ -130,7 +134,7 @@ export function AttendancesTable() {
     sizePerPage: attendancesUIProps.queryParams.pageSize,
     page: attendancesUIProps.queryParams.pageNumber,
   };
-
+  console.log(store);
   
   return (
     <>

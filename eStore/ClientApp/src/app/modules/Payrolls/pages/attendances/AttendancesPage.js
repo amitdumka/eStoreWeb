@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState, useEffect} from "react";
 import { Route } from "react-router-dom";
 import { AttendancesLoadingDialog } from "./dialogs/LoadingDialog";
 import { EditDialog } from "./dialogs/EditDialog";
@@ -13,7 +13,15 @@ import { UIProvider } from "./UIContext";
 import { AttendancesCard } from "./AttendancesCard";
 
 export function AttendancesPage({ history }) {
+  const [yesterday,setYesterday] =useState(false);
+  
   const attendancesUIEvents = {
+
+    yesterdayAttendanceButtonClick:()=>{
+          if(yesterday) setYesterday(false);
+          else  setYesterday(true);
+          history.push("/payroll/employee/attendances");
+    },
     newAttendanceButtonClick: () => {
       history.push("/payroll/employee/attendances/new");
     },
@@ -99,7 +107,7 @@ export function AttendancesPage({ history }) {
           />
         )}
       </Route>
-      <AttendancesCard />
+      <AttendancesCard yesterday={yesterday} />
     </UIProvider>
   );
 }

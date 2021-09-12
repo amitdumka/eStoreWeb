@@ -55,7 +55,7 @@ namespace eStore.API.Controllers
             {
                 return NotFound ();
             }
-
+           // attendance.Employee = await _context.Employees.FindAsync (attendance.EmployeeId);
             return attendance;
         }
 
@@ -64,7 +64,7 @@ namespace eStore.API.Controllers
         public IEnumerable<AttendanceDto> GetAttendances()
         {
             //return await _context.Attendances.Include(a => a.Store).Where(c => c.AttDate == DateTime.Today.Date).ToListAsync();
-            var attList = _context.Attendances.Include (c => c.Employee).Include (a => a.Store).Where (c => c.AttDate == DateTime.Today.Date).ToList ();
+            var attList = _context.Attendances.Include (c => c.Employee).Where (c => c.AttDate == DateTime.Today.Date).ToList ();
             return _mapper.Map<IEnumerable<AttendanceDto>> (attList);
             //return (Task<ActionResult<IEnumerable<AttendanceDto>>>)GetToDto(attList);
         }
@@ -73,7 +73,7 @@ namespace eStore.API.Controllers
         public IEnumerable<AttendanceDto> GetMonthAttendances()
         {
             //return await _context.Attendances.Include(a => a.Store).Where(c => c.AttDate == DateTime.Today.Date).ToListAsync();
-            var attList = _context.Attendances.Include (c => c.Employee).Include (a => a.Store).Where (c => c.AttDate.Month == DateTime.Today.Month && c.AttDate.Year == DateTime.Today.Year).ToList ();
+            var attList = _context.Attendances.Include (c => c.Employee).Where (c => c.AttDate.Month == DateTime.Today.Month && c.AttDate.Year == DateTime.Today.Year).ToList ();
             return _mapper.Map<IEnumerable<AttendanceDto>> (attList);
             //return (Task<ActionResult<IEnumerable<AttendanceDto>>>)GetToDto(attList);
         }
@@ -82,7 +82,7 @@ namespace eStore.API.Controllers
         public IEnumerable<AttendanceDto> GetYearAttendances()
         {
             //return await _context.Attendances.Include(a => a.Store).Where(c => c.AttDate == DateTime.Today.Date).ToListAsync();
-            var attList = _context.Attendances.Include (c => c.Employee).Include (a => a.Store).Where (c => c.AttDate.Year == DateTime.Today.Year).ToList ();
+            var attList = _context.Attendances.Include (c => c.Employee).Where (c => c.AttDate.Year == DateTime.Today.Year).ToList ();
             return _mapper.Map<IEnumerable<AttendanceDto>> (attList);
             //return (Task<ActionResult<IEnumerable<AttendanceDto>>>)GetToDto(attList);
         }
@@ -102,6 +102,7 @@ namespace eStore.API.Controllers
             }
             else
             {
+                Console.WriteLine ("Validatation at adding attendance is failed!!!");
                 return BadRequest ();
             }
         }
@@ -138,8 +139,11 @@ namespace eStore.API.Controllers
                         break;
                 }
             }
+
+            DateTime onDate =(bool) queryParms.Yesterday ? DateTime.Today.AddDays (-1) : DateTime.Today;
+
             var attList = _context.Attendances.Include (c => c.Employee).Include (a => a.Store).
-                Where (c => c.AttDate.Date == DateTime.Today.Date).ToList ();
+                Where (c => c.AttDate.Date == onDate.Date).ToList ();
 
             //Filter and Search
             if ( queryParms.OnDate != null )
@@ -181,7 +185,7 @@ namespace eStore.API.Controllers
         [HttpPut ("{id}")]
         public async Task<IActionResult> PutAttendance(int id, Attendance attendance)
         {    // TODO :
-            if ( id != attendance.AttendanceId || !DBValidation.AttendanceDuplicateCheckWithID (_context, attendance) )
+            if ( id != attendance.AttendanceId || DBValidation.AttendanceDuplicateCheckWithID (_context, attendance) )
             {
                 return BadRequest ();
             }
@@ -231,6 +235,7 @@ namespace eStore.API.Controllers
         public string StaffName { get; set; }
         public AttUnit? Status { get; set; }
         public EmpType? Type { get; set; }
+        public bool? Yesterday { get; set; }
     }
 
     public class FindDTO

@@ -61,6 +61,7 @@ export function UIProvider({ UIEvents, children }) {
     setIds,
     setQueryParams,
     initAttendance,
+    yesterdayAttendanceButtonClick: UIEvents.yesterdayAttendanceButtonClick,
     newAttendanceButtonClick: UIEvents.newAttendanceButtonClick,
     openEditAttendanceDialog: UIEvents.openEditAttendanceDialog,
     openDeleteAttendanceDialog: UIEvents.openDeleteAttendanceDialog,

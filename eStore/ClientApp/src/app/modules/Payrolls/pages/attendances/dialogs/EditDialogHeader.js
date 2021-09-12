@@ -17,11 +17,12 @@ export function EditDialogHeader({ id }) {
   );
 
   const [title, setTitle] = useState("");
-  // Title couting
+  // Title 
   useEffect(() => {
     let _title = id ? "" : "New Attendance";
     if (attendanceForEdit && id) {
-      _title = `Edit attendance '${attendanceForEdit.firstName} ${attendanceForEdit.lastName}'`;
+      console.log(attendanceForEdit);
+      _title = `Edit attendance '${attendanceForEdit.attDate} ${attendanceForEdit.attendanceId}'`;
     }
 
     setTitle(_title);

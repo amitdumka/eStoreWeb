@@ -30,7 +30,7 @@ export const fetchTailoringCheck = (id) => (dispatch) => {
     .then((response) => {
       const entities = response.data;
       const totalCount = response.data.length;
-      console.log(response);
+      console.log(entities);
       dispatch(actions.tailoringCheckFetched({ totalCount, entities }));
     })
     .catch((error) => {

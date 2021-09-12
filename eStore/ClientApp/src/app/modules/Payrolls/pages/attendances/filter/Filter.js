@@ -4,7 +4,7 @@ import { isEqual } from "lodash";
 import { useUIContext } from "../UIContext";
 
 const prepareFilter = (queryParams, values) => {
-  const { status, type, searchText } = values;
+  const { status, type, searchText,yesterday } = values;
   const newQueryParams = { ...queryParams };
     const filter = {};
     console.log(filter);
@@ -15,6 +15,7 @@ const prepareFilter = (queryParams, values) => {
     filter.type = parseInt(type);// >-1 ? +type : -1;
   // Filter by all fields
   filter.searchText = searchText;
+  filter.yesterday=yesterday;
 
     if (searchText) {
     filter.employeeId = 0;
@@ -130,7 +131,9 @@ export function AttendancesFilter({ listLoading }) {
                   <b>Search</b> in all fields
                 </small>
               </div>
+              {/* <div className="col-lg--2"><input className="btn btn-success" type="button" value="Yesterday"/></div> */}
             </div>
+            
           </form>
         )}
       </Formik>

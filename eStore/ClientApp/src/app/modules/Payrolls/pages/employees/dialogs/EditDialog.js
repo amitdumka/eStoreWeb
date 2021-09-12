@@ -32,11 +32,13 @@ export function EditDialog({ id, show, onHide }) {
 
   // server request for saving employee
   const saveEmployee = (employee) => {
-    employee.categoryId=parseInt(employee.categoryId);
+    //console.log(employee);
+    employee.category=parseInt(employee.category);
     if (!id) {
       // server request for creating employee
       dispatch(actions.createEmployee(employee)).then(() => onHide());
     } else {
+      //console.log(employee);
       // server request for updating employee
       dispatch(actions.updateEmployee(employee)).then(() => onHide());
     }

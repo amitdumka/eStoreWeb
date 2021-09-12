@@ -15,7 +15,8 @@ export const initialFilter = {
         employeeId: 0,
         onDate:  null,
         status: -1,
-        type:-1
+        type:-1,
+        yesterday:false
     },
     sortOrder: "asc", // asc||desc
     sortField: "id",
