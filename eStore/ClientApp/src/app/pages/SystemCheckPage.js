@@ -9,17 +9,44 @@ import {
 } from "../../_metronic/_partials/controls";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import * as actions from "./_redux/Actions";
-import { Select, MenuItem, Button, IconButton } from "@material-ui/core";
+import {
+  Select,
+  MenuItem,
+  Button,
+  IconButton,
+  Switch,
+  FormControlLabel,
+} from "@material-ui/core";
 //import {PrintIcon} from "@material-ui/icons";
 
 import LocalPrintshopIcon from "@material-ui/icons/LocalPrintshop";
 
 import { Alert } from "react-bootstrap";
 import { useReactToPrint } from "react-to-print";
+import { withStyles } from "@material-ui/core";
+
+import purple from "@material-ui/core/colors/purple";
+import red from "@material-ui/core/colors/red";
+
 export const pageStyle = `  @media all {    .page-break {      display: none;    }  }
     @media print {    html, body {      height: initial !important;      overflow: initial !important;      -webkit-print-color-adjust: exact;    }}
   @media print {.page-break { margin-top: 1rem; display: block; page-break-before: auto;    }  }
    @page {    size: auto;    margin: 20mm;  }`;
+
+const PurpleSwitch = withStyles({
+  switchBase: {
+    color: purple[300],
+    "&$checked": {
+      color: red[500],
+    },
+    "&$checked + $track": {
+      backgroundColor: purple[500],
+    },
+  },
+  checked: {},
+  track: {},
+})(Switch);
+
 export const SystemCheckPage = () => {
   const suhbeader = useSubheader();
   suhbeader.setTitle("eStore System Check");
@@ -48,24 +75,33 @@ export const TailoringCheck = () => {
 
   const { tailoringCheckList } = currentState;
   const [bOn, setBOn] = useState(true);
+  const [delivery, setDelivery] = useState(false);
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
     pageStyle: () => pageStyle,
   });
+  const [RData,setRData]= useState("{store:0,delivery:false}");
+  
 
   //  Redux state
   const dispatch = useDispatch();
   useEffect(() => {
     // server call by queryParams
-    dispatch(actions.fetchTailoringCheck(store));
+    dispatch(actions.fetchTailoringCheck(RData));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
   const handleButton = () => {
+    const rData={
+      storeId:{store},
+      delivery:{delivery}
+    };
+    setRData(rData);
+
     if (store == null) alert("Kindly Select Store First");
     else {
       // server call by queryParams
-      dispatch(actions.fetchTailoringCheck(store));
+      dispatch(actions.fetchTailoringCheck(rData));
       // eslint-disable-next-line react-hooks/exhaustive-deps
       alert(
         "Please wait while processing your request.... Please ok to continue..."
@@ -88,7 +124,10 @@ export const TailoringCheck = () => {
             {" "}
             List of Error(s) found in Tailoring entries.
           </h2>
-          <ol className="list list-primary border border-primary rounded  pr-4 pl-5">{itemList && itemList.map((item) => <li className="ml-5 p-4">{item}</li>)}</ol>
+          <ol className="list list-primary border border-primary rounded  pr-4 pl-5">
+            {itemList &&
+              itemList.map((item) => <li className="ml-5 p-4">{item}</li>)}
+          </ol>
         </>
       );
     } else setBOn(true);
@@ -101,7 +140,9 @@ export const TailoringCheck = () => {
       return (
         <>
           <ul className=" border border-warning rounded row pl-4">
-            <li className="text-success mt-2 ml-4 col-md-2">InvNo : {dMsg[1]}</li>
+            <li className="text-success mt-2 ml-4 col-md-2">
+              InvNo : {dMsg[1]}
+            </li>
             <li className="text-warning ml-4 col-md-2">
               Booking/Delivery ID : {dMsg[2]}/{dMsg[6]}
             </li>
@@ -113,7 +154,8 @@ export const TailoringCheck = () => {
               Amount/Paid : Rs. {dMsg[9]} / Rs. {dMsg[8]}
             </li>
 
-            <li className="text-danger mb-2 ml-4 col-md-4">Error(s)
+            <li className="text-danger mb-2 ml-4 col-md-4">
+              Error(s)
               <ol>
                 {error.map((e) =>
                   e && e != "" ? <li className="p-1">{e}</li> : ""
@@ -130,7 +172,7 @@ export const TailoringCheck = () => {
   };
   return (
     <Card>
-      <CardHeader title="Tailoring Verification" className="text-success">
+      <CardHeader title="Tailoring Verification">
         <Select
           className="text-center center-align text-primary"
           value={store}
@@ -146,7 +188,17 @@ export const TailoringCheck = () => {
             Jamshedpur
           </MenuItem>
         </Select>
-
+        <FormControlLabel
+          control={
+            <PurpleSwitch
+              checked={delivery}
+              size="small"
+              onChange={(event) => setDelivery(event.target.checked)}
+              name="lateDelivery"
+            />
+          }
+          label="Late Delivery"
+        />
         <CardHeaderToolbar>
           <IconButton
             className="btn btn-success mr-3"
@@ -232,8 +284,9 @@ export const DuplicateInvoiceCheck = () => {
         )}
         {eList && (
           <h5 className="h5 text-left text-info">
-            Duplicate Invoice List below.<br/>
-            <hr className="text-danger"/>
+            Duplicate Invoice List below.
+            <br />
+            <hr className="text-danger" />
           </h5>
         )}
         {eList && (
