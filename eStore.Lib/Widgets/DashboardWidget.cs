@@ -207,7 +207,7 @@ namespace eStore.BL.Widgets
                  TotalCashPayments=0, TotalExpenses=0, TotalPayments=0
             };
 
-            info.OpenningBal = (decimal?) db.EndOfDays.Where(c => c.StoreId == StoreId && c.EOD_Date.Date == DateTime.Today.AddDays(1).Date).FirstOrDefault().CashInHand??0;
+            info.OpenningBal = (decimal?) ( (decimal?) db.EndOfDays.Where(c => c.StoreId == StoreId && c.EOD_Date.Date == DateTime.Today.AddDays(1).Date).Sum(c=>c.CashInHand))??0;
             info.CashIn=db.DailySales.Where(c => c.StoreId == StoreId && c.SaleDate.Date == DateTime.Today.Date).Sum(c => c.CashAmount);
             info.TotalCashPayments = db.CashPayments.Where(c => c.PaymentDate.Date == DateTime.Today.Date && c.StoreId == StoreId).Sum(c => (decimal?)c.Amount) ?? 0;
             info.TotalPayments = (decimal?)db.Expenses.Where(c => c.OnDate.Date == DateTime.Today.Date).Select(c => c.Amount).Sum()??0;
