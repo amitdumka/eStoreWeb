@@ -142,7 +142,123 @@ namespace eStore.Api.Controllers
         public void GetSlipNumbering(int storeId)
         {
         }
+
+        [HttpGet("UpperCaseInvoice")]
+        public ActionResult<int> UpdateInvoice(int storeId)
+        {
+            
+            int[] years = { 2021, 2020, 2019 };
+            int ctr =0;
+
+            foreach (var year in years)
+            {
+                for (int i = 1; i <= 12; i++)
+                {
+                    var data = db.DailySales.Where(c => c.StoreId == storeId && c.SaleDate.Month==i && c.SaleDate.Year==year).ToList();
+                    foreach (var sd in data)
+                    {
+                        sd.InvNo = sd.InvNo.ToUpper().Trim();
+                        sd.Remarks = sd.Remarks.ToUpper().Trim();
+                        db.DailySales.Update(sd);
+                    }
+
+                    ctr += db.SaveChanges();
+
+                }
+
+            }
+            return ctr; 
+
+            
+        }
+        [HttpGet("UpperCaseTailoring")]
+        public ActionResult<int> UpdateTailoring(int storeId)
+        {
+
+            int[] years = { 2021, 2020, 2019 };
+            int ctr = 0;
+
+            foreach (var year in years)
+            {
+                for (int i = 1; i <= 12; i++)
+                {
+                    var data = db.TalioringBookings.Where(c => c.StoreId == storeId && c.BookingDate.Month == i && c.BookingDate.Year == year).ToList();
+                    foreach (var sd in data)
+                    {
+                        sd.BookingSlipNo = sd.BookingSlipNo.ToUpper().Trim();
+                        
+                        db.TalioringBookings.Update(sd);
+                    }
+                    ctr += db.SaveChanges();
+                    var data2 = db.TailoringDeliveries.Where(c => c.StoreId == storeId && c.DeliveryDate.Month == i && c.DeliveryDate.Year == year).ToList();
+                    foreach (var sd in data2)
+                    {
+                        sd.InvNo = sd.InvNo.ToUpper().Trim();
+
+                        db.TailoringDeliveries.Update(sd);
+                    }
+                    ctr += db.SaveChanges();
+
+                }
+
+            }
+            return ctr;
+
+
+        }
+
+        [HttpGet("UpperCaseInvoice")]
+        public ActionResult<int> UpdateVoucher(int storeId)
+        {
+
+            int[] years = { 2021, 2020, 2019 };
+            int ctr = 0;
+
+            foreach (var year in years)
+            {
+                for (int i = 1; i <= 12; i++)
+                {
+                    var data = db.Payments.Where(c => c.StoreId == storeId && c.OnDate.Month == i && c.OnDate.Year == year).ToList();
+                    foreach (var sd in data)
+                    {
+                        sd.PaymentSlipNo = sd.PaymentSlipNo.ToUpper().Trim();
+                        db.Payments.Update(sd);
+                    }
+                    var data2 = db.CashPayments.Where(c => c.StoreId == storeId && c.PaymentDate.Month == i && c.PaymentDate.Year == year).ToList();
+                    foreach (var sd in data2)
+                    {
+                        sd.SlipNo = sd.SlipNo.ToUpper().Trim();
+                        db.CashPayments.Update(sd);
+                    }
+                    var data3 = db.Receipts.Where(c => c.StoreId == storeId && c.OnDate.Month == i && c.OnDate.Year == year).ToList();
+                    foreach (var sd in data3)
+                    {
+                        sd.RecieptSlipNo = sd.RecieptSlipNo.ToUpper().Trim();
+                        db.Receipts.Update(sd);
+                    }
+                    var data4 = db.CashReceipts.Where(c => c.StoreId == storeId && c.InwardDate.Month == i && c.InwardDate.Year == year).ToList();
+                    foreach (var sd in data4)
+                    {
+                        sd.SlipNo = sd.SlipNo.ToUpper().Trim();
+                        db.CashReceipts.Update(sd);
+                    }
+
+                    ctr += db.SaveChanges();
+
+                }
+
+            }
+            return ctr;
+
+
+        }
     }
+
+
+
+
+
+
 
     public class DuplicateInvCheck
     {

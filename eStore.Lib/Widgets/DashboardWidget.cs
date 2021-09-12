@@ -16,32 +16,7 @@ namespace eStore.BL.Widgets
     /// </summary>
     public class DashboardWidget
     {
-        public static async System.Threading.Tasks.Task<List<SalesmanInfo>> GetSalesmenInfoAsync(eStoreDbContext db)
-        {
-            List<SalesmanInfo> InfoList = new List<SalesmanInfo> ();
-            var sm = db.Salesmen.ToList ();
-            foreach ( var sales in sm )
-            {
-                var data = await db.DailySales.Where (c => c.SalesmanId == sales.SalesmanId).Select (c => new { c.SaleDate, c.Amount, c.IsSaleReturn }).ToListAsync ();
-
-                SalesmanInfo info = new SalesmanInfo
-                {
-                    SalesmanInfoId = sales.SalesmanId,
-                    SalesmanName = sales.SalesmanName,
-                    TotalBillCount = data.Count,
-                    TotalSale = data.Sum (c => c.Amount),
-                    CurrentYear = data.Where (c => c.SaleDate.Year == DateTime.Today.Year).Sum (c => c.Amount),
-                    CurrentMonth = data.Where (c => c.SaleDate.Year == DateTime.Today.Year && c.SaleDate.Month == DateTime.Today.Month).Sum (c => c.Amount),
-                    LastYear = data.Where (c => c.SaleDate.Year == DateTime.Today.Year - 1).Sum (c => c.Amount),
-                    LastMonth = data.Where (c => c.SaleDate.Year == DateTime.Today.Year && c.SaleDate.Month == DateTime.Today.Month - 1).Sum (c => c.Amount),
-                };
-
-                info.Average = info.CurrentYear / 365;
-                InfoList.Add (info);
-            }
-            return InfoList;
-        }
-
+        
         public static MasterViewReport GetMasterViewReport(eStoreDbContext _context)
         {
             MasterViewReport reportView = new MasterViewReport
@@ -70,6 +45,31 @@ namespace eStore.BL.Widgets
                 OpeningCashInHand = GetOpeningCashInHand(_context)
             };
             return reportView;
+        }
+        public static async System.Threading.Tasks.Task<List<SalesmanInfo>> GetSalesmenInfoAsync(eStoreDbContext db)
+        {
+            List<SalesmanInfo> InfoList = new List<SalesmanInfo>();
+            var sm = db.Salesmen.ToList();
+            foreach (var sales in sm)
+            {
+                var data = await db.DailySales.Where(c => c.SalesmanId == sales.SalesmanId).Select(c => new { c.SaleDate, c.Amount, c.IsSaleReturn }).ToListAsync();
+
+                SalesmanInfo info = new SalesmanInfo
+                {
+                    SalesmanInfoId = sales.SalesmanId,
+                    SalesmanName = sales.SalesmanName,
+                    TotalBillCount = data.Count,
+                    TotalSale = data.Sum(c => c.Amount),
+                    CurrentYear = data.Where(c => c.SaleDate.Year == DateTime.Today.Year).Sum(c => c.Amount),
+                    CurrentMonth = data.Where(c => c.SaleDate.Year == DateTime.Today.Year && c.SaleDate.Month == DateTime.Today.Month).Sum(c => c.Amount),
+                    LastYear = data.Where(c => c.SaleDate.Year == DateTime.Today.Year - 1).Sum(c => c.Amount),
+                    LastMonth = data.Where(c => c.SaleDate.Year == DateTime.Today.Year && c.SaleDate.Month == DateTime.Today.Month - 1).Sum(c => c.Amount),
+                };
+
+                info.Average = info.CurrentYear / 365;
+                InfoList.Add(info);
+            }
+            return InfoList;
         }
 
         public static decimal GetOpeningCashInHand(eStoreDbContext db, int storeId = 1)
