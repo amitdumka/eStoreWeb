@@ -79,10 +79,11 @@ export const createAttendance = attendanceForCreation => dispatch => {
     .createAttendance(JSON.stringify( attendanceForCreation))
     .then(response => {
       const  attendance  = response.data;
-      console.log(response.data);
+      console.log(response);
       dispatch(actions.attendanceCreated({ attendance }));
     })
     .catch(error => {
+      console.log(error);
       error.clientMessage = "Can't create attendance";
       dispatch(actions.catchError({ error, callType: callTypes.action }));
     });

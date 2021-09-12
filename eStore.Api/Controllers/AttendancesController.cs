@@ -56,8 +56,22 @@ namespace eStore.API.Controllers
                 return NotFound ();
             }
            // attendance.Employee = await _context.Employees.FindAsync (attendance.EmployeeId);
+           // return _mapper.Map<AttendanceDto> (attendance);
             return attendance;
         }
+        //[HttpGet ("dto/{id}")]
+        //public async Task<ActionResult<AttendanceDto>> GetAttendanceDto(int id)
+        //{
+        //    var attendance = await _context.Attendances.FindAsync (id);
+
+        //    if ( attendance == null )
+        //    {
+        //        return NotFound ();
+        //    }
+        //    attendance.Employee = await _context.Employees.FindAsync (attendance.EmployeeId);
+        //    return _mapper.Map<AttendanceDto> (attendance);
+        //    //return attendance;
+        //}
 
         // GET: api/Attendances
         [HttpGet]

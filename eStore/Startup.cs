@@ -20,6 +20,7 @@ using eStore.Database;
 using eStore.Shared.Models.Identity;
 using Microsoft.OpenApi.Models;
 using eStore.Services.BTask;
+using System.Text.Json.Serialization;
 
 //using Microsoft.AspNetCore.Http;
 //using Microsoft.AspNetCore.Authorization;
@@ -61,6 +62,7 @@ namespace eStore
             //     .AddApiAuthorization<AppUser, AuthDbContext>();
             // services.AddAuthentication()
             //     .AddIdentityServerJwt();
+            //services.AddControllers ().AddJsonOptions (x =>x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
             services.AddControllersWithViews ();
             services.AddRazorPages ();
             services.AddDistributedMemoryCache ();

@@ -134,7 +134,7 @@ export function AttendancesTable({yesterday}) {
     sizePerPage: attendancesUIProps.queryParams.pageSize,
     page: attendancesUIProps.queryParams.pageNumber,
   };
-  console.log(store);
+ 
   
   return (
     <>
