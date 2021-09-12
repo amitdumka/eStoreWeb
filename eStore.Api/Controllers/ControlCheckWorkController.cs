@@ -158,7 +158,8 @@ namespace eStore.Api.Controllers
                     foreach (var sd in data)
                     {
                         sd.InvNo = sd.InvNo.ToUpper().Trim();
-                        sd.Remarks = sd.Remarks.ToUpper().Trim();
+                        if(!string.IsNullOrEmpty(sd.Remarks))
+                            sd.Remarks = sd.Remarks.ToUpper().Trim();
                         db.DailySales.Update(sd);
                     }
 
@@ -221,26 +222,38 @@ namespace eStore.Api.Controllers
                     var data = db.Payments.Where(c => c.StoreId == storeId && c.OnDate.Month == i && c.OnDate.Year == year).ToList();
                     foreach (var sd in data)
                     {
-                        sd.PaymentSlipNo = sd.PaymentSlipNo.ToUpper().Trim();
-                        db.Payments.Update(sd);
+                        if ( !string.IsNullOrEmpty (sd.PaymentSlipNo) )
+                        {
+                            sd.PaymentSlipNo = sd.PaymentSlipNo.ToUpper ().Trim ();
+                            db.Payments.Update (sd);
+                        }
                     }
                     var data2 = db.CashPayments.Where(c => c.StoreId == storeId && c.PaymentDate.Month == i && c.PaymentDate.Year == year).ToList();
                     foreach (var sd in data2)
                     {
-                        sd.SlipNo = sd.SlipNo.ToUpper().Trim();
-                        db.CashPayments.Update(sd);
+                        if ( !string.IsNullOrEmpty (sd.SlipNo) )
+                        {
+                            sd.SlipNo = sd.SlipNo.ToUpper ().Trim ();
+                            db.CashPayments.Update (sd);
+                        }
                     }
                     var data3 = db.Receipts.Where(c => c.StoreId == storeId && c.OnDate.Month == i && c.OnDate.Year == year).ToList();
                     foreach (var sd in data3)
                     {
-                        sd.RecieptSlipNo = sd.RecieptSlipNo.ToUpper().Trim();
-                        db.Receipts.Update(sd);
+                        if ( !string.IsNullOrEmpty (sd.RecieptSlipNo) )
+                        {
+                            sd.RecieptSlipNo = sd.RecieptSlipNo.ToUpper ().Trim ();
+                            db.Receipts.Update (sd);
+                        }
                     }
                     var data4 = db.CashReceipts.Where(c => c.StoreId == storeId && c.InwardDate.Month == i && c.InwardDate.Year == year).ToList();
                     foreach (var sd in data4)
                     {
-                        sd.SlipNo = sd.SlipNo.ToUpper().Trim();
-                        db.CashReceipts.Update(sd);
+                        if ( !string.IsNullOrEmpty (sd.SlipNo) )
+                        {
+                            sd.SlipNo = sd.SlipNo.ToUpper ().Trim ();
+                            db.CashReceipts.Update (sd);
+                        }
                     }
 
                     ctr += db.SaveChanges();
