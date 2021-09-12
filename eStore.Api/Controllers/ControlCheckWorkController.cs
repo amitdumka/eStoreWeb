@@ -207,7 +207,7 @@ namespace eStore.Api.Controllers
 
         }
 
-        [HttpGet("UpperCaseInvoice")]
+        [HttpGet("UpperCaseVoucher")]
         public ActionResult<int> UpdateVoucher(int storeId)
         {
 
