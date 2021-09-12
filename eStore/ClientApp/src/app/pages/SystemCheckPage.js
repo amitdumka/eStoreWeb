@@ -71,7 +71,7 @@ export const TailoringCheck = () => {
     }),
     shallowEqual
   );
-  const [store, setStore] = useState();
+  const [store, setStore] = useState(1);
 
   const { tailoringCheckList } = currentState;
   const [bOn, setBOn] = useState(true);
@@ -81,7 +81,7 @@ export const TailoringCheck = () => {
     content: () => componentRef.current,
     pageStyle: () => pageStyle,
   });
-  const [RData,setRData]= useState("{store:0,delivery:false}");
+  const [RData,setRData]= useState("{ storeId:0, delivery:false }");
   
 
   //  Redux state
@@ -93,9 +93,12 @@ export const TailoringCheck = () => {
   }, [dispatch]);
   const handleButton = () => {
     const rData={
-      storeId:{store},
-      delivery:{delivery}
+      storeId:store,
+      delivery:delivery
     };
+    console.log(rData);
+    console.log(store);
+    console.log(delivery);
     setRData(rData);
 
     if (store == null) alert("Kindly Select Store First");

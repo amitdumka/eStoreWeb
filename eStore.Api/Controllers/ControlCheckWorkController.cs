@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 
 namespace eStore.Api.Controllers
 {
@@ -18,10 +20,20 @@ namespace eStore.Api.Controllers
         {
             db = con;
         }
-
         [HttpGet ("tailoringCheck")]
-        public ActionResult<TailoringCheck> GetTailoringCheck(int storeId)
+        public ActionResult<TailoringCheck> GetTailoringCheck(string requestData)
         {
+            Console.WriteLine (requestData);
+            RData rData = JsonSerializer.Deserialize<RData> (requestData);
+
+            if ( rData == null )
+            {
+                Console.WriteLine ("Rdata is null");
+            }
+
+
+            int storeId = rData.storeId;
+
             var booking = db.TalioringBookings.Where (c => c.StoreId == storeId && !c.IsDelivered)
                 .Select (c => new { c.BookingDate, c.BookingSlipNo, c.CustName, c.DeliveryDate, c.TotalAmount, c.TotalQty, c.IsDelivered })
                 .ToList ();
@@ -44,8 +56,11 @@ namespace eStore.Api.Controllers
 
             int ctr = 0;
             bool isO = false;
+
             foreach ( var del in deliver )
             {
+                isO = false;
+
                 if ( !del.IsDelivered )
                 {
                     var b = db.TalioringBookings.Find (del.TalioringBookingId);
@@ -56,9 +71,31 @@ namespace eStore.Api.Controllers
                 string msg = $"#{del.InvNo}#{del.TalioringBookingId}#{del.BookingSlipNo}#{del.BookingDate}#{del.DeliveryDate}#{del.TalioringDeliveryId}#{del.ProposeDate}#{del.Amount}#{del.TotalAmount}#;";
                 var ds = db.DailySales.Where (c => c.InvNo.ToLower ().Contains (del.InvNo.ToLower ()) && c.IsTailoringBill).FirstOrDefault ();
 
+                if ( del.Amount != del.TotalAmount )
+                {
+                    isO = true;
+                    msg += "\tDelivery and Booking amount not matching;";
+                }
+
+                if ( rData.delivery && del.ProposeDate.Date != del.DeliveryDate.Date )
+                {
+                    isO = true;
+                    msg += "\tPropose date and delivery date is not matching;";
+
+                    int Days = (int) del.DeliveryDate.Subtract (del.ProposeDate).TotalDays;
+                    int DaysInTotal = (int) del.DeliveryDate.Subtract (del.BookingDate).TotalDays;
+
+                    if ( Days > 0 )
+                        msg += $"\tLate delivery , Late by {Days} days;";
+                    else if ( Days < 0 )
+                        msg += $"\tEarly delivery , Early by {Days} days;";
+
+                    msg += $"\tDelivery is done in {DaysInTotal} days from Booking;";
+                }
+
                 if ( ds != null )
                 {
-                    isO = false;
+
 
                     if ( ds.SaleDate.Date != del.DeliveryDate.Date )
                     {
@@ -69,26 +106,6 @@ namespace eStore.Api.Controllers
                     {
                         msg += "\tDelivery and sale amount not matching;";
                         isO = true;
-                    }
-                    if ( del.Amount != del.TotalAmount )
-                    {
-                        isO = true;
-                        msg += "\tDelivery and Booking amount not matching;";
-                    }
-                    if ( del.ProposeDate.Date != del.DeliveryDate.Date )
-                    {
-                        isO = true;
-                        msg += "\tPropose date and delivery date is not matching;";
-
-                        int Days = (int) del.DeliveryDate.Subtract (del.ProposeDate).TotalDays;
-                        int DaysInTotal = (int) del.DeliveryDate.Subtract (del.BookingDate).TotalDays;
-
-                        if ( Days > 0 )
-                            msg += $"\tLate delivery , Late by {Days} days;";
-                        else if ( Days < 0 )
-                            msg += $"\tEarly delivery , Early by {Days} days;";
-
-                        msg += $"\tDelivery is done in {DaysInTotal} days from Booking;";
                     }
                     if ( isO )
                         InvErrorList.Add (ctr, msg);
@@ -104,7 +121,7 @@ namespace eStore.Api.Controllers
             int noOfDelivery = db.SaveChanges ();
             //Veryify Delivery check
 
-            TailoringCheck tc = new TailoringCheck { NoOfDelivery = noOfDelivery, InvErrorList = InvErrorList };
+            TailoringCheck tc = new TailoringCheck { NoOfDelivery = noOfDelivery, InvErrorList = InvErrorList, RData = requestData, Data = rData };
             return tc;
         }
 
@@ -143,62 +160,62 @@ namespace eStore.Api.Controllers
         {
         }
 
-        [HttpGet("UpperCaseInvoice")]
+        [HttpGet ("UpperCaseInvoice")]
         public ActionResult<int> UpdateInvoice(int storeId)
         {
-            
-            int[] years = { 2021, 2020, 2019 };
-            int ctr =0;
 
-            foreach (var year in years)
+            int [] years = { 2021, 2020, 2019 };
+            int ctr = 0;
+
+            foreach ( var year in years )
             {
-                for (int i = 1; i <= 12; i++)
+                for ( int i = 1 ; i <= 12 ; i++ )
                 {
-                    var data = db.DailySales.Where(c => c.StoreId == storeId && c.SaleDate.Month==i && c.SaleDate.Year==year).ToList();
-                    foreach (var sd in data)
+                    var data = db.DailySales.Where (c => c.StoreId == storeId && c.SaleDate.Month == i && c.SaleDate.Year == year).ToList ();
+                    foreach ( var sd in data )
                     {
-                        sd.InvNo = sd.InvNo.ToUpper().Trim();
-                        if(!string.IsNullOrEmpty(sd.Remarks))
-                            sd.Remarks = sd.Remarks.ToUpper().Trim();
-                        db.DailySales.Update(sd);
+                        sd.InvNo = sd.InvNo.ToUpper ().Trim ();
+                        if ( !string.IsNullOrEmpty (sd.Remarks) )
+                            sd.Remarks = sd.Remarks.ToUpper ().Trim ();
+                        db.DailySales.Update (sd);
                     }
 
-                    ctr += db.SaveChanges();
+                    ctr += db.SaveChanges ();
 
                 }
 
             }
-            return ctr; 
+            return ctr;
 
-            
+
         }
-        [HttpGet("UpperCaseTailoring")]
+        [HttpGet ("UpperCaseTailoring")]
         public ActionResult<int> UpdateTailoring(int storeId)
         {
 
-            int[] years = { 2021, 2020, 2019 };
+            int [] years = { 2021, 2020, 2019 };
             int ctr = 0;
 
-            foreach (var year in years)
+            foreach ( var year in years )
             {
-                for (int i = 1; i <= 12; i++)
+                for ( int i = 1 ; i <= 12 ; i++ )
                 {
-                    var data = db.TalioringBookings.Where(c => c.StoreId == storeId && c.BookingDate.Month == i && c.BookingDate.Year == year).ToList();
-                    foreach (var sd in data)
+                    var data = db.TalioringBookings.Where (c => c.StoreId == storeId && c.BookingDate.Month == i && c.BookingDate.Year == year).ToList ();
+                    foreach ( var sd in data )
                     {
-                        sd.BookingSlipNo = sd.BookingSlipNo.ToUpper().Trim();
-                        
-                        db.TalioringBookings.Update(sd);
-                    }
-                    ctr += db.SaveChanges();
-                    var data2 = db.TailoringDeliveries.Where(c => c.StoreId == storeId && c.DeliveryDate.Month == i && c.DeliveryDate.Year == year).ToList();
-                    foreach (var sd in data2)
-                    {
-                        sd.InvNo = sd.InvNo.ToUpper().Trim();
+                        sd.BookingSlipNo = sd.BookingSlipNo.ToUpper ().Trim ();
 
-                        db.TailoringDeliveries.Update(sd);
+                        db.TalioringBookings.Update (sd);
                     }
-                    ctr += db.SaveChanges();
+                    ctr += db.SaveChanges ();
+                    var data2 = db.TailoringDeliveries.Where (c => c.StoreId == storeId && c.DeliveryDate.Month == i && c.DeliveryDate.Year == year).ToList ();
+                    foreach ( var sd in data2 )
+                    {
+                        sd.InvNo = sd.InvNo.ToUpper ().Trim ();
+
+                        db.TailoringDeliveries.Update (sd);
+                    }
+                    ctr += db.SaveChanges ();
 
                 }
 
@@ -208,19 +225,19 @@ namespace eStore.Api.Controllers
 
         }
 
-        [HttpGet("UpperCaseVoucher")]
+        [HttpGet ("UpperCaseVoucher")]
         public ActionResult<int> UpdateVoucher(int storeId)
         {
 
-            int[] years = { 2021, 2020, 2019 };
+            int [] years = { 2021, 2020, 2019 };
             int ctr = 0;
 
-            foreach (var year in years)
+            foreach ( var year in years )
             {
-                for (int i = 1; i <= 12; i++)
+                for ( int i = 1 ; i <= 12 ; i++ )
                 {
-                    var data = db.Payments.Where(c => c.StoreId == storeId && c.OnDate.Month == i && c.OnDate.Year == year).ToList();
-                    foreach (var sd in data)
+                    var data = db.Payments.Where (c => c.StoreId == storeId && c.OnDate.Month == i && c.OnDate.Year == year).ToList ();
+                    foreach ( var sd in data )
                     {
                         if ( !string.IsNullOrEmpty (sd.PaymentSlipNo) )
                         {
@@ -228,8 +245,8 @@ namespace eStore.Api.Controllers
                             db.Payments.Update (sd);
                         }
                     }
-                    var data2 = db.CashPayments.Where(c => c.StoreId == storeId && c.PaymentDate.Month == i && c.PaymentDate.Year == year).ToList();
-                    foreach (var sd in data2)
+                    var data2 = db.CashPayments.Where (c => c.StoreId == storeId && c.PaymentDate.Month == i && c.PaymentDate.Year == year).ToList ();
+                    foreach ( var sd in data2 )
                     {
                         if ( !string.IsNullOrEmpty (sd.SlipNo) )
                         {
@@ -237,8 +254,8 @@ namespace eStore.Api.Controllers
                             db.CashPayments.Update (sd);
                         }
                     }
-                    var data3 = db.Receipts.Where(c => c.StoreId == storeId && c.OnDate.Month == i && c.OnDate.Year == year).ToList();
-                    foreach (var sd in data3)
+                    var data3 = db.Receipts.Where (c => c.StoreId == storeId && c.OnDate.Month == i && c.OnDate.Year == year).ToList ();
+                    foreach ( var sd in data3 )
                     {
                         if ( !string.IsNullOrEmpty (sd.RecieptSlipNo) )
                         {
@@ -246,8 +263,8 @@ namespace eStore.Api.Controllers
                             db.Receipts.Update (sd);
                         }
                     }
-                    var data4 = db.CashReceipts.Where(c => c.StoreId == storeId && c.InwardDate.Month == i && c.InwardDate.Year == year).ToList();
-                    foreach (var sd in data4)
+                    var data4 = db.CashReceipts.Where (c => c.StoreId == storeId && c.InwardDate.Month == i && c.InwardDate.Year == year).ToList ();
+                    foreach ( var sd in data4 )
                     {
                         if ( !string.IsNullOrEmpty (sd.SlipNo) )
                         {
@@ -256,7 +273,7 @@ namespace eStore.Api.Controllers
                         }
                     }
 
-                    ctr += db.SaveChanges();
+                    ctr += db.SaveChanges ();
 
                 }
 
@@ -272,7 +289,7 @@ namespace eStore.Api.Controllers
 
 
 
-
+    public class RData { public int storeId { get; set; } public bool delivery { get; set; } }
     public class DuplicateInvCheck
     {
         public bool IsOk { get; set; }
@@ -283,5 +300,7 @@ namespace eStore.Api.Controllers
     {
         public int NoOfDelivery { get; set; }
         public SortedDictionary<int, string> InvErrorList { get; set; }
+        public string RData { get; set; }
+        public RData Data { get; set; }
     }
 }
