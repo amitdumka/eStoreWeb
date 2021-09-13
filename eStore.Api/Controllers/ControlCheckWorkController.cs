@@ -283,12 +283,6 @@ namespace eStore.Api.Controllers
 
         }
     }
-
-
-
-
-
-
     public class RData { public int storeId { get; set; } public bool delivery { get; set; } }
     public class DuplicateInvCheck
     {
