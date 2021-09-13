@@ -13,6 +13,14 @@ export const resetTailor=()=>(dispatch)=>{
     dispatch(actions.tailoringCheckFetched({ totalCount, entities }));
 };
 
+export const resetSlip=()=>(dispatch)=>{
+
+  dispatch(actions.startCall({ callType: callTypes.list }));
+  const entities = null;
+  const totalCount = 0;
+  dispatch(actions.slipCheckFetched({ totalCount, entities }));
+};
+
 export const resetDupInv=()=>(dispatch)=>{
 
     dispatch(actions.startCall({ callType: callTypes.list }));
@@ -52,6 +60,24 @@ export const fetchDuplicateInvCheck = (id) => (dispatch) => {
       const totalCount = response.data.length;
       console.log(entities);
       dispatch(actions.duplicateInvCheckFetched({ totalCount, entities }));
+    })
+    .catch((error) => {
+      console.log(error);
+      error.clientMessage = "Can't get duplicate list";
+      dispatch(actions.catchError({ error, callTypes: callTypes.list }));
+    });
+};
+
+export const fetchSlipCheck = (id) => (dispatch) => {
+  dispatch(actions.startCall({ callType: callTypes.list }));
+
+  return requestFromServer
+    .getDuplicateSlipChecks(id)
+    .then((response) => {
+      const entities = response.data;
+      const totalCount = response.data.length;
+      console.log(entities);
+      dispatch(actions.slipCheckFetched({ totalCount, entities }));
     })
     .catch((error) => {
       console.log(error);

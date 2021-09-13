@@ -17,11 +17,13 @@ import {
   Switch,
   FormControlLabel,
 } from "@material-ui/core";
+import { DataGrid } from '@material-ui/data-grid';
+
 //import {PrintIcon} from "@material-ui/icons";
 
 import LocalPrintshopIcon from "@material-ui/icons/LocalPrintshop";
 
-import { Alert } from "react-bootstrap";
+//import { Alert } from "react-bootstrap";
 import { useReactToPrint } from "react-to-print";
 import { withStyles } from "@material-ui/core";
 
@@ -58,6 +60,9 @@ export const SystemCheckPage = () => {
       </div>
       <div>
         <DuplicateInvoiceCheck />
+      </div>
+      <div>
+        <TailoringDuplicateCheck/>
       </div>
     </>
   );
@@ -388,3 +393,186 @@ export const DuplicateInvoiceCheck = () => {
     </Card>
   );
 };
+
+
+export const TailoringDuplicateCheck=()=>{
+  const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+    pageStyle: () => pageStyle,
+  });
+  const { currentState } = useSelector(
+    (state) => ({ currentState: state.commonPageTypes }),
+    shallowEqual
+  );
+  const [store, setStore] = useState();
+  const [bOn, setBOn] = useState(true);
+
+  const { slipCheck } = currentState;
+  const handleReset = (event) => {
+    dispatch(actions.resetSlip());
+  };
+  // Rents Redux state
+  const dispatch = useDispatch();
+  useEffect(() => {
+    // server call by queryParams
+    dispatch(actions.fetchSlipCheck(store));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch]);
+  const handleButton = () => {
+    if (store == null) alert("Kindly Select Store First");
+    else {
+      // server call by queryParams
+      dispatch(actions.fetchSlipCheck(store));
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      alert(
+        "Please wait while processing your request.... Please ok to continue..."
+      );
+    }
+    //return( <AlertDismissible msg="Please wait while processing your request.... Please ok to continue..."/>);
+  };
+  const DuplicateList = ({ eList }) => {
+    console.log(eList);
+    if (eList != null) setBOn(false);
+    else setBOn(true);
+    return (
+      <>
+        {eList && (
+          <h3 className="h3 text-center text-danger display-4">
+            Duplicate Invoice Entry found
+            <span className="badge badge-pill badge-success ml-5">
+              {eList.length}
+            </span>
+          </h3>
+        )}
+        {eList && (
+          <h5 className="h5 text-left text-info">
+            Duplicate Invoice List below.
+            <br />
+            <hr className="text-danger" />
+          </h5>
+        )}
+        {eList && (
+          <ul className="border border-primary rounded  row">
+            {eList &&
+              eList.map((e) => (
+                <li className="text-warning ml-3 col-lg-3">
+                  Invoice No:{" "}
+                  <span className="text-primary  ml-2">
+                    <em>{e}</em>
+                  </span>
+                </li>
+              ))}
+          </ul>
+        )}
+      </>
+    );
+  };
+
+  const columns=[
+    { field: 'id', headerName: 'ID', width: 90 },
+    { field: 'onDate', headerName: 'Date', width: 90 },
+    { field: 'custName', headerName: 'Customer', width: 90 },
+    { field: 'slipNo', headerName: 'SlipNp', width: 90 },
+    { field: 'amount', headerName: 'Amount', width: 90 },
+    { field: 'qty', headerName: 'Qty', width: 90 },
+    { field: 'slipNos', headerName: 'Slips', width: 90 },
+  ];
+
+
+  const BookingData=(lData)=>{
+
+
+
+    return(<><div>
+      <div> <h3>List of Booking Data </h3></div>
+      <div style={{ height: 400, width: '100%' }}>
+      <DataGrid
+        rows={lData && lData}
+        columns={columns}
+        pageSize={10}
+        checkboxSelection
+        disableSelectionOnClick
+      />
+    </div>
+
+    </div></>);
+
+
+  };
+
+
+  return (
+    <Card>
+      <CardHeader title="Tailoring Duplicate Verification" className="text-info">
+        <Select
+          className="text-center center-align text-primary"
+          value={store}
+          displayEmpty
+          onChange={(event) => setStore(event.target.value)}
+          id="storeSelect"
+        >
+          <MenuItem>Select Store</MenuItem>
+          <MenuItem key={1} value={1}>
+            Dumka
+          </MenuItem>
+          <MenuItem key={2} value={2}>
+            Jamshedpur
+          </MenuItem>
+        </Select>
+
+        <CardHeaderToolbar>
+          <IconButton
+            className="btn btn-success mr-3"
+            onClick={handlePrint}
+            disabled={bOn}
+          >
+            <LocalPrintshopIcon />
+          </IconButton>
+          <Button
+            type="button"
+            className="mr-3 btn btn-info"
+            value="Reset"
+            onClick={() => {
+              handleReset();
+            }}
+          >
+            Reset
+          </Button>
+          <Button
+            type="button"
+            onClick={() => handleButton()}
+            className="btn btn-primary"
+            value="Slip Check"
+          >
+            Slip Check
+          </Button>
+          {/* <ReactToPrint trigger={() => <button>Print</button>}content={() => componentRef.current} /> */}
+        </CardHeaderToolbar>
+      </CardHeader>
+      <CardBody ref={componentRef} pageStyle={pageStyle}>
+        {slipCheck && slipCheck.IsDuplicate ? (
+          <div className=" text-center text-warning h2">
+            No Duplicate Slip found!
+          </div>
+        ) : (
+          <DuplicateList
+            eList={
+              slipCheck &&
+              slipCheck.Duplicates &&
+              slipCheck.Duplicates
+            }
+          />
+        )}
+
+        {slipCheck && slipCheck.Data &&<BookingData lData={slipCheck && slipCheck.Data && slipCheck.Data} />}
+      </CardBody>
+      <CardFooter>
+        <div className="text-danger text-italic">
+          Note:Kindly verify with Slip list for further details.
+        </div>
+      </CardFooter>
+    </Card>
+  );
+
+}

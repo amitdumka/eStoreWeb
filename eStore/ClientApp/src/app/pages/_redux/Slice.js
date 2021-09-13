@@ -5,7 +5,8 @@ const initialState = {
   actionsLoading: false,
   lastError: null,
   duplicateInvCheckList:null, 
-  tailoringCheckList:null
+  tailoringCheckList:null, 
+  slipCheck:null
 
 };
 
@@ -52,6 +53,13 @@ export const commonPageTypesSlice = createSlice({
         state.listLoading = false;
         state.error = null;
         state.duplicateInvCheckList = entities;
+      },
+      slipCheckFetched: function(state, action) {
+        const { entities } = action.payload;
+        state.actionsLoading = false;
+        state.listLoading = false;
+        state.error = null;
+        state.slipCheck = entities;
       },
        
   },

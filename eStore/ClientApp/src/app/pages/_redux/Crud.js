@@ -14,3 +14,7 @@ export async function getTailoringChecks(rData) {
 export async function getDuplicateInvChecks(id) {
     return await axios.get(BASE_URL+"api/controlCheckWork/invCheck?storeId="+id);
 }
+
+export async function getDuplicateSlipChecks(id) {
+  return await axios.get(BASE_URL+"api/controlCheckWork/slipCheck?storeId="+id);
+}
