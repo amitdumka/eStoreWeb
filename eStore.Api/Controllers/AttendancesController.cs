@@ -28,7 +28,7 @@ namespace eStore.API.Controllers
             _mapper = mapper;
         }
 
-        // DELETE: api/Attendances/5
+        // DELETE: api/Attendances/5                
         [HttpDelete ("{id}")]
         public async Task<IActionResult> DeleteAttendance(int id)
         {
@@ -37,11 +37,9 @@ namespace eStore.API.Controllers
             {
                 return NotFound ();
             }
-
             _context.Attendances.Remove (attendance);
             new PayrollManager ().ONInsertOrUpdate (_context, attendance, CRUD.Delete);
             await _context.SaveChangesAsync ();
-
             return NoContent ();
         }
 
@@ -55,23 +53,8 @@ namespace eStore.API.Controllers
             {
                 return NotFound ();
             }
-           // attendance.Employee = await _context.Employees.FindAsync (attendance.EmployeeId);
-           // return _mapper.Map<AttendanceDto> (attendance);
             return attendance;
         }
-        //[HttpGet ("dto/{id}")]
-        //public async Task<ActionResult<AttendanceDto>> GetAttendanceDto(int id)
-        //{
-        //    var attendance = await _context.Attendances.FindAsync (id);
-
-        //    if ( attendance == null )
-        //    {
-        //        return NotFound ();
-        //    }
-        //    attendance.Employee = await _context.Employees.FindAsync (attendance.EmployeeId);
-        //    return _mapper.Map<AttendanceDto> (attendance);
-        //    //return attendance;
-        //}
 
         // GET: api/Attendances
         [HttpGet]
@@ -154,19 +137,20 @@ namespace eStore.API.Controllers
                 }
             }
 
-            DateTime onDate =(bool) queryParms.Yesterday ? DateTime.Today.AddDays (-1) : DateTime.Today;
+            DateTime onDate = queryParms.OnDate.HasValue ? queryParms.OnDate.Value : DateTime.Today;
 
             var attList = _context.Attendances.Include (c => c.Employee).Include (a => a.Store).
                 Where (c => c.AttDate.Date == onDate.Date).ToList ();
 
             //Filter and Search
-            if ( queryParms.OnDate != null )
-            {
-                Filters [5] = 1;
-                attList = _context.Attendances.Include (c => c.Employee).Include (a => a.Store).
-                Where (c => c.AttDate.Date == ( queryParms.OnDate.HasValue ? queryParms.OnDate.Value : DateTime.Today ).Date).ToList ();
-            }
-            else if ( queryParms.EmployeeId > 0 )
+            //if ( queryParms.OnDate != null )
+            //{
+            //    Filters [5] = 1;
+            //    attList = _context.Attendances.Include (c => c.Employee).Include (a => a.Store).
+            //    Where (c => c.AttDate.Date == ( queryParms.OnDate.HasValue ? queryParms.OnDate.Value : DateTime.Today ).Date).ToList ();
+            //}
+            //else
+            if ( queryParms.EmployeeId > 0 )
             {
                 Filters [0] = 1;
                 attList = _context.Attendances.Include (c => c.Employee).Include (a => a.Store).
@@ -249,7 +233,7 @@ namespace eStore.API.Controllers
         public string StaffName { get; set; }
         public AttUnit? Status { get; set; }
         public EmpType? Type { get; set; }
-        public bool? Yesterday { get; set; }
+        //public bool? Yesterday { get; set; }
     }
 
     public class FindDTO
