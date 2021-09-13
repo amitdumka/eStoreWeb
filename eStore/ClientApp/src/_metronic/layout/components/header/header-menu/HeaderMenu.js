@@ -40,7 +40,7 @@ export function HeaderMenu({ layoutProps }) {
         <AccountingMenu layoutProps={layoutProps} />
         <PayrollMenu layoutProps={layoutProps} />
         <SalesMenu layoutProps={layoutProps} />
-        <PurchaseMenu layoutProps={layoutProps} />
+        {/* <PurchaseMenu layoutProps={layoutProps} /> */}
         <StoreMenu layoutProps={layoutProps} />
       </ul>
       {/*end::Header Nav*/}

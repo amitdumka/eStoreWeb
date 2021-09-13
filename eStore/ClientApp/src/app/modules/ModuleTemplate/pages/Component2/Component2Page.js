@@ -10,7 +10,7 @@ import { DeletesDialog } from "./dialogs/DeletesDialog";
 import { FetchDialog } from "./dialogs/FetchDialog";
 import { UpdateStateDialog } from "./dialogs/UpdateStateDialog";
 import { UIProvider } from "./UIContext";
-import { RentedLocationsCard } from "./RentedLocationsCard";
+import { RentedLocationsCard } from "./ViewCard";
 
 //RentedLocation
 //rentedLocation

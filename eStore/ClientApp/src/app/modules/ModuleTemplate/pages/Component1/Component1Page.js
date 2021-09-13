@@ -9,8 +9,11 @@ import { UpdateStateDialog } from "./dialogs/UpdateStateDialog";
 import { UIProvider } from "./UIContext";
 import { ViewCard } from "./ViewCard";
 
-const BasePath = "/renting";
-const ComPath = BasePath + "/" + "rents";
+//Including Setting Page is Must.
+import {Settings} from ".Settings";
+
+const BasePath = Settings.BasePath
+const ComPath = BasePath + "/" + Settings.ComPath;
 
 export function Component1Page({ history }) {
   const uiEvents = {

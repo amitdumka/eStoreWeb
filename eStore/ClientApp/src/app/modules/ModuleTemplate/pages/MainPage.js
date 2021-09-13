@@ -3,15 +3,19 @@ import { Redirect, Switch } from "react-router-dom";
 import { LayoutSplashScreen, ContentRoute } from "../../../../_metronic/layout";
 
 // List of components Add here
-import { RentsPage } from "./Component1/Component1Page";
-import { RentedLocationsPage } from "./Component2/RentedLocationsPage";
+import { Component1Page  as VendorPage} from "./Component1/Component1Page";
+import { Component2Page  as VendorPaymentPage} from "./Component2/Component2Page";
 
-const BasePath = "/renting";
-const DefaultPath = "/renting/rents";
+//TODO: Templeting using Vendor and Vendor Payment System. 
+//Vendor , Vendor Payment, and Vendor Debit Credit Note will be in path.
+
+const BasePath = "/vendor/";
+const DefaultPath = "/vendor/vendors";
 
 const ComponentList = [
-  { path: "rents", component: { RentsPage } },
-  { path: "rentedLocations", component: { RentedLocationsPage } },
+  { path: "vendors", component: { VendorPage } },
+  { path: "vendorPayments", component: { VendorPaymentPage } },
+  { path: "vendorVouchers", component: { VendorPage } },
 ];
 
 export default function MainPage() {
