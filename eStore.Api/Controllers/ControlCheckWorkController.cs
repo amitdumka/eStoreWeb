@@ -287,7 +287,7 @@ namespace eStore.Api.Controllers
         }
 
         [HttpGet("slipCheck")]
-        public ActionResult<TDupCheck> TailoringDuplicateCheck(int StoreId)
+        public ActionResult<TDupCheck> GetTailoringDuplicateCheck(int StoreId)
         {
             var data = db.TalioringBookings.Where(c => c.StoreId == StoreId && c.BookingDate.Date >= new DateTime(2020, 8, 5))
                 .OrderBy(c => c.BookingDate)
@@ -332,6 +332,48 @@ namespace eStore.Api.Controllers
 
 
         }
+
+        [HttpGet("invLists")]
+        public SDataList GetSaleLists(int StoreId)
+        {
+            var tData = db.DailySales.Where(c => c.StoreId == StoreId && c.IsTailoringBill)
+                .Select(c=>new SData{Date=c.SaleDate, InvNo=c.InvNo,Amount=c.Amount })
+                .ToList();
+            var mData = db.DailySales.Where(c => c.StoreId == StoreId && c.IsManualBill)
+               .Select(c => new SData { Date = c.SaleDate, InvNo = c.InvNo, Amount = c.Amount })
+               .ToList();
+            var sData = db.DailySales.Where(c => c.StoreId == StoreId && !c.IsManualBill && c.IsTailoringBill && !c.IsSaleReturn)
+              .Select(c => new SData { Date = c.SaleDate, InvNo = c.InvNo, Amount = c.Amount })
+              .ToList();
+            var srData = db.DailySales.Where(c => c.StoreId == StoreId && c.IsSaleReturn)
+              .Select(c => new SData { Date = c.SaleDate, InvNo = c.InvNo, Amount = c.Amount })
+              .ToList();
+            var dData = db.DailySales.Where(c => c.StoreId == StoreId && c.IsDue)
+              .Select(c => new SData { Date = c.SaleDate, InvNo = c.InvNo, Amount = c.Amount })
+              .ToList();
+
+            SDataList list = new SDataList {Tailoring=tData, Due=dData, Manual=mData, Regular=sData, SaleReturn=srData };
+            return list;
+        }
+
+
+
+    }
+    public class SDataList
+    {
+        public List<SData> Tailoring { get; set; }
+        public List<SData> Manual { get; set; }
+        public List<SData> Regular { get; set; }
+        public List<SData> SaleReturn { get; set; }
+        public List<SData> Due { get; set; }
+
+
+    }
+    public class SData
+    {
+        public DateTime Date { get; set; }
+        public string InvNo { get; set; }
+        public decimal Amount { get; set; }
     }
 
     public class TDupCheck
