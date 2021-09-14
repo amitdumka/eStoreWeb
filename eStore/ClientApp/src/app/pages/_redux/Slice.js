@@ -4,20 +4,15 @@ const initialState = {
   listLoading: false,
   actionsLoading: false,
   lastError: null,
-  duplicateInvCheckList:null, 
-  tailoringCheckList:null, 
-  slipCheck:null
-
+  duplicateInvCheckList: null,
+  tailoringCheckList: null,
+  slipCheck: null,
 };
-
 
 export const callTypes = {
   list: "list",
   action: "action",
 };
-
-
-
 
 export const commonPageTypesSlice = createSlice({
   name: "commonPageTypes",
@@ -48,19 +43,18 @@ export const commonPageTypesSlice = createSlice({
       state.tailoringCheckList = entities;
     },
     duplicateInvCheckFetched: function(state, action) {
-        const { entities } = action.payload;
-        state.actionsLoading = false;
-        state.listLoading = false;
-        state.error = null;
-        state.duplicateInvCheckList = entities;
-      },
-      slipCheckFetched: function(state, action) {
-        const { entities } = action.payload;
-        state.actionsLoading = false;
-        state.listLoading = false;
-        state.error = null;
-        state.slipCheck = entities;
-      },
-       
+      const { entities } = action.payload;
+      state.actionsLoading = false;
+      state.listLoading = false;
+      state.error = null;
+      state.duplicateInvCheckList = entities;
+    },
+    slipCheckFetched: function(state, action) {
+      const { entities } = action.payload;
+      state.actionsLoading = false;
+      state.listLoading = false;
+      state.error = null;
+      state.slipCheck = entities;
+    },
   },
 });

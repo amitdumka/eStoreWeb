@@ -15,10 +15,11 @@ import {
   Button,
   IconButton,
   Switch,
-  FormControlLabel,
+  FormControlLabel,List, ListItem,ListItemText
 } from "@material-ui/core";
-import { DataGrid } from '@material-ui/data-grid';
-
+import { DataGrid,GridToolbar,GridToolbarContainer, GridToolbarExport } from '@mui/x-data-grid';
+//import { DataGrid,GridToolbar  } from "@material-ui/data-grid";
+//import { useDemoData } from '@mui/x-data-grid-generator';
 //import {PrintIcon} from "@material-ui/icons";
 
 import LocalPrintshopIcon from "@material-ui/icons/LocalPrintshop";
@@ -62,12 +63,38 @@ export const SystemCheckPage = () => {
         <DuplicateInvoiceCheck />
       </div>
       <div>
-        <TailoringDuplicateCheck/>
+        <TailoringDuplicateCheck />
       </div>
     </>
   );
 };
 
+function generate(element) {
+  return [0, 1, 2].map((value) =>
+    React.cloneElement(element, {
+      key: value,
+    }),
+  );
+}
+function AItem({text}){
+  console.log(text);
+  if(text!=null && text.length>0){
+    return(
+      <ListItem><ListItemText primary={text} secondary={null}/></ListItem>
+    );
+  }
+  return null;
+}
+
+function LItem({items}){
+  console.log(items);
+  return (
+    <List dense={true}>
+      {items.map((value)=> <AItem text={value}/>)}
+    </List>
+    
+  );
+}
 export const TailoringCheck = () => {
   // Getting curret state of  list from store (Redux)
   const { currentState } = useSelector(
@@ -86,8 +113,7 @@ export const TailoringCheck = () => {
     content: () => componentRef.current,
     pageStyle: () => pageStyle,
   });
-  const [RData,setRData]= useState("{ storeId:0, delivery:false }");
-  
+  const [RData, setRData] = useState("{ storeId:1, delivery:false }");
 
   //  Redux state
   const dispatch = useDispatch();
@@ -97,9 +123,9 @@ export const TailoringCheck = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
   const handleButton = () => {
-    const rData={
-      storeId:store,
-      delivery:delivery
+    const rData = {
+      storeId: store,
+      delivery: delivery,
     };
     console.log(rData);
     console.log(store);
@@ -115,6 +141,47 @@ export const TailoringCheck = () => {
         "Please wait while processing your request.... Please ok to continue..."
       );
     }
+  };
+
+  const DList=({listData})=>{
+    const mData="#C33IN1900933#163#ARD0799#12/02/2019 00:00:00#12/23/2019 00:00:00#56#12/16/2019 00:00:00#4150.0000#2700.0000#;\tDelivery and Booking amount not matching;";
+    const columns=[
+      { field: "id", headerName: "ID", width: 90 },
+      { field: "invNo", headerName: "Inv", minWidth: 150  },
+      { field: "slipNo", headerName: "Slip", minWidth: 100 },
+      { field: "bookingDate", headerName: "Date", minWidth: 100 , type: 'date'},
+      { field: "deliveryDate", headerName: "Delivery", minWidth: 100 , type: 'date'},
+      { field: "proposeDate", headerName: "Propose", minWidth: 100 , type: 'date'},
+      { field: "amount", headerName: "Amount/Paid", minWidth: 160}, 
+      { field: "errors", headerName: "Error(s)", minWidth: 290,
+      renderCell: (params) => {
+        return <div className="rowitem text-danger">{params.row.errors && <LItem items={params.row.errors}/>}</div>;
+      }
+
+      }, 
+    ];
+   //{generate(<ListItem><ListItemText primary={im}/></ListItem>,)}
+    const itemList = Object.keys(listData).map(function(keyName, keyIndex) {
+      return sM(listData[keyName]);
+    });
+    console.log(itemList);
+    return(<div>
+      <div style={{ height: 800, width: "100%" }}>
+            <DataGrid
+             rowHeight={76}
+              rows={itemList && itemList}
+              columns={columns}
+              pageSize={10}
+              checkboxSelection
+              disableSelectionOnClick
+              components={{
+                Toolbar: GridToolbar,
+                //Toolbar: CustomToolbar,
+              }}
+            />
+          </div>
+    </div>);
+
   };
 
   const HandleInvLists = ({ listData }) => {
@@ -140,6 +207,21 @@ export const TailoringCheck = () => {
       );
     } else setBOn(true);
   };
+
+  const sM=(msg) => {
+    if(msg!==""){
+      var dMsg = msg.split("#");
+      var error = dMsg[dMsg.length - 1].split(";");
+      const row={
+        invNo:dMsg[1], id:dMsg[2]+"/"+dMsg[6],
+        slipNo:dMsg[3],bookingDate:dMsg[4],deliveryDate:dMsg[5],
+        proposeDate:dMsg[7],amount:dMsg[9]+"/"+dMsg[8],
+        errors:error
+      };
+      return row;
+    }else return null;
+  };
+
   const stringMessage = (msg) => {
     console.log(msg);
     if (msg !== "") {
@@ -237,7 +319,7 @@ export const TailoringCheck = () => {
       </CardHeader>
       <CardBody ref={componentRef}>
         {tailoringCheckList && (
-          <HandleInvLists listData={tailoringCheckList.invErrorList} />
+          <DList listData={tailoringCheckList.invErrorList} />
         )}
       </CardBody>
     </Card>
@@ -277,7 +359,7 @@ export const DuplicateInvoiceCheck = () => {
   //   setStore(event.target.value);
   // };
   const ErrorList = ({ eList }) => {
-    console.log(eList);
+    // console.log(eList);
     if (eList != null) setBOn(false);
     else setBOn(true);
     return (
@@ -394,8 +476,7 @@ export const DuplicateInvoiceCheck = () => {
   );
 };
 
-
-export const TailoringDuplicateCheck=()=>{
+export const TailoringDuplicateCheck = () => {
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
@@ -405,7 +486,7 @@ export const TailoringDuplicateCheck=()=>{
     (state) => ({ currentState: state.commonPageTypes }),
     shallowEqual
   );
-  const [store, setStore] = useState();
+  const [store, setStore] = useState(1);
   const [bOn, setBOn] = useState(true);
 
   const { slipCheck } = currentState;
@@ -432,7 +513,7 @@ export const TailoringDuplicateCheck=()=>{
     //return( <AlertDismissible msg="Please wait while processing your request.... Please ok to continue..."/>);
   };
   const DuplicateList = ({ eList }) => {
-    console.log(eList);
+    //console.log(eList);
     if (eList != null) setBOn(false);
     else setBOn(true);
     return (
@@ -469,42 +550,56 @@ export const TailoringDuplicateCheck=()=>{
     );
   };
 
-  const columns=[
-    { field: 'id', headerName: 'ID', width: 90 },
-    { field: 'onDate', headerName: 'Date', width: 90 },
-    { field: 'custName', headerName: 'Customer', width: 90 },
-    { field: 'slipNo', headerName: 'SlipNp', width: 90 },
-    { field: 'amount', headerName: 'Amount', width: 90 },
-    { field: 'qty', headerName: 'Qty', width: 90 },
-    { field: 'slipNos', headerName: 'Slips', width: 90 },
+  const columns = [
+    { field: "id", headerName: "ID", width: 90 },
+    { field: "onDate", headerName: "Date", minWidth: 150, type: 'date'  },
+    { field: "custName", headerName: "Customer", minWidth: 150},
+    { field: "slipNo", headerName: "Slip No", minWidth: 150 },
+    { field: "amount", headerName: "Amount", minWidth: 150 },
+    { field: "qty", headerName: "Qty", minWidth: 150 },
+    { field: "slipNos", headerName: "Slips", minWidth: 150,
+    valueFormatter: (params) => {
+      const valueFormatted = Number(params.value[1]).toLocaleString();
+      return `${valueFormatted}`;
+    }  
+  },
   ];
 
+  
 
-  const BookingData=(lData)=>{
-
-
-
-    return(<><div>
-      <div> <h3>List of Booking Data </h3></div>
-      <div style={{ height: 400, width: '100%' }}>
-      <DataGrid
-        rows={lData && lData}
-        columns={columns}
-        pageSize={10}
-        checkboxSelection
-        disableSelectionOnClick
-      />
-    </div>
-
-    </div></>);
-
-
+  const BookingData = ({lData}) => {
+    console.log(lData);
+    return (
+      <>
+        <div>
+          <div>
+            <h3>List of Booking Data </h3>
+          </div>
+          <div style={{ height: 650, width: "100%" }}>
+            <DataGrid
+            className="text-primary"
+              rows={lData && lData}
+              columns={columns}
+              pageSize={10}
+              checkboxSelection
+              disableSelectionOnClick
+              components={{
+                Toolbar: GridToolbar,
+                //Toolbar: CustomToolbar,
+              }}
+            />
+          </div>
+        </div>
+      </>
+    );
   };
-
 
   return (
     <Card>
-      <CardHeader title="Tailoring Duplicate Verification" className="text-info">
+      <CardHeader
+        title="Tailoring Duplicate Verification"
+        className="text-info"
+      >
         <Select
           className="text-center center-align text-primary"
           value={store}
@@ -557,15 +652,13 @@ export const TailoringDuplicateCheck=()=>{
           </div>
         ) : (
           <DuplicateList
-            eList={
-              slipCheck &&
-              slipCheck.Duplicates &&
-              slipCheck.Duplicates
-            }
+            eList={slipCheck && slipCheck.duplicates && slipCheck.duplicates}
           />
         )}
 
-        {slipCheck && slipCheck.Data &&<BookingData lData={slipCheck && slipCheck.Data && slipCheck.Data} />}
+        {slipCheck && slipCheck.data && (
+          <BookingData lData={slipCheck && slipCheck.data && slipCheck.data} />
+        )}
       </CardBody>
       <CardFooter>
         <div className="text-danger text-italic">
@@ -574,5 +667,12 @@ export const TailoringDuplicateCheck=()=>{
       </CardFooter>
     </Card>
   );
+};
 
+function CustomToolbar() {
+  return (
+    <GridToolbarContainer>
+      <GridToolbarExport />
+    </GridToolbarContainer>
+  );
 }
