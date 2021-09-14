@@ -1,3 +1,4 @@
+//import "@fontsource/roboto";
 import React, { useEffect, useState, useRef } from "react";
 import { useSubheader } from "../../_metronic/layout";
 import {
@@ -12,12 +13,21 @@ import * as actions from "./_redux/Actions";
 import {
   Select,
   MenuItem,
+  Typography,
   Button,
   IconButton,
   Switch,
-  FormControlLabel,List, ListItem,ListItemText
+  FormControlLabel,
+  List,
+  ListItem,
+  ListItemText,
 } from "@material-ui/core";
-import { DataGrid,GridToolbar,GridToolbarContainer, GridToolbarExport } from '@mui/x-data-grid';
+import {
+  DataGrid,
+  GridToolbar,
+  GridToolbarContainer,
+  GridToolbarExport,
+} from "@mui/x-data-grid";
 //import { DataGrid,GridToolbar  } from "@material-ui/data-grid";
 //import { useDemoData } from '@mui/x-data-grid-generator';
 //import {PrintIcon} from "@material-ui/icons";
@@ -69,30 +79,33 @@ export const SystemCheckPage = () => {
   );
 };
 
-function generate(element) {
+export function generate(element) {
   return [0, 1, 2].map((value) =>
     React.cloneElement(element, {
       key: value,
-    }),
+    })
   );
 }
-function AItem({text}){
+export function AItem({ text }) {
   console.log(text);
-  if(text!=null && text.length>0){
-    return(
-      <ListItem><ListItemText primary={text} secondary={null}/></ListItem>
+  if (text != null && text.length > 0) {
+    return (
+      <ListItem>
+        <ListItemText primary={text} secondary={null} />
+      </ListItem>
     );
   }
   return null;
 }
 
-function LItem({items}){
+export function LItem({ items }) {
   console.log(items);
   return (
     <List dense={true}>
-      {items.map((value)=> <AItem text={value}/>)}
+      {items.map((value) => (
+        <AItem text={value} />
+      ))}
     </List>
-    
   );
 }
 export const TailoringCheck = () => {
@@ -143,45 +156,63 @@ export const TailoringCheck = () => {
     }
   };
 
-  const DList=({listData})=>{
-    const mData="#C33IN1900933#163#ARD0799#12/02/2019 00:00:00#12/23/2019 00:00:00#56#12/16/2019 00:00:00#4150.0000#2700.0000#;\tDelivery and Booking amount not matching;";
-    const columns=[
+  const DList = ({ listData }) => {
+    const mData =
+      "#C33IN1900933#163#ARD0799#12/02/2019 00:00:00#12/23/2019 00:00:00#56#12/16/2019 00:00:00#4150.0000#2700.0000#;\tDelivery and Booking amount not matching;";
+    const columns = [
       { field: "id", headerName: "ID", width: 90 },
-      { field: "invNo", headerName: "Inv", minWidth: 150  },
+      { field: "invNo", headerName: "Inv", minWidth: 150 },
       { field: "slipNo", headerName: "Slip", minWidth: 100 },
-      { field: "bookingDate", headerName: "Date", minWidth: 100 , type: 'date'},
-      { field: "deliveryDate", headerName: "Delivery", minWidth: 100 , type: 'date'},
-      { field: "proposeDate", headerName: "Propose", minWidth: 100 , type: 'date'},
-      { field: "amount", headerName: "Amount/Paid", minWidth: 160}, 
-      { field: "errors", headerName: "Error(s)", minWidth: 290,
-      renderCell: (params) => {
-        return <div className="rowitem text-danger">{params.row.errors && <LItem items={params.row.errors}/>}</div>;
-      }
-
-      }, 
+      { field: "bookingDate", headerName: "Date", minWidth: 100, type: "date" },
+      {
+        field: "deliveryDate",
+        headerName: "Delivery",
+        minWidth: 100,
+        type: "date",
+      },
+      {
+        field: "proposeDate",
+        headerName: "Propose",
+        minWidth: 100,
+        type: "date",
+      },
+      { field: "amount", headerName: "Amount/Paid", minWidth: 160 },
+      {
+        field: "errors",
+        headerName: "Error(s)",
+        minWidth: 290,
+        renderCell: (params) => {
+          return (
+            <div className="rowitem text-danger">
+              {params.row.errors && <LItem items={params.row.errors} />}
+            </div>
+          );
+        },
+      },
     ];
-   //{generate(<ListItem><ListItemText primary={im}/></ListItem>,)}
+    //{generate(<ListItem><ListItemText primary={im}/></ListItem>,)}
     const itemList = Object.keys(listData).map(function(keyName, keyIndex) {
       return sM(listData[keyName]);
     });
     console.log(itemList);
-    return(<div>
-      <div style={{ height: 800, width: "100%" }}>
-            <DataGrid
-             rowHeight={76}
-              rows={itemList && itemList}
-              columns={columns}
-              pageSize={10}
-              checkboxSelection
-              disableSelectionOnClick
-              components={{
-                Toolbar: GridToolbar,
-                //Toolbar: CustomToolbar,
-              }}
-            />
-          </div>
-    </div>);
-
+    return (
+      <div>
+        <div style={{ height: 800, width: "100%" }}>
+          <DataGrid
+            rowHeight={76}
+            rows={itemList && itemList}
+            columns={columns}
+            pageSize={10}
+            checkboxSelection
+            disableSelectionOnClick
+            components={{
+              Toolbar: GridToolbar,
+              //Toolbar: CustomToolbar,
+            }}
+          />
+        </div>
+      </div>
+    );
   };
 
   const HandleInvLists = ({ listData }) => {
@@ -208,18 +239,22 @@ export const TailoringCheck = () => {
     } else setBOn(true);
   };
 
-  const sM=(msg) => {
-    if(msg!==""){
+  const sM = (msg) => {
+    if (msg !== "") {
       var dMsg = msg.split("#");
       var error = dMsg[dMsg.length - 1].split(";");
-      const row={
-        invNo:dMsg[1], id:dMsg[2]+"/"+dMsg[6],
-        slipNo:dMsg[3],bookingDate:dMsg[4],deliveryDate:dMsg[5],
-        proposeDate:dMsg[7],amount:dMsg[9]+"/"+dMsg[8],
-        errors:error
+      const row = {
+        invNo: dMsg[1],
+        id: dMsg[2] + "/" + dMsg[6],
+        slipNo: dMsg[3],
+        bookingDate: dMsg[4],
+        deliveryDate: dMsg[5],
+        proposeDate: dMsg[7],
+        amount: dMsg[9] + "/" + dMsg[8],
+        errors: error,
       };
       return row;
-    }else return null;
+    } else return null;
   };
 
   const stringMessage = (msg) => {
@@ -513,25 +548,30 @@ export const TailoringDuplicateCheck = () => {
     //return( <AlertDismissible msg="Please wait while processing your request.... Please ok to continue..."/>);
   };
   const DuplicateList = ({ eList }) => {
-    //console.log(eList);
+    if (eList == null || eList.length == 0)
+      return (
+        <Typography gutterBottom  variant="h4" className="text-success text-center text-italic">
+          No Duplicate Entry found!
+        </Typography>
+      );
     if (eList != null) setBOn(false);
     else setBOn(true);
     return (
       <>
         {eList && (
-          <h3 className="h3 text-center text-danger display-4">
-            Duplicate Invoice Entry found
+          <Typography gutterBottom variant="h4" className="h3 text-center text-danger display-4">
+            Duplicate Invoice/Booking Slip Entry found
             <span className="badge badge-pill badge-success ml-5">
               {eList.length}
             </span>
-          </h3>
+          </Typography>
         )}
         {eList && (
-          <h5 className="h5 text-left text-info">
-            Duplicate Invoice List below.
+          <Typography variant="h5" gutterBottom className="h5 text-left text-info">
+            Duplicate Invoice/Booking Slip List below.
             <br />
             <hr className="text-danger" />
-          </h5>
+          </Typography>
         )}
         {eList && (
           <ul className="border border-primary rounded  row">
@@ -552,32 +592,40 @@ export const TailoringDuplicateCheck = () => {
 
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
-    { field: "onDate", headerName: "Date", minWidth: 150, type: 'date'  },
-    { field: "custName", headerName: "Customer", minWidth: 150},
+    { field: "onDate", headerName: "Date", minWidth: 150, type: "date" },
+    { field: "custName", headerName: "Customer", minWidth: 150 },
     { field: "slipNo", headerName: "Slip No", minWidth: 150 },
     { field: "amount", headerName: "Amount", minWidth: 150 },
     { field: "qty", headerName: "Qty", minWidth: 150 },
-    { field: "slipNos", headerName: "Slips", minWidth: 150,
-    valueFormatter: (params) => {
-      const valueFormatted = Number(params.value[1]).toLocaleString();
-      return `${valueFormatted}`;
-    }  
-  },
+    {
+      field: "slipNos",
+      headerName: "Slips",
+      minWidth: 150,
+      valueFormatter: (params) => {
+        const valueFormatted = Number(params.value[1]).toLocaleString();
+        return `${valueFormatted}`;
+      },
+    },
   ];
 
-  
-
-  const BookingData = ({lData}) => {
+  const BookingData = ({ lData }) => {
     console.log(lData);
     return (
       <>
-        <div>
-          <div>
-            <h3>List of Booking Data </h3>
+        <div className="border rounded m-5 p-3 border-primary">
+          <div className="mr-4">
+            <Typography
+              variant="h4"
+             
+              gutterBottom
+              className="text-info text-italic"
+            >
+              List of Booking Data after 04/08/2020{" "}
+            </Typography>
           </div>
           <div style={{ height: 650, width: "100%" }}>
             <DataGrid
-            className="text-primary"
+              className="text-primary"
               rows={lData && lData}
               columns={columns}
               pageSize={10}
