@@ -419,9 +419,9 @@ export const AttendaceReportCard = () => {
   }, [dispatch]);
 
   const curYear = new Date().getFullYear() + 1;
-  const [yearArray, setYearArray] = useState([]);
+  const [yearArray] = useState([]);
   const [emp, setEmp] = useState(0);
-  const [repoMode, setRepoMode] = useState(2);
+ // const [repoMode, setRepoMode] = useState(2);
   const [store, setStore] = useState(1);
   const [refreshData, setRefreshData] = useState(false);
   const [finYear, setFinYear] = useState("");
@@ -439,9 +439,9 @@ export const AttendaceReportCard = () => {
   const handleEmpChange = (event) => {
     setEmp(event.target.value);
   };
-  const handleModeChange = (event) => {
-    setRepoMode(event.target.value);
-  };
+  // const handleModeChange = (event) => {
+  //   setRepoMode(event.target.value);
+  // };
   const handleRefreshChange = (event) => {
     setRefreshData(event.target.checked);
   };
@@ -616,7 +616,7 @@ export const AttendaceReportCard = () => {
 export const MonthlyReportCard = () => {
   const curYear = new Date().getFullYear() + 1;
 
-  const [yearArray, setYearArray] = useState([]);
+  const [yearArray] = useState([]);
 
   const [repoMode, setRepoMode] = useState(1);
   const [store, setStore] = useState(1);

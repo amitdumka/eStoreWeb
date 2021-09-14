@@ -2,7 +2,7 @@
 // Data validation is based on Yup
 // Please, be familiar with article first:
 // https://hackernoon.com/react-form-validation-with-formik-and-yup-8b76bda62e10
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
@@ -100,7 +100,8 @@ export function EditForm({
     );
   };
 
-  const updateTotals = useCallback(() => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const updateTotals = () => {
     booking.totalAmount =
       booking.shirtPrice +
       booking.pantPrice +
@@ -108,7 +109,7 @@ export function EditForm({
       booking.kurtaPrice +
       booking.bundiPrice +
       booking.othersPrice;
-    booking.totalQty =
+      booking.totalQty =
       booking.shirtQty +
       booking.pantQty +
       booking.coatQty +
@@ -118,7 +119,7 @@ export function EditForm({
     console.log(booking.totalAmount);
     console.log(booking.totalQty);
     //setTotalQty(totalQty+booking.totalQty);
-  });
+  };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const updateRowData = () => {
@@ -127,7 +128,7 @@ export function EditForm({
   Suit [Price/Qty]  ${booking.coatPrice}/ ${booking.coatQty}
   Kurta [Price/Qty]  ${booking.kurtaPrice}/ ${booking.kurtaQty}
   Bundi  [Price/Qty] ${booking.bundiPrice} / ${booking.bundiQty}
-  Others [Price/Qty]  ${booking.otherprice} /${booking.others}`;
+  Others [Price/Qty]  ${booking.otherPrice} /${booking.others}`;
     updateTotals(str);
     // setItemData(str);
   };
@@ -275,8 +276,8 @@ export function EditForm({
                     />
                   </div>
                   <div className="col-lg-4">
-                    Deliveried{" "}
-                    <Checkbox name="isDelivered" label="Deliveried" />
+                    Delivered{" "}
+                    <Checkbox name="isDelivered" label="Delivered" />
                   </div>
                 </div>
                 <div className="form-group row">

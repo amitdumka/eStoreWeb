@@ -1,4 +1,3 @@
-//import "@fontsource/roboto";
 import React, { useEffect, useState, useRef } from "react";
 import { useSubheader } from "../../_metronic/layout";
 import {
@@ -22,13 +21,13 @@ import {
   ListItem,
   ListItemText,
 } from "@material-ui/core";
-import {
-  DataGrid,
-  GridToolbar,
-  GridToolbarContainer,
-  GridToolbarExport,
-} from "@mui/x-data-grid";
-//import { DataGrid,GridToolbar  } from "@material-ui/data-grid";
+// import {
+//   DataGrid,
+//   GridToolbar,
+//   //GridToolbarContainer,
+//  // GridToolbarExport,
+// } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar } from "@material-ui/data-grid";
 //import { useDemoData } from '@mui/x-data-grid-generator';
 //import {PrintIcon} from "@material-ui/icons";
 
@@ -61,8 +60,8 @@ const PurpleSwitch = withStyles({
 })(Switch);
 
 export const SystemCheckPage = () => {
-  const suhbeader = useSubheader();
-  suhbeader.setTitle("eStore System Check");
+  const subHeader = useSubheader();
+  subHeader.setTitle("eStore System Check");
 
   return (
     <>
@@ -109,7 +108,7 @@ export function LItem({ items }) {
   );
 }
 export const TailoringCheck = () => {
-  // Getting curret state of  list from store (Redux)
+  // Getting current state of  list from store (Redux)
   const { currentState } = useSelector(
     (state) => ({
       currentState: state.commonPageTypes,
@@ -157,8 +156,6 @@ export const TailoringCheck = () => {
   };
 
   const DList = ({ listData }) => {
-    const mData =
-      "#C33IN1900933#163#ARD0799#12/02/2019 00:00:00#12/23/2019 00:00:00#56#12/16/2019 00:00:00#4150.0000#2700.0000#;\tDelivery and Booking amount not matching;";
     const columns = [
       { field: "id", headerName: "ID", width: 90 },
       { field: "invNo", headerName: "Inv", minWidth: 150 },
@@ -183,7 +180,7 @@ export const TailoringCheck = () => {
         minWidth: 290,
         renderCell: (params) => {
           return (
-            <div className="rowitem text-danger">
+            <div className="rowItem text-danger">
               {params.row.errors && <LItem items={params.row.errors} />}
             </div>
           );
@@ -215,6 +212,7 @@ export const TailoringCheck = () => {
     );
   };
 
+  // eslint-disable-next-line no-unused-vars
   const HandleInvLists = ({ listData }) => {
     // console.log(listData);
     // var itemList;
@@ -548,9 +546,13 @@ export const TailoringDuplicateCheck = () => {
     //return( <AlertDismissible msg="Please wait while processing your request.... Please ok to continue..."/>);
   };
   const DuplicateList = ({ eList }) => {
-    if (eList == null || eList.length == 0)
+    if (eList === null || eList.length === 0)
       return (
-        <Typography gutterBottom  variant="h4" className="text-success text-center text-italic">
+        <Typography
+          gutterBottom
+          variant="h4"
+          className="text-success text-center text-italic"
+        >
           No Duplicate Entry found!
         </Typography>
       );
@@ -559,7 +561,11 @@ export const TailoringDuplicateCheck = () => {
     return (
       <>
         {eList && (
-          <Typography gutterBottom variant="h4" className="h3 text-center text-danger display-4">
+          <Typography
+            gutterBottom
+            variant="h4"
+            className="h3 text-center text-danger display-4"
+          >
             Duplicate Invoice/Booking Slip Entry found
             <span className="badge badge-pill badge-success ml-5">
               {eList.length}
@@ -567,7 +573,11 @@ export const TailoringDuplicateCheck = () => {
           </Typography>
         )}
         {eList && (
-          <Typography variant="h5" gutterBottom className="h5 text-left text-info">
+          <Typography
+            variant="h5"
+            gutterBottom
+            className="h5 text-left text-info"
+          >
             Duplicate Invoice/Booking Slip List below.
             <br />
             <hr className="text-danger" />
@@ -616,7 +626,6 @@ export const TailoringDuplicateCheck = () => {
           <div className="mr-4">
             <Typography
               variant="h4"
-             
               gutterBottom
               className="text-info text-italic"
             >
@@ -717,10 +726,10 @@ export const TailoringDuplicateCheck = () => {
   );
 };
 
-function CustomToolbar() {
-  return (
-    <GridToolbarContainer>
-      <GridToolbarExport />
-    </GridToolbarContainer>
-  );
-}
+// function CustomToolbar() {
+//   return (
+//     <GridToolbarContainer>
+//       <GridToolbarExport />
+//     </GridToolbarContainer>
+//   );
+// }

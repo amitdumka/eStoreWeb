@@ -5,7 +5,7 @@
 
 import React from "react";
 import { Provider } from "react-redux";
-import { BrowserRouter , useHistory} from "react-router-dom";
+import { BrowserRouter} from "react-router-dom";
 import { PersistGate } from "redux-persist/integration/react";
 import { Routes } from "../app/RoutesV3";
 import { I18nProvider } from "../_metronic/i18n";
@@ -37,13 +37,9 @@ export default function App({ store, persistor, basename }) {
             <MaterialThemeProvider>
               {/* Provide `react-intl` context synchronized with Redux state.  */}
               <I18nProvider>
-                {/* Render routes with provided `Layout`. */}
-  {/* //              <Security {...config.oidc} onAuthRequired={customAuthHandler}> */}
-                  {/* Render routes with provided `Layout`. */}
                    <AuthProvider> 
                        <Routes />
                    </AuthProvider>
-                {/* </Security> */}
               </I18nProvider>
             </MaterialThemeProvider>
           </BrowserRouter>
