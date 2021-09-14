@@ -17,7 +17,7 @@ function Login(props) {
   const { intl } = props;
   const { login, loginWithGoogle } = useAuth();
   const history = useHistory();
-  const [error, setError] = useState("");
+  //const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const LoginSchema = Yup.object().shape({
     email: Yup.string()

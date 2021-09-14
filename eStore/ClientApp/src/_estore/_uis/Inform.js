@@ -14,8 +14,9 @@ import InfoIcon from "@material-ui/icons/Info";
 import CloseIcon from "@material-ui/icons/Close";
 // eslint-disable-next-line no-restricted-imports
 import { colors } from "@material-ui/core";
-import { Button } from "@material-ui/core";
-import { SnackbarProvider, useSnackbar } from "notistack";
+//import { Button } from "@material-ui/core";
+//import { SnackbarProvider, useSnackbar } from "notistack";
+import {  useSnackbar } from "notistack";
 
 //const Modes=["success", "warning", "error", "info", ""];
 const variantIcon = {

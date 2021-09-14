@@ -1,20 +1,21 @@
-import axios from "axios"; import { BASE_URL } from "../../../../../_estore/URLConstants";
+import axios from "axios";
+import { BASE_URL } from "../../../../../_estore/URLConstants";
 
 //Bank
 //bank
 
-export const API_URL = "/api/banks";
+export const API_URL = BASE_URL + "api/banks";
 
 // CREATE =>  POST: add a new bank to the server
 export async function createBank(bank) {
-  return await axios.post(API_URL,  bank,{
-    headers: {         'Content-Type' : 'application/json; charset=utf-8' }
-});
+  return await axios.post(API_URL, bank, {
+    headers: { "Content-Type": "application/json; charset=utf-8" },
+  });
 }
 
 // READ
-export  function getAllBanks() {
-  return  axios.get(API_URL);//.catch(function (error){console.log(error)});
+export function getAllBanks() {
+  return axios.get(API_URL); //.catch(function (error){console.log(error)});
 }
 
 export async function getBankById(bankId) {
@@ -25,21 +26,21 @@ export async function getBankById(bankId) {
 // items => filtered/sorted result
 export async function findBanks(queryParams) {
   console.log(queryParams);
-  return await axios.get(`${API_URL}`);//find`, { queryParams });
+  return await axios.get(`${API_URL}`); //find`, { queryParams });
 }
 
 // UPDATE => PUT: update the bank on the server
 export async function updateBank(bank) {
-  return await axios.put(`${API_URL}/${bank.bankId}`, JSON.stringify( bank ),{
-    headers: {         'Content-Type' : 'application/json; charset=utf-8' }
-});
+  return await axios.put(`${API_URL}/${bank.bankId}`, JSON.stringify(bank), {
+    headers: { "Content-Type": "application/json; charset=utf-8" },
+  });
 }
 
 // UPDATE Status
 export async function updateStatusForBanks(ids, status) {
   return await axios.post(`${API_URL}/updateStatusForBanks`, {
     ids,
-    status
+    status,
   });
 }
 

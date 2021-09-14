@@ -41,7 +41,7 @@ export function ActionsColumnFormatter(
         </span>
       </a>
       <> </>
-    {payMode!=0 &&
+    {payMode!==0 &&
       <a
         title="Payment "
         className="btn btn-icon btn-light btn-hover-danger btn-sm"

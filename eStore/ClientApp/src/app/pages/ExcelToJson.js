@@ -39,7 +39,7 @@ export const make_cols = (refstr) => {
 };
 
 export default function ExcelToJson() {
-  const [startRow, setStartRow] = useState(0);
+  //const [startRow, setStartRow] = useState(0);
   const [sheetName, setSheetName] = useState("");
   const [file, setFile] = useState();
   const [uploadMode, setUploadMode] = useState("");
@@ -48,19 +48,19 @@ export default function ExcelToJson() {
   const handleSheetName = (e) => {
     setSheetName(e.target.value);
   };
-  const handleStartRow = (e) => {
-    setStartRow(e.target.value);
-  };
+  // const handleStartRow = (e) => {
+  //   setStartRow(e.target.value);
+  // };
   const handleClick = (e) => {
     console.log(sheetName);
-    console.log(startRow);
+    //console.log(startRow);
     console.log(file);
 
     readExcelFile("all");
   };
   const handleVoyClick = (e) => {
     console.log(sheetName);
-    console.log(startRow);
+    //console.log(startRow);
     console.log(file);
 
     readExcelFile("voy");
@@ -81,7 +81,7 @@ export default function ExcelToJson() {
     const rABS = !!reader.readAsBinaryString;
     alert("Fetching.....");
     reader.onload = (e) => {
-      console.log(startRow);
+      //console.log(startRow);
       /* Parse data */
       const bstr = e.target.result;
       const wb = XLSX.read(bstr, {

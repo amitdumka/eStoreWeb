@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { Modal } from "react-bootstrap";
-import {ModalProgressBar} from "../../../../../../_metronic/_partials/controls";
+import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
 
 //attendance
 //Attendance
@@ -17,7 +17,7 @@ export function EditDialogHeader({ id }) {
   );
 
   const [title, setTitle] = useState("");
-  // Title 
+  // Title
   useEffect(() => {
     let _title = id ? "" : "New Attendance";
     if (attendanceForEdit && id) {

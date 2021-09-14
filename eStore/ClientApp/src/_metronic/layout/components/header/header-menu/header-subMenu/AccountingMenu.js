@@ -1,8 +1,8 @@
 import React from "react";
 import { useLocation } from "react-router";
 import { NavLink } from "react-router-dom";
-import SVG from "react-inlinesvg";
-import { toAbsoluteUrl, checkIsActive } from "../../../../../_helpers";
+//import SVG from "react-inlinesvg";
+ import { checkIsActive } from "../../../../../_helpers";
 
 export default function AccountingMenu({ layoutProps }) {
   const location = useLocation();

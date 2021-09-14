@@ -15,25 +15,28 @@ import {
 //attendance
 //Attendance
 
-
 // Validation schema
 const AttendanceEditSchema = Yup.object().shape({
   attDate: Yup.date().required("Date is required"),
   status: Yup.number().required("Status is required"),
-  storeId: Yup.number().moreThan(0).required("Store is required"),
-  entryTime:Yup.string().required("Entry time is required"), 
-  employeeId: Yup.number().moreThan(0).required("Employee is required"),
+  storeId: Yup.number()
+    .moreThan(0)
+    .required("Store is required"),
+  entryTime: Yup.string().required("Entry time is required"),
+  employeeId: Yup.number()
+    .moreThan(0)
+    .required("Employee is required"),
 });
 
 export function EditForm({
   saveAttendance,
   attendance,
   actionsLoading,
-  onHide,employeeList,
+  onHide,
+  employeeList,
   attendanceUnits,
-  storeList
+  storeList,
 }) {
-  
   return (
     <>
       <Formik
@@ -41,11 +44,9 @@ export function EditForm({
         initialValues={attendance}
         validationSchema={AttendanceEditSchema}
         onSubmit={(values) => {
-          console.log(values);
           saveAttendance(values);
         }}
       >
-        
         {({ handleSubmit }) => (
           <>
             <Modal.Body className="overlay overlay-block cursor-default">
@@ -55,16 +56,16 @@ export function EditForm({
                 </div>
               )}
               <Form className="form form-label-right">
-
                 <div className="form-group row">
                   {/* Store */}
                   <div className="col-lg-4">
                     <Select name="storeId" label="Store">
-                      {storeList && storeList.map((item) => (
-                        <option key={item.storeId} value={item.storeId}>
-                          {item.storeName}
-                        </option>
-                      ))}
+                      {storeList &&
+                        storeList.map((item) => (
+                          <option key={item.storeId} value={item.storeId}>
+                            {item.storeName}
+                          </option>
+                        ))}
                     </Select>
                   </div>
                   {/* Email */}
@@ -75,25 +76,28 @@ export function EditForm({
                       label="Employee"
                     >
                       <option value="">Select Employee</option>
-                      {employeeList && employeeList.map((item) => (
-                        item.isWorking &&
-                        <option key={item.employeeId} value={item.employeeId}>
-                          {item.staffName}
-                        </option>
-                      ))}
+                      {employeeList &&
+                        employeeList.map(
+                          (item) =>
+                            item.isWorking && (
+                              <option
+                                key={item.employeeId}
+                                value={item.employeeId}
+                              >
+                                {item.staffName}
+                              </option>
+                            )
+                        )}
                     </Select>
                   </div>
                   <div className="col-lg-4">
-                    <Select
-                      name="status"
-                      placeholder="Status"
-                      label="Status"
-                    >
-                      {attendanceUnits && attendanceUnits.map((item) => (
-                        <option key={item.value} value={item.value}>
-                          {item.name}
-                        </option>
-                      ))}
+                    <Select name="status" placeholder="Status" label="Status">
+                      {attendanceUnits &&
+                        attendanceUnits.map((item) => (
+                          <option key={item.value} value={item.value}>
+                            {item.name}
+                          </option>
+                        ))}
                     </Select>
                   </div>
                 </div>
@@ -132,7 +136,6 @@ export function EditForm({
                     {} Tailoring Division
                   </div>
                 </div>
-               
               </Form>
             </Modal.Body>
             <Modal.Footer>

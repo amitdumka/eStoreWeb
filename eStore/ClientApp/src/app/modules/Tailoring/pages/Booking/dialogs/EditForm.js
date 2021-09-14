@@ -2,7 +2,7 @@
 // Data validation is based on Yup
 // Please, be familiar with article first:
 // https://hackernoon.com/react-form-validation-with-formik-and-yup-8b76bda62e10
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Modal } from "react-bootstrap";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
@@ -13,19 +13,22 @@ import {
   Checkbox,
 } from "../../../../../../_metronic/_partials/controls";
 
-
 //booking
 //Booking
 
 // Validation schema
 const BookingEditSchema = Yup.object().shape({
- bookingDate: Yup.date().required("Date is required"), 
- deliveryDate: Yup.date().required("Date is required"), 
- tryDate:Yup.date().required("Date is required"),
- totalAmount: Yup.number().moreThan(0).required("Amount  is required"),
- totalQty: Yup.number().moreThan(0).required("Total Qty is required"),
- custName:Yup.string().required("Customer Name is required"), 
- bookingSlipNo: Yup.string().required("Slip No is required")
+  bookingDate: Yup.date().required("Date is required"),
+  deliveryDate: Yup.date().required("Date is required"),
+  tryDate: Yup.date().required("Date is required"),
+  totalAmount: Yup.number()
+    .moreThan(0)
+    .required("Amount  is required"),
+  totalQty: Yup.number()
+    .moreThan(0)
+    .required("Total Qty is required"),
+  custName: Yup.string().required("Customer Name is required"),
+  bookingSlipNo: Yup.string().required("Slip No is required"),
 });
 
 export function EditForm({
@@ -35,69 +38,100 @@ export function EditForm({
   onHide,
   storeList,
 }) {
-
-  const [totalQty,setTotalQty]=useState(0);
+  const [totalQty, setTotalQty] = useState(0);
   const [item, setItem] = useState(0);
   const [qty, setQty] = useState(0);
   const [price, setPrice] = useState(0);
   // const [itemData, setItemData] = useState(0);
- 
 
   const ItemView = () => {
     return (
       <>
-        <h5 className="text-danger d-flex  justify-content-between align-items-center">Booked Item(s)[P/Q]<span className="badge badge-danger badge-pill ">{booking.totalAmount} / {booking.totalQty}</span> </h5>
+        <h5 className="text-danger d-flex  justify-content-between align-items-center">
+          Booked Item(s)[P/Q]
+          <span className="badge badge-danger badge-pill ">
+            {booking.totalAmount} / {booking.totalQty}
+          </span>{" "}
+        </h5>
         <ul className="list-group">
-          <li  className="list-group-item  d-flex  justify-content-between align-items-center">
+          <li className="list-group-item  d-flex  justify-content-between align-items-center">
             {" "}
-            Shirt [Price/Qty] <span className="badge badge-primary badge-pill ">{booking.shirtPrice} / {booking.shirtQty}</span>
+            Shirt [Price/Qty]{" "}
+            <span className="badge badge-primary badge-pill ">
+              {booking.shirtPrice} / {booking.shirtQty}
+            </span>
           </li>
           <li className="list-group-item d-flex  justify-content-between align-items-center ">
             {" "}
-            Pant [Price/Qty] <span className="badge badge-success badge-pill">{booking.pantPrice} / {booking.pantQty}</span>
+            Pant [Price/Qty]{" "}
+            <span className="badge badge-success badge-pill">
+              {booking.pantPrice} / {booking.pantQty}
+            </span>
           </li>
           <li className="list-group-item d-flex  justify-content-between align-items-center ">
             {" "}
-            Suit [Price/Qty] <span className="badge badge-danger badge-pill">{booking.coatPrice} / {booking.coatQty}</span>
+            Suit [Price/Qty]{" "}
+            <span className="badge badge-danger badge-pill">
+              {booking.coatPrice} / {booking.coatQty}
+            </span>
           </li>
           <li className="list-group-item d-flex  justify-content-between align-items-center ">
-            Kurta [Price/Qty] <span className="badge badge-warning badge-pill">{booking.kurtaPrice} / {booking.kurtaQty}</span>
+            Kurta [Price/Qty]{" "}
+            <span className="badge badge-warning badge-pill">
+              {booking.kurtaPrice} / {booking.kurtaQty}
+            </span>
           </li>
           <li className="list-group-item d-flex  justify-content-between align-items-center ">
             {" "}
-            Bundi [Price/Qty] <span className="badge badge-info badge-pill">{booking.bundiPrice} / {booking.bundiQty}</span>
+            Bundi [Price/Qty]{" "}
+            <span className="badge badge-info badge-pill">
+              {booking.bundiPrice} / {booking.bundiQty}
+            </span>
           </li>
           <li className="list-group-item d-flex  justify-content-between align-items-center ">
             {" "}
-            Others [Price/Qty] <span className="badge badge-primary badge-pill">{booking.othersPrice} / {booking.others}</span>
+            Others [Price/Qty]{" "}
+            <span className="badge badge-primary badge-pill">
+              {booking.othersPrice} / {booking.others}
+            </span>
           </li>
         </ul>
       </>
     );
   };
 
-  const updateTotals=()=>{
-
-    booking.totalAmount=booking.shirtPrice+booking.pantPrice+booking.coatPrice+booking.kurtaPrice+booking.bundiPrice+booking.othersPrice;
-    booking.totalQty=booking.shirtQty+booking.pantQty+booking.coatQty+booking.kurtaQty+booking.bundiQty+booking.others;
+  const updateTotals = useCallback(() => {
+    booking.totalAmount =
+      booking.shirtPrice +
+      booking.pantPrice +
+      booking.coatPrice +
+      booking.kurtaPrice +
+      booking.bundiPrice +
+      booking.othersPrice;
+    booking.totalQty =
+      booking.shirtQty +
+      booking.pantQty +
+      booking.coatQty +
+      booking.kurtaQty +
+      booking.bundiQty +
+      booking.others;
     console.log(booking.totalAmount);
     console.log(booking.totalQty);
     //setTotalQty(totalQty+booking.totalQty);
-  }
-  
+  });
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const updateRowData = () => {
-  const str = `Item Data  Shirt [Price/Qty]  ${booking.shirtPrice} ${booking.shirtQty}
+    const str = `Item Data  Shirt [Price/Qty]  ${booking.shirtPrice} ${booking.shirtQty}
   Pant [Price/Qty]  ${booking.pantPrice}/ ${booking.pantQty}
   Suit [Price/Qty]  ${booking.coatPrice}/ ${booking.coatQty}
   Kurta [Price/Qty]  ${booking.kurtaPrice}/ ${booking.kurtaQty}
   Bundi  [Price/Qty] ${booking.bundiPrice} / ${booking.bundiQty}
   Others [Price/Qty]  ${booking.otherprice} /${booking.others}`;
-  updateTotals(str);  
-  // setItemData(str);
-    
+    updateTotals(str);
+    // setItemData(str);
   };
-  
+
   const handleItemAdd = () => {
     console.log(item + " " + qty + " " + price + " ");
     switch (item) {
@@ -129,14 +163,13 @@ export function EditForm({
       case "6":
         booking.othersPrice = price;
         booking.others = qty;
-        
+
         //updateRowData();
         break;
       default:
         console.log("Option Not Found");
     }
-    setTotalQty(totalQty+qty);
-
+    setTotalQty(totalQty + qty);
   };
   useEffect(() => {
     updateTotals();
@@ -174,7 +207,7 @@ export function EditForm({
                   {/* Delivery Date Date*/}
                   <div className="col-lg-4">
                     <DatePickerField
-                    format="DD-mm-yyyy"
+                      format="DD-mm-yyyy"
                       name="deliveryDate"
                       placeholder="Delivery Date"
                       label="Delivery Date"
@@ -300,10 +333,19 @@ export function EditForm({
 
                 <div className="form-group row">
                   {/* <div className="col-lg-8">{itemData && itemData}</div> */}
-                  <div className="col-lg-5"><ItemView/> </div>
+                  <div className="col-lg-5">
+                    <ItemView />{" "}
+                  </div>
                   <div className="col-lg-6 ml-2">
                     <h5 className="text-primary">Note:</h5>
-                    <h6> <span className="text-danger text-italic ml-6"> First Enter Item details than enter any others, otherwise it will not be saved.</span></h6>
+                    <h6>
+                      {" "}
+                      <span className="text-danger text-italic ml-6">
+                        {" "}
+                        First Enter Item details than enter any others,
+                        otherwise it will not be saved.
+                      </span>
+                    </h6>
                   </div>
                 </div>
               </Form>

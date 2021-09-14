@@ -1,5 +1,4 @@
-import {createSlice} from "@reduxjs/toolkit";
-
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialAttendancesState = {
   listLoading: false,
@@ -7,13 +6,13 @@ const initialAttendancesState = {
   totalCount: 0,
   entities: null,
   attendanceForEdit: undefined,
-  lastError: null, 
-  employeeEntities: null, 
-  totalCountEmp:0
+  lastError: null,
+  employeeEntities: null,
+  totalCountEmp: 0,
 };
 export const callTypes = {
   list: "list",
-  action: "action"
+  action: "action",
 };
 
 export const attendancesSlice = createSlice({
@@ -36,15 +35,14 @@ export const attendancesSlice = createSlice({
         state.actionsLoading = true;
       }
     },
-    // get All employee List 
-    employeesListFetched: function(state,action){
-      const{totalCount,entities}=action.payload;
-     state.actionsLoading=false;
-     state.listLoading =false;
-     state.error=null;
-     state.employeeEntities=entities;
-     state.totalCountEmp=totalCount;
-
+    // get All employee List
+    employeesListFetched: function(state, action) {
+      const { totalCount, entities } = action.payload;
+      state.actionsLoading = false;
+      state.listLoading = false;
+      state.error = null;
+      state.employeeEntities = entities;
+      state.totalCountEmp = totalCount;
     },
     // getAttendanceById
     attendanceFetched: (state, action) => {
@@ -70,7 +68,7 @@ export const attendancesSlice = createSlice({
     attendanceUpdated: (state, action) => {
       state.error = null;
       state.actionsLoading = false;
-      state.entities = state.entities.map(entity => {
+      state.entities = state.entities.map((entity) => {
         if (entity.attendanceId === action.payload.attendance.attendanceId) {
           return action.payload.attendance;
         }
@@ -81,29 +79,30 @@ export const attendancesSlice = createSlice({
     attendanceDeleted: (state, action) => {
       state.error = null;
       state.actionsLoading = false;
-      state.entities = state.entities.filter(el => el.attendanceId !== action.payload.attendanceId);
+      state.entities = state.entities.filter(
+        (el) => el.attendanceId !== action.payload.attendanceId
+      );
     },
     // deleteAttendances
     attendancesDeleted: (state, action) => {
       state.error = null;
       state.actionsLoading = false;
       state.entities = state.entities.filter(
-        el => !action.payload.ids.includes(el.attendanceId)
+        (el) => !action.payload.ids.includes(el.attendanceId)
       );
     },
 
-    
     // attendancesUpdateState
     attendancesStatusUpdated: (state, action) => {
       state.actionsLoading = false;
       state.error = null;
       const { ids, status } = action.payload;
-      state.entities = state.entities.map(entity => {
-        if (ids.findIndex(id => id === entity.attendanceId) > -1) {
+      state.entities = state.entities.map((entity) => {
+        if (ids.findIndex((id) => id === entity.attendanceId) > -1) {
           entity.status = status;
         }
         return entity;
       });
-    }
-  }
+    },
+  },
 });

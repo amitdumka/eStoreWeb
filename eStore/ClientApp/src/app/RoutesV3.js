@@ -13,9 +13,9 @@ import {useAuth} from "./modules/FireAuth/AuthContext";
 import { useState, useEffect } from "react";
 import { shallowEqual, useSelector ,useDispatch} from "react-redux";
 import  * as LoginActions from "./modules/Auth/_redux/authRedux";
-import Login from "./modules/FireAuth/componets/pages/Login";
-import ForgotPassword from "./modules/FireAuth/componets/pages/ForgotPassword";
-import Signup from "./modules/FireAuth/componets/pages/Signup";
+//import Login from "./modules/FireAuth/componets/pages/Login";
+//import ForgotPassword from "./modules/FireAuth/componets/pages/ForgotPassword";
+//import Signup from "./modules/FireAuth/componets/pages/Signup";
 import ErrorsPage from "./modules/ErrorsExamples/ErrorsPage";
 import UpdateProfile from "./modules/FireAuth/componets/pages/UpdateProfile";
 import SecureRoute from "./modules/FireAuth/componets/SecureRoute";
@@ -70,7 +70,7 @@ export function Routes() {
         /*Otherwise redirect to root page (`/`)*/
         <Redirect from="/auth/login" to="/" />
       )}
-      <SecureRoute path="updateprofile" component={UpdateProfile}/>
+      <SecureRoute path="updateprofile" component={UpdateProfile} user={userInfo}/>
        {/* <Route path="/login" component={Login} />  */}
        <Route path="/auth" component={AuthPage}/>
        <Route path="/logout" component={Logout} />

@@ -1,11 +1,12 @@
-import React, { useState, useEffect, useMemo } from "react";
+/* eslint-disable no-fallthrough */
+import React, { useState, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import * as actions from "../../../_redux/DailySales/Actions";
 import * as cActions from "../../../../_redux/Actions";
-import { useUIContext } from "../UIContext";
+//import { useUIContext } from "../UIContext";
 import { Formik, Form, Field } from "formik";
-import { makeStyles } from "@material-ui/core";
+//import { makeStyles } from "@material-ui/core";
 import * as Yup from "yup";
 import {
   Input,
@@ -23,12 +24,12 @@ import {
 } from "@material-ui/core";
 
 export default function PaymentsDialog({ id, show, onHide, payMode }) {
-  const uiContext = useUIContext();
-  const uiProps = useMemo(() => {
-    return {
-      initDailySale: uiContext.initData,
-    };
-  }, [uiContext]);
+  //const uiContext = useUIContext();
+  // const uiProps = useMemo(() => {
+  //   return {
+  //     initDailySale: uiContext.initData,
+  //   };
+  // }, [uiContext]);
 
   // DailySales Redux state
   const dispatch = useDispatch();
@@ -83,6 +84,7 @@ export default function PaymentsDialog({ id, show, onHide, payMode }) {
         ); //card
       case 2:
       //rtgs
+      // eslint-disable-next-line no-fallthrough
       case 3:
       //rtgs neft
       case 4:
@@ -195,7 +197,7 @@ export function DialogHeader({ id, paymentId }) {
   useEffect(() => {
     let _title = paymentId ? "" : "New Payment";
 
-    if (dailySaleForEdit && _title == "New Payment") {
+    if (dailySaleForEdit && _title ==="New Payment") {
       _title = _title + `  For Sale Inv: ${dailySaleForEdit.invNo}`;
     }
     if (dailySaleForEdit && paymentForEdit && paymentId) {
@@ -215,18 +217,18 @@ export function DialogHeader({ id, paymentId }) {
     </>
   );
 }
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    maxWidth: 752,
-  },
-  demo: {
-    backgroundColor: theme.palette.background.paper,
-  },
-  title: {
-    margin: theme.spacing(1, 0, 1),
-  },
-}));
+// const useStyles = makeStyles((theme) => ({
+//   root: {
+//     flexGrow: 1,
+//     maxWidth: 752,
+//   },
+//   demo: {
+//     backgroundColor: theme.palette.background.paper,
+//   },
+//   title: {
+//     margin: theme.spacing(1, 0, 1),
+//   },
+// }));
 export function MixPaymentDialog({
   actionsLoading,
   payment,
@@ -238,7 +240,7 @@ export function MixPaymentDialog({
   cardModes,
   paymentList,
 }) {
-  const classes = useStyles();
+  //const classes = useStyles();
   const [pMode, setPMode] = useState(11);
   const handleAddPay = () => {
     return (
@@ -280,7 +282,7 @@ export function MixPaymentDialog({
               name="newPayMode"
               label="Payment Mode"
               labelId="lbSelect"
-              value={11}
+              value={pMode}
               autoWidth
               onChange={(val) => {
                 setPMode(val.target.value);
@@ -1342,49 +1344,50 @@ const initBank = {
   userId: "webUI",
   isReadOnly: false,
 };
-const intitPoint = {
-  pointRedeemedId: 0,
-  dailySaleId: 0,
-  dailySale: null,
-  invoiceNumber: null,
-  onDate: new Date(),
-  amount: 0.0,
-  remarks: null,
-  mode: 0,
-  customerMobileNumber: null,
-  storeId: 1,
-  store: null,
-  userId: "webUI",
-  isReadOnly: false,
-};
-const initWallet = {
-  walletPaymentId: 0,
-  dailySaleId: 0,
-  dailySale: null,
-  invoiceNumber: null,
-  onDate: new Date(),
-  amount: 0.0,
-  remarks: null,
-  mode: 0,
-  customerMobileNoRef: null,
-  walletType: 0,
-  storeId: 1,
-  store: null,
-  userId: "webUI",
-  isReadOnly: false,
-};
-const initCoupon = {
-  couponPaymentId: 0,
-  dailySaleId: 0,
-  dailySale: null,
-  invoiceNumber: null,
-  onDate: new Date(),
-  amount: 0.0,
-  remarks: null,
-  mode: 0,
-  couponNumber: null,
-  storeId: 1,
-  store: null,
-  userId: "webUI",
-  isReadOnly: false,
-};
+
+// const intitPoint = {
+//   pointRedeemedId: 0,
+//   dailySaleId: 0,
+//   dailySale: null,
+//   invoiceNumber: null,
+//   onDate: new Date(),
+//   amount: 0.0,
+//   remarks: null,
+//   mode: 0,
+//   customerMobileNumber: null,
+//   storeId: 1,
+//   store: null,
+//   userId: "webUI",
+//   isReadOnly: false,
+// };
+// const initWallet = {
+//   walletPaymentId: 0,
+//   dailySaleId: 0,
+//   dailySale: null,
+//   invoiceNumber: null,
+//   onDate: new Date(),
+//   amount: 0.0,
+//   remarks: null,
+//   mode: 0,
+//   customerMobileNoRef: null,
+//   walletType: 0,
+//   storeId: 1,
+//   store: null,
+//   userId: "webUI",
+//   isReadOnly: false,
+// };
+// const initCoupon = {
+//   couponPaymentId: 0,
+//   dailySaleId: 0,
+//   dailySale: null,
+//   invoiceNumber: null,
+//   onDate: new Date(),
+//   amount: 0.0,
+//   remarks: null,
+//   mode: 0,
+//   couponNumber: null,
+//   storeId: 1,
+//   store: null,
+//   userId: "webUI",
+//   isReadOnly: false,
+// };

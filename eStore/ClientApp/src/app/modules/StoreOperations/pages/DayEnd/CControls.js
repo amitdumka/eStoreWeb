@@ -1,3 +1,4 @@
+/* eslint-disable react/style-prop-object */
 //import Swal from 'sweetalert2/dist/sweetalert2.js'
 //import 'sweetalert2/src/sweetalert2.scss'
 import Swal from "sweetalert2";
@@ -218,7 +219,7 @@ export function RibbonCard(params) {
   return (
     <div class="card card-custom">
       <div class="card-header ribbon ribbon-right">
-        <div class="ribbon-target bg-primary" style="top: 10px; right: -2px;">
+        <div class="ribbon-target bg-primary" style={"top: 10px; right: -2px;"}>
           {params.ribbonText}
         </div>
         <h3 class="card-title">{params.headerText}</h3>
@@ -232,7 +233,7 @@ export function RibbonIconCard(params) {
   return (
     <div class="card card-custom">
       <div class="card-header ribbon ribbon-clip ribbon-right">
-        <div class="ribbon-target" style="top: 15px; height: 45px;">
+        <div class="ribbon-target" style={"top: 15px; height: 45px;"}>
           <span class="ribbon-inner bg-success"></span>
           <i class="fa fa-star"></i>
         </div>

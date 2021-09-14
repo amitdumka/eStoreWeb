@@ -5,7 +5,7 @@ import {
   TableRow,
   MenuItem,
   Checkbox,
-  FormControl,
+
 } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
 import { useSubheader } from "../../_metronic/layout";
@@ -21,7 +21,7 @@ import axios from "axios";
 import { BASE_URL } from "../../_estore/URLConstants";
 
 //export const API_URL = BASE_URL + "api/Reports";
-export const API_URL = "/" + "api/Reports";
+export const API_URL = BASE_URL+ "api/Reports";
 
 export async function GetMonthlyReport(MonthlyDto) {
   var url = API_URL;
@@ -218,7 +218,7 @@ export const FinReportPage = () => {
 
 export const RequestCard = () => {
   const curYear = new Date().getFullYear() + 1;
-  const [yearArray, setYearArray] = useState([]);
+  const [yearArray] = useState([]);
   const [finYear, setFinYear] = useState("");
   const [repoMode, setRepoMode] = useState(2);
   const [store, setStore] = useState(1);

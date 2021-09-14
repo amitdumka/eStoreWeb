@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from "react";
 import { Modal } from "react-bootstrap";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import * as actions from "../../../_redux/StoreOperations/Actions";
+//import * as actions from "../../../_redux/StoreOperations/Actions";
 import * as commonActions from "../../../../_redux/Actions";
 import BootstrapTable from "react-bootstrap-table-next";
 import * as uiHelpers from "../UIHelpers";
@@ -28,9 +28,9 @@ export function ShowData({ id, show, onHide }) {
 
   // Rents Redux state
   const dispatch = useDispatch();
-  const { actionsLoading, attendance, storeList } = useSelector(
+  const {  attendance, storeList } = useSelector(
     (state) => ({
-      actionsLoading: state.storeOperations.actionsLoading,
+      //actionsLoading: state.storeOperations.actionsLoading,
       attendance: state.storeOperations.attendance,
       storeList: state.commonTypes.storeList,
     }),

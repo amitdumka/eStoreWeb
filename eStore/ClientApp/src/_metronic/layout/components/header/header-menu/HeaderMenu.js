@@ -2,11 +2,11 @@
 import React from "react";
 import { useLocation } from "react-router";
 import { NavLink } from "react-router-dom";
-import SVG from "react-inlinesvg";
-import { toAbsoluteUrl, checkIsActive } from "../../../../_helpers";
+//import SVG from "react-inlinesvg";
+import {  checkIsActive } from "../../../../_helpers";
 import PayrollMenu from "./header-subMenu/PayrollMenu";
 import SalesMenu from "./header-subMenu/SalesMenu";
-import PurchaseMenu from "./header-subMenu/PurchaseMenu";
+//import PurchaseMenu from "./header-subMenu/PurchaseMenu";
 import AccountingMenu from "./header-subMenu/AccountingMenu";
 import StoreMenu from "./header-subMenu/StoreMenu";
 

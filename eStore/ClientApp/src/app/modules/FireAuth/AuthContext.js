@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react"
 import { auth } from "./firebase"
 import firebase from "firebase/app"
-import { shallowEqual, useSelector ,useDispatch} from "react-redux";
+import { useDispatch} from "react-redux";
 import  * as LoginActions from "../../modules/Auth/_redux/authRedux";
 import {GetUserInfo} from "../../../_estore/data/UserInfo";
 
@@ -83,15 +83,14 @@ function isAuthenticated(){return auth.isSignedIn;}
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
-      console.log(user);
       setCurrentUser(user);
       setLoading(false);
       //LoginActions.actions.setUser(user);
       updateInfo(user);
     })
     return unsubscribe
-  }, []);
-
+  });
+//Here above line was },[]);
 
   function updateInfo(user){
     const cUser= GetUserInfo(user);
@@ -113,7 +112,7 @@ function isAuthenticated(){return auth.isSignedIn;}
   }
 
   return (
-    <AuthContext.Provider value={value}>
+    <AuthContext.Provider value={value} ErrorMessage={error} AccessToken={accessToken}>
       {!loading && children}
     </AuthContext.Provider>
   )

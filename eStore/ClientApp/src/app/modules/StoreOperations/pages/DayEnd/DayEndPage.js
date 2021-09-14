@@ -1,9 +1,9 @@
-import React, { createContext, useContext, useState, useCallback } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import * as MUI from "../../../../../_estore/controls/Mui";
-import { useSubheader } from "../../../../../_metronic/layout"; //"../../_metronic/layout";
+//import { useSubheader } from "../../../../../_metronic/layout"; //"../../_metronic/layout";
 import {
   Card,
   CardBody,
@@ -17,7 +17,7 @@ import { SweetAlert } from "./CControls";
 //Day end Entry form.
 export const API_URL = BASE_URL + "api/endOfDays";
 export function DayEndPage() {
-  const UIContext = createContext();
+  //const UIContext = createContext();
   //const subHeader = useSubheader();
   // subHeader.setTitle("Day End");
 
@@ -56,7 +56,7 @@ export function DayEndPage() {
     reset,
     getValues,
     setValue,
-    formState: { errors, dirtyFields },
+    formState: { errors },
     control,
   } = useForm({ resolver: yupResolver(schema) });
 
@@ -132,12 +132,12 @@ export function DayEndPage() {
     return tAmt;
   };
 
-  const getSaleData = () => {
-    const { onDate } = getValues();
-    if (onDate != null) {
-      getSaleData(onDate);
-    }
-  };
+  // const getSaleData = () => {
+  //   const { onDate } = getValues();
+  //   if (onDate != null) {
+  //     getSaleData(onDate);
+  //   }
+  // };
   const handleFetchData = () => {
     console.log("handle");
     SweetAlert({ title: "success", text: "Testing Message", icon: "success" });
@@ -488,7 +488,7 @@ export async function saveDayEnd(data) {
 // update rest data
 export async function getSaleData(data) {
   await axios
-    .get("${API_URL}${data}")
+    .get(`${API_URL}${data}`)
     .then((response) => {
       console.log(response);
       alert(response);

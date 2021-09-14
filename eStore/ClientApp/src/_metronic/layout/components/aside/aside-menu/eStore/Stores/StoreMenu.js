@@ -4,8 +4,8 @@ import { useLocation } from "react-router";
 import { NavLink } from "react-router-dom";
 import SVG from "react-inlinesvg";
 import { toAbsoluteUrl, checkIsActive } from "../../../../../../_helpers";
-import StoreSubMenu from "./StoreSubMenu";
-import AdminMenu from "./AdminMenu";
+//import StoreSubMenu from "./StoreSubMenu";
+//import AdminMenu from "./AdminMenu";
 
 export default function StoreMenuList({ layoutProps }) {
   const location = useLocation();

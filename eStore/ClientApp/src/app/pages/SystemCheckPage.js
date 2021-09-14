@@ -166,7 +166,7 @@ export const TailoringCheck = () => {
               Error(s)
               <ol>
                 {error.map((e) =>
-                  e && e != "" ? <li className="p-1">{e}</li> : ""
+                  e && e !== "" ? <li className="p-1">{e}</li> : ""
                 )}
               </ol>
             </li>
@@ -273,9 +273,9 @@ export const DuplicateInvoiceCheck = () => {
     //return( <AlertDismissible msg="Please wait while processing your request.... Please ok to continue..."/>);
   };
 
-  const handleStoreChange = (event) => {
-    setStore(event.target.value);
-  };
+  // const handleStoreChange = (event) => {
+  //   setStore(event.target.value);
+  // };
   const ErrorList = ({ eList }) => {
     console.log(eList);
     if (eList != null) setBOn(false);

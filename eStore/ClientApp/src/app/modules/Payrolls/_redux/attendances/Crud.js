@@ -1,18 +1,18 @@
-import axios from "axios"; import { BASE_URL } from "../../../../../_estore/URLConstants";
+import axios from "axios";
+import { BASE_URL } from "../../../../../_estore/URLConstants";
 
 export const API_URL = BASE_URL + "api/attendances";
 
-
 // CREATE =>  POST: add a new attendance to the server
 export async function createAttendance(attendance) {
-  return await axios.post(API_URL,  attendance,{
-    headers: {         'Content-Type' : 'application/json; charset=utf-8' }
-});
+  return await axios.post(API_URL, attendance, {
+    headers: { "Content-Type": "application/json; charset=utf-8" },
+  });
 }
 
 // READ
-export  function getAllAttendances() {
-  return  axios.get(API_URL);//.catch(function (error){console.log(error)});
+export function getAllAttendances() {
+  return axios.get(API_URL); //.catch(function (error){console.log(error)});
 }
 
 export async function getAttendanceById(attendanceId) {
@@ -22,38 +22,35 @@ export async function getAttendanceById(attendanceId) {
 // Method from server should return QueryResultsModel(items: any[], totalsCount: number)
 // items => filtered/sorted result
 export async function findAttendances(queryParams) {
-  //verifyLogin();
-  console.log("findAttendances");
-    console.log(queryParams);
-    console.log(queryParams.filter);
-    const filter = queryParams.filter;
-    console.log(filter);
-    return await axios.post(`${API_URL}/find`,filter, {
-        headers: { 'Content-Type': 'application/json; charset=utf-8' }
-    });
+  const filter = queryParams.filter;
+  return await axios.post(`${API_URL}/find`, filter, {
+    headers: { "Content-Type": "application/json; charset=utf-8" },
+  });
 }
 
 // function to get all list of employees
 export async function getAllEmployees() {
-    return await axios.get(BASE_URL+"/api/employees");
+  return await axios.get(BASE_URL + "/api/employees");
 }
 
 // UPDATE => PUT: update the attendance on the server
 export async function updateAttendance(attendance) {
-    console.log(attendance);
-    attendance.employee = null;
-    attendance.store = null;
-    console.log(attendance);
-  return await axios.put(`${API_URL}/${attendance.attendanceId}`, JSON.stringify( attendance ),{
-    headers: {         'Content-Type' : 'application/json; charset=utf-8' }
-});
+  attendance.employee = null;
+  attendance.store = null;
+  return await axios.put(
+    `${API_URL}/${attendance.attendanceId}`,
+    JSON.stringify(attendance),
+    {
+      headers: { "Content-Type": "application/json; charset=utf-8" },
+    }
+  );
 }
 
 // UPDATE Status
 export async function updateStatusForAttendances(ids, status) {
   return await axios.post(`${API_URL}/updateStatusForAttendances`, {
     ids,
-    status
+    status,
   });
 }
 

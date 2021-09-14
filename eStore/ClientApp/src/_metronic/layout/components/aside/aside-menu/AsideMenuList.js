@@ -9,7 +9,7 @@ import { toAbsoluteUrl, checkIsActive } from "../../../../_helpers";
 import TailoringMenu from "./eStore/Tailoring/TailoringMenu";
 import PayrollLiteMenu from "./eStore/Payroll/PayrollLiteMenu";
 import StoreMenu from "./eStore/Stores/StoreMenu";
-import ExpenseMenu from "./eStore/Accounting/Accouting-menu";
+//import ExpenseMenu from "./eStore/Accounting/Accouting-menu";
 import ReportsMenuList from "./eStore/Reports/ReportsMenu";
 
 export function AsideMenuList({ layoutProps }) {

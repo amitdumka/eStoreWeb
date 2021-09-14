@@ -6,7 +6,7 @@ import {
   TailoringWidget,
   EmpInfoWidget,
   DailySaleTableWidget,
-  TilesWidget11,MixedWidget1,ListsWidget9,ListsWidget4,TilesWidget1,MixedWidget6,StatsWidget12,TilesWidget12,StatsWidget11
+  // TilesWidget11,MixedWidget1,ListsWidget9,ListsWidget4,TilesWidget1,MixedWidget6,StatsWidget12,TilesWidget12,StatsWidget11
 } from "../widgets";
 import { NoticeBoardWidget } from "../widgets/advance-tables/NoticeBoardWidget";
 

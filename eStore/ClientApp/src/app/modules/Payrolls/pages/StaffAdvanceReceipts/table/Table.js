@@ -51,7 +51,7 @@ export function StaffAdvanceReceiptsTable() {
     shallowEqual
   );
   const { totalCount, entities, listLoading , employeeEntities} = currentState;
-  const {payModes, storeList}=commonState;
+  const {storeList}=commonState;
 
   // StaffAdvanceReceipts Redux state
   const dispatch = useDispatch();
