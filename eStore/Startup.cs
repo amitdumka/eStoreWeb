@@ -1,6 +1,3 @@
-using eStore.Data;
-using eStore.Models;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
@@ -8,19 +5,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using eStore.Database;
 using eStore.Shared.Models.Identity;
 using Microsoft.OpenApi.Models;
 using eStore.Services.BTask;
-using System.Text.Json.Serialization;
 
 //using Microsoft.AspNetCore.Http;
 //using Microsoft.AspNetCore.Authorization;

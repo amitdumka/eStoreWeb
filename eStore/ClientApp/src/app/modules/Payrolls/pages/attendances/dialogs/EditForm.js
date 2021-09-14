@@ -132,11 +132,7 @@ export function EditForm({
                     {} Tailoring Division
                   </div>
                 </div>
-                <div className="form-group row">
-                  {/* <Field name="userId" type="hidden" value={user.given_name}  component={Input}  /> */}
-
-                  {/* <input type="hidden" name="userId" id="userId" value= {user.given_name}/> */}
-                </div>
+               
               </Form>
             </Modal.Body>
             <Modal.Footer>

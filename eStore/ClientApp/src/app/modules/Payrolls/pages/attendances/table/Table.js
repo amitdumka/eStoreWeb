@@ -4,9 +4,7 @@
 
 import React, { useEffect, useMemo } from "react";
 import BootstrapTable from "react-bootstrap-table-next";
-import paginationFactory, {
-  PaginationProvider,
-} from "react-bootstrap-table2-paginator";
+import paginationFactory, {  PaginationProvider} from "react-bootstrap-table2-paginator";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import * as actions from "../../../_redux/attendances/Actions";
 import {
@@ -22,6 +20,7 @@ import * as columnFormatters from "./column-formatters";
 import { Pagination } from "../../../../../../_metronic/_partials/controls";
 import { useUIContext } from "../UIContext";
 import FieldDateFormater from "../../../../../../_estore/formaters/FieldDateFormater";
+import  *  as commonActions from "../../../../_redux/Actions";
 
 
 export function AttendancesTable({yesterday}) {
@@ -41,11 +40,12 @@ export function AttendancesTable({yesterday}) {
   attendancesUIProps.queryParams.yesterday=yesterday;
 
   // Getting current state of attendances list from store (Redux)
-  const { currentState,store } = useSelector(
-    (state) => ({ currentState: state.attendances,store: state.commonTypes.storeList }),
+  const { currentState,commonState } = useSelector(
+    (state) => ({ currentState: state.attendances,commonState: state.commonTypes }),
     shallowEqual
   );
   const { totalCount, entities, listLoading } = currentState;
+  const {storeList}= commonState;
 
   // Attendances Redux state
   const dispatch = useDispatch();
@@ -55,6 +55,7 @@ export function AttendancesTable({yesterday}) {
     console.log(attendancesUIProps.queryParams);
     // server call by queryParams
     dispatch(actions.fetchAttendances(attendancesUIProps.queryParams));
+    dispatch(commonActions.fetchStores());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [attendancesUIProps.queryParams, dispatch]);
   // Table columns
@@ -109,7 +110,7 @@ export function AttendancesTable({yesterday}) {
       sort: true,
       sortCaret: sortCaret,
       headerSortingClasses,
-      formatter:(cellContent, row)=>store && store[cellContent-1].storeName
+      formatter:(cellContent, row)=>storeList &&   storeList[cellContent-1]?storeList[cellContent-1].storeName:cellContent
     },
     {
       dataField: "action",

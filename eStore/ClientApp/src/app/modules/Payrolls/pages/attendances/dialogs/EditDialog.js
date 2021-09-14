@@ -44,7 +44,8 @@ export function EditDialog({ id, show, onHide }) {
 
   // server request for saving attendance
   const saveAttendance = (attendance) => {
-    attendance.status=parseInt(attendance.status);
+    console.log(attendance.status);
+    attendance.status=parseInt(""+attendance.status);
     attendance.storeId= parseInt(attendance.storeId);
     attendance.employeeId= parseInt(attendance.employeeId);
     //user ? attendance.userId=user.name: attendance.userId="WebUI_NOTAuth";

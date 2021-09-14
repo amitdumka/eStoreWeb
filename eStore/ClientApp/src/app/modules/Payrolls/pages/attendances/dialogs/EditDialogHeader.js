@@ -21,7 +21,6 @@ export function EditDialogHeader({ id }) {
   useEffect(() => {
     let _title = id ? "" : "New Attendance";
     if (attendanceForEdit && id) {
-      console.log(attendanceForEdit);
       _title = `Edit attendance '${attendanceForEdit.attDate} ${attendanceForEdit.attendanceId}'`;
     }
 
