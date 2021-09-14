@@ -18,3 +18,7 @@ export async function getDuplicateInvChecks(id) {
 export async function getDuplicateSlipChecks(id) {
   return await axios.get(BASE_URL+"api/controlCheckWork/slipCheck?storeId="+id);
 }
+
+export async function getSaleList(id) {
+  return await axios.get(BASE_URL+"api/controlCheckWork/invLists?storeId="+id);
+}

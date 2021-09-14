@@ -655,7 +655,7 @@ export const TailoringDuplicateCheck = () => {
     <Card>
       <CardHeader
         title="Tailoring Duplicate Verification"
-        className="text-info"
+       
       >
         <Select
           className="text-center center-align text-primary"

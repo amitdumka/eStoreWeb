@@ -7,6 +7,7 @@ const initialState = {
   duplicateInvCheckList: null,
   tailoringCheckList: null,
   slipCheck: null,
+  invoiceList:null
 };
 
 export const callTypes = {
@@ -55,6 +56,13 @@ export const commonPageTypesSlice = createSlice({
       state.listLoading = false;
       state.error = null;
       state.slipCheck = entities;
+    },
+    saleListFetched: function(state, action) {
+      const { entities } = action.payload;
+      state.actionsLoading = false;
+      state.listLoading = false;
+      state.error = null;
+      state.invoiceList = entities;
     },
   },
 });

@@ -324,13 +324,13 @@ namespace eStore.Api.Controllers
                 SlipNos = Regex.Split(c.BookingSlipNo, @"\D+")
             }).OrderBy(c => c.OnDate).ToList();
 
-            var del = db.TailoringDeliveries.Where (c => c.StoreId == StoreId).ToList ();
-            foreach ( var it in del )
-            {
-                it.InvNo = it.InvNo.Trim ().Replace (" ", "");
-                db.TailoringDeliveries.Update (it);
-            }
-            db.SaveChanges ();
+            //var del = db.TailoringDeliveries.Where (c => c.StoreId == StoreId).ToList ();
+            //foreach ( var it in del )
+            //{
+            //    it.InvNo = it.InvNo.Trim ().Replace (" ", "");
+            //    db.TailoringDeliveries.Update (it);
+            //}
+            //db.SaveChanges ();
 
             TDupCheck check = new TDupCheck { Data = filter2, Duplicates = slipList };
             if (slipList.Count > 0) check.IsDuplicate = true; else check.IsDuplicate = false;
@@ -344,19 +344,19 @@ namespace eStore.Api.Controllers
         public SDataList GetSaleLists(int StoreId)
         {
             var tData = db.DailySales.Where(c => c.StoreId == StoreId && c.IsTailoringBill)
-                .Select(c=>new SData{Date=c.SaleDate, InvNo=c.InvNo,Amount=c.Amount })
+                .Select(c=>new SData{Date=c.SaleDate, InvNo=c.InvNo,Amount=c.Amount, ID=c.DailySaleId })
                 .ToList();
             var mData = db.DailySales.Where(c => c.StoreId == StoreId && c.IsManualBill)
-               .Select(c => new SData { Date = c.SaleDate, InvNo = c.InvNo, Amount = c.Amount })
+               .Select(c => new SData { Date = c.SaleDate, InvNo = c.InvNo, Amount = c.Amount, ID = c.DailySaleId })
                .ToList();
             var sData = db.DailySales.Where(c => c.StoreId == StoreId && !c.IsManualBill && c.IsTailoringBill && !c.IsSaleReturn)
-              .Select(c => new SData { Date = c.SaleDate, InvNo = c.InvNo, Amount = c.Amount })
+              .Select(c => new SData { Date = c.SaleDate, InvNo = c.InvNo, Amount = c.Amount, ID = c.DailySaleId })
               .ToList();
             var srData = db.DailySales.Where(c => c.StoreId == StoreId && c.IsSaleReturn)
-              .Select(c => new SData { Date = c.SaleDate, InvNo = c.InvNo, Amount = c.Amount })
+              .Select(c => new SData { Date = c.SaleDate, InvNo = c.InvNo, Amount = c.Amount, ID = c.DailySaleId })
               .ToList();
             var dData = db.DailySales.Where(c => c.StoreId == StoreId && c.IsDue)
-              .Select(c => new SData { Date = c.SaleDate, InvNo = c.InvNo, Amount = c.Amount })
+              .Select(c => new SData { Date = c.SaleDate, InvNo = c.InvNo, Amount = c.Amount, ID = c.DailySaleId })
               .ToList();
 
             SDataList list = new SDataList {Tailoring=tData, Due=dData, Manual=mData, Regular=sData, SaleReturn=srData };
@@ -378,6 +378,7 @@ namespace eStore.Api.Controllers
     }
     public class SData
     {
+        public int ID { get; set; }
         public DateTime Date { get; set; }
         public string InvNo { get; set; }
         public decimal Amount { get; set; }
