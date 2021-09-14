@@ -324,6 +324,13 @@ namespace eStore.Api.Controllers
                 SlipNos = Regex.Split(c.BookingSlipNo, @"\D+")
             }).OrderBy(c => c.OnDate).ToList();
 
+            var del = db.TailoringDeliveries.Where (c => c.StoreId == StoreId).ToList ();
+            foreach ( var it in del )
+            {
+                it.InvNo = it.InvNo.Trim ().Replace (" ", "");
+                db.TailoringDeliveries.Update (it);
+            }
+            db.SaveChanges ();
 
             TDupCheck check = new TDupCheck { Data = filter2, Duplicates = slipList };
             if (slipList.Count > 0) check.IsDuplicate = true; else check.IsDuplicate = false;
