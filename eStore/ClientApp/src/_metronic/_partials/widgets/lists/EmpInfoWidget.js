@@ -15,10 +15,10 @@ export function EmpInfoWidget({ className, empInfo, topSalesman }) {
 
           <div className="card-toolbar">
             <div className="text-danger font-weight-bold text-hover-primary font-size-lg mb-1">
-              Top Salesman [Y/M/T]:
-              <span className="text-success">
+              Top Salesman [Y/M/T] : 
+              <span className="text-success ml-1">
                 {" "}
-                {topSalesman[0]} / {topSalesman[1]} / {topSalesman[2]}
+                <em className="text-info">{topSalesman[0].split(" ")[0]} </em>/ {topSalesman[1].split(" ")[0]} /  <em className="text-warning">{topSalesman[2].split(" ")[0]}</em>
               </span>{" "}
             </div>
           </div>
