@@ -123,7 +123,7 @@ export function getInitLayoutConfig() {
     },
     aside: {
       self: {
-        theme: "light", // light/dark
+        theme: "dark", // light/dark
         display: true,
         fixed: true,
         minimize: {
@@ -139,7 +139,7 @@ export function getInitLayoutConfig() {
         },
       },
       menu: {
-        theme: "light", // light/dark
+        theme: "dark", // light/dark
         dropdown: false, // ok
         scroll: true, // ok
         "icon-style": "duotone", // duotone, line, bold, solid
@@ -168,7 +168,7 @@ export function getInitLayoutConfig() {
       },
       notifications: {
         display: true,
-        layout: "dropdown", // offcanvas, dropdown
+        layout: "offcanvas", // offcanvas, dropdown
         dropdown: {
           style: "dark", // light, dark
         },
@@ -178,7 +178,7 @@ export function getInitLayoutConfig() {
       },
       "quick-actions": {
         display: true,
-        layout: "dropdown", // offcanvas, dropdown,
+        layout: "dropdown", // c, dropdown,
         dropdown: {
           style: "dark", // light, dark
         },
@@ -197,16 +197,16 @@ export function getInitLayoutConfig() {
         },
       },
       languages: {
-        display: true,
+        display: false,
       },
       cart: {
-        display: true,
+        display: false,
         dropdown: {
           style: "dark", // ligth, dark
         },
       },
       "quick-panel": {
-        display: true,
+        display: false,
         offcanvas: {
           directions: "right",
         },
