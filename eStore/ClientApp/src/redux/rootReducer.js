@@ -39,20 +39,21 @@ import { storeOperationsSlice } from "../app/modules/StoreOperations/_redux/Stor
 import { dailySalesSlice } from "../app/modules/Sales/_redux/DailySales/Slice";
 import { pettyCashBooksSlice } from "../app/modules/StoreOperations/_redux/PettyCashBooks/Slice";
 import { cashDetailsSlice } from "../app/modules/StoreOperations/_redux/CashDetails/Slice";
-import {  endOfDaysSlice} from "../app/modules/StoreOperations/_redux/EndOfDays/Slice";
+import { endOfDaysSlice } from "../app/modules/StoreOperations/_redux/EndOfDays/Slice";
 import { dayClosingsSlice } from "../app/modules/StoreOperations/_redux/DayClosing/Slice";
-import {contactsSlice} from "../app/modules/Stores/_redux/Contacts/Slice";
-import {transcationModesSlice} from "../app/modules/Accounting/_redux/TranscationModes/Slice";
-import {staffAdvanceReceiptsSlice} from "../app/modules/Payrolls/_redux/StaffAdvanceReceipts/Slice";
-import {salariesSlice} from "../app/modules/Payrolls/_redux/Salaries/Slice";
-import {commonPageTypesSlice} from "../app/pages/_redux/Slice";
+import { contactsSlice } from "../app/modules/Stores/_redux/Contacts/Slice";
+import { transcationModesSlice } from "../app/modules/Accounting/_redux/TranscationModes/Slice";
+import { staffAdvanceReceiptsSlice } from "../app/modules/Payrolls/_redux/StaffAdvanceReceipts/Slice";
+import { salariesSlice } from "../app/modules/Payrolls/_redux/Salaries/Slice";
+import { commonPageTypesSlice } from "../app/pages/_redux/Slice";
+
 export const rootReducer = combineReducers({
   auth: auth.reducer,
   commonPageTypes: commonPageTypesSlice.reducer,
   ledgerTypes: ledgerTypesSlice.reducer,
   salaries: salariesSlice.reducer,
   staffAdvanceReceipts: staffAdvanceReceiptsSlice.reducer,
-  transcationModes:transcationModesSlice.reducer,
+  transcationModes: transcationModesSlice.reducer,
   customers: customersSlice.reducer,
   employees: employeesSlice.reducer,
   attendances: attendancesSlice.reducer,
@@ -87,7 +88,7 @@ export const rootReducer = combineReducers({
   cashDetails: cashDetailsSlice.reducer,
   endOfDays: endOfDaysSlice.reducer,
   dayClosings: dayClosingsSlice.reducer,
-  contacts:contactsSlice.reducer,
+  contacts: contactsSlice.reducer,
 });
 
 export function* rootSaga() {
