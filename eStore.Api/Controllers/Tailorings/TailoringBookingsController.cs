@@ -10,6 +10,16 @@ using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
+    public class FilterParams
+    {
+        public int StoreId { get; set; }
+        public int Year { get; set; }
+        public string Status { get; set; }
+        public string Search { get; set; }
+        public string Type { get; set; }
+    }
+
+
     [Route ("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
@@ -49,6 +59,12 @@ namespace eStore.API.Controllers
         public async Task<ActionResult<IEnumerable<TalioringBooking>>> GetTalioringBookings()
         {
             return await _context.TalioringBookings.Where (c => c.DeliveryDate.Year == DateTime.Today.Year).OrderByDescending (c => c.BookingDate).ThenByDescending (c => c.DeliveryDate).ToListAsync ();
+        }
+        [HttpPost]
+        public async Task<ActionResult<IEnumerable<TalioringBooking>>> PostFind(string filters)
+        {
+            return await _context.TalioringBookings.Where (c => c.DeliveryDate.Year == DateTime.Today.Year).OrderByDescending (c => c.BookingDate).ThenByDescending (c => c.DeliveryDate).ToListAsync ();
+
         }
 
         // GET: api/TailoringBookings/5
