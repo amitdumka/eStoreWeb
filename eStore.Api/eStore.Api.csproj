@@ -25,4 +25,8 @@
     <ProjectReference Include="..\eStore.Lib\eStore.Lib.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\Tailorings\" />
+  </ItemGroup>
+
 </Project>

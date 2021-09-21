@@ -279,6 +279,23 @@ function StoreMenu({ layoutProps }) {
                     </NavLink>
                   </li>
                   {/*end::3 Level*/}
+                  {/*begin::3 Level*/}
+                  <li
+                    className={`menu-item ${getMenuItemActive(
+                      "/saleInfoList"
+                    )}`}
+                  >
+                    <NavLink
+                      className="menu-link"
+                      to="/saleInfoList"
+                    >
+                      <i className="menu-bullet menu-bullet-dot">
+                        <span />
+                      </i>
+                      <span className="menu-text">Sale Info</span>
+                    </NavLink>
+                  </li>
+                  {/*end::3 Level*/}
                 </ul>
               </div>
             </li>
