@@ -289,24 +289,24 @@ namespace eStore.Api.Controllers
         [HttpGet("slipCheck")]
         public ActionResult<TDupCheck> GetTailoringDuplicateCheck(int StoreId)
         {
-            var data = db.TalioringBookings.Where(c => c.StoreId == StoreId && c.BookingDate.Date >= new DateTime(2020, 8, 5))
+            var data = db.TalioringBookings.Where(c => c.StoreId == StoreId)
                 .OrderBy(c => c.BookingDate)
                 .ToList();
 
-            var filter1 = data.Where(c => c.BookingSlipNo.StartsWith("ARD0")).ToList();
+            //var filter1 = data.Where(c => c.BookingSlipNo.StartsWith("ARD0")).ToList();
 
-            if (filter1.Count > 0)
-            {
-                foreach (var tb in filter1)
-                {
+            //if (filter1.Count > 0)
+            //{
+            //    foreach (var tb in filter1)
+            //    {
 
-                    tb.BookingSlipNo = tb.BookingSlipNo.Replace("ARD0", "ARDT0");
-                    db.TalioringBookings.Update(tb);
-                }
-                db.SaveChanges();
+            //        tb.BookingSlipNo = tb.BookingSlipNo.Replace("ARD0", "ARDT0");
+            //        db.TalioringBookings.Update(tb);
+            //    }
+            //    db.SaveChanges();
 
-                data = db.TalioringBookings.Where(c => c.StoreId == StoreId && c.BookingDate.Date >= new DateTime(2020, 8, 5)).OrderBy(c => c.BookingDate).ToList();
-            }
+            //    data = db.TalioringBookings.Where(c => c.StoreId == StoreId && c.BookingDate.Date >= new DateTime(2020, 8, 5)).OrderBy(c => c.BookingDate).ToList();
+            //}
 
             var slipList = data.Select(c => c.BookingSlipNo).GroupBy(c => c).Where(c => c.Count() > 1).Select(c => c.Key).ToList();
 
