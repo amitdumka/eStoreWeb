@@ -344,7 +344,7 @@ namespace eStore.Api.Controllers
         public SDataList GetSaleLists(int StoreId)
         {
             var tData = db.DailySales.Where(c => c.StoreId == StoreId && c.IsTailoringBill)
-                .Select(c=>new SData{Date=c.SaleDate, InvNo=c.InvNo,Amount=c.Amount, ID=c.DailySaleId })
+                .Select(c => new SData { Date = c.SaleDate, InvNo = c.InvNo, Amount = c.Amount, ID = c.DailySaleId })
                 .ToList();
             var mData = db.DailySales.Where(c => c.StoreId == StoreId && c.IsManualBill)
                .Select(c => new SData { Date = c.SaleDate, InvNo = c.InvNo, Amount = c.Amount, ID = c.DailySaleId })
@@ -359,11 +359,35 @@ namespace eStore.Api.Controllers
               .Select(c => new SData { Date = c.SaleDate, InvNo = c.InvNo, Amount = c.Amount, ID = c.DailySaleId })
               .ToList();
 
-            SDataList list = new SDataList {Tailoring=tData, Due=dData, Manual=mData, Regular=sData, SaleReturn=srData };
+            SDataList list = new SDataList { Tailoring = tData, Due = dData, Manual = mData, Regular = sData, SaleReturn = srData };
             return list;
         }
 
+        [HttpGet("removeDuplicateBooking")]
+        public ActionResult<int> GetTailoringDuplicateDelete(int StoreId)
+        {
+            int count = 0;
+            var slipList = db.TalioringBookings.Where(c => c.StoreId == StoreId).Select(c => c.BookingSlipNo).GroupBy(c => c).Where(c => c.Count() > 1).Select(c => c.Key).ToList();
 
+            foreach (var item in slipList)
+            {
+                var tb = db.TalioringBookings.Where(c => c.StoreId == StoreId && c.BookingSlipNo == item).ToList();
+                if (tb != null && tb.Count > 1)
+                {
+                    bool flag = false;
+                    if (tb[0].CustName != tb[1].CustName) flag = true;
+                    if (tb[0].TotalAmount != tb[1].TotalAmount) flag = true;
+                    if (tb[0].TotalQty != tb[0].TotalQty) flag = true;
+                    if (tb[0].BookingDate.Date != tb[1].BookingDate.Date) flag = true;
+                    if (!flag)
+                    {
+                        db.TalioringBookings.Remove(tb[0]);
+                        count += db.SaveChanges();
+                    }
+                }
+            }
+            return count;
+        }
 
     }
     public class SDataList
