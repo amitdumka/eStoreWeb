@@ -32,8 +32,25 @@ namespace eStore.API.Controllers
             _context = context;
         }
 
+        [HttpGet("duplicateBooking")]
+        public ActionResult<IEnumerable<TalioringBooking>> GetDuplicateBooking(int StoreId)
+        {
+            var slipList = _context.TalioringBookings.Where(c => c.StoreId == StoreId).Select(c => c.BookingSlipNo).GroupBy(c => c).Where(c => c.Count() > 1).Select(c => c.Key).ToList();
+
+            List<TalioringBooking> vd = new List<TalioringBooking>();
+            foreach (var item in slipList)
+            {
+                var tb = _context.TalioringBookings.Where(c => c.StoreId == StoreId && c.BookingSlipNo == item).ToList();
+                vd.AddRange(tb);
+            }
+
+            if (vd != null && vd.Count>0)
+                return vd.OrderBy(c=>c.BookingSlipNo).ToList();
+            else
+                return NotFound();
+        }
         [HttpGet ("pending")]
-        public async Task<ActionResult<IEnumerable<TalioringBooking>>> PendingBooking()
+        public async Task<ActionResult<IEnumerable<TalioringBooking>>> GetPendingBooking()
         {
             var vd = _context.TalioringBookings.Where (c => c.IsDelivered == false);
 
@@ -44,7 +61,7 @@ namespace eStore.API.Controllers
         }
 
         [HttpGet ("pending/{id}")]
-        public async Task<ActionResult<IEnumerable<TalioringBooking>>> PendingBooking(int id)
+        public async Task<ActionResult<IEnumerable<TalioringBooking>>> GetPendingBooking(int id)
         {
             var vd = _context.TalioringBookings.Where (c => c.IsDelivered == false && c.StoreId == id);
 

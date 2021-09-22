@@ -45,6 +45,7 @@ export async function findBookings(queryParams) {
   }
 }
 
+
 // UPDATE => PUT: update the booking on the server
 export async function updateBooking(booking) {
   return await axios.put(

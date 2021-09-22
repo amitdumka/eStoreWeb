@@ -402,11 +402,11 @@ namespace eStore.Api.Controllers
 
             foreach (var item in data)
             {
-                var td = db.TailoringDeliveries.Where(c => c.StoreId == storeId && c.TalioringBookingId == item.TalioringBookingId).Select(c => c.TalioringBookingId).FirstOrDefault();
+                var td = db.TailoringDeliveries.Where(c => c.StoreId == storeId && c.TalioringBookingId == item.TalioringBookingId).FirstOrDefault();
 
                 Console.WriteLine("DEliD:" + td);
 
-                if(td!=null && td > 0)
+                if(td !=null)
                 {
                     item.IsDelivered = true;
                     db.TalioringBookings.Update(item);
@@ -414,7 +414,7 @@ namespace eStore.Api.Controllers
                 }
                 else
                 {
-                    var ds = db.DailySales.Where(c => c.StoreId == storeId && c.IsTailoringBill && c.Remarks.ToLower().Contains(item.BookingSlipNo.ToLower())).FirstOrDefault();
+                    var ds = db.DailySales.Where(c => c.StoreId == storeId && c.IsTailoringBill && c.Remarks.ToLower().Contains(item.BookingSlipNo.ToLower().Trim())).FirstOrDefault();
                     if (ds != null)
                     {
                         TalioringDelivery del = new TalioringDelivery
