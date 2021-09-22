@@ -102,8 +102,9 @@ export function BookingsFilter({ listLoading }) {
                   value={values.type}
                 >
                   <option value="">All</option>
-                  <option value="0">Business</option>
-                  <option value="1">Individual</option>
+                  <option value="1">Duplicate</option>
+                  <option value="2">Pending</option>
+                  <option value="0">Current Year</option>
                 </select>
                 <small className="form-text text-muted">
                   <b>Filter</b> by Type

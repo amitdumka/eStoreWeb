@@ -8,6 +8,23 @@ const { actions } = bookingsSlice;
 //booking
 //Booking
 
+export const fetchDuplicateBookings = (id) => (dispatch) => {
+  dispatch(actions.startCall({ callType: callTypes.list }));
+  return requestFromServer
+    .getDuplicateBookings(id)
+    .then((response) => {
+      const entities = response.data;
+      const totalCount = response.data.length;
+      console.log(response.data);
+      dispatch(actions.duplicateBookingFetched({ totalCount , entities }));
+    })
+    .catch((error) => {
+      error.clientMessage = "Can't load Duplicate Booking ";
+      dispatch(actions.catchError({ error, callType: callTypes.list }));
+    });
+};
+
+
 export const fetchPendingDelivery = () => (dispatch) => {
   dispatch(actions.startCall({ callType: callTypes.list }));
   return requestFromServer

@@ -6,9 +6,8 @@ import { BASE_URL } from "../../../../../_estore/URLConstants";
 //booking
 //Booking
 
-
-export const API_BASE_URL = BASE_URL + "/api/";
-export const API_URL = BASE_URL + "/api/tailoringbookings";
+export const API_BASE_URL = BASE_URL + "api/";
+export const API_URL = BASE_URL + "api/tailoringbookings";
 // CREATE =>  POST: add a new booking to the server
 export async function createBooking(booking) {
   return await axios.post(API_URL, booking, {
@@ -20,8 +19,11 @@ export async function createBooking(booking) {
 export function getAllBookings() {
   return axios.get(API_URL); //.catch(function (error){console.log(error)});
 }
-export async function getPendingDelivery(){
+export async function getPendingDelivery() {
   return await axios.get(`${API_BASE_URL}masterReport/pendingdeliver`);
+}
+export async function getDuplicateBookings(id) {
+  return await axios.get(`${API_URL}/duplicateBooking?StoreID=1`);
 }
 export async function getBookingById(bookingId) {
   return await axios.get(`${API_URL}/${bookingId}`);
@@ -30,8 +32,17 @@ export async function getBookingById(bookingId) {
 // Method from server should return QueryResultsModel(items: any[], totalsCount: number)
 // items => filtered/sorted result
 export async function findBookings(queryParams) {
-  //verifyLogin();
-  return await axios.get(`${API_URL}`); //find`, { queryParams });
+  console.log(queryParams.filter.type);
+  if (queryParams.filter.type === 1) { console.log("duplicate");
+    return await axios.get(`${API_URL}/duplicateBooking?StoreId=1`);
+  } 
+  else if(queryParams.filter.type===2){
+    console.log("pending");
+    return await axios.get(`${API_URL}/pending`);
+  }
+  else {
+    return await axios.get(`${API_URL}`); //find`, { queryParams });
+  }
 }
 
 // UPDATE => PUT: update the booking on the server

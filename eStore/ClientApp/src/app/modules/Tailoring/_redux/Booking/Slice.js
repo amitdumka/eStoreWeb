@@ -15,7 +15,8 @@ const initialBookingsState = {
   bookingForEdit: undefined,
   lastError: null,
   pendingDelivery: null,
-  totalCountPending:0
+  totalCountPending:0, 
+  duplicates:null
 };
 export const callTypes = {
   list: "list",
@@ -64,6 +65,13 @@ export const bookingsSlice = createSlice({
       state.pendingDelivery = entities;
       state.totalCountPending=totalCount;
 
+    },
+    duplicateBookingFetched: (state, action) => {
+
+      const {totalCount, entities } = action.payload;
+      state.listLoading = false;
+      state.error = null;
+      state.duplicates = entities; 
     },
     // createBooking
     bookingCreated: (state, action) => {
