@@ -433,12 +433,13 @@ namespace eStore.Api.Controllers
                     }
                     else Ignored++;
                 }
-               
+
+              
 
             }
 
-
-            string r = $"TotalCount:{data.Count}\t MarkedCount: {MarkedCount}\t Added:{addCount}\t Ignored:{Ignored}";
+            int ctr = db.SaveChanges();
+            string r = $"TotalCount:{data.Count}\t MarkedCount: {MarkedCount}\t Added:{addCount}\t Ignored:{Ignored}\t Saved:{ctr}";
             return r;
         }
 
