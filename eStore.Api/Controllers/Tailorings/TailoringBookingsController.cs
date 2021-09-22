@@ -60,7 +60,7 @@ namespace eStore.API.Controllers
         {
             return await _context.TalioringBookings.Where (c => c.DeliveryDate.Year == DateTime.Today.Year).OrderByDescending (c => c.BookingDate).ThenByDescending (c => c.DeliveryDate).ToListAsync ();
         }
-        [HttpPost]
+        [HttpPost("find")]
         public async Task<ActionResult<IEnumerable<TalioringBooking>>> PostFind(string filters)
         {
             return await _context.TalioringBookings.Where (c => c.DeliveryDate.Year == DateTime.Today.Year).OrderByDescending (c => c.BookingDate).ThenByDescending (c => c.DeliveryDate).ToListAsync ();
