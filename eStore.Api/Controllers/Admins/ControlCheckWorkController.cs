@@ -1,4 +1,5 @@
 ﻿using eStore.Database;
+using eStore.Shared.Models.Tailoring;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -376,13 +377,14 @@ namespace eStore.Api.Controllers
                 if (tb != null && tb.Count > 1)
                 {
                     bool flag = false;
-                    if (tb[0].CustName != tb[1].CustName) flag = true;
+                    if (tb[0].CustName.ToLower().Trim() != tb[1].CustName.ToLower().Trim()) flag = true;
                     if (tb[0].TotalAmount != tb[1].TotalAmount) flag = true;
-                    if (tb[0].TotalQty != tb[0].TotalQty) flag = true;
+                    if (tb[0].TotalQty != tb[1].TotalQty) flag = true;
                     if (tb[0].BookingDate.Date != tb[1].BookingDate.Date) flag = true;
+
                     if (!flag)
                     {
-                        db.TalioringBookings.Remove(tb[0]);
+                        db.TalioringBookings.Remove(tb[1]);
 
                     }
                     else tI++;
@@ -392,6 +394,54 @@ namespace eStore.Api.Controllers
             string r = $"Total Count:{slipList.Count}\t Removed:{count}\t Ignored:{tI}";
             return r;
         }
+        [HttpGet("MarkDelivery")]
+        public string GetMarkDelivery(int storeId)
+        {
+            int addCount = 0, MarkedCount = 0, Ignored = 0;
+            var data = db.TalioringBookings.Where(c => c.StoreId == storeId && !c.IsDelivered).ToList();
+
+            foreach (var item in data)
+            {
+                var td = db.TailoringDeliveries.Where(c => c.StoreId == storeId && c.TalioringBookingId == item.TalioringBookingId).Select(c => c.TalioringBookingId).FirstOrDefault();
+                if(td!=null && td > 0)
+                {
+                    item.IsDelivered = true;
+                    db.TalioringBookings.Update(item);
+                    MarkedCount++;
+                }
+                else
+                {
+                    var ds = db.DailySales.Where(c => c.StoreId == storeId && c.IsTailoringBill).FirstOrDefault();
+                    if (ds != null)
+                    {
+                        TalioringDelivery del = new TalioringDelivery
+                        {
+                            TalioringBookingId = item.TalioringBookingId,
+                            Amount = ds.Amount,
+                            DeliveryDate = ds.SaleDate,
+                            EntryStatus = 0,
+                            InvNo = ds.InvNo,
+                            IsReadOnly = true,
+                            StoreId = storeId,
+                            Remarks = $"Auto Added By System on {DateTime.Now}",
+                            UserId = "AutoAdmin"
+                        };
+                        db.TailoringDeliveries.Add(del);
+                        item.IsDelivered = true;
+                        db.TalioringBookings.Update(item);
+                        addCount++;
+                    }
+                    else Ignored++;
+                }
+               
+
+            }
+
+
+            string r = $"TotalCount:{data.Count}\t MarkedCount: {MarkedCount}\t Added:{addCount}\t Ignored:{Ignored}";
+            return r;
+        }
+
 
     }
     public class SDataList
