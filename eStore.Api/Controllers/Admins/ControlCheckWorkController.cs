@@ -364,9 +364,10 @@ namespace eStore.Api.Controllers
         }
 
         [HttpGet("removeDuplicateBooking")]
-        public ActionResult<int> GetTailoringDuplicateDelete(int StoreId)
+        public ActionResult<string> GetTailoringDuplicateDelete(int StoreId)
         {
             int count = 0;
+            int tI = 0;
             var slipList = db.TalioringBookings.Where(c => c.StoreId == StoreId).Select(c => c.BookingSlipNo).GroupBy(c => c).Where(c => c.Count() > 1).Select(c => c.Key).ToList();
 
             foreach (var item in slipList)
@@ -382,11 +383,14 @@ namespace eStore.Api.Controllers
                     if (!flag)
                     {
                         db.TalioringBookings.Remove(tb[0]);
-                        count += db.SaveChanges();
+
                     }
+                    else tI++;
                 }
             }
-            return count;
+            count = db.SaveChanges();
+            string r = $"Total Count:{slipList.Count}\t Removed:{count}\t Ignored:{tI}";
+            return r;
         }
 
     }
