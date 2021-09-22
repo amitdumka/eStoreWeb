@@ -403,6 +403,9 @@ namespace eStore.Api.Controllers
             foreach (var item in data)
             {
                 var td = db.TailoringDeliveries.Where(c => c.StoreId == storeId && c.TalioringBookingId == item.TalioringBookingId).Select(c => c.TalioringBookingId).FirstOrDefault();
+
+                Console.WriteLine("DEliD:" + td);
+
                 if(td!=null && td > 0)
                 {
                     item.IsDelivered = true;
@@ -411,7 +414,7 @@ namespace eStore.Api.Controllers
                 }
                 else
                 {
-                    var ds = db.DailySales.Where(c => c.StoreId == storeId && c.IsTailoringBill).FirstOrDefault();
+                    var ds = db.DailySales.Where(c => c.StoreId == storeId && c.IsTailoringBill && c.Remarks.ToLower().Contains(item.BookingSlipNo.ToLower())).FirstOrDefault();
                     if (ds != null)
                     {
                         TalioringDelivery del = new TalioringDelivery
