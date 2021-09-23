@@ -446,6 +446,38 @@ namespace eStore.Api.Controllers
             return r;
         }
 
+        [HttpGet("DelVer")]
+        public int GetDelVerify(int storeId)
+        {
+            var data = db.TailoringDeliveries.Include(c => c.Booking).Where(c => c.StoreId == storeId && c.Booking.IsDelivered == false).ToList();
+            if (data != null)
+                return data.Count();
+            else return -1;
+                
+        }
+        [HttpGet("BookingWithSale")]
+        public List<string> GetBookingWithDailySale(int storeId)
+        {
+            var data = db.DailySales.Where(c => c.StoreId == storeId && c.IsTailoringBill)
+                .Select(c => new { c.InvNo, c.SaleDate, c.Amount, Remarks=c.Remarks.Trim().ToLower() }).ToList();
+            var booking = db.TalioringBookings.Where(c => c.StoreId == storeId)
+                .Select(c=>new { BookingSlipNo=c.BookingSlipNo.ToLower(), c.TalioringBookingId, c.TotalAmount, c.IsDelivered, })
+                .ToList();
+            List<string> NotFound = new List<string>();
+            int found = 0;
+            foreach (var item in booking)
+            {
+               var ds= data.Where(c => c.Remarks.Contains(item.BookingSlipNo.Trim())).FirstOrDefault();
+                if (ds == null)
+
+                    NotFound.Add(item.BookingSlipNo);
+                else found++;
+            }
+
+            NotFound.Add($"Total Booking:{booking.Count}\t Total Sale:{data.Count}\t Not Found: {NotFound.Count-1}\t Found:{found}");
+            return NotFound;
+        }
+
 
     }
     public class SDataList
