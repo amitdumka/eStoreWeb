@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace eStore.Api.Controllers
 {
@@ -406,7 +407,7 @@ namespace eStore.Api.Controllers
 
                 Console.WriteLine("DEliD:" + td);
 
-                if(td !=null)
+                if (td != null)
                 {
                     item.IsDelivered = true;
                     db.TalioringBookings.Update(item);
@@ -437,7 +438,7 @@ namespace eStore.Api.Controllers
                     else Ignored++;
                 }
 
-              
+
 
             }
 
@@ -450,31 +451,44 @@ namespace eStore.Api.Controllers
         public int GetDelVerify(int storeId)
         {
             var data = db.TailoringDeliveries.Include(c => c.Booking).Where(c => c.StoreId == storeId && c.Booking.IsDelivered == false).ToList();
-            if (data != null)
+
+              if (data != null)
                 return data.Count();
             else return -1;
-                
+
+
+
+        }
+        [HttpGet("DupDelivery")]
+        public  ActionResult<List<int>> GetDuplicateBooking(int storeId)
+        {
+            var d2 = db.TailoringDeliveries.Where(c => c.StoreId == storeId).GroupBy(c => c.TalioringBookingId).Where(c => c.Count() > 1).Select(c => c.Key).ToList();
+            return  d2.ToList();
+
         }
         [HttpGet("BookingWithSale")]
         public List<string> GetBookingWithDailySale(int storeId)
         {
             var data = db.DailySales.Where(c => c.StoreId == storeId && c.IsTailoringBill)
-                .Select(c => new { c.InvNo, c.SaleDate, c.Amount, Remarks=c.Remarks.Trim().ToLower() }).ToList();
+                .Select(c => new { c.InvNo, c.SaleDate, c.Amount, Remarks = c.Remarks.Trim().ToLower() }).ToList();
+
             var booking = db.TalioringBookings.Where(c => c.StoreId == storeId)
-                .Select(c=>new { BookingSlipNo=c.BookingSlipNo.ToLower(), c.TalioringBookingId, c.TotalAmount, c.IsDelivered, })
+                .Select(c => new { BookingSlipNo = c.BookingSlipNo.ToLower(), c.TalioringBookingId, c.TotalAmount, c.IsDelivered, })
                 .ToList();
+
             List<string> NotFound = new List<string>();
             int found = 0;
-            foreach (var item in booking)
-            {
-               var ds= data.Where(c => c.Remarks.Contains(item.BookingSlipNo.Trim())).FirstOrDefault();
-                if (ds == null)
+            if (booking != null && data != null)
+                foreach (var item in booking)
+                {
+                    var ds = data.Where(c => c.Remarks.Contains(item.BookingSlipNo.Trim())).FirstOrDefault();
+                    if (ds == null)
 
-                    NotFound.Add(item.BookingSlipNo);
-                else found++;
-            }
+                        NotFound.Add(item.BookingSlipNo);
+                    else found++;
+                }
 
-            NotFound.Add($"Total Booking:{booking.Count}\t Total Sale:{data.Count}\t Not Found: {NotFound.Count-1}\t Found:{found}");
+            NotFound.Add($"Store Id: {storeId}Total Booking:{booking.Count}\t Total Sale:{data.Count}\t Not Found: {NotFound.Count - 1}\t Found:{found}");
             return NotFound;
         }
 
