@@ -452,7 +452,7 @@ namespace eStore.Api.Controllers
         {
             var data = db.TailoringDeliveries.Include(c => c.Booking).Where(c => c.StoreId == storeId && c.Booking.IsDelivered == false).ToList();
 
-              if (data != null)
+            if (data != null)
                 return data.Count();
             else return -1;
 
@@ -460,10 +460,10 @@ namespace eStore.Api.Controllers
 
         }
         [HttpGet("DupDelivery")]
-        public  ActionResult<List<int>> GetDuplicateBooking(int storeId)
+        public ActionResult<List<int>> GetDuplicateBooking(int storeId)
         {
             var d2 = db.TailoringDeliveries.Where(c => c.StoreId == storeId).GroupBy(c => c.TalioringBookingId).Where(c => c.Count() > 1).Select(c => c.Key).ToList();
-            return  d2.ToList();
+            return d2.ToList();
 
         }
         [HttpGet("BookingWithSale")]
