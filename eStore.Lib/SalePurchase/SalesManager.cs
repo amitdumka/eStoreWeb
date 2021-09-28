@@ -42,27 +42,36 @@ namespace eStore.BL.SalePurchase
                 var dId = db.DuesLists.Where (c => c.DailySaleId == dailySale.DailySaleId).FirstOrDefault ();
                 if ( dId != null )
                 {
-                    db.DuesLists.Remove (dId);
-                    decimal dueAmt;
-                    if ( dailySale.Amount != dailySale.CashAmount )
+                    if ( dailySale.IsDue )
                     {
-                        dueAmt = dailySale.Amount - dailySale.CashAmount;
+                        decimal dueAmt;
+                        if ( dailySale.Amount != dailySale.CashAmount )
+                        {
+                            dueAmt = dailySale.Amount - dailySale.CashAmount;
+                        }
+                        else
+                            dueAmt = dailySale.Amount;
+
+                        DuesList dl = new DuesList ()
+                        {
+                            DuesListId = dId.DuesListId,
+                            Amount = dueAmt,
+                            DailySale = dailySale,
+                            DailySaleId = dailySale.DailySaleId,
+                            StoreId = dailySale.StoreId
+                            ,
+                            IsPartialRecovery = false,
+                            IsRecovered = false,
+                            UserId = dailySale.UserId,
+                        };
+
+                        if ( dId.RecoveryDate != null )
+                            dl.RecoveryDate = dId.RecoveryDate;
+
+                        db.DuesLists.Update (dl);
                     }
                     else
-                        dueAmt = dailySale.Amount;
-
-                    DuesList dl = new DuesList ()
-                    {
-                        Amount = dueAmt,
-                        DailySale = dailySale,
-                        DailySaleId = dailySale.DailySaleId,
-                        StoreId = dailySale.StoreId
-                        ,
-                        IsPartialRecovery = false,
-                        IsRecovered = false,
-                        UserId = dailySale.UserId
-                    };
-                    db.DuesLists.Add (dl);
+                        db.DuesLists.Remove (dId);
                 }
                 else
                 {
@@ -128,23 +137,19 @@ namespace eStore.BL.SalePurchase
         {
             if ( !dailySale.IsSaleReturn )
             { //Normal Bill
-                if ( !dailySale.IsDue )
-                {
-                    //Paid Bill
-                    UpDateAmount (db, dailySale, false);
-                }
-                else
+                if ( dailySale.IsDue )
                 {
                     //Due Bill
                     UpdateDueAmount (db, dailySale, false);
-                    UpDateAmount (db, dailySale, false);
                 }
+                UpDateAmount (db, dailySale, false);
             }
             else
             {
                 //Sale Return Bill
                 UpdateSalesRetun (db, dailySale, false);
             }
+            db.SaveChanges ();
             //TODO: SaleBot.NotifySale(db, dailySale.SalesmanId, dailySale.Amount);
         }
 
@@ -178,6 +183,7 @@ namespace eStore.BL.SalePurchase
 
                 UpDateAmount (db, dailySale, true);
             }
+            //db.SaveChanges ();
         }
 
         public void OnUpdate(eStoreDbContext db, DailySale dailySale)
@@ -198,10 +204,12 @@ namespace eStore.BL.SalePurchase
                 {
                     if ( !dailySale.IsDue )
                     {
-                        UpdateSalesRetun (db, oldSale, true);
+                        //UpdateSalesRetun (db, oldSale, true);
+                        UpdateDueAmount (db, dailySale, true);
                     }
                     else
                     {
+                        UpdateDueAmount (db, dailySale, true);
                     }
                 }
                 else

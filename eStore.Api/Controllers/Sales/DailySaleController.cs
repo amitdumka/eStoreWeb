@@ -107,11 +107,11 @@ namespace eStore.API.Controllers
             }
 
             _context.Entry (dailySale).State = EntityState.Modified;
-
+            new SalesManager ().OnUpdate (_context, dailySale);
             try
             {
                 await _context.SaveChangesAsync ();
-                new SalesManager ().OnUpdate (_context, dailySale);
+                
             }
             catch ( DbUpdateConcurrencyException )
             {
