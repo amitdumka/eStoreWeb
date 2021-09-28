@@ -25,7 +25,6 @@ export async function getDailySaleById(dailySaleId) {
 // Method from server should return QueryResultsModel(items: any[], totalsCount: number)
 // items => filtered/sorted result
 export async function findDailySales(queryParams) {
-  //verifyLogin();
   return await axios.get(`${API_URL}/find?mode=365`); //find`, { queryParams });
 }
 

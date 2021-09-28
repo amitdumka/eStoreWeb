@@ -3,7 +3,7 @@ import { Route } from "react-router-dom";
 
 import { DataLoadingDialog } from "./dialogs/LoadingDailog";
 import { EditDialog } from "./dialogs/EditDialog";
-//import { DeleteDialog } from "./dialogs/DeleteDialog";
+import { DeleteDialog } from "./dialogs/DeleteDialog";
 //import { DeletesDialog } from "./dialogs/DeletesDialog";
 //import { FetchDialog } from "./dialogs/FetchDialog";
 //import { UpdateStateDialog } from "./dialogs/UpdateStateDialog";
@@ -86,7 +86,7 @@ export function DailySalesPage({ history }) {
           />
         )}
       </Route> */}
-      {/* <Route path={`${path}:id/delete`}>
+      <Route path={`${path}:id/delete`}>
         {({ history, match }) => (
           <DeleteDialog
             show={match != null}
@@ -96,7 +96,7 @@ export function DailySalesPage({ history }) {
             }}
           />
         )}
-      </Route> */}
+      </Route>
       {/* <Route path={`${path}fetch`}>
         {({ history, match }) => (
           <FetchDialog
