@@ -94,6 +94,7 @@
     "react-select": "^4.3.0",
     "react-stripe-elements": "^6.1.2",
     "react-syntax-highlighter": "12.2.1",
+    "react-ticker": "^1.2.2",
     "react-to-print": "^2.13.0",
     "react-toastify": "^7.0.4",
     "read-excel-file": "^5.1.0",

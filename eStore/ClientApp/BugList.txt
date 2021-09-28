@@ -2,3 +2,7 @@
 2 Rent.  Same as Above
 3. There is bug in CommonType /Enum Data fetch
 4. 
+
+
+future..
+npm i material-kit-react
