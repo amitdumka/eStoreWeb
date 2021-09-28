@@ -409,25 +409,30 @@ export const DuplicateInvoiceCheck = () => {
   const openDeleteDialog = (id) => {
     history.push('/sales/dailySales/' + `${id}/delete`)
   }
+  const PMode = ['Cash', 'Card', '']
   const DisplayInvList = ({ invList }) => {
-    console.log(invList);
-    if (invList == null ) return <></>
+    console.log(invList)
+    if (invList == null) return <></>
     return (
       <>
-      
         <h3 className="text-info text-center">Duplicate Invoice Listing</h3>
-        <h5 className="text-warning text-right">Count: {invList.length}</h5>  
-        <TableContainer component={Paper} className="border rounded border-success">
+        <h5 className="text-warning text-right">Count: {invList.length}</h5>
+        <TableContainer
+          component={Paper}
+          className="border rounded border-success"
+        >
           <Table x={{ minWidth: 650 }} aria-label="simple table">
             <TableHead className="bg-light text-success text-center">
               <TableRow>
                 <TableCell>Id</TableCell>
                 <TableCell>Date</TableCell>
                 <TableCell>InvNo</TableCell>
-                <TableCell>Amount</TableCell>
+               
                 <TableCell>Mode</TableCell>
                 <TableCell>Inv Types</TableCell>
+                <TableCell>Amount</TableCell>
                 <TableCell>CashAmount</TableCell>
+                <TableCell>Remarks</TableCell>
                 <TableCell>Actions</TableCell>
               </TableRow>
             </TableHead>
@@ -442,8 +447,8 @@ export const DuplicateInvoiceCheck = () => {
                     <TableCell>{inv.dailySaleId}</TableCell>
                     <TableCell>{inv.saleDate}</TableCell>
                     <TableCell>{inv.invNo}</TableCell>
-                    <TableCell>{inv.amount}</TableCell>
-                    <TableCell>{inv.payMode}</TableCell>
+                   
+                    <TableCell>{PMode[inv.payMode]}</TableCell>
                     <TableCell>
                       {inv.isDue && (
                         <span className="font-weight-bold label label-lg label-light-danger  label-inline ml-2">
@@ -471,10 +476,11 @@ export const DuplicateInvoiceCheck = () => {
                         </span>
                       )}
                     </TableCell>
+                    <TableCell>{inv.amount}</TableCell>
                     <TableCell>{inv.cashAmount}</TableCell>
+                    <TableCell>{inv.remarks}</TableCell>
                     <TableCell>
                       <a
-                        href="#"
                         onClick={() => openEditDialog(inv.dailySaleId)}
                         title="Edit "
                         className="btn btn-icon btn-light btn-hover-primary btn-sm mx-3"
@@ -490,7 +496,6 @@ export const DuplicateInvoiceCheck = () => {
                       <> </>
 
                       <a
-                        href="#"
                         onClick={() => openDeleteDialog(inv.dailySaleId)}
                         title="Delete "
                         className="btn btn-icon btn-light btn-hover-danger btn-sm"
@@ -692,7 +697,10 @@ export const TailoringDuplicateCheck = () => {
       <>
         <h3 className="text-info text-center">Duplicate Delivery Listing</h3>
         <h5 className="text-warning text-right">Count: {dupList.length}</h5>
-        <TableContainer component={Paper} className="border rounded border-success">
+        <TableContainer
+          component={Paper}
+          className="border rounded border-success"
+        >
           <Table x={{ minWidth: 650 }} aria-label="simple table">
             <TableHead className="bg-light">
               <TableRow>
@@ -725,7 +733,6 @@ export const TailoringDuplicateCheck = () => {
 
                     <TableCell>
                       <a
-                        href="#"
                         onClick={() => openEditDialog(inv.talioringDeliveryId)}
                         title="Edit "
                         className="btn btn-icon btn-light btn-hover-primary btn-sm mx-3"
@@ -741,7 +748,6 @@ export const TailoringDuplicateCheck = () => {
                       <> </>
 
                       <a
-                        href="#"
                         onClick={() =>
                           openDeleteDialog(inv.talioringDeliveryId)
                         }
