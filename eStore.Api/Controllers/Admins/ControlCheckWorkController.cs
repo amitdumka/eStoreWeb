@@ -457,6 +457,32 @@ namespace eStore.Api.Controllers
             NotFound.Add ($"Store Id: {storeId}Total Booking:{booking.Count}\t Total Sale:{data.Count}\t Not Found: {NotFound.Count - 1}\t Found:{found}");
             return NotFound;
         }
+  
+        [HttpGet("dueAdd")]
+        public ActionResult<string> GetDueList()
+        {
+            var data = db.DailySales.Where (c => c.IsDue).ToList ();
+            foreach ( var item in data )
+            {
+                var ds2 = db.DuesLists.Where (c => c.DailySaleId == item.DailySaleId).FirstOrDefault ();
+                if ( ds2 == null )
+                
+                {
+                    DuesList dues = new DuesList {Amount=item.Amount-item.CashAmount, DailySaleId=item.DailySaleId, IsPartialRecovery=false, IsRecovered=false, 
+                         StoreId=item.StoreId, UserId="AutoAdmin"
+                    };
+                    db.DuesLists.Add (dues);
+                }
+            }
+
+            var ds = db.DuesLists.GroupBy (c => c.DailySaleId).Where (c => c.Count() > 1).Select (c=>c.Key).ToList();
+            int ctr = db.SaveChanges ();
+
+            string r = $"Save: {ctr}, dup: {ds.Count}";
+            return r;
+
+        }
+    
     }
 
     public class SDataList
