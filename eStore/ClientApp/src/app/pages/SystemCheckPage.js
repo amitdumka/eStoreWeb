@@ -410,13 +410,16 @@ export const DuplicateInvoiceCheck = () => {
     history.push('/sales/dailySales/' + `${id}/delete`)
   }
   const DisplayInvList = ({ invList }) => {
-    if (invList == null || invList.length == 0) return <></>
+    console.log(invList);
+    if (invList == null ) return <></>
     return (
       <>
-        <h3 className="text-info">Duplicate Invoice Listing</h3>
-        <TableContainer component={Paper}>
+      
+        <h3 className="text-info text-center">Duplicate Invoice Listing</h3>
+        <h5 className="text-warning text-right">Count: {invList.length}</h5>  
+        <TableContainer component={Paper} className="border rounded border-success">
           <Table x={{ minWidth: 650 }} aria-label="simple table">
-            <TableHead>
+            <TableHead className="bg-light text-success text-center">
               <TableRow>
                 <TableCell>Id</TableCell>
                 <TableCell>Date</TableCell>
@@ -434,7 +437,7 @@ export const DuplicateInvoiceCheck = () => {
                 invList.map((inv) => (
                   <TableRow
                     key={inv.dailySaleId}
-                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                    sx={{ '&:last-child td, &:last-child th': { border: 1 } }}
                   >
                     <TableCell>{inv.dailySaleId}</TableCell>
                     <TableCell>{inv.saleDate}</TableCell>
@@ -519,7 +522,7 @@ export const DuplicateInvoiceCheck = () => {
         {eList && (
           <h3 className="h3 text-center text-danger display-4">
             Duplicate Invoice Entry found
-            <span className="badge badge-pill badge-success ml-5">
+            <span className="badge badge-pill badge-success ml-5 small">
               {eList.length}
             </span>
           </h3>
@@ -618,9 +621,10 @@ export const DuplicateInvoiceCheck = () => {
             }
           />
         )}
+
         {duplicateInvCheckList &&
         duplicateInvCheckList.invList &&
-        duplicateInvCheckList.invList.count > 0 ? (
+        duplicateInvCheckList.invList.length > 0 ? (
           <>
             <DisplayInvList
               invList={duplicateInvCheckList && duplicateInvCheckList.invList}
@@ -686,10 +690,11 @@ export const TailoringDuplicateCheck = () => {
     if (dupList != null && dupList.length == 0) return <></>
     return (
       <>
-        <h3 className="text-info">Duplicate Delivery Listing</h3>
-        <TableContainer component={Paper}>
+        <h3 className="text-info text-center">Duplicate Delivery Listing</h3>
+        <h5 className="text-warning text-right">Count: {dupList.length}</h5>
+        <TableContainer component={Paper} className="border rounded border-success">
           <Table x={{ minWidth: 650 }} aria-label="simple table">
-            <TableHead>
+            <TableHead className="bg-light">
               <TableRow>
                 <TableCell>Id</TableCell>
                 <TableCell>Date</TableCell>
