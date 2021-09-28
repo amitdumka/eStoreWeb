@@ -1,4 +1,5 @@
 ﻿using eStore.Database;
+using eStore.Shared.Models.Sales;
 using eStore.Shared.Models.Tailoring;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,11 +9,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace eStore.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route ("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class ControlCheckWorkController : ControllerBase
@@ -23,26 +23,26 @@ namespace eStore.Api.Controllers
         {
             db = con;
         }
-        [HttpGet("tailoringCheck")]
+
+        [HttpGet ("tailoringCheck")]
         public ActionResult<TailoringCheck> GetTailoringCheck(string requestData)
         {
-            Console.WriteLine(requestData);
-            RData rData = JsonSerializer.Deserialize<RData>(requestData);
+            Console.WriteLine (requestData);
+            RData rData = JsonSerializer.Deserialize<RData> (requestData);
 
-            if (rData == null)
+            if ( rData == null )
             {
-                Console.WriteLine("Rdata is null");
+                Console.WriteLine ("Rdata is null");
             }
-
 
             int storeId = rData.storeId;
 
-            var booking = db.TalioringBookings.Where(c => c.StoreId == storeId && !c.IsDelivered)
-                .Select(c => new { c.BookingDate, c.BookingSlipNo, c.CustName, c.DeliveryDate, c.TotalAmount, c.TotalQty, c.IsDelivered })
-                .OrderBy(c => c.BookingDate)
-                .ToList();
-            var deliver = db.TailoringDeliveries.Include(c => c.Booking).Where(c => c.StoreId == storeId)
-                .Select(c => new
+            var booking = db.TalioringBookings.Where (c => c.StoreId == storeId && !c.IsDelivered)
+                .Select (c => new { c.BookingDate, c.BookingSlipNo, c.CustName, c.DeliveryDate, c.TotalAmount, c.TotalQty, c.IsDelivered })
+                .OrderBy (c => c.BookingDate)
+                .ToList ();
+            var deliver = db.TailoringDeliveries.Include (c => c.Booking).Where (c => c.StoreId == storeId)
+                .Select (c => new
                 {
                     c.Amount,
                     c.DeliveryDate,
@@ -54,267 +54,229 @@ namespace eStore.Api.Controllers
                     c.TalioringBookingId,
                     c.Booking.BookingDate,
                     c.Booking.BookingSlipNo
-                }).OrderBy(c => c.BookingDate)
-                .ToList();
+                }).OrderBy (c => c.BookingDate)
+                .ToList ();
 
-            SortedDictionary<int, string> InvErrorList = new SortedDictionary<int, string>();
+            SortedDictionary<int, string> InvErrorList = new SortedDictionary<int, string> ();
 
             int ctr = 0;
             bool isO = false;
 
-            foreach (var del in deliver)
+            foreach ( var del in deliver )
             {
                 isO = false;
 
-                if (!del.IsDelivered)
+                if ( !del.IsDelivered )
                 {
-                    var b = db.TalioringBookings.Find(del.TalioringBookingId);
+                    var b = db.TalioringBookings.Find (del.TalioringBookingId);
                     b.IsDelivered = true;
-                    db.TalioringBookings.Update(b);
+                    db.TalioringBookings.Update (b);
                 }
 
                 string msg = $"#{del.InvNo}#{del.TalioringBookingId}#{del.BookingSlipNo}#{del.BookingDate}#{del.DeliveryDate}#{del.TalioringDeliveryId}#{del.ProposeDate}#{del.Amount}#{del.TotalAmount}#;";
-                var ds = db.DailySales.Where(c => c.InvNo.ToLower().Contains(del.InvNo.ToLower()) && c.IsTailoringBill).FirstOrDefault();
+                var ds = db.DailySales.Where (c => c.InvNo.ToLower ().Contains (del.InvNo.ToLower ()) && c.IsTailoringBill).FirstOrDefault ();
 
-                if (del.Amount != del.TotalAmount)
+                if ( del.Amount != del.TotalAmount )
                 {
                     isO = true;
                     msg += "\tDelivery and Booking amount not matching;";
                 }
 
-                if (rData.delivery && del.ProposeDate.Date != del.DeliveryDate.Date)
+                if ( rData.delivery && del.ProposeDate.Date != del.DeliveryDate.Date )
                 {
                     isO = true;
                     msg += "\tPropose date and delivery date is not matching;";
 
-                    int Days = (int)del.DeliveryDate.Subtract(del.ProposeDate).TotalDays;
-                    int DaysInTotal = (int)del.DeliveryDate.Subtract(del.BookingDate).TotalDays;
+                    int Days = (int) del.DeliveryDate.Subtract (del.ProposeDate).TotalDays;
+                    int DaysInTotal = (int) del.DeliveryDate.Subtract (del.BookingDate).TotalDays;
 
-                    if (Days > 0)
+                    if ( Days > 0 )
                         msg += $"\tLate delivery , Late by {Days} days;";
-                    else if (Days < 0)
+                    else if ( Days < 0 )
                         msg += $"\tEarly delivery , Early by {Days} days;";
 
                     msg += $"\tDelivery is done in {DaysInTotal} days from Booking;";
                 }
 
-                if (ds != null)
+                if ( ds != null )
                 {
-
-
-                    if (ds.SaleDate.Date != del.DeliveryDate.Date)
+                    if ( ds.SaleDate.Date != del.DeliveryDate.Date )
                     {
                         isO = true;
                         msg += "\tDates are not matching;";
                     }
-                    if (ds.Amount != del.Amount)
+                    if ( ds.Amount != del.Amount )
                     {
                         msg += "\tDelivery and sale amount not matching;";
                         isO = true;
                     }
-                    if (isO)
-                        InvErrorList.Add(ctr, msg);
+                    if ( isO )
+                        InvErrorList.Add (ctr, msg);
                 }
                 else
                 {
                     msg += $"\tInvoice No {del.InvNo} not found in Daily Sale list;";
-                    InvErrorList.Add(ctr, msg);
+                    InvErrorList.Add (ctr, msg);
                 }
 
                 ctr++;
             }
-            int noOfDelivery = db.SaveChanges();
+            int noOfDelivery = db.SaveChanges ();
             //Veryify Delivery check
 
             TailoringCheck tc = new TailoringCheck { NoOfDelivery = noOfDelivery, InvErrorList = InvErrorList, RData = requestData, Data = rData };
             return tc;
         }
 
-        [HttpGet("invCheck")]
+        [HttpGet ("invCheck")]
         public ActionResult<DuplicateInvCheck> GetDuplicateBillCheck(int storeId)
         {
-            var data = db.DailySales.Where(c => c.StoreId == storeId)
-                .Select(c => new { c.DailySaleId, c.InvNo, c.Amount })
-                .ToList();
-
-            bool isOk = false;
-            var invList = data.Select(c => c.InvNo).OrderBy(c => c).ToList();
-            var unq = invList.Distinct().ToList();
-            if (invList.Count != unq.Count)
+            var dupInv = db.DailySales.Where (c => c.StoreId == storeId).GroupBy (c => c.InvNo).Where (c => c.Count () > 1).Select (c => c.Key).ToList ();
+            List<DailySale> dupSale = new List<DailySale> ();
+            bool isOK = dupInv.Count <= 0 ? true : false;
+            if ( !isOK )
             {
-                foreach (var item in unq)
-                    invList.Remove(item);
-            }
-            else
-            {
-                isOk = true;
-                // No Duplicate record
+                foreach ( var item in dupInv )
+                {
+                    var d = db.DailySales.Where (c => c.InvNo == item).ToList ();
+                    if ( d != null )
+                        dupSale.AddRange (d);
+                }
             }
 
-            return new DuplicateInvCheck { DupInv = invList, IsOk = isOk };
+            return new DuplicateInvCheck { DupInv = dupInv, IsOk = isOK, InvList = dupSale };
         }
 
-        [HttpGet("attendanceCheck")]
+        [HttpGet ("attendanceCheck")]
         public void GetAttendanceCheck(int storeId)
         {
             // Need extendsive check and marking as final also.
         }
 
-        [HttpGet("slipNumberCheck")]
+        [HttpGet ("slipNumberCheck")]
         public void GetSlipNumbering(int storeId)
         {
         }
 
-        [HttpGet("UpperCaseInvoice")]
+        [HttpGet ("UpperCaseInvoice")]
         public ActionResult<int> UpdateInvoice(int storeId)
         {
-
-            int[] years = { 2021, 2020, 2019 };
+            int [] years = { 2021, 2020, 2019 };
             int ctr = 0;
 
-            foreach (var year in years)
+            foreach ( var year in years )
             {
-                for (int i = 1; i <= 12; i++)
+                for ( int i = 1 ; i <= 12 ; i++ )
                 {
-                    var data = db.DailySales.Where(c => c.StoreId == storeId && c.SaleDate.Month == i && c.SaleDate.Year == year).ToList();
-                    foreach (var sd in data)
+                    var data = db.DailySales.Where (c => c.StoreId == storeId && c.SaleDate.Month == i && c.SaleDate.Year == year).ToList ();
+                    foreach ( var sd in data )
                     {
-                        sd.InvNo = sd.InvNo.ToUpper().Trim();
-                        if (!string.IsNullOrEmpty(sd.Remarks))
-                            sd.Remarks = sd.Remarks.ToUpper().Trim();
-                        db.DailySales.Update(sd);
+                        sd.InvNo = sd.InvNo.ToUpper ().Trim ();
+                        if ( !string.IsNullOrEmpty (sd.Remarks) )
+                            sd.Remarks = sd.Remarks.ToUpper ().Trim ();
+                        db.DailySales.Update (sd);
                     }
 
-                    ctr += db.SaveChanges();
-
+                    ctr += db.SaveChanges ();
                 }
-
             }
             return ctr;
-
-
         }
-        [HttpGet("UpperCaseTailoring")]
+
+        [HttpGet ("UpperCaseTailoring")]
         public ActionResult<int> UpdateTailoring(int storeId)
         {
-
-            int[] years = { 2021, 2020, 2019 };
+            int [] years = { 2021, 2020, 2019 };
             int ctr = 0;
 
-            foreach (var year in years)
+            foreach ( var year in years )
             {
-                for (int i = 1; i <= 12; i++)
+                for ( int i = 1 ; i <= 12 ; i++ )
                 {
-                    var data = db.TalioringBookings.Where(c => c.StoreId == storeId && c.BookingDate.Month == i && c.BookingDate.Year == year).ToList();
-                    foreach (var sd in data)
+                    var data = db.TalioringBookings.Where (c => c.StoreId == storeId && c.BookingDate.Month == i && c.BookingDate.Year == year).ToList ();
+                    foreach ( var sd in data )
                     {
-                        sd.BookingSlipNo = sd.BookingSlipNo.ToUpper().Trim();
+                        sd.BookingSlipNo = sd.BookingSlipNo.ToUpper ().Trim ();
 
-                        db.TalioringBookings.Update(sd);
+                        db.TalioringBookings.Update (sd);
                     }
-                    ctr += db.SaveChanges();
-                    var data2 = db.TailoringDeliveries.Where(c => c.StoreId == storeId && c.DeliveryDate.Month == i && c.DeliveryDate.Year == year).ToList();
-                    foreach (var sd in data2)
+                    ctr += db.SaveChanges ();
+                    var data2 = db.TailoringDeliveries.Where (c => c.StoreId == storeId && c.DeliveryDate.Month == i && c.DeliveryDate.Year == year).ToList ();
+                    foreach ( var sd in data2 )
                     {
-                        sd.InvNo = sd.InvNo.ToUpper().Trim();
+                        sd.InvNo = sd.InvNo.ToUpper ().Trim ();
 
-                        db.TailoringDeliveries.Update(sd);
+                        db.TailoringDeliveries.Update (sd);
                     }
-                    ctr += db.SaveChanges();
-
+                    ctr += db.SaveChanges ();
                 }
-
             }
             return ctr;
-
-
         }
 
-        [HttpGet("UpperCaseVoucher")]
+        [HttpGet ("UpperCaseVoucher")]
         public ActionResult<int> UpdateVoucher(int storeId)
         {
-
-            int[] years = { 2021, 2020, 2019 };
+            int [] years = { 2021, 2020, 2019 };
             int ctr = 0;
 
-            foreach (var year in years)
+            foreach ( var year in years )
             {
-                for (int i = 1; i <= 12; i++)
+                for ( int i = 1 ; i <= 12 ; i++ )
                 {
-                    var data = db.Payments.Where(c => c.StoreId == storeId && c.OnDate.Month == i && c.OnDate.Year == year).ToList();
-                    foreach (var sd in data)
+                    var data = db.Payments.Where (c => c.StoreId == storeId && c.OnDate.Month == i && c.OnDate.Year == year).ToList ();
+                    foreach ( var sd in data )
                     {
-                        if (!string.IsNullOrEmpty(sd.PaymentSlipNo))
+                        if ( !string.IsNullOrEmpty (sd.PaymentSlipNo) )
                         {
-                            sd.PaymentSlipNo = sd.PaymentSlipNo.ToUpper().Trim();
-                            db.Payments.Update(sd);
+                            sd.PaymentSlipNo = sd.PaymentSlipNo.ToUpper ().Trim ();
+                            db.Payments.Update (sd);
                         }
                     }
-                    var data2 = db.CashPayments.Where(c => c.StoreId == storeId && c.PaymentDate.Month == i && c.PaymentDate.Year == year).ToList();
-                    foreach (var sd in data2)
+                    var data2 = db.CashPayments.Where (c => c.StoreId == storeId && c.PaymentDate.Month == i && c.PaymentDate.Year == year).ToList ();
+                    foreach ( var sd in data2 )
                     {
-                        if (!string.IsNullOrEmpty(sd.SlipNo))
+                        if ( !string.IsNullOrEmpty (sd.SlipNo) )
                         {
-                            sd.SlipNo = sd.SlipNo.ToUpper().Trim();
-                            db.CashPayments.Update(sd);
+                            sd.SlipNo = sd.SlipNo.ToUpper ().Trim ();
+                            db.CashPayments.Update (sd);
                         }
                     }
-                    var data3 = db.Receipts.Where(c => c.StoreId == storeId && c.OnDate.Month == i && c.OnDate.Year == year).ToList();
-                    foreach (var sd in data3)
+                    var data3 = db.Receipts.Where (c => c.StoreId == storeId && c.OnDate.Month == i && c.OnDate.Year == year).ToList ();
+                    foreach ( var sd in data3 )
                     {
-                        if (!string.IsNullOrEmpty(sd.RecieptSlipNo))
+                        if ( !string.IsNullOrEmpty (sd.RecieptSlipNo) )
                         {
-                            sd.RecieptSlipNo = sd.RecieptSlipNo.ToUpper().Trim();
-                            db.Receipts.Update(sd);
+                            sd.RecieptSlipNo = sd.RecieptSlipNo.ToUpper ().Trim ();
+                            db.Receipts.Update (sd);
                         }
                     }
-                    var data4 = db.CashReceipts.Where(c => c.StoreId == storeId && c.InwardDate.Month == i && c.InwardDate.Year == year).ToList();
-                    foreach (var sd in data4)
+                    var data4 = db.CashReceipts.Where (c => c.StoreId == storeId && c.InwardDate.Month == i && c.InwardDate.Year == year).ToList ();
+                    foreach ( var sd in data4 )
                     {
-                        if (!string.IsNullOrEmpty(sd.SlipNo))
+                        if ( !string.IsNullOrEmpty (sd.SlipNo) )
                         {
-                            sd.SlipNo = sd.SlipNo.ToUpper().Trim();
-                            db.CashReceipts.Update(sd);
+                            sd.SlipNo = sd.SlipNo.ToUpper ().Trim ();
+                            db.CashReceipts.Update (sd);
                         }
                     }
 
-                    ctr += db.SaveChanges();
-
+                    ctr += db.SaveChanges ();
                 }
-
             }
             return ctr;
-
-
         }
 
-        [HttpGet("slipCheck")]
+        [HttpGet ("slipCheck")]
         public ActionResult<TDupCheck> GetTailoringDuplicateCheck(int StoreId)
         {
-            var data = db.TalioringBookings.Where(c => c.StoreId == StoreId)
-                .OrderBy(c => c.BookingDate)
-                .ToList();
+            var data = db.TalioringBookings.Where (c => c.StoreId == StoreId)
+                .OrderBy (c => c.BookingDate)
+                .ToList ();
 
-            //var filter1 = data.Where(c => c.BookingSlipNo.StartsWith("ARD0")).ToList();
+            var slipList = data.Select (c => c.BookingSlipNo).GroupBy (c => c).Where (c => c.Count () > 1).Select (c => c.Key).ToList ();
 
-            //if (filter1.Count > 0)
-            //{
-            //    foreach (var tb in filter1)
-            //    {
-
-            //        tb.BookingSlipNo = tb.BookingSlipNo.Replace("ARD0", "ARDT0");
-            //        db.TalioringBookings.Update(tb);
-            //    }
-            //    db.SaveChanges();
-
-            //    data = db.TalioringBookings.Where(c => c.StoreId == StoreId && c.BookingDate.Date >= new DateTime(2020, 8, 5)).OrderBy(c => c.BookingDate).ToList();
-            //}
-
-            var slipList = data.Select(c => c.BookingSlipNo).GroupBy(c => c).Where(c => c.Count() > 1).Select(c => c.Key).ToList();
-
-
-
-            var filter2 = data.Select(c => new TDupData
+            var filter2 = data.Select (c => new TDupData
             {
                 OnDate = c.BookingDate,
                 Id = c.TalioringBookingId,
@@ -322,101 +284,107 @@ namespace eStore.Api.Controllers
                 Amount = c.TotalAmount,
                 Qty = c.TotalQty,
                 CustName = c.CustName
-                ,
-                SlipNos = Regex.Split(c.BookingSlipNo, @"\D+")
-            }).OrderBy(c => c.OnDate).ToList();
+                 ,
+                SlipNos = Regex.Split (c.BookingSlipNo, @"\D+")
+            }).OrderBy (c => c.OnDate).ToList ();
 
-            //var del = db.TailoringDeliveries.Where (c => c.StoreId == StoreId).ToList ();
-            //foreach ( var it in del )
-            //{
-            //    it.InvNo = it.InvNo.Trim ().Replace (" ", "");
-            //    db.TailoringDeliveries.Update (it);
-            //}
-            //db.SaveChanges ();
+            var dupDel = db.TailoringDeliveries.Where (c => c.StoreId == StoreId).GroupBy (c => c.TalioringBookingId).Where (c => c.Count () > 1).Select (c => c.Key).ToList ();
 
-            TDupCheck check = new TDupCheck { Data = filter2, Duplicates = slipList };
-            if (slipList.Count > 0) check.IsDuplicate = true; else check.IsDuplicate = false;
+            List<TalioringDelivery> duplicateDelivery = new List<TalioringDelivery> ();
+            foreach ( var item in dupDel )
+            {
+                var d = db.TailoringDeliveries.Include(c=>c.Booking).Where (c => c.TalioringBookingId == item).ToList ();
+
+                duplicateDelivery.AddRange (d);
+            }
+            TDupCheck check = new TDupCheck { Data = filter2, Duplicates = slipList, DuplicateDelivery = duplicateDelivery };
+            if ( slipList.Count > 0 )
+                check.IsDuplicate = true;
+            else
+                check.IsDuplicate = false;
             return check;
-
-
-
         }
 
-        [HttpGet("invLists")]
+        [HttpGet ("invLists")]
         public SDataList GetSaleLists(int StoreId)
         {
-            var tData = db.DailySales.Where(c => c.StoreId == StoreId && c.IsTailoringBill)
-                .Select(c => new SData { Date = c.SaleDate, InvNo = c.InvNo, Amount = c.Amount, ID = c.DailySaleId })
-                .ToList();
-            var mData = db.DailySales.Where(c => c.StoreId == StoreId && c.IsManualBill)
-               .Select(c => new SData { Date = c.SaleDate, InvNo = c.InvNo, Amount = c.Amount, ID = c.DailySaleId })
-               .ToList();
-            var sData = db.DailySales.Where(c => c.StoreId == StoreId && !c.IsManualBill && c.IsTailoringBill && !c.IsSaleReturn)
-              .Select(c => new SData { Date = c.SaleDate, InvNo = c.InvNo, Amount = c.Amount, ID = c.DailySaleId })
-              .ToList();
-            var srData = db.DailySales.Where(c => c.StoreId == StoreId && c.IsSaleReturn)
-              .Select(c => new SData { Date = c.SaleDate, InvNo = c.InvNo, Amount = c.Amount, ID = c.DailySaleId })
-              .ToList();
-            var dData = db.DailySales.Where(c => c.StoreId == StoreId && c.IsDue)
-              .Select(c => new SData { Date = c.SaleDate, InvNo = c.InvNo, Amount = c.Amount, ID = c.DailySaleId })
-              .ToList();
+            var tData = db.DailySales.Where (c => c.StoreId == StoreId && c.IsTailoringBill)
+                .Select (c => new SData { Date = c.SaleDate, InvNo = c.InvNo, Amount = c.Amount, ID = c.DailySaleId })
+                .ToList ();
+            var mData = db.DailySales.Where (c => c.StoreId == StoreId && c.IsManualBill)
+               .Select (c => new SData { Date = c.SaleDate, InvNo = c.InvNo, Amount = c.Amount, ID = c.DailySaleId })
+               .ToList ();
+            var sData = db.DailySales.Where (c => c.StoreId == StoreId && !c.IsManualBill && c.IsTailoringBill && !c.IsSaleReturn)
+              .Select (c => new SData { Date = c.SaleDate, InvNo = c.InvNo, Amount = c.Amount, ID = c.DailySaleId })
+              .ToList ();
+            var srData = db.DailySales.Where (c => c.StoreId == StoreId && c.IsSaleReturn)
+              .Select (c => new SData { Date = c.SaleDate, InvNo = c.InvNo, Amount = c.Amount, ID = c.DailySaleId })
+              .ToList ();
+            var dData = db.DailySales.Where (c => c.StoreId == StoreId && c.IsDue)
+              .Select (c => new SData { Date = c.SaleDate, InvNo = c.InvNo, Amount = c.Amount, ID = c.DailySaleId })
+              .ToList ();
 
             SDataList list = new SDataList { Tailoring = tData, Due = dData, Manual = mData, Regular = sData, SaleReturn = srData };
             return list;
         }
 
-        [HttpGet("removeDuplicateBooking")]
+        [HttpGet ("removeDuplicateBooking")]
         public ActionResult<string> GetTailoringDuplicateDelete(int StoreId)
         {
             int count = 0;
             int tI = 0;
-            var slipList = db.TalioringBookings.Where(c => c.StoreId == StoreId).Select(c => c.BookingSlipNo).GroupBy(c => c).Where(c => c.Count() > 1).Select(c => c.Key).ToList();
+            var slipList = db.TalioringBookings.Where (c => c.StoreId == StoreId).Select (c => c.BookingSlipNo).GroupBy (c => c).Where (c => c.Count () > 1).Select (c => c.Key).ToList ();
 
-            foreach (var item in slipList)
+            foreach ( var item in slipList )
             {
-                var tb = db.TalioringBookings.Where(c => c.StoreId == StoreId && c.BookingSlipNo == item).ToList();
-                if (tb != null && tb.Count > 1)
+                var tb = db.TalioringBookings.Where (c => c.StoreId == StoreId && c.BookingSlipNo == item).ToList ();
+                if ( tb != null && tb.Count > 1 )
                 {
                     bool flag = false;
-                    if (tb[0].CustName.ToLower().Trim() != tb[1].CustName.ToLower().Trim()) flag = true;
-                    if (tb[0].TotalAmount != tb[1].TotalAmount) flag = true;
-                    if (tb[0].TotalQty != tb[1].TotalQty) flag = true;
-                    if (tb[0].BookingDate.Date != tb[1].BookingDate.Date) flag = true;
+                    if ( tb [0].CustName.ToLower ().Trim () != tb [1].CustName.ToLower ().Trim () )
+                        flag = true;
+                    if ( tb [0].TotalAmount != tb [1].TotalAmount )
+                        flag = true;
+                    if ( tb [0].TotalQty != tb [1].TotalQty )
+                        flag = true;
+                    if ( tb [0].BookingDate.Date != tb [1].BookingDate.Date )
+                        flag = true;
 
-                    if (!flag)
+                    if ( !flag )
                     {
-                        db.TalioringBookings.Remove(tb[1]);
-
+                        db.TalioringBookings.Remove (tb [1]);
                     }
-                    else tI++;
+                    else
+                        tI++;
                 }
             }
-            count = db.SaveChanges();
+            count = db.SaveChanges ();
             string r = $"Total Count:{slipList.Count}\t Removed:{count}\t Ignored:{tI}";
             return r;
         }
-        [HttpGet("MarkDelivery")]
+
+        [HttpGet ("MarkDelivery")]
         public string GetMarkDelivery(int storeId)
         {
             int addCount = 0, MarkedCount = 0, Ignored = 0;
-            var data = db.TalioringBookings.Where(c => c.StoreId == storeId && !c.IsDelivered).ToList();
+            var data = db.TalioringBookings.Where (c => c.StoreId == storeId && !c.IsDelivered).ToList ();
 
-            foreach (var item in data)
+            foreach ( var item in data )
             {
-                var td = db.TailoringDeliveries.Where(c => c.StoreId == storeId && c.TalioringBookingId == item.TalioringBookingId).FirstOrDefault();
+                var td = db.TailoringDeliveries.Where (c => c.StoreId == storeId && c.TalioringBookingId == item.TalioringBookingId).FirstOrDefault ();
 
-                Console.WriteLine("DEliD:" + td);
+                Console.WriteLine ("DEliD:" + td);
 
-                if (td != null)
+                if ( td != null )
                 {
                     item.IsDelivered = true;
-                    db.TalioringBookings.Update(item);
+                    db.TalioringBookings.Update (item);
                     MarkedCount++;
                 }
                 else
                 {
-                    var ds = db.DailySales.Where(c => c.StoreId == storeId && c.IsTailoringBill && c.Remarks.ToLower().Contains(item.BookingSlipNo.ToLower().Trim())).FirstOrDefault();
-                    if (ds != null)
+                    var ds = db.DailySales.Where (c => c.StoreId == storeId && c.IsTailoringBill && c.Remarks.ToLower ().Contains (item.BookingSlipNo.ToLower ().Trim ())).FirstOrDefault ();
+                    if ( ds != null )
                     {
                         TalioringDelivery del = new TalioringDelivery
                         {
@@ -430,70 +398,67 @@ namespace eStore.Api.Controllers
                             Remarks = $"Auto Added By System on {DateTime.Now}",
                             UserId = "AutoAdmin"
                         };
-                        db.TailoringDeliveries.Add(del);
+                        db.TailoringDeliveries.Add (del);
                         item.IsDelivered = true;
-                        db.TalioringBookings.Update(item);
+                        db.TalioringBookings.Update (item);
                         addCount++;
                     }
-                    else Ignored++;
+                    else
+                        Ignored++;
                 }
-
-
-
             }
 
-            int ctr = db.SaveChanges();
+            int ctr = db.SaveChanges ();
             string r = $"TotalCount:{data.Count}\t MarkedCount: {MarkedCount}\t Added:{addCount}\t Ignored:{Ignored}\t Saved:{ctr}";
             return r;
         }
 
-        [HttpGet("DelVer")]
+        [HttpGet ("DelVer")]
         public int GetDelVerify(int storeId)
         {
-            var data = db.TailoringDeliveries.Include(c => c.Booking).Where(c => c.StoreId == storeId && c.Booking.IsDelivered == false).ToList();
+            var data = db.TailoringDeliveries.Include (c => c.Booking).Where (c => c.StoreId == storeId && c.Booking.IsDelivered == false).ToList ();
 
-            if (data != null)
-                return data.Count();
-            else return -1;
-
-
-
+            if ( data != null )
+                return data.Count ();
+            else
+                return -1;
         }
-        [HttpGet("DupDelivery")]
+
+        [HttpGet ("DupDelivery")]
         public ActionResult<List<int>> GetDuplicateBooking(int storeId)
         {
-            var d2 = db.TailoringDeliveries.Where(c => c.StoreId == storeId).GroupBy(c => c.TalioringBookingId).Where(c => c.Count() > 1).Select(c => c.Key).ToList();
-            return d2.ToList();
-
+            var d2 = db.TailoringDeliveries.Where (c => c.StoreId == storeId).GroupBy (c => c.TalioringBookingId).Where (c => c.Count () > 1).Select (c => c.Key).ToList ();
+            return d2.ToList ();
         }
-        [HttpGet("BookingWithSale")]
+
+        [HttpGet ("BookingWithSale")]
         public List<string> GetBookingWithDailySale(int storeId)
         {
-            var data = db.DailySales.Where(c => c.StoreId == storeId && c.IsTailoringBill)
-                .Select(c => new { c.InvNo, c.SaleDate, c.Amount, Remarks = c.Remarks.Trim().ToLower() }).ToList();
+            var data = db.DailySales.Where (c => c.StoreId == storeId && c.IsTailoringBill)
+                .Select (c => new { c.InvNo, c.SaleDate, c.Amount, Remarks = c.Remarks.Trim ().ToLower () }).ToList ();
 
-            var booking = db.TalioringBookings.Where(c => c.StoreId == storeId)
-                .Select(c => new { BookingSlipNo = c.BookingSlipNo.ToLower(), c.TalioringBookingId, c.TotalAmount, c.IsDelivered, })
-                .ToList();
+            var booking = db.TalioringBookings.Where (c => c.StoreId == storeId)
+                .Select (c => new { BookingSlipNo = c.BookingSlipNo.ToLower (), c.TalioringBookingId, c.TotalAmount, c.IsDelivered, })
+                .ToList ();
 
-            List<string> NotFound = new List<string>();
+            List<string> NotFound = new List<string> ();
             int found = 0;
-            if (booking != null && data != null)
-                foreach (var item in booking)
+            if ( booking != null && data != null )
+                foreach ( var item in booking )
                 {
-                    var ds = data.Where(c => c.Remarks.Contains(item.BookingSlipNo.Trim())).FirstOrDefault();
-                    if (ds == null)
+                    var ds = data.Where (c => c.Remarks.Contains (item.BookingSlipNo.Trim ())).FirstOrDefault ();
+                    if ( ds == null )
 
-                        NotFound.Add(item.BookingSlipNo);
-                    else found++;
+                        NotFound.Add (item.BookingSlipNo);
+                    else
+                        found++;
                 }
 
-            NotFound.Add($"Store Id: {storeId}Total Booking:{booking.Count}\t Total Sale:{data.Count}\t Not Found: {NotFound.Count - 1}\t Found:{found}");
+            NotFound.Add ($"Store Id: {storeId}Total Booking:{booking.Count}\t Total Sale:{data.Count}\t Not Found: {NotFound.Count - 1}\t Found:{found}");
             return NotFound;
         }
-
-
     }
+
     public class SDataList
     {
         public List<SData> Tailoring { get; set; }
@@ -501,9 +466,8 @@ namespace eStore.Api.Controllers
         public List<SData> Regular { get; set; }
         public List<SData> SaleReturn { get; set; }
         public List<SData> Due { get; set; }
-
-
     }
+
     public class SData
     {
         public int ID { get; set; }
@@ -517,6 +481,7 @@ namespace eStore.Api.Controllers
         public bool IsDuplicate { get; set; }
         public List<TDupData> Data { get; set; }
         public List<string> Duplicates { get; set; }
+        public List<TalioringDelivery> DuplicateDelivery { get; set; }
     }
 
     public class TDupData
@@ -527,13 +492,16 @@ namespace eStore.Api.Controllers
         public decimal Amount { get; set; }
         public int Qty { get; set; }
         public string CustName { get; set; }
-        public string[] SlipNos { get; set; }
+        public string [] SlipNos { get; set; }
     }
+
     public class RData { public int storeId { get; set; } public bool delivery { get; set; } }
+
     public class DuplicateInvCheck
     {
         public bool IsOk { get; set; }
         public List<string> DupInv { get; set; }
+        public List<DailySale> InvList { get; set; }
     }
 
     public class TailoringCheck
