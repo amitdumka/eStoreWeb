@@ -482,6 +482,21 @@ namespace eStore.Api.Controllers
             return r;
 
         }
+
+        public void GetVerifyDailySaleWithVoy()
+        {
+            DateTime startDate = new DateTime(2019, 12, 1);
+            var voy = db.VoySaleInvoiceSums.Where(c => c.InvoiceDate.Date >= startDate)
+                .Select(c => new {c.InvoiceDate,c.InvoiceNo,c.BillAmt,c.InvoiceType,c.PaymentMode})
+                .ToList();
+
+            var dailysale = db.DailySales.Where(c => c.SaleDate.Date >= startDate && c.IsManualBill).
+                Select(c => new { c.DailySaleId, c.InvNo, c.SaleDate, c.Amount, c.PayMode, c.Remarks, c.UserId, c.IsMatchedWithVOy }).ToList();
+            foreach (var item in voy)
+            {
+
+            }
+        }
     
     }
 
