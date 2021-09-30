@@ -293,7 +293,7 @@ namespace eStore.Api.Controllers
             List<TalioringDelivery> duplicateDelivery = new List<TalioringDelivery> ();
             foreach ( var item in dupDel )
             {
-                var d = db.TailoringDeliveries.Include(c=>c.Booking).Where (c => c.TalioringBookingId == item).ToList ();
+                var d = db.TailoringDeliveries.Include (c => c.Booking).Where (c => c.TalioringBookingId == item).ToList ();
 
                 duplicateDelivery.AddRange (d);
             }
@@ -457,8 +457,8 @@ namespace eStore.Api.Controllers
             NotFound.Add ($"Store Id: {storeId}Total Booking:{booking.Count}\t Total Sale:{data.Count}\t Not Found: {NotFound.Count - 1}\t Found:{found}");
             return NotFound;
         }
-  
-        [HttpGet("dueAdd")]
+
+        [HttpGet ("dueAdd")]
         public ActionResult<string> GetDueList()
         {
             var data = db.DailySales.Where (c => c.IsDue).ToList ();
@@ -466,38 +466,65 @@ namespace eStore.Api.Controllers
             {
                 var ds2 = db.DuesLists.Where (c => c.DailySaleId == item.DailySaleId).FirstOrDefault ();
                 if ( ds2 == null )
-                
+
                 {
-                    DuesList dues = new DuesList {Amount=item.Amount-item.CashAmount, DailySaleId=item.DailySaleId, IsPartialRecovery=false, IsRecovered=false, 
-                         StoreId=item.StoreId, UserId="AutoAdmin"
+                    DuesList dues = new DuesList
+                    {
+                        Amount = item.Amount - item.CashAmount,
+                        DailySaleId = item.DailySaleId,
+                        IsPartialRecovery = false,
+                        IsRecovered = false,
+                        StoreId = item.StoreId,
+                        UserId = "AutoAdmin"
                     };
                     db.DuesLists.Add (dues);
                 }
             }
 
-            var ds = db.DuesLists.GroupBy (c => c.DailySaleId).Where (c => c.Count() > 1).Select (c=>c.Key).ToList();
+            var ds = db.DuesLists.GroupBy (c => c.DailySaleId).Where (c => c.Count () > 1).Select (c => c.Key).ToList ();
             int ctr = db.SaveChanges ();
 
             string r = $"Save: {ctr}, dup: {ds.Count}";
             return r;
-
         }
 
-        public void GetVerifyDailySaleWithVoy()
+        [HttpGet ("voyMatch")]
+        public List<string> GetVerifyDailySaleWithVoy()
         {
-            DateTime startDate = new DateTime(2019, 12, 1);
-            var voy = db.VoySaleInvoiceSums.Where(c => c.InvoiceDate.Date >= startDate)
-                .Select(c => new {c.InvoiceDate,c.InvoiceNo,c.BillAmt,c.InvoiceType,c.PaymentMode})
-                .ToList();
+            DateTime startDate = new DateTime (2019, 12, 1);
+            var voy = db.VoySaleInvoiceSums.Where (c => c.InvoiceDate.Date >= startDate)
+                .Select (c => new { c.InvoiceDate, c.InvoiceNo, c.BillAmt, c.InvoiceType, c.PaymentMode })
+                .ToList ();
 
-            var dailysale = db.DailySales.Where(c => c.SaleDate.Date >= startDate && c.IsManualBill).
-                Select(c => new { c.DailySaleId, c.InvNo, c.SaleDate, c.Amount, c.PayMode, c.Remarks, c.UserId, c.IsMatchedWithVOy }).ToList();
-            foreach (var item in voy)
-            {
+            var dailysale = db.DailySales.Where (c => c.SaleDate.Date >= startDate && !c.IsManualBill).
+                Select (c => new { c.DailySaleId, c.InvNo, c.SaleDate, c.Amount, c.PayMode, c.Remarks, c.UserId, c.IsMatchedWithVOy }).ToList ();
 
-            }
+            List<string> msg = new List<string> ();
+            msg.Add ($"Total voy:{voy.Count}\t DailySale:{dailysale.Count}");
+            if ( voy != null && dailysale != null && voy.Count > 0 && dailysale.Count > 0 )
+                foreach ( var item in voy )
+                {
+                    var sale = dailysale.Where (c => c.InvNo == item.InvoiceNo).FirstOrDefault ();
+                    if ( sale != null )
+                    {
+                        string m = $"InvNo:{item.InvoiceNo}\t";
+                        bool f = false;
+                        if ( sale.Amount != item.BillAmt )
+                        { m += "Bill Amount not Matched"; f = true; }
+                        if ( sale.SaleDate.Date != item.InvoiceDate.Date )
+                        {
+                            m += "Date not matching";
+                            f = true;
+                        }
+                        if ( f )
+                            msg.Add ($"SaleId:{sale.DailySaleId}\t{m}");
+                    }
+                    else
+                        msg.Add ($"Invoice No : {item.InvoiceNo} dated {item.InvoiceDate} not found\n");
+                }
+
+            return msg;
         }
-    
     }
 
     public class SDataList
