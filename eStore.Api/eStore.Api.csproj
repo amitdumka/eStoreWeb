@@ -26,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Controllers\MobileAPI\" />
     <Folder Include="Controllers\Tailorings\" />
     <Folder Include="Controllers\Users\" />
   </ItemGroup>

@@ -228,6 +228,10 @@ namespace eStore.Database
                 StoreManagerPhoneNo = ""
             });
 
+            modelBuilder.Entity<User> ().HasData (new User {FullName="Amit Kumar", IsActive=true, EmployeeId=3, Password="Admin",StoreId=1,IsEmployee=false, UserId=1, UserName="Admin", UserType=EmpType.Owner  });
+            modelBuilder.Entity<User> ().HasData (new User { FullName = "Alok Kumar", IsActive = true, EmployeeId = 1, Password = "Alok", StoreId = 1, IsEmployee = true, UserId = 2, UserName = "Alok", UserType = EmpType.StoreManager });
+            modelBuilder.Entity<User> ().HasData (new User { FullName = "Geetanjali Verma", IsActive = true, EmployeeId = 11, Password = "Geeta", StoreId = 1, IsEmployee = true, UserId = 3, UserName = "Gita", UserType = EmpType.Accounts });
+
             modelBuilder.Entity<Salesman> ().HasData (new Salesman { SalesmanId = 1, SalesmanName = "Manager", StoreId = 1 });
             // modelBuilder.Entity<Salesman>().HasData(new Salesman { SalesmanId = 1, SalesmanName = "Sanjeev Mishra", StoreId = 1 });
             // modelBuilder.Entity<Salesman>().HasData(new Salesman { SalesmanId = 2, SalesmanName = "Mukesh Mandal", StoreId = 1 });
