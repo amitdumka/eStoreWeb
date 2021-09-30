@@ -27,6 +27,10 @@
 
   <ItemGroup>
     <Folder Include="Controllers\Tailorings\" />
+    <Folder Include="Controllers\Users\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Controllers\Users\" />
+  </ItemGroup>
 </Project>

@@ -11,6 +11,7 @@ using eStore.Shared.Models.Sales;
 using eStore.Shared.Models.Stores;
 using eStore.Shared.Models.Tailoring;
 using eStore.Shared.Models.Todos;
+using eStore.Shared.Models.Users;
 using eStore.Shared.Uploader;
 using eStore.Shared.ViewModels.Banking;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +26,11 @@ namespace eStore.Database
         {
             //ApplyMigrations(this);
         }
+
+
+        //UserAuth Api
+        public DbSet<User> Users { get; set; }
+
 
         public DbSet<Assest> Assests { get; set; }
         public DbSet<Shared.Models.Sales.DailySalePayment> DailySalePayments { get; set; }
