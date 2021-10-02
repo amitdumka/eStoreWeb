@@ -30,6 +30,7 @@ namespace eStore.Database
 
         //UserAuth Api
         public DbSet<User> Users { get; set; }
+        public DbSet<StockList> StockLists { get; set; }
 
 
         public DbSet<Assest> Assests { get; set; }

@@ -118,5 +118,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\Personals\PersonalExpense.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\DayEnd.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Users\User.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Common\StockList.cs" />
   </ItemGroup>
 </Project>
