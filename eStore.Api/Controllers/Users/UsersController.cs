@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace eUser.Api.Controllers
+namespace eStore.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -81,6 +81,15 @@ namespace eUser.Api.Controllers
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetUser", new { id = User.UserId }, User);
+        }
+        // POST: api/Users
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost("login")]
+        public ActionResult<bool> PostLogin(User User)
+        {
+
+            var usr = _context.Users.Where(c => c.UserName == User.UserName && c.Password == User.Password).FirstOrDefault();
+            if (usr != null) return true; else return false;
         }
 
         // DELETE: api/Users/5

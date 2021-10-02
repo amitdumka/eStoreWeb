@@ -14,7 +14,7 @@ namespace eStore.Api.Controllers
     [AllowAnonymous]
     public class StockListsController : ControllerBase
     {
-       
+
         private readonly eStoreDbContext _context;
         public StockListsController(eStoreDbContext db)
         {
@@ -113,10 +113,10 @@ namespace eStore.Api.Controllers
         public async Task<ActionResult<bool>> PostStockListRange(List<StockList> StockList)
         {
             _context.StockLists.AddRange(StockList);
-            int count=await _context.SaveChangesAsync();
+            int count = await _context.SaveChangesAsync();
             if (count > 0) return true; else return false;
-            
-            
+
+
         }
 
 
@@ -142,4 +142,4 @@ namespace eStore.Api.Controllers
         }
     }
 }
-}
+
