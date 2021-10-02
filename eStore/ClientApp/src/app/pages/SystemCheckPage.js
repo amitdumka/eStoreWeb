@@ -76,6 +76,9 @@ export const SystemCheckPage = () => {
 
   return (
     <>
+    <div>
+        <TailoringError/>
+      </div>
       <div>
         <TailoringCheck />
       </div>
@@ -118,6 +121,175 @@ export function LItem({ items }) {
     </List>
   )
 }
+export const TailoringError=()=>{
+  // Getting current state of  list from store (Redux)
+  const { currentState } = useSelector(
+    (state) => ({
+      currentState: state.commonPageTypes,
+    }),
+    shallowEqual,
+  )
+  const [store, setStore] = useState(1)
+
+  const { tailoringCheckList } = currentState
+  const [bOn, setBOn] = useState(true)
+  const [delivery, setDelivery] = useState(false)
+  const componentRef = useRef()
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+    pageStyle: () => pageStyle,
+  })
+  const [RData, setRData] = useState('{ storeId:1, delivery:false }')
+
+  //  Redux state
+  const dispatch = useDispatch()
+  useEffect(() => {
+    // server call by queryParams
+    dispatch(actions.fetchTailoringCheck(RData))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch])
+  const handleButton = () => {
+    const rData = {
+      storeId: store,
+      delivery: delivery,
+    }
+    console.log(rData)
+    console.log(store)
+    console.log(delivery)
+    setRData(rData)
+
+    if (store == null) alert('Kindly Select Store First')
+    else {
+      // server call by queryParams
+      dispatch(actions.fetchTailoringError(rData))
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      alert(
+        'Please wait while processing your request.... Please ok to continue...',
+      )
+    }
+  }
+
+  const DList = ({ listData }) => {
+    const columns = [
+      { field: 'bookingId', headerName: 'ID', width: 90 },
+      { field: 'saleId', headerName: 'ID', width: 90 },
+      { field: 'deliveryId', headerName: 'ID', width: 90 },
+      { field: 'custName', headerName: 'Customer', minWidth: 150 ,hide:true},      
+      { field: 'bookingSlip', headerName: 'Slip', minWidth: 150 },
+      { field: 'InvNo', headerName: 'Inv', minWidth: 100 },
+      { field: 'bookingDate', headerName: 'Date', minWidth: 100, type: 'date' },
+      { field: 'deliveryDate', headerName: 'Delivery',minWidth: 100,type: 'date'},
+      { field: 'saleDate',  headerName: 'InvoiceDate', minWidth: 100,type: 'date' ,hide:true},
+      { field: 'proposeDate',  headerName: 'Propose', minWidth: 100,type: 'date' ,hide:true},
+      { field: 'bookingAmount', headerName: 'Amount', minWidth: 90 },
+      { field: 'deliveryAmount', headerName: 'Amount', minWidth: 90 },
+      { field: 'saleAmount', headerName: 'Amount', minWidth: 90 },      
+      { field: 'errors',
+        headerName: 'Error(s)',
+        minWidth: 250,
+        renderCell: (params) => {
+          return (
+            <div className="rowItem text-danger">
+              {params.row.lateDelivery && "Late Deliver,"}
+              {params.row.invNotFound && "Invoice Missing,"}
+              {params.row.saleAmtError && "Invoice Amount Mistach,"}
+              {params.row.deliveryAmtError && "Late Deliver,"}
+              {params.row.saleDateError && "Late Deliver,"}
+              {params.row.msg &&  params.row.msg.length>0 ?params.row.msg:""}
+            </div>
+          )
+        },       
+      },{ field: 'actions', headerName: 'Actions', minWidth: 190 },
+    ]
+   
+    return (
+      <div>
+        <div style={{ height: 800, width: '100%' }}>
+          <DataGrid
+            rowHeight={76}
+            rows={listData && listData}
+            columns={columns}
+            pageSize={10}
+            checkboxSelection
+            disableSelectionOnClick
+            components={{
+              Toolbar: GridToolbar,
+            }}
+          />
+        </div>
+      </div>
+    )
+  }
+  const handleReset = (event) => {
+    dispatch(actions.resetTailor())
+  }
+  return (
+    <Card>
+      <CardHeader title="Tailoring Error">
+        <Select
+          className="text-center center-align text-primary"
+          value={store}
+          displayEmpty
+          onChange={(event) => setStore(event.target.value)}
+          id="storeSelect"
+        >
+          <MenuItem>Select Store</MenuItem>
+          <MenuItem key={1} value={1}>
+            Dumka
+          </MenuItem>
+          <MenuItem key={2} value={2}>
+            Jamshedpur
+          </MenuItem>
+        </Select>
+        <FormControlLabel
+          control={
+            <PurpleSwitch
+              checked={delivery}
+              size="small"
+              onChange={(event) => setDelivery(event.target.checked)}
+              name="lateDelivery"
+            />
+          }
+          label="Late Delivery"
+        />
+        <CardHeaderToolbar>
+          <IconButton
+            className="btn btn-success mr-3"
+            onClick={handlePrint}
+            disabled={bOn}
+          >
+            <LocalPrintshopIcon />
+          </IconButton>
+          <Button
+            type="button"
+            className="mr-3 btn btn-info"
+            value="Reset"
+            onClick={() => {
+              handleReset()
+            }}
+          >
+            Reset
+          </Button>
+          <Button
+            type="button"
+            onClick={() => handleButton()}
+            className="btn btn-primary"
+            value="Invoice Check"
+          >
+            Tailoring Check
+          </Button>
+        </CardHeaderToolbar>
+      </CardHeader>
+      <CardBody ref={componentRef}>
+        {tailoringCheckList && (
+          <DList listData={tailoringCheckList.ErrorList && tailoringCheckList.ErrorList} />
+        )}
+      </CardBody>
+    </Card>
+  )
+
+};
+
 export const TailoringCheck = () => {
   // Getting current state of  list from store (Redux)
   const { currentState } = useSelector(
@@ -184,7 +356,7 @@ export const TailoringCheck = () => {
         minWidth: 100,
         type: 'date',
       },
-      { field: 'amount', headerName: 'Amount/Paid', minWidth: 160 },
+      { field: 'amount', headerName: 'Amount/Paid', minWidth: 150 },
       {
         field: 'errors',
         headerName: 'Error(s)',
@@ -195,8 +367,8 @@ export const TailoringCheck = () => {
               {params.row.errors && <LItem items={params.row.errors} />}
             </div>
           )
-        },
-      },
+        },       
+      }
     ]
     //{generate(<ListItem><ListItemText primary={im}/></ListItem>,)}
     const itemList = Object.keys(listData).map(function (keyName, keyIndex) {
@@ -846,7 +1018,7 @@ export const TailoringDuplicateCheck = () => {
   ]
 
   const BookingData = ({ lData }) => {
-    console.log(lData)
+    //console.log(lData)
     return (
       <>
         <div className="border rounded m-5 p-3 border-primary">

@@ -53,7 +53,7 @@ const PdfDocument = ({ Header, Footer, Content, title, orientation }) => {
           <Content />
         </View>
         <View style={styles.section}>
-          <Footer />
+          <    />
         </View>
       </Page>
     </Document>

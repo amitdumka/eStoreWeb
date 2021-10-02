@@ -7,7 +7,8 @@ const initialState = {
   duplicateInvCheckList: null,
   tailoringCheckList: null,
   slipCheck: null,
-  invoiceList:null
+  invoiceList:null,
+  tailoringErrors:null
 };
 
 export const callTypes = {
@@ -42,6 +43,13 @@ export const commonPageTypesSlice = createSlice({
       state.listLoading = false;
       state.error = null;
       state.tailoringCheckList = entities;
+    },
+    tailoringErrorFetched: function(state, action) {
+      const { entities } = action.payload;
+      state.actionsLoading = false;
+      state.listLoading = false;
+      state.error = null;
+      state.tailoringErrors = entities;
     },
     duplicateInvCheckFetched: function(state, action) {
       const { entities } = action.payload;
