@@ -19,9 +19,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eStore.Extensions", "eStore
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eStore.Reports", "eStore.Reports\eStore.Reports.csproj", "{B097EC0A-C37C-4944-86BA-377538C456DB}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "eStore.SharedModel", "eStore.SharedModel\eStore.SharedModel.shproj", "{BA5CDEAF-947D-477A-ACE7-DA4F75795DA9}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		eStore.Commons\eStore.Commons.projitems*{7a3605da-48bd-4ede-89c4-3c289eacbbd1}*SharedItemsImports = 13
+		eStore.SharedModel\eStore.SharedModel.projitems*{ba5cdeaf-947d-477a-ace7-da4f75795da9}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

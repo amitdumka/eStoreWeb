@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>ba5cdeaf-947d-477a-ace7-da4f75795da9</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>eStore.SharedModel</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Modals\AppInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modals\Assest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modals\BankAccount.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modals\BankStatement.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modals\BankTranscation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modals\BaseNT.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modals\BasicVoucher.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modals\CashPayment.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modals\Company.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modals\EBillPayment.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modals\EletricityBill.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modals\LedgerEntry.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modals\LedgerMaster.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modals\LedgerType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modals\Party.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modals\Payment.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modals\PrintedSlipBook.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modals\Receipt.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modals\Rent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modals\RentedLocation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modals\StoreClose.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modals\StoreDailyOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modals\StoreHoliday.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modals\StoreHolidays.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modals\StoreOpen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modals\UsedSlip.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modals\Vendor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modals\VendorDebitCreditNote.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modals\VendorLedger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modals\VendorPayment.cs" />
+  </ItemGroup>
+</Project>
