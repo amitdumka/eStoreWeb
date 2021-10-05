@@ -16,6 +16,4 @@
     <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="5.0.7" />
   </ItemGroup>
 
-  <Import Project="..\eStore.Shared\eStore.Shared.projitems" Label="Shared" />
-
 </Project>

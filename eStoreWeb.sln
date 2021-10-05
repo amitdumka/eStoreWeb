@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eStore", "eStore\eStore.csproj", "{92C87F32-E922-4346-9099-82A42F3A1B82}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "eStore.Shared", "eStore.Shared\eStore.Shared.shproj", "{AD575A80-1A21-41CF-858C-41F0DD7EE827}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eStore.WebAPI", "eStore.WebAPI\eStore.WebAPI.csproj", "{2D4520C6-BB34-4D31-8E3A-FCDAD7160FFB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eStore.Api", "eStore.Api\eStore.Api.csproj", "{551794F3-2B19-4F1E-A568-A966BB283D38}"
@@ -19,13 +17,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eStore.Lib", "eStore.Lib\eS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eStore.Extensions", "eStore.Extensions\eStore.Extensions.csproj", "{2AD18FFC-1BC6-4D5D-89FE-CE491CA0451E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eStore.Reports", "eStore.Reports\eStore.Reports.csproj", "{B097EC0A-C37C-4944-86BA-377538C456DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eStore.Reports", "eStore.Reports\eStore.Reports.csproj", "{B097EC0A-C37C-4944-86BA-377538C456DB}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		eStore.Shared\eStore.Shared.projitems*{67184795-9d03-418f-bbd2-9b33fbdd19e2}*SharedItemsImports = 5
 		eStore.Commons\eStore.Commons.projitems*{7a3605da-48bd-4ede-89c4-3c289eacbbd1}*SharedItemsImports = 13
-		eStore.Shared\eStore.Shared.projitems*{ad575a80-1a21-41cf-858c-41f0dd7ee827}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
