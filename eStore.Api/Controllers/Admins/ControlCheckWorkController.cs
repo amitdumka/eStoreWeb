@@ -132,19 +132,11 @@ namespace eStore.Api.Controllers
         public ActionResult<TailoringCheck> GetTailoringCheck2(string requestData)
         {
             RData rData = JsonSerializer.Deserialize<RData>(requestData);
-
             if (rData == null)
             {
                 Console.WriteLine("Rdata is null");
             }
-
             int storeId = rData.storeId;
-
-            //var booking = db.TalioringBookings.Where(c => c.StoreId == storeId && !c.IsDelivered)
-            //    .Select(c => new { c.TalioringBookingId, c.BookingDate, c.BookingSlipNo, c.CustName, c.DeliveryDate, c.TotalAmount, c.TotalQty, c.IsDelivered })
-            //    .OrderBy(c => c.BookingDate)
-            //    .ToList();
-
             var deliver = db.TailoringDeliveries.Include(c => c.Booking).Where(c => c.StoreId == storeId)
                 .Select(c => new
                 {
@@ -161,11 +153,9 @@ namespace eStore.Api.Controllers
                     c.Booking.CustName
                 }).OrderBy(c => c.BookingDate)
                 .ToList();
-
             int ctr = 0;
             bool isO = false;
             List<TailoringError> ErrorList = new List<TailoringError>();
-
             foreach (var del in deliver)
             {
                 isO = false;
@@ -177,7 +167,6 @@ namespace eStore.Api.Controllers
                     db.TalioringBookings.Update(b);
                 }
                 var ds = db.DailySales.Where(c => c.InvNo.ToLower().Contains(del.InvNo.ToLower()) && c.IsTailoringBill).FirstOrDefault();
-
                 TailoringError error = new TailoringError
                 {
                     InvNo = del.InvNo,
@@ -191,12 +180,9 @@ namespace eStore.Api.Controllers
                     ProposeDate = del.ProposeDate,
                     CustName = del.CustName
                 };
-
-
                 if (del.Amount != del.TotalAmount)
                 {
                     isO = true;
-                    // msg += "\tDelivery and Booking amount not matching;";
                     error.deliveryAmtError = true;
                 }
 
@@ -204,14 +190,12 @@ namespace eStore.Api.Controllers
                 {
                     isO = true;
                     error.lateDelivery = true;
-
                     int Days = (int)del.DeliveryDate.Subtract(del.ProposeDate).TotalDays;
                     int DaysInTotal = (int)del.DeliveryDate.Subtract(del.BookingDate).TotalDays;
                     if (Days > 0)
                         error.msg = $"Late by {Days} days;";
                     else if (Days < 0)
                         error.msg = $"Early by {Days} days;";
-
                 }
 
                 if (ds != null)
@@ -236,14 +220,11 @@ namespace eStore.Api.Controllers
                 }
                 else
                 {
-                    // msg += $"\tInvoice No {del.InvNo} not found in Daily Sale list;";
                     isO = true;
                     error.invNotFound = true;
-
                 }
                 if (isO)
                     ErrorList.Add(error);
-
                 ctr++;
             }
             int noOfDelivery = db.SaveChanges();

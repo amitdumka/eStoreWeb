@@ -1,5 +1,6 @@
 import axios from "axios"; 
-import { BASE_URL } from  "../../../_estore/URLConstants";
+//import { BASE_URL } from  "../../../_estore/URLConstants";
+const BASE_URL = "/";
 
 export async function getStores() {
   return axios.get(BASE_URL+"api/stores");

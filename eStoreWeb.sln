@@ -23,6 +23,7 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "eStore.SharedModel", "eStor
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		eStore.SharedModel\eStore.SharedModel.projitems*{67184795-9d03-418f-bbd2-9b33fbdd19e2}*SharedItemsImports = 5
 		eStore.Commons\eStore.Commons.projitems*{7a3605da-48bd-4ede-89c4-3c289eacbbd1}*SharedItemsImports = 13
 		eStore.SharedModel\eStore.SharedModel.projitems*{ba5cdeaf-947d-477a-ace7-da4f75795da9}*SharedItemsImports = 13
 	EndGlobalSection

@@ -131,7 +131,7 @@ export const TailoringError=()=>{
   )
   const [store, setStore] = useState(1)
 
-  const { tailoringCheckList } = currentState
+  const { tailoringErrors } = currentState
   const [bOn, setBOn] = useState(true)
   const [delivery, setDelivery] = useState(false)
   const componentRef = useRef()
@@ -145,7 +145,7 @@ export const TailoringError=()=>{
   const dispatch = useDispatch()
   useEffect(() => {
     // server call by queryParams
-    dispatch(actions.fetchTailoringCheck(RData))
+    dispatch(actions.fetchTailoringError(RData))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch])
   const handleButton = () => {
@@ -169,7 +169,8 @@ export const TailoringError=()=>{
     }
   }
 
-  const DList = ({ listData }) => {
+    const DList = ({ listData } ) => {
+        console.log(listData);
     const columns = [
       { field: 'bookingId', headerName: 'ID', width: 90 },
       { field: 'saleId', headerName: 'ID', width: 90 },
@@ -281,8 +282,8 @@ export const TailoringError=()=>{
         </CardHeaderToolbar>
       </CardHeader>
       <CardBody ref={componentRef}>
-        {tailoringCheckList && (
-          <DList listData={tailoringCheckList.ErrorList && tailoringCheckList.ErrorList} />
+              {tailoringErrors && (
+                  <DList listData={tailoringErrors.errorList && tailoringErrors.errorList} />
         )}
       </CardBody>
     </Card>
