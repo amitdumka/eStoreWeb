@@ -229,7 +229,9 @@ namespace eStore.Api.Controllers
             }
             int noOfDelivery = db.SaveChanges();
 
-            TailoringCheck tc = new TailoringCheck { NoOfDelivery = noOfDelivery, ErrorList = ErrorList, InvErrorList = null, Data = rData };
+            TailoringCheck tc = new TailoringCheck { NoOfDelivery = noOfDelivery, ErrorList = ErrorList.ToList(), InvErrorList = null, Data = rData };
+            Console.WriteLine("count:" + tc.ErrorList.Count);
+            Console.WriteLine(tc.ErrorList[0].CustName);
             return tc;
         }
 
@@ -701,11 +703,25 @@ namespace eStore.Api.Controllers
 
     public class TailoringError
     {
-        public int BookingId, DeliveryId, SaleId;
-        public string BookingSlip, InvNo, msg, CustName;
-        public decimal BookingAmount, DeliverAmount, SaleAmount;
-        public DateTime BookingDate, ProposeDate, DeliveryDate, SaleDate;
-        public bool lateDelivery, saleDateError, deliveryAmtError, saleAmtError, invNotFound;
+        public int BookingId { get; set; }
+        public int DeliveryId { get; set; }
+        public int SaleId { get; set; }
+        public string BookingSlip { get; set; }
+        public string InvNo { get; set; }
+        public string   msg { get; set; }
+        public string CustName { get; set; }
+        public decimal BookingAmount { get; set; }
+        public decimal DeliverAmount { get; set; }
+        public decimal SaleAmount { get; set; }
+        public DateTime BookingDate { get; set; }
+        public DateTime ProposeDate { get; set; }
+        public DateTime DeliveryDate { get; set; }
+        public DateTime SaleDate { get; set; }
+        public bool lateDelivery { get; set; }
+        public bool saleDateError { get; set; }
+        public bool deliveryAmtError { get; set; }
+        public bool saleAmtError{ get; set; }
+        public bool invNotFound{ get; set; }
 
     }
 }

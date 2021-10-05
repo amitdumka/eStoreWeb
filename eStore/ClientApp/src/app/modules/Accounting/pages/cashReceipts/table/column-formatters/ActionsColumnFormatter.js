@@ -16,11 +16,8 @@ export function ActionsColumnFormatter(
 ) {
   return (
     <>
-      <a
-        title="Edit cashReceipt"
-        className="btn btn-icon btn-light btn-hover-primary btn-sm mx-3"
-        onClick={() => openEditCashReceiptDialog(row.cashReceiptId)}
-      >
+      <a title="Edit cashReceipt" className="btn btn-icon btn-light btn-hover-primary btn-sm mx-3"
+        onClick={() => openEditCashReceiptDialog(row.cashReceiptId)}>
         <span className="svg-icon svg-icon-md svg-icon-primary">
           <SVG
             src={toAbsoluteUrl("/media/svg/icons/Communication/Write.svg")}
