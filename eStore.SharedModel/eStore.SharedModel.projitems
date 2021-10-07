@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>ba5cdeaf-947d-477a-ace7-da4f75795da9</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>eStore.SharedModel</Import_RootNamespace>
+  </PropertyGroup>
+<ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Data\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Data\Paging\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Data\Json\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Data\Types\" />
+    <Folder Include="$(MSBuildThisFileDirectory)ViewModels\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Models\Stores\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Models\Identity\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Models\Payroll\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Models\Todos\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Models\Common\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Models\Tailoring\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Models\Banking\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Models\Accounts\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Models\Accounts\Expenses\" />
+    <Folder Include="$(MSBuildThisFileDirectory)ViewModels\SalePuchase\" />
+    <Folder Include="$(MSBuildThisFileDirectory)ViewModels\Banking\" />
+    <Folder Include="$(MSBuildThisFileDirectory)ViewModels\Payroll\" />
+    <Folder Include="$(MSBuildThisFileDirectory)ViewModels\ChartJSVC\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Models\Personals\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Models\Users\" />
+</ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AutoMapper\AutoMapperProfile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\Paging\PaginatedList.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\Json\JsonToObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\Types\DataTypes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DTOs\Accounting\ExpensesDto.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DTOs\Genric.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DTOs\Payrolls\AttendanceDto.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Assest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\BankAccount.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\BankStatement.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\BankTranscation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\BaseNT.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\AppInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\BasicVoucher.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\CashPayment.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Company.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\EBillPayment.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\EletricityBill.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\LedgerEntry.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\LedgerMaster.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\LedgerType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Party.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Payment.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\PrintedSlipBook.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Purchases\Stock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Purchases\Supplier.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Receipt.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Rent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\RentedLocation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Sales\Payment.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\StoreClose.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\StoreDailyOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\StoreHoliday.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\StoreHolidays.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\StoreOpen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Stores\Store.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Identity\AppUser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Payroll\Employee.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Stores\Salesman.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Payroll\Attendance.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Payroll\SalaryPayment.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Todos\TodoItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\Types\Constants.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\Types\UploadTypeString.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Common\TranscationMode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Tailoring\TalioringBooking.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Banking\Bank.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Accounts\CashReceipt.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Accounts\Expenses\ElectricityConnection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Sales\DailySales.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Sales\OnlineSale.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Sales\DTO.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Sales\RegularInvoice.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Purchases\HSN.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Stores\Customer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Purchases\ProductItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Purchases\ProductPurchase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\UsedSlip.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Vendor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\VendorDebitCreditNote.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\VendorLedger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\VendorPayment.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Uploader\VoySaleInvoice.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SalePuchase\InvoiceSaveReturn.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ChartJSVC\ChartJsViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Printers\ReceiptDetails.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Printers\ReceiptItemDetails.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Printers\PrintInvoiceLine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Printers\PrintLine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Printers\ReceiptItemTotal.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Printers\ReceiptHeader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Common\CashDetail.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\CashBook.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Common\CashInHand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Payroll\StaffAdvanceReceipt.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Payroll\CurrentSalary.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Payroll\PaySlip.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Stores\ArvindPayment.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Stores\EndOfDay.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Accounts\Expense.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Banking\BankDeposit.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SalePuchase\SaleInfoUIVM.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Payroll\EmployeeAttendaceInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ChartJSVC\ChartJs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Personals\PersonalExpense.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\DayEnd.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Users\User.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Common\StockList.cs" />
+  </ItemGroup>
+</Project>

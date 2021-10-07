@@ -60,7 +60,7 @@ export const fetchTailoringError = (id) => (dispatch) => {
     .getTailoringError(id)
     .then((response) => {
       const entities = response.data;
-      const totalCount = response.data.length;
+      const totalCount = 0;
       console.log(entities);
       dispatch(actions.tailoringErrorFetched({ totalCount, entities }));
     })

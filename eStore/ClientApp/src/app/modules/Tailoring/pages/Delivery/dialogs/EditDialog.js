@@ -1,6 +1,8 @@
 import React, { useEffect, useMemo } from "react";
+import ReactDOM from "react-dom";
 import { Modal } from "react-bootstrap";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import * as actions from "../../../_redux/Delivery/Actions";
 import * as commonActions from "../../../../_redux/Actions";
 import { EditDialogHeader } from "./EditDialogHeader";
@@ -13,7 +15,7 @@ import { useUIContext } from "../UIContext";
 //delivery
 
 export function EditDialog({ id, show, onHide }) {
-  // Deliveries UI Context
+    // Deliveries UI Context
   const deliveriesUIContext = useUIContext();
   const deliveriesUIProps = useMemo(() => {
     return {
@@ -22,7 +24,8 @@ export function EditDialog({ id, show, onHide }) {
   }, [deliveriesUIContext]);
 
   // Deliveries Redux state
-  const dispatch = useDispatch();
+    const dispatch = useDispatch();
+    
   const { actionsLoading, deliveryForEdit, storeList, bookings } = useSelector(
     (state) => ({
       actionsLoading: state.deliveries.actionsLoading,
@@ -33,8 +36,7 @@ export function EditDialog({ id, show, onHide }) {
     }),
     shallowEqual
   );
-
-  useEffect(() => {
+    useEffect(() => {
     // server call for getting Delivery by id
     dispatch(commonActions.fetchStores());
     dispatch(actions.fetchBookings());
@@ -66,7 +68,7 @@ export function EditDialog({ id, show, onHide }) {
         actionsLoading={actionsLoading}
         delivery={deliveryForEdit || deliveriesUIProps.initDelivery}
         onHide={onHide}
-        bookings={bookings}
+        bookings={ bookings}
         stores={storeList}
       />
     </Modal>

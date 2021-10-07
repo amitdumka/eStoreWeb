@@ -130,8 +130,8 @@ export const TailoringError=()=>{
     shallowEqual,
   )
   const [store, setStore] = useState(1)
-
-  const { tailoringCheckList } = currentState
+  const history = useHistory() // example from react-router
+  const { tailoringErrors } = currentState
   const [bOn, setBOn] = useState(true)
   const [delivery, setDelivery] = useState(false)
   const componentRef = useRef()
@@ -145,7 +145,7 @@ export const TailoringError=()=>{
   const dispatch = useDispatch()
   useEffect(() => {
     // server call by queryParams
-    dispatch(actions.fetchTailoringCheck(RData))
+    dispatch(actions.fetchTailoringError(RData))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch])
   const handleButton = () => {
@@ -169,21 +169,35 @@ export const TailoringError=()=>{
     }
   }
 
-  const DList = ({ listData }) => {
+
+    const openSale = (id) => {
+        history.push(`/sales/dailySales/${id}/edit`)
+    }
+    const openBooking = (id) => {
+        history.push(`/tailoring/booking/${id}/edit`)
+    }
+    const openDelivery = (id) => {
+        history.push(`/tailoring/delivery/${id}/edit`);
+    }
+
+    const DList = ({ listData } ) => {
+        console.log(listData);
     const columns = [
-      { field: 'bookingId', headerName: 'ID', width: 90 },
-      { field: 'saleId', headerName: 'ID', width: 90 },
-      { field: 'deliveryId', headerName: 'ID', width: 90 },
+        {
+            field: 'id', headerName: 'BookID', width: 90, identity: true, renderCell: (row) => { return (<div className="rowItem text-danger">{row.row.bookingId}</div>) }
+        },
+      { field: 'saleId', headerName: 'SaleID', width: 90 ,hide:true},
+        { field: 'deliveryId', headerName: 'DelID', width: 90, hide:true},
       { field: 'custName', headerName: 'Customer', minWidth: 150 ,hide:true},      
       { field: 'bookingSlip', headerName: 'Slip', minWidth: 150 },
-      { field: 'InvNo', headerName: 'Inv', minWidth: 100 },
+      { field: 'invNo', headerName: 'Inv', minWidth: 100 },
       { field: 'bookingDate', headerName: 'Date', minWidth: 100, type: 'date' },
       { field: 'deliveryDate', headerName: 'Delivery',minWidth: 100,type: 'date'},
       { field: 'saleDate',  headerName: 'InvoiceDate', minWidth: 100,type: 'date' ,hide:true},
       { field: 'proposeDate',  headerName: 'Propose', minWidth: 100,type: 'date' ,hide:true},
-      { field: 'bookingAmount', headerName: 'Amount', minWidth: 90 },
+        { field: 'bookingAmount', headerName: 'Amount', minWidth: 90, hide:true},
       { field: 'deliveryAmount', headerName: 'Amount', minWidth: 90 },
-      { field: 'saleAmount', headerName: 'Amount', minWidth: 90 },      
+        { field: 'saleAmount', headerName: 'Amount', minWidth: 90, hide:true },      
       { field: 'errors',
         headerName: 'Error(s)',
         minWidth: 250,
@@ -199,13 +213,55 @@ export const TailoringError=()=>{
             </div>
           )
         },       
-      },{ field: 'actions', headerName: 'Actions', minWidth: 190 },
+        },
+        {
+            field: 'actions', headerName: 'Actions (S/B/D)', minWidth: 190,
+            renderCell: (params) => {
+                return (<div className="rowItem">
+                    <a title="Sale" tips="Sale Edit" className="btn btn-icon btn-light btn-hover-primary btn-sm mx-3"
+                        onClick={() => openSale(params.row.saleId)}
+                    >
+                        <span className="svg-icon svg-icon-md svg-icon-primary">
+                            <SVG
+                                src={toAbsoluteUrl("/media/svg/icons/Communication/Write.svg")}
+                            />
+                        </span>
+                    </a>
+                    <> </> 
+                    <a title="Booking" hint="Booking" className="btn btn-icon btn-light btn-hover-primary btn-sm mx-3"
+                        onClick={() => openBooking(params.row.bookingId)}
+                    >
+                        <span className="svg-icon svg-icon-md svg-icon-primary">
+                            <SVG
+                                src={toAbsoluteUrl("/media/svg/icons/Communication/Write.svg")}
+                            />
+                        </span>
+                    </a>
+                    <> </> 
+                    <a title="Delivery" hint="Delivery" className="btn btn-icon btn-light btn-hover-primary btn-sm mx-3"
+                        onClick={() => openDelivery(params.row.deliveryId)}
+                    >
+                        <span className="svg-icon svg-icon-md svg-icon-primary">
+                            <SVG
+                                src={toAbsoluteUrl("/media/svg/icons/Communication/Write.svg")}
+                            />
+                        </span>
+                    </a>
+                   
+                    
+                </div>)
+            }
+
+        },
     ]
    
     return (
       <div>
         <div style={{ height: 800, width: '100%' }}>
-          <DataGrid
+           <DataGrid 
+              key="bookingId"
+                id={Math.random()}
+            getRowId={(row) => row.bookingId}
             rowHeight={76}
             rows={listData && listData}
             columns={columns}
@@ -281,8 +337,8 @@ export const TailoringError=()=>{
         </CardHeaderToolbar>
       </CardHeader>
       <CardBody ref={componentRef}>
-        {tailoringCheckList && (
-          <DList listData={tailoringCheckList.ErrorList && tailoringCheckList.ErrorList} />
+              {tailoringErrors && (
+                  <DList listData={tailoringErrors.errorList && tailoringErrors.errorList} />
         )}
       </CardBody>
     </Card>
