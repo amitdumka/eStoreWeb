@@ -75,7 +75,7 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TalioringBooking>>> GetTalioringBookings()
         {
-            return await _context.TalioringBookings.Where (c => c.DeliveryDate.Year == DateTime.Today.Year).OrderByDescending (c => c.BookingDate).ThenByDescending (c => c.DeliveryDate).ToListAsync ();
+            return await _context.TalioringBookings.OrderByDescending (c => c.BookingDate).ThenByDescending (c => c.DeliveryDate).ToListAsync ();
         }
         [HttpPost("find")]
         public async Task<ActionResult<IEnumerable<TalioringBooking>>> PostFind(string filters)
