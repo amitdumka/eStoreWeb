@@ -42,9 +42,19 @@ namespace eStore.BL.Importer
                             return true;
                         else
                             return false;
+                    case "Invoice":
+                        if (VoyProcesser.ProcessInvoiceSummary(db, StoreId, Year) > 0)
+                            return true;
+                        else
+                            return false;
 
                     case "SaleItem":
                         if ( VoyProcesser.ProcessSale (db, StoreId, Year) > 0 )
+                            return true;
+                        else
+                            return false;
+                    case "InvoiceItem":
+                        if (VoyProcesser.ProcessSaleInvoice(db, StoreId, Year) > 0)
                             return true;
                         else
                             return false;

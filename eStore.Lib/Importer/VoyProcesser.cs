@@ -2,6 +2,7 @@
 using eStore.Shared.Models.Purchases;
 using eStore.Shared.Models.Sales;
 using eStore.Shared.Models.Stores;
+using eStore.SharedModel.Models.Sales.Invoicing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -602,6 +603,75 @@ namespace eStore.BL.Importer
             return size;
         }
 
+        public static int ProcessInvoiceSummary(eStoreDbContext db, int StoreId, int year) {
+            var data = db.VoySaleInvoiceSums.Where(c => c.InvoiceDate.Year == year).ToList();
+            foreach (var item in data)
+            {
+               SharedModel.Models.Sales.Invoicing.InvoicePayment payment = new SharedModel.Models.Sales.Invoicing.InvoicePayment { InvoiceNumber = item.InvoiceNo };
+
+                switch (item.PaymentMode)
+                {
+                    case "CAS":
+                        payment.PayMode = PayMode.Cash;
+                        payment.CashAmount = item.BillAmt;
+                        break;
+
+                    case "CRD":
+                        payment.PayMode = PayMode.Card;
+                        payment.NonCashAmount = item.BillAmt;
+                        break;
+
+                    case "MIX":
+                        payment.PayMode = PayMode.MixPayments;
+                        payment.NonCashAmount = item.BillAmt;
+                        payment.PaymentRef = "Mix Payment is done!"; 
+                        break;
+
+                    default:
+                        payment.PayMode = PayMode.MixPayments;
+                        payment.NonCashAmount = item.BillAmt;
+                        break;
+                }
+                SharedModel.Models.Sales.Invoicing.Invoice invoice = new SharedModel.Models.Sales.Invoicing.Invoice
+                {
+                    //EntryStatus = EntryStatus.Approved,
+                    InvoiceNumber = item.InvoiceNo,
+                    //IsNonVendor = false,
+                   // IsReadOnly = true,
+                    OnDate = item.InvoiceDate,
+                   // StoreId = StoreId,
+                   // UserId = "AutoAdded",
+                    TotalQty = (decimal)item.Quantity,
+                    TotalDiscount = item.DiscountAmt,
+                    Payment = payment,
+                   // TotalItems = 0,
+                    TotalAmount = item.BillAmt,
+                    TotalTaxAmount = item.TaxAmt,
+                    RoundOff = item.RoundOff,   
+                    
+                };
+
+                if (item.InvoiceType == "SALES")
+                {
+                    invoice.InvoiceType = InvoiceType.Sales;
+                }
+                else
+                {
+                    invoice.InvoiceType = InvoiceType.SalesReturn;
+                }
+                if (item.PaymentMode == "CAS")
+                {
+                    invoice.CustomerId = 1;
+                }
+                else
+                {
+                    invoice.CustomerId = 2;
+                }
+                db.Invoices.Add(invoice);
+            }
+            return db.SaveChanges();
+        }
+
         public static int ProcessSaleSummary(eStoreDbContext db, int StoreId, int year)
         {
             var data = db.VoySaleInvoiceSums.Where (c => c.InvoiceDate.Year == year).ToList ();
@@ -659,6 +729,34 @@ namespace eStore.BL.Importer
                 db.SaleInvoices.Add (invoice);
             }
             return db.SaveChanges ();
+        }
+
+        public static int ProcessSaleInvoice(eStoreDbContext db, int StoreId, int year)
+        {
+            var data = db.VoySaleInvoices.Where(c => c.InvoiceDate.EndsWith("" + year)).ToList();
+
+            var salesman = db.Salesmen.Where(c => c.StoreId == StoreId).Select(c => new { c.SalesmanId, c.SalesmanName }).ToList();
+            foreach (var item in data)
+            {
+                InvoiceItem sale = new InvoiceItem
+                {
+                    Barcode = item.BARCODE,
+                    InvoiceNumber = item.InvoiceNo,
+                    TaxAmount = item.TaxAmt,
+                    //MRP = item.MRP,
+                    Qty = (decimal)item.Quantity,
+                    SalesmanId = salesman.Where(c => c.SalesmanName.Contains(item.SalesManName)).Select(c => c.SalesmanId).FirstOrDefault(),
+                    BasicPrice = item.BasicAmt,
+                    HSNCode = 0,
+                    DiscountAmount = item.DiscountAmt,
+                    Units = Unit.NoUnit,
+                };
+
+                if (!String.IsNullOrEmpty(item.HSNCode))
+                    sale.HSNCode = long.Parse(item.HSNCode.Trim());
+                db.InvoiceItems.Add(sale);
+            }
+            return db.SaveChanges();
         }
 
         public static int ProcessSale(eStoreDbContext db, int StoreId, int year)
