@@ -27,7 +27,7 @@ namespace eStore.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Invoice>>> GetInvoices()
         {
-            return await _context.Invoices.Include(c=>c.Payment).ToListAsync();
+            return await _context.Invoices.ToListAsync();
         }
         [HttpGet("withItems")]
         public async Task<ActionResult<IEnumerable<Invoice>>> GetInvoicesWithItems()
@@ -57,7 +57,7 @@ namespace eStore.Controllers
                     invNumber += "MIN";
                     break;
             }
-
+            invNumber += $"{ DateTime.Today.Year}{ DateTime.Today.Month}{ DateTime.Today.Day}";
             if (count < 10) invNumber += $"000{++count}";
             else if(count<100) invNumber += $"00{++count}";
             else if (count < 1000) invNumber += $"0{++count}";
@@ -114,7 +114,7 @@ namespace eStore.Controllers
 
         // POST: api/Invoices
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
+        [HttpPost("Range")]
         public async Task<ActionResult<Invoice>> PostInvoice(Invoice invoice)
         {
             _context.Invoices.Add(invoice);

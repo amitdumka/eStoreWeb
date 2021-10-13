@@ -81,4 +81,4 @@ public enum VendorType { EBO, MBO, Tailoring, NonSalable, OtherSaleable, Others,
 
 public enum NotesType { DebitNote, CreditNote }
 
-public enum InvoiceType { Sales, SalesReturn,ManualSale, ManualSaleReturn }
+public enum InvoiceType { Sales, SalesReturn,ManualSale, ManualSaleReturn, Invoice,SR }

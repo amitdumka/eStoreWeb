@@ -608,17 +608,19 @@ namespace eStore.BL.Importer
             foreach (var item in data)
             {
                SharedModel.Models.Sales.Invoicing.InvoicePayment payment = new SharedModel.Models.Sales.Invoicing.InvoicePayment { InvoiceNumber = item.InvoiceNo };
-
+                  
                 switch (item.PaymentMode)
                 {
                     case "CAS":
                         payment.PayMode = PayMode.Cash;
                         payment.CashAmount = item.BillAmt;
+                        payment.PaymentRef = "Paid in Cash";
                         break;
 
                     case "CRD":
                         payment.PayMode = PayMode.Card;
                         payment.NonCashAmount = item.BillAmt;
+                        payment.PaymentRef = "Paid by Card";
                         break;
 
                     case "MIX":
@@ -626,10 +628,16 @@ namespace eStore.BL.Importer
                         payment.NonCashAmount = item.BillAmt;
                         payment.PaymentRef = "Mix Payment is done!"; 
                         break;
+                    case "SR":
+                        payment.PayMode = PayMode.Others;
+                        payment.PaymentRef = "Sale Return Note";
+                        payment.CashAmount =  item.BillAmt;
 
+                        break;
                     default:
                         payment.PayMode = PayMode.MixPayments;
                         payment.NonCashAmount = item.BillAmt;
+                        payment.PaymentRef = "Default Payment";
                         break;
                 }
                 SharedModel.Models.Sales.Invoicing.Invoice invoice = new SharedModel.Models.Sales.Invoicing.Invoice
@@ -677,7 +685,7 @@ namespace eStore.BL.Importer
             var data = db.VoySaleInvoiceSums.Where (c => c.InvoiceDate.Year == year).ToList ();
             foreach ( var item in data )
             {
-                InvoicePayment payment = new InvoicePayment { InvoiceNo = item.InvoiceNo };
+                Shared.Models.Sales.InvoicePayment payment = new Shared.Models.Sales.InvoicePayment { InvoiceNo = item.InvoiceNo };
                 switch ( item.PaymentMode )
                 {
                     case "CAS":
