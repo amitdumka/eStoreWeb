@@ -13,7 +13,8 @@ const initialInvoicesState = {
   employeeEntities: null, 
   invoiceItems: null,
   invoicePayment: null,
-  totalCountEmp:0, 
+  totalCountEmp:0,
+  lastInvoiceNumber:'', 
 };
 export const callTypes = {
   list: "list",
@@ -55,6 +56,13 @@ export const invoicesSlice = createSlice({
     invoiceFetched: (state, action) => {
       state.actionsLoading = false;
       state.invoiceForEdit = action.payload.invoiceForEdit;
+      state.error = null;
+  //    console.log(state.invoiceForEdit);
+    },
+    
+    invoiceGenFetched: (state, action) => {
+      state.actionsLoading = false;
+      state.lastInvoiceNumber = action.payload.lastInvoiceNumber;
       state.error = null;
   //    console.log(state.invoiceForEdit);
     },

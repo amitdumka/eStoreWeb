@@ -59,6 +59,24 @@ export const fetchInvoice = (id) => (dispatch) => {
     });
 };
 
+export const fetchGenInvoice = (invoiceType) => (dispatch) => {
+  if (!invoiceType) {
+    return dispatch(actions.invoiceGenFetched({ lastInvoiceNumber: undefined }));
+  }
+  dispatch(actions.startCall({ callType: callTypes.action }));
+  return requestFromServer
+    .getGenerateInvoice(invoiceType)
+    .then((response) => {
+      const invoice = response.data;
+      console.log(response);
+      dispatch(actions.invoiceFetched({ lastInvoiceNumber: invoice }));
+    })
+    .catch((error) => {
+      error.clientMessage = "Can't Generate Invoice";
+      dispatch(actions.catchError({ error, callType: callTypes.action }));
+    });
+};
+
 export const deleteInvoice = (id) => (dispatch) => {
   dispatch(actions.startCall({ callType: callTypes.action }));
   return requestFromServer

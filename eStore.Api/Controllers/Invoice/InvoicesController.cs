@@ -27,7 +27,44 @@ namespace eStore.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Invoice>>> GetInvoices()
         {
-            return await _context.Invoices.ToListAsync();
+            return await _context.Invoices.Include(c=>c.Payment).ToListAsync();
+        }
+        [HttpGet("withItems")]
+        public async Task<ActionResult<IEnumerable<Invoice>>> GetInvoicesWithItems()
+        {
+            return await _context.Invoices.Include(c => c.InvoiceItems).Include(c => c.Payment).ToListAsync();
+        }
+        [HttpGet("GenInv")]
+        public async Task<ActionResult<string>> GetInvoiceNumber(InvoiceType iType)
+        {
+           int count= await _context.Invoices.Where(c => c.OnDate.Date == DateTime.Today.Date && c.InvoiceType == iType).CountAsync();
+            string invNumber = "JH006";
+            switch (iType)
+            {
+                case InvoiceType.Sales:
+                    invNumber += "IN";
+                    break;
+                case InvoiceType.SalesReturn:
+                    invNumber += "SR";
+                    break;
+                case InvoiceType.ManualSale:
+                    invNumber += "MIN";
+                    break;
+                case InvoiceType.ManualSaleReturn:
+                    invNumber += "MSR";
+                    break;
+                default:
+                    invNumber += "MIN";
+                    break;
+            }
+
+            if (count < 10) invNumber += $"000{++count}";
+            else if(count<100) invNumber += $"00{++count}";
+            else if (count < 1000) invNumber += $"0{++count}";
+            else invNumber += $"{++count}";
+
+            return invNumber;
+            
         }
 
         // GET: api/Invoices/5

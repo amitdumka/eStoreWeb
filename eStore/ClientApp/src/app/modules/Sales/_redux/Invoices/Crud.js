@@ -23,6 +23,9 @@ export function getAllInvoices() {
 export async function getInvoiceById(invoiceId) {
   return await axios.get(`${API_URL}/${invoiceId}`)
 }
+export async function getGenerateInvoice(invoiceType) {
+  return await axios.get(`${API_URL}/genInv/${invoiceType}`)
+}
 
 // Method from server should return QueryResultsModel(items: any[], totalsCount: number)
 // items => filtered/sorted result

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using eStore.Shared.Models;
@@ -27,11 +28,15 @@ namespace eStore.SharedModel.Models.Sales.Invoicing
         public decimal TotalQty { get; set; }
 
         public InvoiceType InvoiceType { get; set; }  
+        public virtual InvoicePayment Payment { get; set; }
+        public virtual ICollection<InvoiceItem> InvoiceItems { get; set; }
     }
 
     public class InvoiceItem
     {
         public int InvoiceItemId{get;set;}
+        [ForeignKey("Invoice")]
+        public string InvoiceNumber { get; set; }
         public string Barcode { get; set; }
         public decimal Qty { get; set; }
         [Display(Name = "Unit")]
@@ -48,6 +53,8 @@ namespace eStore.SharedModel.Models.Sales.Invoicing
         public long? HSNCode { get; set; }
         public virtual HSN HSN { get; set; }
 
+        public virtual Invoice Invoice { get; set; }
+
     }
 
     public class InvoicePayment
@@ -63,6 +70,9 @@ namespace eStore.SharedModel.Models.Sales.Invoicing
         public int? CouponAndPointId { get; set; }
         public virtual CouponAndPoint CouponAndPoint { get; set; }
 
+        [ForeignKey("Invoice")]
+        public string InvoiceNumber { get; set; }
+        public virtual Invoice Invoice { get; set; }
 
     }
 
