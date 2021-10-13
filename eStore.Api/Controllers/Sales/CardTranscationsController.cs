@@ -1,5 +1,5 @@
 using eStore.Database;
-using eStore.Shared.Models.Sales;
+using eStore.Shared.Models.Sales.Payments;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -25,7 +25,8 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<EDCTranscation>>> GetCardTranscations()
         {
-            return await _context.CardTranscations.ToListAsync ();
+            List<EDCTranscation> eDCTranscations = await _context.CardTranscations.ToListAsync();
+            return eDCTranscations;
         }
 
         // GET: api/CardTranscations/5

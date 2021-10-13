@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace eStore.Shared.Models.Sales
+namespace eStore.Shared.Models.Sales.Payments
 {
     public class DailySalePayment
     {

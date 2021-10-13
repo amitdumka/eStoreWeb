@@ -8,15 +8,18 @@ using eStore.Shared.Models.Payroll;
 using eStore.Shared.Models.Personals;
 using eStore.Shared.Models.Purchases;
 using eStore.Shared.Models.Sales;
+using eStore.Shared.Models.Sales.Payments;
 using eStore.Shared.Models.Stores;
 using eStore.Shared.Models.Tailoring;
 using eStore.Shared.Models.Todos;
 using eStore.Shared.Models.Users;
 using eStore.Shared.Uploader;
 using eStore.Shared.ViewModels.Banking;
+using eStore.SharedModel.Models.Sales.Invoicing;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
+using Invoice = eStore.SharedModel.Models.Sales.Invoicing.Invoice;
 
 namespace eStore.Database
 {
@@ -34,12 +37,11 @@ namespace eStore.Database
 
 
         public DbSet<Assest> Assests { get; set; }
-        public DbSet<Shared.Models.Sales.DailySalePayment> DailySalePayments { get; set; }
+        public DbSet<Shared.Models.Sales.Payments.DailySalePayment> DailySalePayments { get; set; }
 
         public DbSet<WalletPayment> WalletPayments { get; set; }
         public DbSet<BankPayment> BankPayments { get; set; }
-        public DbSet<EDC> CardMachine { get; set; } //APi
-        public DbSet<EDCTranscation> CardTranscations { get; set; }//API
+       
         public DbSet<MixAndCouponPayment> MixPayments { get; set; } //APi
         public DbSet<CouponPayment> CouponPayments { get; set; }//API
         public DbSet<PointRedeemed> PointRedeemeds { get; set; }//API
@@ -180,7 +182,7 @@ namespace eStore.Database
 
         public DbSet<SaleItem> SaleItems { get; set; }
         public DbSet<SaleInvoice> SaleInvoices { get; set; }
-        public DbSet<InvoicePayment> SaleInvoicePayments { get; set; }
+        public DbSet<eStore.Shared.Models.Sales.InvoicePayment> SaleInvoicePayments { get; set; }
         public DbSet<SaleCardDetail> SaleCardDetails { get; set; }
         public DbSet<TaxName> Taxes { get; set; }
 
@@ -195,6 +197,16 @@ namespace eStore.Database
 
         public DbSet<PrintedSlipBook> PrintedSlipBooks { get; set; }
         public DbSet<UsedSlip> UsedSlips { get; set; }
+
+         //Version 6.0  New Invoice System. 
+        public DbSet<Invoice> Invoices { get; set; }
+        public DbSet<InvoiceItem> InvoiceItems { get; set; }
+        public DbSet<eStore.SharedModel.Models.Sales.Invoicing.InvoicePayment> InvoicePayments { get; set; }
+        public DbSet<CouponAndPoint> CouponAndPoints { get; set; }
+        public DbSet<eStore.Shared.Models.Sales.Payments.EDC> CardMachine { get; set; } //APi
+        public DbSet<eStore.Shared.Models.Sales.Payments.EDCTranscation> CardTranscations { get; set; }//API
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

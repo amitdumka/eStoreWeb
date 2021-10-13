@@ -1,4 +1,5 @@
-﻿using eStore.Shared.Models.Stores;
+﻿using eStore.Shared.Models.Sales.Payments;
+using eStore.Shared.Models.Stores;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

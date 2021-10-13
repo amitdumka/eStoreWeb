@@ -1,5 +1,6 @@
 ﻿using eStore.Database;
 using eStore.Shared.Models.Sales;
+using eStore.Shared.Models.Sales.Payments;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
