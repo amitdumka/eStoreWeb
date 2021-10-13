@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>51d088e1-7a19-44dd-b72e-748c5a87ce11</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>eStore.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Dtos\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Modals\Accountings\Banking\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Modals\Accountings\Vouchers\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Modals\Identity\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Modals\Tailorings\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Modals\Products\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Modals\Purchases\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Modals\Payrolls\" />
+    <Folder Include="$(MSBuildThisFileDirectory)ViewModals\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Data\JSON\JsonToObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\Paging\PaginatedList.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\Types\DataTypes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modals\Base.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modals\Common\CashInHand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modals\Common\Contact.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modals\Common\Customer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modals\Common\Tax.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modals\Common\TranscationMode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modals\Sales\DailySale.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modals\Sales\DueList.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modals\Sales\DueRecoverd.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modals\Sales\Invoice.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modals\Stores\CashDetail.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modals\Stores\Client.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modals\Stores\Company.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modals\Stores\EndOfDay.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modals\Stores\EndOfMonth.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modals\Stores\Store.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modals\Vendors\Vendor.cs" />
+  </ItemGroup>
+</Project>

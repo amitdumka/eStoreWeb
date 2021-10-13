@@ -80,3 +80,5 @@ public enum AssestCategory
 public enum VendorType { EBO, MBO, Tailoring, NonSalable, OtherSaleable, Others, TempVendor }
 
 public enum NotesType { DebitNote, CreditNote }
+
+public enum InvoiceType { Sales, SalesReturn,ManualSale, ManualSaleReturn }

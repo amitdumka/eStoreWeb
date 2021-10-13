@@ -1,11 +1,8 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using eStore.Shared.Models;
-using eStore.Shared.Models.Purchases;
-using eStore.Shared.Models.Stores;
+using System.Collections.Generic;
+using System.Text;
 
-namespace eStore.SharedModel.Models.Sales.Invoicing
+namespace eStore.Shared.Modals.Sales
 {
     /// <summary>
     /// New and Impove Invoicing Sytems which can be extended as required.
@@ -16,9 +13,9 @@ namespace eStore.SharedModel.Models.Sales.Invoicing
         public string InvoiceNumber { get; set; }
         public DateTime OnDate { get; set; }
         public int CustomerId { get; set; }
-       // [Igone in xamarin]
+        // [Igone in xamarin]
         public virtual Customer Customer { get; set; }
- 
+
         public decimal TotalAmount { get; set; }
         public decimal TotalTaxAmount { get; set; }
         public decimal TotalDiscount { get; set; }
@@ -26,12 +23,12 @@ namespace eStore.SharedModel.Models.Sales.Invoicing
 
         public decimal TotalQty { get; set; }
 
-        public InvoiceType InvoiceType { get; set; }  
+        public InvoiceType InvoiceType { get; set; }
     }
 
     public class InvoiceItem
     {
-        public int InvoiceItemId{get;set;}
+        public int InvoiceItemId { get; set; }
         public string Barcode { get; set; }
         public decimal Qty { get; set; }
         [Display(Name = "Unit")]
@@ -39,7 +36,7 @@ namespace eStore.SharedModel.Models.Sales.Invoicing
         public decimal BasicPrice { get; set; }
         public decimal DiscountAmount { get; set; }
         public decimal TaxAmount { get; set; }
-        public decimal Amount { get { return (BasicPrice-DiscountAmount+TaxAmount); } }
+        public decimal Amount { get { return (BasicPrice - DiscountAmount + TaxAmount); } }
 
         //Salesman need to added.
         public int SalesmanId { get; set; }
@@ -59,7 +56,7 @@ namespace eStore.SharedModel.Models.Sales.Invoicing
 
         public string PaymentRef { get; set; }
         public int? EDCId { get; set; }
-        public virtual EDC EDC { get; set; } 
+        public virtual EDC EDC { get; set; }
         public int? CouponAndPointId { get; set; }
         public virtual CouponAndPoint CouponAndPoint { get; set; }
 
@@ -83,6 +80,7 @@ namespace eStore.SharedModel.Models.Sales.Invoicing
         public string MID { get; set; }
         public string Remark { get; set; }
     }
+
     public class EDCTranscation : BaseSNT
     {
         public int EDCTranscationId { get; set; }
@@ -93,7 +91,7 @@ namespace eStore.SharedModel.Models.Sales.Invoicing
 
         [DataType(DataType.Currency), Column(TypeName = "money")]
         public decimal Amount { get; set; }
-               
+
         public string CardEndingNumber { get; set; }
         public CardMode CardTypes { get; set; }
         public string InvoiceNumber { get; set; }
