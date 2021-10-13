@@ -29,6 +29,7 @@
     <Folder Include="$(MSBuildThisFileDirectory)ViewModels\ChartJSVC\" />
     <Folder Include="$(MSBuildThisFileDirectory)Models\Personals\" />
     <Folder Include="$(MSBuildThisFileDirectory)Models\Users\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Models\Sales\Invoicing\" />
 </ItemGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)AutoMapper\AutoMapperProfile.cs" />
@@ -119,5 +120,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\DayEnd.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Users\User.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Common\StockList.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Sales\Invoicing\Invoice.cs" />
   </ItemGroup>
 </Project>
