@@ -32,115 +32,74 @@ export function UIProvider({ UIEvents, children }) {
     });
   }, []);
 
-  
   const initData = {
-    dailySaleId: 0,
-    saleDate: new Date(),
-    invNo: "",
-    amount: 0,
-    payMode: 0,
-    cashAmount: 0,
-    salesmanId: 0,
-    salesman: null,
-    isDue: false,
-    isManualBill: false,
-    isTailoringBill: false,
-    isSaleReturn: false,
-    remarks: "",
-    isMatchedWithVOy: false,
-    edcTranscationId: null,
-    edcTranscation: null,
-    mixAndCouponPaymentId: null,
-    mixAndCouponPayment: null,
-    couponPayment: null,
-    pointRedeemed: null,
-    storeId: 1,
-    store: null,
-    userId: "WebUI",
-    entryStatus: 0,
-    isReadOnly: false,
+    invoiceNumber: "",
+    onDate: new Date(),
+    customerId: 1,
+    customer: null,
+    totalAmount: 0,
+    totalTaxAmount: 0,
+    totalDiscount: 0,
+    roundOff: 0,
+    totalQty: 0,
+    invoiceType: 0,
+    payment: null,
+    invoiceItems: null,
   };
-  
+
   const columns = [
     {
-      dataField: "dailySaleId",
-      text: "ID",
-      sort: true,
-      sortCaret: sortCaret,
-      headerSortingClasses,
-    },
-    {
-      dataField: "storeId",
-      text: "Store",
-      sort: true,
-      sortCaret: sortCaret,
-      headerSortingClasses,
-    },
-    {
-      dataField: "saleDate",
-      text: "Date",
-      sort: true,
-      sortCaret: sortCaret,
-      headerSortingClasses,
-      formatter:FieldDateFormater// (cellContent,row)=>{ new Date(row.saleDate).toLocaleDateString();}
-    },
-    {
-      dataField: "invNo",
+      dataField: "invoiceNumber",
       text: "Invoice No",
       sort: true,
       sortCaret: sortCaret,
       headerSortingClasses,
     },
+    
     {
-      dataField: "amount",
-      text: "Amount",
+      dataField: "onDate",
+      text: "Date",
+      sort: true,
+      sortCaret: sortCaret,
+      headerSortingClasses,
+      formatter: FieldDateFormater, // (cellContent,row)=>{ new Date(row.saleDate).toLocaleDateString();}
+    },
+    {
+      dataField: "totalDiscount",
+      text: "Bill Discount",
       sort: true,
       sortCaret: sortCaret,
       headerSortingClasses,
     },
     {
-      dataField: "payMode",
-      text: "Payment Mode",
+      dataField: "totalTaxAmount",
+      text: "Tax Amount",
+      sort: true,
+      sortCaret: sortCaret,
+      headerSortingClasses,
+    },
+    {
+      dataField: "totalQty",
+      text: "Qty",
+      sort: true,
+      sortCaret: sortCaret,
+      headerSortingClasses,
+    },
+    {
+      dataField: "totalAmount",
+      text: "Bill Amount",
       sort: false,
-
       sortCaret: sortCaret,
     },
+    
     {
-      dataField: "salesman.salesmanName",
-      text: "Salesman",
-      sort: true,
-      sortCaret: sortCaret,
-      headerSortingClasses,
-    },
-    {
-      dataField: "isManualBill",
+      dataField: "invoiceType",
       text: "Invoice Type(s)",
       sort: false,
-      formatter:columnFormatters.TagGeneratorColumnFormatter,
+      formatter: columnFormatters.TagGeneratorColumnFormatter,
       sortCaret: sortCaret,
       headerSortingClasses,
     },
-    // {
-    //   dataField: "isSaleReturn",
-    //   text: "SalesReturn",
-    //   sort: true,
-    //   sortCaret: sortCaret,
-    //   headerSortingClasses,
-    // },
-    // {
-    //   dataField: "isTailoringBill",
-    //   text: "Tailoring",
-    //   sort: false,
-    //   //formatter:columnFormatters.TypeColumnFormatter,
-    //   sortCaret: sortCaret,
-    // },
-    // {
-    //   dataField: "isDue",
-    //   text: "Dues",
-    //   sort: false,
-    //   //formatter:columnFormatters.TypeColumnFormatter,
-    //   sortCaret: sortCaret,
-    // },
     {
       dataField: "action",
       text: "Actions",
@@ -148,7 +107,7 @@ export function UIProvider({ UIEvents, children }) {
       formatExtraData: {
         openEditDialog: UIEvents.openEditDialog,
         openDeleteDialog: UIEvents.openDeleteDialog,
-        openPaymentDialog:UIEvents.openPaymentDialog,
+        openPaymentDialog: UIEvents.openPaymentDialog,
         keyFieldValue: null,
       },
       classes: "text-right pr-0",
@@ -170,7 +129,6 @@ export function UIProvider({ UIEvents, children }) {
     openEditDialog: UIEvents.openEditDialog,
     openDeleteDialog: UIEvents.openDeleteDialog,
     openDeletesDialog: UIEvents.openDeletesDialog,
-    
   };
 
   return <UIContext.Provider value={value}>{children}</UIContext.Provider>;

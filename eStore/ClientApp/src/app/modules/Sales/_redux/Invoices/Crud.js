@@ -19,6 +19,14 @@ export async function createInvoice(invoice) {
 export function getAllInvoices() {
   return axios.get(API_URL) //.catch(function (error){console.log(error)});
 }
+export function getAllInvoiceItem()
+{
+  return axios.get(API_URL_Item);
+}
+export function getAllInvoicePayments()
+{
+  return axios.get(API_URL_Payment);
+}
 
 export async function getInvoiceById(invoiceId) {
   return await axios.get(`${API_URL}/${invoiceId}`)
