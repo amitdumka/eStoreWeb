@@ -46,6 +46,7 @@ export function UIProvider({ UIEvents, children }) {
     payment: null,
     invoiceItems: null,
   };
+  
 
   const columns = [
     {

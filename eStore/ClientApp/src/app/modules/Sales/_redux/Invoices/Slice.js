@@ -15,6 +15,8 @@ const initialInvoicesState = {
   invoicePayment: null,
   totalCountEmp:0,
   lastInvoiceNumber:'', 
+  productStockViews:null, 
+  productStock:null,
 };
 export const callTypes = {
   list: "list",

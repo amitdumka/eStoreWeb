@@ -39,11 +39,37 @@ const ProductEditSchema = Yup.object().shape({
   VINCode: Yup.string().required("VINCode is required"),
 });
 
-export function ProductEditForm({
-  product,
-  btnRef,
-  saveProduct,
-}) {
+const initData = {
+  //invoiceNumber: "",
+  //onDate: new Date(),
+  //customerId: 1,
+  //customer: null,
+  //totalAmount: 0,
+  //totalTaxAmount: 0,
+  //totalDiscount: 0,
+  //roundOff: 0,
+  //totalQty: 0,
+  //invoiceType: 0,
+  //payment: null,
+  //invoiceItems: null,
+};
+
+export function ProductEditForm({ product, btnRef, saveProduct }) {
+  let pItems=[];
+  const AddPItem=(item)=>{
+    pItems.push({barcode:item.barcode,qty:item.qty, basicPrice:item.price, discount:item.discount, tax:item.tax });
+
+  }
+
+  const FetchPItem=({barcode})=>{
+      // Need to redux for productItem+stock or ProductStockView
+      //Like
+      const ProductStockView={
+        barcode:"", mrp:0, stock:0,taxRate:5, ProductCategory:"Fabric", productName:"Shirting Tersca White", 
+        Unit:"Metres"
+      };
+  }
+
   return (
     <>
       <Formik
@@ -60,97 +86,83 @@ export function ProductEditForm({
               <div className="form-group row">
                 <div className="col-lg-4">
                   <Field
-                    name="model"
+                    name="onDate"
+                    type="date"
                     component={Input}
-                    placeholder="Model"
-                    label="Model"
+                    placeholder="Date"
+                    label="Date"
                   />
                 </div>
-                <div className="col-lg-4">
-                  <Select name="manufacture" label="Manufacture">
-                    {AVAILABLE_MANUFACTURES.map((manufacture) => (
-                      <option key={manufacture} value={manufacture}>
-                        {manufacture}
-                      </option>
-                    ))}
-                  </Select>
-                </div>
+
                 <div className="col-lg-4">
                   <Field
-                    type="number"
-                    name="modelYear"
+                    //type="number"
+                    name="customerName"
                     component={Input}
-                    placeholder="Model year"
-                    label="Model year"
+                    placeholder="Customer Name"
+                    label="Customer Name"
                   />
                 </div>
               </div>
               <div className="form-group row">
                 <div className="col-lg-4">
                   <Field
-                    type="number"
-                    name="mileage"
+                    //type="number"
+                    name="mobileNo"
                     component={Input}
-                    placeholder="Mileage"
-                    label="Mileage"
+                    placeholder="Mobile No"
+                    label="Contact"
                   />
                 </div>
-                <div className="col-lg-4">
-                  <Select name="color" label="Color">
-                    {AVAILABLE_COLORS.map((color) => (
-                      <option key={color} value={color}>
-                        {color}
-                      </option>
-                    ))}
-                  </Select>
-                </div>
+
                 <div className="col-lg-4">
                   <Field
+                    disabled
                     type="number"
-                    name="price"
+                    name="totalQty"
                     component={Input}
-                    placeholder="Price"
-                    label="Price ($)"
+                    placeholder="Qty"
+                    label="Qty"
+                    //customFeedbackLabel="Please enter Price"
+                  />
+                </div>
+              </div>
+              <div className="form-group row">
+                <div className="col-lg-4">
+                  <Field
+                    disabled
+                    type="number"
+                    name="totalAmount"
+                    component={Input}
+                    placeholder="Amount"
+                    label="Bill Amount"
                     customFeedbackLabel="Please enter Price"
                   />
                 </div>
-              </div>
-              <div className="form-group row">
                 <div className="col-lg-4">
                   <Field
-                    name="VINCode"
+                    disabled
+                    type="number"
+                    name="totalTaxAmount"
                     component={Input}
-                    placeholder="VIN code"
-                    label="VIN code"
+                    placeholder="Taxes"
+                    label="Total Taxes"
+                    customFeedbackLabel="Please enter Taxes"
                   />
                 </div>
                 <div className="col-lg-4">
-                  <Select name="status" label="Status">
-                    {ProductStatusTitles.map((status, index) => (
-                      <option key={status} value={index}>
-                        {status}
-                      </option>
-                    ))}
-                  </Select>
-                </div>
-                <div className="col-lg-4">
-                  <Select name="condition" label="Condition">
-                    {ProductConditionTitles.map((condition, index) => (
-                      <option key={condition} value={index}>
-                        {condition}
-                      </option>
-                    ))}
-                  </Select>
+                  <Field
+                    disabled
+                    type="number"
+                    name="totalDiscount"
+                    component={Input}
+                    placeholder="Discounts"
+                    label="Discounts"
+                    customFeedbackLabel="Please enter Discounts"
+                  />
                 </div>
               </div>
-              <div className="form-group">
-                <label>Description</label>
-                <Field
-                  name="description"
-                  as="textarea"
-                  className="form-control"
-                />
-              </div>
+
               <button
                 type="submit"
                 style={{ display: "none" }}

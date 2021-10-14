@@ -5,6 +5,7 @@ import { BASE_URL } from '../../../../../_estore/URLConstants'
 //invoice
 
 export const API_URL = BASE_URL + '/api/invoices'
+export const API_URL_Product = BASE_URL + '/api/productItems'
 export const API_URL_Item = BASE_URL + '/api/invoiceItems'
 export const API_URL_Payment = BASE_URL + '/api/invoicePayments'
 
@@ -18,6 +19,12 @@ export async function createInvoice(invoice) {
 // READ
 export function getAllInvoices() {
   return axios.get(API_URL) //.catch(function (error){console.log(error)});
+}
+export function GetProductStockViews(){
+  return axios.get(API_URL_Product+"/productStockViews");
+}
+export function GetProductStockView(id){
+  return axios.get(API_URL_Product+"/productStockView?id="+id);
 }
 export function getAllInvoiceItem()
 {
