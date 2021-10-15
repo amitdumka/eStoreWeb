@@ -2,7 +2,7 @@
 // Data validation is based on Yup
 // Please, be familiar with article first:
 // https://hackernoon.com/react-form-validation-with-formik-and-yup-8b76bda62e10
-import React from "react";
+import React ,{Component}from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { Input, Select } from "../../../../../../_metronic/_partials/controls";
@@ -12,6 +12,8 @@ import {
   ProductStatusTitles,
   ProductConditionTitles,
 } from "../ProductsUIHelpers";
+
+import { GridComponent, ColumnsDirective, ColumnDirective, Page, Toolbar, Edit, Inject } from '@syncfusion/ej2-react-grids';
 
 // Validation schema
 const ProductEditSchema = Yup.object().shape({
@@ -55,20 +57,30 @@ const initData = {
 };
 
 export function ProductEditForm({ product, btnRef, saveProduct }) {
-  let pItems=[];
-  const AddPItem=(item)=>{
-    pItems.push({barcode:item.barcode,qty:item.qty, basicPrice:item.price, discount:item.discount, tax:item.tax });
+  let pItems = [];
+  const AddPItem = (item) => {
+    pItems.push({
+      barcode: item.barcode,
+      qty: item.qty,
+      basicPrice: item.price,
+      discount: item.discount,
+      tax: item.tax,
+    });
+  };
 
-  }
-
-  const FetchPItem=({barcode})=>{
-      // Need to redux for productItem+stock or ProductStockView
-      //Like
-      const ProductStockView={
-        barcode:"", mrp:0, stock:0,taxRate:5, ProductCategory:"Fabric", productName:"Shirting Tersca White", 
-        Unit:"Metres"
-      };
-  }
+  const FetchPItem = ({ barcode }) => {
+    // Need to redux for productItem+stock or ProductStockView
+    //Like
+    const ProductStockView = {
+      barcode: "",
+      mrp: 0,
+      stock: 0,
+      taxRate: 5,
+      ProductCategory: "Fabric",
+      productName: "Shirting Tersca White",
+      Unit: "Metres",
+    };
+  };
 
   return (
     <>
@@ -163,6 +175,52 @@ export function ProductEditForm({ product, btnRef, saveProduct }) {
                 </div>
               </div>
 
+              <div className="row">
+                <h4>Add Item</h4>
+              </div>
+              <div className="form-group row">
+                {/* Add item controls */}
+
+                <div className="col-lg-12">
+                  <Field
+                    name="barcode"
+                    component={Input}
+                    label="Barcode"
+                    placeholder="Barcode"
+                  />
+                  <Field
+                    name="qty"
+                    component={Input}
+                    label="Qty"
+                    placeholder="Qty"
+                  />
+                  <Field
+                    name="mrp"
+                    component={Input}
+                    label="MRP"
+                    placeholder="MRP"
+                    disabled
+                  />
+                  <Field
+                    name="discount"
+                    component={Input}
+                    label="Discount"
+                    placeholder="Discount"
+                  />
+                  <Field
+                    name="netAmount"
+                    component={Input}
+                    label="Amount"
+                    placeholder="Amount"
+                  />
+                  <button
+                    type="button"
+                    style={{ display: "none" }}
+                    ref={btnRef}
+                    onClick={() => handleSubmit()}
+                  ></button>
+                </div>
+              </div>
               <button
                 type="submit"
                 style={{ display: "none" }}
@@ -170,9 +228,39 @@ export function ProductEditForm({ product, btnRef, saveProduct }) {
                 onSubmit={() => handleSubmit()}
               ></button>
             </Form>
+            <div className="table-danger"></div>
           </>
         )}
       </Formik>
+      <InvoiceDetailForm dataModel={pItems}/>
     </>
   );
+}
+
+export default class InvoiceDetailForm extends Component {
+  constructor() {
+    super(...arguments);
+    this.toolbarOptions = ['Add', 'Edit', 'Delete'];
+    this.editSettings = { allowEditing: true, allowAdding: true, allowDeleting: true, mode: 'Dialog' };
+    this.editparams = { params: { popupHeight: '300px' } };
+    this.validationRules = { required: true };
+    this.orderidRules = { required: true, number: true };
+    this.pageSettings = { pageCount: 5 };
+}
+  render() {
+    return (<div className='control-pane'>
+    <div className='control-section'>
+      <GridComponent dataSource={this.params.dataModel} toolbar={this.toolbarOptions} allowPaging={true} editSettings={this.editSettings} pageSettings={this.pageSettings}>
+        <ColumnsDirective>
+          <ColumnDirective field='OrderID' headerText='Order ID' width='120' textAlign='Right' validationRules={this.orderidRules} isPrimaryKey={true}></ColumnDirective>
+          <ColumnDirective field='CustomerName' headerText='Customer Name' width='150' validationRules={this.validationRules}></ColumnDirective>
+          <ColumnDirective field='Freight' headerText='Freight' width='120' format='C2' textAlign='Right' editType='numericedit'></ColumnDirective>
+          <ColumnDirective field='OrderDate' headerText='Order Date' editType='datepickeredit' format='yMd' width='170'></ColumnDirective>
+          <ColumnDirective field='ShipCountry' headerText='Ship Country' width='150' editType='dropdownedit' edit={this.editparams}></ColumnDirective>
+        </ColumnsDirective>
+        <Inject services={[Page, Toolbar, Edit]}/>
+      </GridComponent>
+    </div>
+  </div>);
+}
 }
