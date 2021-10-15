@@ -9,6 +9,7 @@
     "@syncfusion/ej2-react-notifications": "^19.3.43",
     "@syncfusion/ej2-react-popups": "^19.3.43",
     "@syncfusion/ej2-react-querybuilder": "^19.3.45",
-    "@syncfusion/ej2-react-splitbuttons": "^19.3.45"
+    "@syncfusion/ej2-react-splitbuttons": "^19.3.45",
+    "devextreme-react": "^21.1.6"
   }
 }
