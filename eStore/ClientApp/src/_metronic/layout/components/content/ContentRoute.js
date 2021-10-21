@@ -3,6 +3,7 @@ import {Route} from "react-router-dom";
 import {Content} from "./Content";
 
 export function ContentRoute({ children, component, render, ...props }) {
+  
   return (
     <Route {...props}>
       {routeProps => {

@@ -1,7 +1,6 @@
 import React from "react";
 import { Route } from "react-router-dom";
 import { DataLoadingDialog } from "./dialogs/LoadingDailog";
-import { EditDialog } from "./dialogs/EditDialog";
 import { DeleteDialog } from "./dialogs/DeleteDialog";
 import { UIProvider } from "./UIContext";
 import { ViewCard } from "./ViewCard";
@@ -34,11 +33,11 @@ export function InvoicesPage({ history }) {
       history.push(path + "updateStatus");
     },
   };
-
+  
   return (
     <UIProvider UIEvents={uiEvents}>
       <DataLoadingDialog />
-      <Route path={`${path}new`}>
+      {/* <Route path={`${path}new`}>
         {({ history, match }) => (
           <EditDialog
             show={match != null}
@@ -47,7 +46,7 @@ export function InvoicesPage({ history }) {
             }}
           />
         )}
-      </Route>
+      </Route> 
       <Route path={`${path}:id/edit`}>
         {({ history, match }) => (
           <EditDialog
@@ -58,7 +57,7 @@ export function InvoicesPage({ history }) {
             }}
           />
         )}
-      </Route>
+      </Route>*/}
       {/** Here make changes to open Payment Dialog */}
       <Route path={`${path}payments/:keyFieldValue/:payMode`}>
         {({ history, match }) => (
@@ -89,7 +88,7 @@ export function InvoicesPage({ history }) {
   );
 }
 
-//mport { ToastComponent } from '@syncfusion/ej2-react-notifications';
+//import { ToastComponent } from '@syncfusion/ej2-react-notifications';
 
 // export function AKNotify({ title, msg, icon }) {
 //   const position = { X: "Right" };

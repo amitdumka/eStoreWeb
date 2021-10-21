@@ -2,62 +2,32 @@
 // Data validation is based on Yup
 // Please, be familiar with article first:
 // https://hackernoon.com/react-form-validation-with-formik-and-yup-8b76bda62e10
-import React ,{Component}from "react";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import { Input, Select } from "../../../../../../_metronic/_partials/controls";
+import React, { Component } from 'react'
+import { Formik, Form, Field } from 'formik'
+import * as Yup from 'yup'
+import { Input, Select,DatePickerField } from '../../../../../../../_metronic/_partials/controls';
 import {
-  AVAILABLE_COLORS,
-  AVAILABLE_MANUFACTURES,
-  ProductStatusTitles,
-  ProductConditionTitles,
-} from "../ProductsUIHelpers";
-
-import { GridComponent, ColumnsDirective, ColumnDirective, Page, Toolbar, Edit, Inject } from '@syncfusion/ej2-react-grids';
+  GridComponent,
+  ColumnsDirective,
+  ColumnDirective,
+  Page,
+  Toolbar,
+  Edit,
+  Inject,
+} from '@syncfusion/ej2-react-grids'
 
 // Validation schema
-const ProductEditSchema = Yup.object().shape({
-  model: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(50, "Maximum 50 symbols")
-    .required("Model is required"),
-  manufacture: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(50, "Maximum 50 symbols")
-    .required("Manufacture is required"),
-  modelYear: Yup.number()
-    .min(1950, "1950 is minimum")
-    .max(2020, "2020 is maximum")
-    .required("Model year is required"),
-  mileage: Yup.number()
-    .min(0, "0 is minimum")
-    .max(1000000, "1000000 is maximum")
-    .required("Mileage is required"),
-  color: Yup.string().required("Color is required"),
-  price: Yup.number()
-    .min(1, "$1 is minimum")
-    .max(1000000, "$1000000 is maximum")
-    .required("Price is required"),
-  VINCode: Yup.string().required("VINCode is required"),
-});
+const InvoiceEditSchema = Yup.object().shape({
+  mobileNo: Yup.string().required('Mobile Number is required'),
+  customerName: Yup.string().required('Customer Name is required'),
+  onDate:Yup.date().required("Date is required"),
+  totalAmount: Yup.number().required('Total Amount is required'),
+  totalTaxAmount: Yup.number().required('Total Tax is required'),
+  totalQty: Yup.number("Qty should be numeric").min(1,"Qty should be more than zero").required("Qty is required"),
+})
 
-const initData = {
-  //invoiceNumber: "",
-  //onDate: new Date(),
-  //customerId: 1,
-  //customer: null,
-  //totalAmount: 0,
-  //totalTaxAmount: 0,
-  //totalDiscount: 0,
-  //roundOff: 0,
-  //totalQty: 0,
-  //invoiceType: 0,
-  //payment: null,
-  //invoiceItems: null,
-};
-
-export function ProductEditForm({ product, btnRef, saveProduct }) {
-  let pItems = [];
+export function ProductEditForm({ invoice, btnRef, saveProduct }) {
+  let pItems = []
   const AddPItem = (item) => {
     pItems.push({
       barcode: item.barcode,
@@ -65,82 +35,75 @@ export function ProductEditForm({ product, btnRef, saveProduct }) {
       basicPrice: item.price,
       discount: item.discount,
       tax: item.tax,
-    });
-  };
+    })
+  }
 
   const FetchPItem = ({ barcode }) => {
     // Need to redux for productItem+stock or ProductStockView
     //Like
     const ProductStockView = {
-      barcode: "",
+      barcode: '',
       mrp: 0,
       stock: 0,
       taxRate: 5,
-      ProductCategory: "Fabric",
-      productName: "Shirting Tersca White",
-      Unit: "Metres",
-    };
-  };
+      ProductCategory: 'Fabric',
+      productName: 'Shirting Tersca White',
+      Unit: 'Metres',
+    }
+  }
 
   return (
     <>
       <Formik
         enableReinitialize={true}
-        initialValues={product}
-        validationSchema={ProductEditSchema}
+        initialValues={invoice}
+        validationSchema={InvoiceEditSchema}
         onSubmit={(values) => {
-          saveProduct(values);
+          saveProduct(values)
         }}
       >
         {({ handleSubmit }) => (
           <>
             <Form className="form form-label-right">
+
+            {/* Invoice Details */}
               <div className="form-group row">
+               
                 <div className="col-lg-4">
-                  <Field
+                  {/* <Field
                     name="onDate"
                     type="date"
                     component={Input}
                     placeholder="Date"
                     label="Date"
-                  />
+                  /> */}
+                   <DatePickerField
+                      dateFormat="yyyy-MM-dd"
+                      name="onDate"
+                      label="Date"
+                    />
                 </div>
-
                 <div className="col-lg-4">
                   <Field
-                    //type="number"
-                    name="customerName"
-                    component={Input}
-                    placeholder="Customer Name"
-                    label="Customer Name"
-                  />
-                </div>
-              </div>
-              <div className="form-group row">
-                <div className="col-lg-4">
-                  <Field
-                    //type="number"
                     name="mobileNo"
                     component={Input}
                     placeholder="Mobile No"
                     label="Contact"
                   />
                 </div>
-
                 <div className="col-lg-4">
                   <Field
-                    disabled
-                    type="number"
-                    name="totalQty"
+                    name="customerName"
                     component={Input}
-                    placeholder="Qty"
-                    label="Qty"
-                    //customFeedbackLabel="Please enter Price"
+                    placeholder="Customer Name"
+                    label="Customer Name"
                   />
                 </div>
+                
               </div>
+              {/* Invoice content details */}
               <div className="form-group row">
-                <div className="col-lg-4">
+                <div className="col-lg-3">
                   <Field
                     disabled
                     type="number"
@@ -148,10 +111,10 @@ export function ProductEditForm({ product, btnRef, saveProduct }) {
                     component={Input}
                     placeholder="Amount"
                     label="Bill Amount"
-                    customFeedbackLabel="Please enter Price"
+                    customFeedbackLabel=" "
                   />
                 </div>
-                <div className="col-lg-4">
+                <div className="col-lg-3">
                   <Field
                     disabled
                     type="number"
@@ -159,10 +122,10 @@ export function ProductEditForm({ product, btnRef, saveProduct }) {
                     component={Input}
                     placeholder="Taxes"
                     label="Total Taxes"
-                    customFeedbackLabel="Please enter Taxes"
+                    customFeedbackLabel=" "
                   />
                 </div>
-                <div className="col-lg-4">
+                <div className="col-lg-3">
                   <Field
                     disabled
                     type="number"
@@ -170,7 +133,15 @@ export function ProductEditForm({ product, btnRef, saveProduct }) {
                     component={Input}
                     placeholder="Discounts"
                     label="Discounts"
-                    customFeedbackLabel="Please enter Discounts"
+                    customFeedbackLabel=" "
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <Field disabled
+                    name="totalQty"
+                    component={Input}
+                    placeholder="Qty"
+                    label="Qty"
                   />
                 </div>
               </div>
@@ -178,52 +149,56 @@ export function ProductEditForm({ product, btnRef, saveProduct }) {
               <div className="row">
                 <h4>Add Item</h4>
               </div>
-              <div className="form-group row">
+              <div className="form-group  row border rounded border-primary  ">
                 {/* Add item controls */}
 
-                <div className="col-lg-12">
-                  <Field
+                {/* <div className="col-lg-12 inline"> */}
+                <div className="col-sm-2 inline text-center">
+                  <Field 
                     name="barcode"
                     component={Input}
                     label="Barcode"
                     placeholder="Barcode"
                   />
+                   <button type="button" className="btn btn-primary btn-sm">S</button>
+                  </div>
+                  
+                   <div className="col-sm-2 ">
                   <Field
                     name="qty"
                     component={Input}
                     label="Qty"
                     placeholder="Qty"
-                  />
+                  /></div>
+                   <div className="col-lg-2">
                   <Field
                     name="mrp"
                     component={Input}
                     label="MRP"
                     placeholder="MRP"
                     disabled
-                  />
+                  /></div>
+                   <div className="col-lg-2">
                   <Field
                     name="discount"
                     component={Input}
                     label="Discount"
                     placeholder="Discount"
-                  />
+                  /></div>
+                   <div className="col-lg-2">
                   <Field
                     name="netAmount"
                     component={Input}
                     label="Amount"
                     placeholder="Amount"
-                  />
-                  <button
-                    type="button"
-                    style={{ display: "none" }}
-                    ref={btnRef}
-                    onClick={() => handleSubmit()}
-                  ></button>
-                </div>
+                  /></div>
+                   <div className="col-lg-2 p-7">
+                  <button type="button" className="btn btn-primary">Add</button></div>
+                {/* </div> */}
               </div>
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
@@ -232,35 +207,79 @@ export function ProductEditForm({ product, btnRef, saveProduct }) {
           </>
         )}
       </Formik>
-      <InvoiceDetailForm dataModel={pItems}/>
+      {/* <InvoiceDetailForm dataModel={pItems} /> */}
     </>
-  );
+  )
 }
 
 export default class InvoiceDetailForm extends Component {
   constructor() {
-    super(...arguments);
-    this.toolbarOptions = ['Add', 'Edit', 'Delete'];
-    this.editSettings = { allowEditing: true, allowAdding: true, allowDeleting: true, mode: 'Dialog' };
-    this.editparams = { params: { popupHeight: '300px' } };
-    this.validationRules = { required: true };
-    this.orderidRules = { required: true, number: true };
-    this.pageSettings = { pageCount: 5 };
-}
+    super(...arguments)
+    this.toolbarOptions = ['Add', 'Edit', 'Delete']
+    this.editSettings = {
+      allowEditing: true,
+      allowAdding: true,
+      allowDeleting: true,
+      mode: 'Dialog',
+    }
+    this.editparams = { params: { popupHeight: '300px' } }
+    this.validationRules = { required: true }
+    this.orderidRules = { required: true, number: true }
+    this.pageSettings = { pageCount: 5 }
+  }
   render() {
-    return (<div className='control-pane'>
-    <div className='control-section'>
-      <GridComponent dataSource={this.params.dataModel} toolbar={this.toolbarOptions} allowPaging={true} editSettings={this.editSettings} pageSettings={this.pageSettings}>
-        <ColumnsDirective>
-          <ColumnDirective field='OrderID' headerText='Order ID' width='120' textAlign='Right' validationRules={this.orderidRules} isPrimaryKey={true}></ColumnDirective>
-          <ColumnDirective field='CustomerName' headerText='Customer Name' width='150' validationRules={this.validationRules}></ColumnDirective>
-          <ColumnDirective field='Freight' headerText='Freight' width='120' format='C2' textAlign='Right' editType='numericedit'></ColumnDirective>
-          <ColumnDirective field='OrderDate' headerText='Order Date' editType='datepickeredit' format='yMd' width='170'></ColumnDirective>
-          <ColumnDirective field='ShipCountry' headerText='Ship Country' width='150' editType='dropdownedit' edit={this.editparams}></ColumnDirective>
-        </ColumnsDirective>
-        <Inject services={[Page, Toolbar, Edit]}/>
-      </GridComponent>
-    </div>
-  </div>);
-}
+    return (
+      <div className="control-pane">
+        <div className="control-section">
+          <GridComponent
+            dataSource={this.params.dataModel}
+            toolbar={this.toolbarOptions}
+            allowPaging={true}
+            editSettings={this.editSettings}
+            pageSettings={this.pageSettings}
+          >
+            <ColumnsDirective>
+              <ColumnDirective
+                field="OrderID"
+                headerText="Order ID"
+                width="120"
+                textAlign="Right"
+                validationRules={this.orderidRules}
+                isPrimaryKey={true}
+              ></ColumnDirective>
+              <ColumnDirective
+                field="CustomerName"
+                headerText="Customer Name"
+                width="150"
+                validationRules={this.validationRules}
+              ></ColumnDirective>
+              <ColumnDirective
+                field="Freight"
+                headerText="Freight"
+                width="120"
+                format="C2"
+                textAlign="Right"
+                editType="numericedit"
+              ></ColumnDirective>
+              <ColumnDirective
+                field="OrderDate"
+                headerText="Order Date"
+                editType="datepickeredit"
+                format="yMd"
+                width="170"
+              ></ColumnDirective>
+              <ColumnDirective
+                field="ShipCountry"
+                headerText="Ship Country"
+                width="150"
+                editType="dropdownedit"
+                edit={this.editparams}
+              ></ColumnDirective>
+            </ColumnsDirective>
+            <Inject services={[Page, Toolbar, Edit]} />
+          </GridComponent>
+        </div>
+      </div>
+    )
+  }
 }

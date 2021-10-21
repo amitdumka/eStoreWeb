@@ -75,10 +75,10 @@ export default function SalesMenu({ layoutProps }) {
                   {/*begin::3 Level*/}
                   <li
                     className={`menu-item ${getMenuItemActive(
-                      "/sales/invoices"
+                      "/sales/manualInvoices"
                     )}`}
                   >
-                    <NavLink className="menu-link" to="/sales/invoices">
+                    <NavLink className="menu-link" to="/sales/manualInvoices">
                       <i className="menu-bullet menu-bullet-dot">
                         <span />
                       </i>

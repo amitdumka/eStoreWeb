@@ -49,8 +49,8 @@ export default function PaymentsDialog({ id, show, onHide, payMode }) {
 
   //invoiceForEdit && setCurPayMode(invoiceForEdit.payMode);
   //payMode  && console.log("PayMode= "+payMode);
-  console.log(`iD=${id} \t Mode=${payMode}`);
-  console.log(onHide);
+  //console.log(`iD=${id} \t Mode=${payMode}`);
+  //console.log(onHide);
 
   const ShowEditForm = ({ payMode }) => {
     //{ Cash, Card, RTGS, NEFT, IMPS, Wallets, Cheques, DemandDraft, Points, Others, Coupons, MixPayments, UPI }
@@ -154,8 +154,8 @@ export default function PaymentsDialog({ id, show, onHide, payMode }) {
           </>
         ); //UPI
       default:
-        console.log("PayMode= " + payMode);
-      //return (<></>);
+      //  console.log("PayMode= " + payMode);
+      return (<></>);
     }
   };
   return (

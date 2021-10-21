@@ -25,6 +25,7 @@ export function DataTable(keyFieldName) {
   //UI Context
   const uiContext = useUIContext();
   const uiProps = useMemo(() => {
+    
     return {
       ids: uiContext.ids,
       setIds: uiContext.setIds,

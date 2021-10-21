@@ -31,9 +31,7 @@ const DailySaleEditSchema = Yup.object().shape({
   payMode: Yup.number().required("Payment Mode is required"),
   cashAmount: Yup.number()
   .integer()
-  .moreThan(0)
   .positive()
-  .min(1)
   .required("Cash Amount is required"),
   remarks: Yup.string().required("DailySale details is required"),
   storeId: Yup.number().moreThan(0).required("Select Store "),

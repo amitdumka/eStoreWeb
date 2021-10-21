@@ -2,27 +2,34 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react'
 import { useDispatch } from 'react-redux'
 import { shallowEqual, useSelector } from 'react-redux'
-import * as actions from '../../../_redux/invoices/invoicesActions'
+import * as actions from '../../../../_redux/Invoices/Actions'
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from '../../../../../../_metronic/_partials/controls'
-import { InvoiceEditForm } from './InvoiceEditForm'
-import { Specifications } from '../invoice-specifications/Specifications'
-import { SpecificationsUIProvider } from '../invoice-specifications/SpecificationsUIContext'
-import { useSubheader } from '../../../../../../_metronic/layout'
-import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls'
-import { RemarksUIProvider } from '../invoice-remarks/RemarksUIContext'
-import { Remarks } from '../invoice-remarks/Remarks'
-import { Modal } from 'react-bootstrap'
-//import { shallowEqual, //, useSelector } from "react-redux";
-//import * as actions from "../../../_redux/Invoices/Actions";
-import * as cActions from '../../../../_redux/Actions'
-import { EditDialogHeader } from './EditDialogHeader'
-import { EditForm } from './EditForm'
-import { useUIContext } from '../UIContext'
+} from '../../../../../../../_metronic/_partials/controls'
+
+import { useSubheader } from '../../../../../../../_metronic/layout'
+import { ModalProgressBar } from '../../../../../../../_metronic/_partials/controls'
+import * as cActions from '../../../../../_redux/Actions'
+import { useUIContext } from '../../UIContext'
+import { ProductEditForm } from './InvoiceEditForm'
+
+const initData = {
+  onDate: new Date(),
+  customerName:'',
+  mobileNo:'',
+  totalAmount: 0,
+  totalTaxAmount: 0,
+  totalDiscount: 0,
+  roundOff: 0,
+  totalQty: 0,
+  invoiceType: 0,
+  payment: null,
+  invoiceItems: null,
+}
+
 
 export function InvoiceEditorPage({
   history,
@@ -30,19 +37,13 @@ export function InvoiceEditorPage({
     params: { id },
   },
 }) {
+  
   // Subheader
   const subHeader = useSubheader()
   // Tabs
-  const [tab, setTab] = useState('Invoice');
-  const [title, setTitle] = useState('');
-  // Invoices UI Context
-  const invoicesUIContext = useUIContext();
-  const invoicesUIProps = useMemo(() => {
-    return {
-      initInvoice: invoicesUIContext.initData,
-    };
-  }, [invoicesUIContext]);
-  const dispatch = useDispatch();
+  const [tab, setTab] = useState('Invoice')
+  const [title, setTitle] = useState('')
+  const dispatch = useDispatch()
   const {
     actionsLoading,
     invoiceForEdit,
@@ -153,22 +154,18 @@ export function InvoiceEditorPage({
 
         <div className="mt-5">
           {tab === 'Invoice' && (
-            <InvoiceEditForm
-              actionsLoading={actionsLoading}
-              //invoice={invoiceForEdit || initInvoice}
+            <ProductEditForm
+              //   actionsLoading={actionsLoading}
+              invoice={invoiceForEdit || initData}
               btnRef={btnRef}
-              saveInvoice={saveInvoice}
-              invoice={invoiceForEdit || invoicesUIProps.initInvoice}
-              salesmanList={salesmanList}
-              payModes={payModes}
-              storeList={storeList}
+              //   saveInvoice={saveInvoice}
+              //   invoice={invoiceForEdit || invoicesUIProps.initInvoice}
+              //   salesmanList={salesmanList}
+              //   payModes={payModes}
+              //   storeList={storeList}
             />
           )}
-          {tab === 'Payment' && id && (
-            <RemarksUIProvider currentInvoiceId={id}>
-              <Remarks />
-            </RemarksUIProvider>
-          )}
+          {tab === 'Payment' && <>Payment</>}
         </div>
       </CardBody>
     </Card>
