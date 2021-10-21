@@ -35,6 +35,13 @@ export function ViewCard() {
           >
             New {titleName}
           </button>
+          <button
+            type="button"
+            className="btn btn-warning ml-3"
+            onClick={uiProps.newButtonClick}
+          >
+            New  Sale Return
+          </button>
         </CardHeaderToolbar>
       </CardHeader>
       <CardBody>

@@ -46,10 +46,10 @@ export default function SalesMenu({ layoutProps }) {
                   {/*begin::3 Level*/}
                   <li
                     className={`menu-item ${getMenuItemActive(
-                      "/e-commerce/salesers"
+                      "/sales/salesers"
                     )}`}
                   >
-                    <NavLink className="menu-link" to="/e-commerce/salesers">
+                    <NavLink className="menu-link" to="/sales/salesers">
                       <i className="menu-bullet menu-bullet-dot">
                         <span />
                       </i>
@@ -61,10 +61,10 @@ export default function SalesMenu({ layoutProps }) {
                   {/*begin::3 Level*/}
                   <li
                     className={`menu-item ${getMenuItemActive(
-                      "/e-commerce/products"
+                      "/sales/invoices"
                     )}`}
                   >
-                    <NavLink className="menu-link" to="/e-commerce/products">
+                    <NavLink className="menu-link" to="/sales/invoices">
                       <i className="menu-bullet menu-bullet-dot">
                         <span />
                       </i>
@@ -75,10 +75,10 @@ export default function SalesMenu({ layoutProps }) {
                   {/*begin::3 Level*/}
                   <li
                     className={`menu-item ${getMenuItemActive(
-                      "/e-commerce/products"
+                      "/sales/invoices"
                     )}`}
                   >
-                    <NavLink className="menu-link" to="/e-commerce/products">
+                    <NavLink className="menu-link" to="/sales/invoices">
                       <i className="menu-bullet menu-bullet-dot">
                         <span />
                       </i>
@@ -90,10 +90,10 @@ export default function SalesMenu({ layoutProps }) {
                   {/*begin::3 Level*/}
                   <li
                     className={`menu-item ${getMenuItemActive(
-                      "/e-commerce/products"
+                      "/sales/products"
                     )}`}
                   >
-                    <NavLink className="menu-link" to="/e-commerce/products">
+                    <NavLink className="menu-link" to="/sales/products">
                       <i className="menu-bullet menu-bullet-dot">
                         <span />
                       </i>
@@ -124,10 +124,10 @@ export default function SalesMenu({ layoutProps }) {
                   {/*begin::3 Level*/}
                   <li
                     className={`menu-item ${getMenuItemActive(
-                      "/e-commerce/salesers"
+                      "/sales/salesers"
                     )}`}
                   >
-                    <NavLink className="menu-link" to="/e-commerce/salesers">
+                    <NavLink className="menu-link" to="/sales/salesers">
                       <i className="menu-bullet menu-bullet-dot">
                         <span />
                       </i>
@@ -139,10 +139,10 @@ export default function SalesMenu({ layoutProps }) {
                   {/*begin::3 Level*/}
                   <li
                     className={`menu-item ${getMenuItemActive(
-                      "/e-commerce/products"
+                      "/sales/products"
                     )}`}
                   >
-                    <NavLink className="menu-link" to="/e-commerce/products">
+                    <NavLink className="menu-link" to="/sales/products">
                       <i className="menu-bullet menu-bullet-dot">
                         <span />
                       </i>
@@ -153,10 +153,10 @@ export default function SalesMenu({ layoutProps }) {
                   {/*begin::3 Level*/}
                   <li
                     className={`menu-item ${getMenuItemActive(
-                      "/e-commerce/products"
+                      "/sales/products"
                     )}`}
                   >
-                    <NavLink className="menu-link" to="/e-commerce/products">
+                    <NavLink className="menu-link" to="/sales/products">
                       <i className="menu-bullet menu-bullet-dot">
                         <span />
                       </i>
@@ -168,10 +168,10 @@ export default function SalesMenu({ layoutProps }) {
                   {/*begin::3 Level*/}
                   <li
                     className={`menu-item ${getMenuItemActive(
-                      "/e-commerce/products"
+                      "/sales/products"
                     )}`}
                   >
-                    <NavLink className="menu-link" to="/e-commerce/products">
+                    <NavLink className="menu-link" to="/sales/products">
                       <i className="menu-bullet menu-bullet-dot">
                         <span />
                       </i>
