@@ -16,7 +16,7 @@ import {
   ColumnDirective,
   Page,
   Toolbar,
-  Edit,
+  Edit,Filter,
   Inject,
 } from '@syncfusion/ej2-react-grids'
 import { enableRipple } from '@syncfusion/ej2-base'
@@ -241,7 +241,7 @@ export class SyncfusionBase extends React.PureComponent {
 export default class InvoiceDetailForm extends SyncfusionBase {
   constructor() {
     super(...arguments)
-    this.toolbarOptions = ['Add', 'Edit', 'Delete']
+    this.toolbarOptions = ['Add', 'Edit', 'Delete','Search']
     this.editSettings = {
       allowEditing: true,
       allowAdding: true,
@@ -251,8 +251,8 @@ export default class InvoiceDetailForm extends SyncfusionBase {
     }
     this.editparams = { params: { popupHeight: '300px' } }
     this.validationRules = { required: true }
-    this.orderidRules = { required: true }
-    this.pageSettings = { pageCount: 5 }
+    this.orderidRules = { required: true ,number:true}
+    this.pageSettings = {pageSize:5, pageCount: 5 }
   }
   dialogTemplate(props) {
     return <DialogItemForm {...props} />
@@ -272,10 +272,12 @@ export default class InvoiceDetailForm extends SyncfusionBase {
           <GridComponent
             dataSource={this.props.dataModel}
             toolbar={this.toolbarOptions}
-            allowPaging={false}
+            allowPaging={true}
+            allowFiltering={true}
+            filterSettings={{ type: 'Check' }}
             editSettings={this.editSettings}
             pageSettings={this.pageSettings}
-            gridLines='Both'
+            
           >
             <ColumnsDirective>
               <ColumnDirective
@@ -283,15 +285,16 @@ export default class InvoiceDetailForm extends SyncfusionBase {
                 headerText="Barcode"
                 width="180"
                 textAlign="Center"
-                // validationRules={this.orderidRules}
-                //  editType="textedit"
+                 validationRules={this.validationRules}
+                  editType="textedit"
                 isPrimaryKey={true}
               ></ColumnDirective>
               <ColumnDirective
+                 editType="numericedit"
                 field="qty"
                 headerText="Qty"
                 width="120"
-                // validationRules={this.validationRules}
+                 validationRules={this.orderidRules}
               ></ColumnDirective>
               <ColumnDirective
                 field="basicPrice"
@@ -299,14 +302,15 @@ export default class InvoiceDetailForm extends SyncfusionBase {
                 width="120"
                 format="C2"
                 textAlign="Center"
-                // editType="numericedit"
+                 editType="numericedit"
               ></ColumnDirective>
               <ColumnDirective
                 field="discount"
                 headerText="Discount"
                 format="C2"
-                // editType="numericedit"
+                 editType="numericedit"
                 width="120"
+                validationRules={this.orderidRules}
                 textAlign="Center"
               ></ColumnDirective>
               <ColumnDirective
@@ -315,10 +319,10 @@ export default class InvoiceDetailForm extends SyncfusionBase {
                 headerText="Tax"
                 width="150"
                 textAlign="Center"
-                // editType="numericedit"
+                 editType="numericedit"
               ></ColumnDirective>
             </ColumnsDirective>
-            <Inject services={[Page, Toolbar, Edit]} />
+            <Inject services={[Filter,Page, Toolbar, Edit]} />
           </GridComponent>
         </div>
       </div>
