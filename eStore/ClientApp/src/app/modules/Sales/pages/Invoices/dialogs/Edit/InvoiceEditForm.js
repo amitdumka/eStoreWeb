@@ -16,7 +16,8 @@ import {
   ColumnDirective,
   Page,
   Toolbar,
-  Edit,Filter,
+  Edit,
+  Filter,
   Inject,
 } from '@syncfusion/ej2-react-grids'
 import { enableRipple } from '@syncfusion/ej2-base'
@@ -241,18 +242,18 @@ export class SyncfusionBase extends React.PureComponent {
 export default class InvoiceDetailForm extends SyncfusionBase {
   constructor() {
     super(...arguments)
-    this.toolbarOptions = ['Add', 'Edit', 'Delete','Search']
+    this.toolbarOptions = ['Add', 'Edit', 'Delete', 'Search']
     this.editSettings = {
       allowEditing: true,
       allowAdding: true,
       allowDeleting: true,
       mode: 'Dialog',
-     // template: this.dialogTemplate,
+      // template: this.dialogTemplate,
     }
     this.editparams = { params: { popupHeight: '300px' } }
     this.validationRules = { required: true }
-    this.orderidRules = { required: true ,number:true}
-    this.pageSettings = {pageSize:5, pageCount: 5 }
+    this.orderidRules = { required: true, number: true }
+    this.pageSettings = { pageSize: 5, pageCount: 5 }
   }
   dialogTemplate(props) {
     return <DialogItemForm {...props} />
@@ -277,7 +278,6 @@ export default class InvoiceDetailForm extends SyncfusionBase {
             filterSettings={{ type: 'Check' }}
             editSettings={this.editSettings}
             pageSettings={this.pageSettings}
-            
           >
             <ColumnsDirective>
               <ColumnDirective
@@ -285,16 +285,16 @@ export default class InvoiceDetailForm extends SyncfusionBase {
                 headerText="Barcode"
                 width="180"
                 textAlign="Center"
-                 validationRules={this.validationRules}
-                  editType="textedit"
+                validationRules={this.validationRules}
+                editType="textedit"
                 isPrimaryKey={true}
               ></ColumnDirective>
               <ColumnDirective
-                 editType="numericedit"
+                editType="numericedit"
                 field="qty"
                 headerText="Qty"
                 width="120"
-                 validationRules={this.orderidRules}
+                validationRules={this.orderidRules}
               ></ColumnDirective>
               <ColumnDirective
                 field="basicPrice"
@@ -302,13 +302,13 @@ export default class InvoiceDetailForm extends SyncfusionBase {
                 width="120"
                 format="C2"
                 textAlign="Center"
-                 editType="numericedit"
+                editType="numericedit"
               ></ColumnDirective>
               <ColumnDirective
                 field="discount"
                 headerText="Discount"
                 format="C2"
-                 editType="numericedit"
+                editType="numericedit"
                 width="120"
                 validationRules={this.orderidRules}
                 textAlign="Center"
@@ -319,10 +319,10 @@ export default class InvoiceDetailForm extends SyncfusionBase {
                 headerText="Tax"
                 width="150"
                 textAlign="Center"
-                 editType="numericedit"
+                editType="numericedit"
               ></ColumnDirective>
             </ColumnsDirective>
-            <Inject services={[Filter,Page, Toolbar, Edit]} />
+            <Inject services={[Filter, Page, Toolbar, Edit]} />
           </GridComponent>
         </div>
       </div>
@@ -410,4 +410,83 @@ export class DialogItemForm extends React.Component {
       </div>
     )
   }
+}
+
+export function PaymentForm({ invoiceNumber, onDate, payModes, edcList }) {
+  return (
+    <>
+      <Formik
+        enableReinitialize={true}
+        //initialValues={payment}
+        // validationSchema={PaymentEditSchema}
+        onSubmit={(values) => {
+          //saveData(values);
+        }}
+      >
+        {({ handleSubmit }) => (
+          <>
+            <Form className="form form-label-right">
+            <div className="form-group row">
+              {/* Date of Invoice */}
+              <div className="col-lg-4">
+                    <label className="text-info">
+                      On Date : {onDate && onDate}
+                    </label>
+                  </div>
+                  {/* Invoice No */}
+                  <div className="col-lg-4">
+                    <label className="text-danger">
+                      Invoice No : {invoiceNumber && invoiceNumber}
+                    </label>
+                  </div>
+            </div>
+
+              <div className="form-group row">
+                {/* PayMode */}
+                <div className="col-lg-4">
+                  <Select name="payModes" label="Payment Mode">
+                    {payModes &&
+                      payModes.map((item) => (
+                        <option key={item.value} value={item.value}>
+                          {item.name}
+                        </option>
+                      ))}
+                  </Select>
+                </div>
+                {/* EDC */}
+                <div className="col-lg-4">
+                  <Select name="EDCId" label="EDC">
+                    {edcList &&
+                      edcList.map((item) => (
+                        <option key={item.eDCId} value={item.eDCId}>
+                          {item.eDCName}
+                        </option>
+                      ))}
+                  </Select>
+                </div>
+                 {/*  amount Name*/}
+                 <div className="col-lg-4">
+                    <Field
+                      name="amount"
+                      component={Input}
+                      placeholder="Amount"
+                      label="Amount"
+                    />
+                  </div>
+                  {/* cash amount Name*/}
+                 <div className="col-lg-4">
+                    <Field
+                      name="cashAmount"
+                      component={Input}
+                      placeholder="Cash Amount"
+                      label="Cash Amount"
+                    />
+                  </div>
+              </div>
+            </Form>
+          </>
+        )}
+      </Formik>
+    </>
+  )
 }
