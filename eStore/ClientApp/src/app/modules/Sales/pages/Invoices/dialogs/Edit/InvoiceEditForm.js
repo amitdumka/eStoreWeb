@@ -5,7 +5,11 @@
 import React, { Component } from 'react'
 import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
-import { Input, Select,DatePickerField } from '../../../../../../../_metronic/_partials/controls';
+import {
+  Input,
+  Select,
+  DatePickerField,
+} from '../../../../../../../_metronic/_partials/controls'
 import {
   GridComponent,
   ColumnsDirective,
@@ -15,17 +19,24 @@ import {
   Edit,
   Inject,
 } from '@syncfusion/ej2-react-grids'
-
+import { enableRipple } from '@syncfusion/ej2-base'
+import { NumericTextBoxComponent } from '@syncfusion/ej2-react-inputs'
+////import { DatePickerComponent } from '@syncfusion/ej2-react-calendars'
+//import { DropDownListComponent } from '@syncfusion/ej2-react-dropdowns'
+//import { DataUtil } from '@syncfusion/ej2-data'
+import { Browser, extend } from '@syncfusion/ej2-base'
 // Validation schema
 const InvoiceEditSchema = Yup.object().shape({
   mobileNo: Yup.string().required('Mobile Number is required'),
   customerName: Yup.string().required('Customer Name is required'),
-  onDate:Yup.date().required("Date is required"),
+  onDate: Yup.date().required('Date is required'),
   totalAmount: Yup.number().required('Total Amount is required'),
   totalTaxAmount: Yup.number().required('Total Tax is required'),
-  totalQty: Yup.number("Qty should be numeric").min(1,"Qty should be more than zero").required("Qty is required"),
+  totalQty: Yup.number('Qty should be numeric')
+    .min(1, 'Qty should be more than zero')
+    .required('Qty is required'),
 })
-
+enableRipple(true)
 export function ProductEditForm({ invoice, btnRef, saveProduct }) {
   let pItems = []
   const AddPItem = (item) => {
@@ -37,7 +48,6 @@ export function ProductEditForm({ invoice, btnRef, saveProduct }) {
       tax: item.tax,
     })
   }
-
   const FetchPItem = ({ barcode }) => {
     // Need to redux for productItem+stock or ProductStockView
     //Like
@@ -65,10 +75,8 @@ export function ProductEditForm({ invoice, btnRef, saveProduct }) {
         {({ handleSubmit }) => (
           <>
             <Form className="form form-label-right">
-
-            {/* Invoice Details */}
+              {/* Invoice Details */}
               <div className="form-group row">
-               
                 <div className="col-lg-4">
                   {/* <Field
                     name="onDate"
@@ -77,11 +85,11 @@ export function ProductEditForm({ invoice, btnRef, saveProduct }) {
                     placeholder="Date"
                     label="Date"
                   /> */}
-                   <DatePickerField
-                      dateFormat="yyyy-MM-dd"
-                      name="onDate"
-                      label="Date"
-                    />
+                  <DatePickerField
+                    dateFormat="yyyy-MM-dd"
+                    name="onDate"
+                    label="Date"
+                  />
                 </div>
                 <div className="col-lg-4">
                   <Field
@@ -99,7 +107,6 @@ export function ProductEditForm({ invoice, btnRef, saveProduct }) {
                     label="Customer Name"
                   />
                 </div>
-                
               </div>
               {/* Invoice content details */}
               <div className="form-group row">
@@ -137,7 +144,8 @@ export function ProductEditForm({ invoice, btnRef, saveProduct }) {
                   />
                 </div>
                 <div className="col-lg-3">
-                  <Field disabled
+                  <Field
+                    disabled
                     name="totalQty"
                     component={Input}
                     placeholder="Qty"
@@ -154,46 +162,55 @@ export function ProductEditForm({ invoice, btnRef, saveProduct }) {
 
                 {/* <div className="col-lg-12 inline"> */}
                 <div className="col-sm-2 inline text-center">
-                  <Field 
+                  <Field
                     name="barcode"
                     component={Input}
                     label="Barcode"
                     placeholder="Barcode"
                   />
-                   <button type="button" className="btn btn-primary btn-sm">S</button>
-                  </div>
-                  
-                   <div className="col-sm-2 ">
+                  <button type="button" className="btn btn-primary btn-sm">
+                    S
+                  </button>
+                </div>
+
+                <div className="col-sm-2 ">
                   <Field
                     name="qty"
                     component={Input}
                     label="Qty"
                     placeholder="Qty"
-                  /></div>
-                   <div className="col-lg-2">
+                  />
+                </div>
+                <div className="col-lg-2">
                   <Field
                     name="mrp"
                     component={Input}
                     label="MRP"
                     placeholder="MRP"
                     disabled
-                  /></div>
-                   <div className="col-lg-2">
+                  />
+                </div>
+                <div className="col-lg-2">
                   <Field
                     name="discount"
                     component={Input}
                     label="Discount"
                     placeholder="Discount"
-                  /></div>
-                   <div className="col-lg-2">
+                  />
+                </div>
+                <div className="col-lg-2">
                   <Field
                     name="netAmount"
                     component={Input}
                     label="Amount"
                     placeholder="Amount"
-                  /></div>
-                   <div className="col-lg-2 p-7">
-                  <button type="button" className="btn btn-primary">Add</button></div>
+                  />
+                </div>
+                <div className="col-lg-2 p-7">
+                  <button type="button" className="btn btn-primary">
+                    Add
+                  </button>
+                </div>
                 {/* </div> */}
               </div>
               <button
@@ -207,12 +224,21 @@ export function ProductEditForm({ invoice, btnRef, saveProduct }) {
           </>
         )}
       </Formik>
-      {/* <InvoiceDetailForm dataModel={pItems} /> */}
+      <InvoiceDetailForm dataModel={pItems} />
     </>
   )
 }
-
-export default class InvoiceDetailForm extends Component {
+export class SyncfusionBase extends React.PureComponent {
+  rendereComplete() {
+    /**custom render complete function */
+  }
+  componentDidMount() {
+    setTimeout(() => {
+      this.rendereComplete()
+    })
+  }
+}
+export default class InvoiceDetailForm extends SyncfusionBase {
   constructor() {
     super(...arguments)
     this.toolbarOptions = ['Add', 'Edit', 'Delete']
@@ -221,63 +247,161 @@ export default class InvoiceDetailForm extends Component {
       allowAdding: true,
       allowDeleting: true,
       mode: 'Dialog',
+     // template: this.dialogTemplate,
     }
     this.editparams = { params: { popupHeight: '300px' } }
     this.validationRules = { required: true }
-    this.orderidRules = { required: true, number: true }
+    this.orderidRules = { required: true }
     this.pageSettings = { pageCount: 5 }
+  }
+  dialogTemplate(props) {
+    return <DialogItemForm {...props} />
+  }
+  actionComplete(args) {
+    if (args.requestType === 'beginEdit' || args.requestType === 'add') {
+      if (Browser.isDevice) {
+        args.dialog.height = window.innerHeight - 90 + 'px'
+        args.dialog.dataBind()
+      }
+    }
   }
   render() {
     return (
-      <div className="control-pane">
+      <div className="control-pane border rounded border-primary">
         <div className="control-section">
           <GridComponent
-            dataSource={this.params.dataModel}
+            dataSource={this.props.dataModel}
             toolbar={this.toolbarOptions}
-            allowPaging={true}
+            allowPaging={false}
             editSettings={this.editSettings}
             pageSettings={this.pageSettings}
+            gridLines='Both'
           >
             <ColumnsDirective>
               <ColumnDirective
-                field="OrderID"
-                headerText="Order ID"
-                width="120"
-                textAlign="Right"
-                validationRules={this.orderidRules}
+                field="barcode"
+                headerText="Barcode"
+                width="180"
+                textAlign="Center"
+                // validationRules={this.orderidRules}
+                //  editType="textedit"
                 isPrimaryKey={true}
               ></ColumnDirective>
               <ColumnDirective
-                field="CustomerName"
-                headerText="Customer Name"
-                width="150"
-                validationRules={this.validationRules}
+                field="qty"
+                headerText="Qty"
+                width="120"
+                // validationRules={this.validationRules}
               ></ColumnDirective>
               <ColumnDirective
-                field="Freight"
-                headerText="Freight"
+                field="basicPrice"
+                headerText="Price"
                 width="120"
                 format="C2"
-                textAlign="Right"
-                editType="numericedit"
+                textAlign="Center"
+                // editType="numericedit"
               ></ColumnDirective>
               <ColumnDirective
-                field="OrderDate"
-                headerText="Order Date"
-                editType="datepickeredit"
-                format="yMd"
-                width="170"
+                field="discount"
+                headerText="Discount"
+                format="C2"
+                // editType="numericedit"
+                width="120"
+                textAlign="Center"
               ></ColumnDirective>
               <ColumnDirective
-                field="ShipCountry"
-                headerText="Ship Country"
+                field="tax"
+                format="C2"
+                headerText="Tax"
                 width="150"
-                editType="dropdownedit"
-                edit={this.editparams}
+                textAlign="Center"
+                // editType="numericedit"
               ></ColumnDirective>
             </ColumnsDirective>
             <Inject services={[Page, Toolbar, Edit]} />
           </GridComponent>
+        </div>
+      </div>
+    )
+  }
+}
+
+//Note: template was working but suddenly got stop working and started to give error
+//Pop up add display form
+export class DialogItemForm extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = extend({}, {}, props, true)
+  }
+  onChange(args) {
+    let key = args.target.name
+    let value = args.target.value
+    this.setState({ [key]: value })
+  }
+  componentDidMount() {
+    let state = this.state
+    // Set initail Focus
+    state.isAdd ? this.barcode.focus() : this.qty.focus()
+  }
+  render() {
+    let data = this.state
+    return (
+      <div>
+        <div className="form-row">
+          <div className="form-group col-md-6">
+            <div className="e-float-input e-control-wrapper">
+              <input
+                ref={(input) => (this.barcode = input)}
+                id="barcode"
+                name="barcode"
+                type="text"
+                disabled={!data.isAdd}
+                value={data.barcode}
+                onChange={this.onChange.bind(this)}
+              />
+              <span className="e-float-line"></span>
+              <label className="e-float-text e-label-top"> Barcode</label>
+            </div>
+          </div>
+          <div className="form-group col-md-6">
+            <NumericTextBoxComponent
+              id="qty"
+              value={data.qty}
+              placeholder="Qty"
+              floatLabelType="Always"
+            ></NumericTextBoxComponent>
+          </div>
+        </div>
+        <div className="form-row">
+          <div className="form-group col-md-6">
+            <NumericTextBoxComponent
+              id="basicPrice"
+              format="C2"
+              value={data.basicPrice}
+              placeholder="Basic Price"
+              floatLabelType="Always"
+            ></NumericTextBoxComponent>
+          </div>
+          <div className="form-group col-md-6">
+            <NumericTextBoxComponent
+              id="discount"
+              format="C2"
+              value={data.discount}
+              placeholder="Discount"
+              floatLabelType="Always"
+            ></NumericTextBoxComponent>
+          </div>
+        </div>
+        <div className="form-row">
+          <div className="form-group col-md-6">
+            <NumericTextBoxComponent
+              id="tax"
+              format="C2"
+              value={data.tax}
+              placeholder="Tax"
+              floatLabelType="Always"
+            ></NumericTextBoxComponent>
+          </div>
         </div>
       </div>
     )
