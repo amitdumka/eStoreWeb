@@ -56,8 +56,8 @@ export function ProductEditForm({ invoice, btnRef, saveProduct }) {
     });
   };
 
-  const handleFetchBarcode=(getFieldValue,setFieldValue)=>{
-    console.log(getFieldValue);
+  const handleFetchBarcode=(barcode,setFieldValue)=>{
+    alert(barcode);
     setFieldValue("qty",101);
   }
   const FetchPItem = ({ barcode }) => {
@@ -84,7 +84,7 @@ export function ProductEditForm({ invoice, btnRef, saveProduct }) {
           saveProduct(values);
         }}
       >
-        {({ handleSubmit, setFieldValue ,props }) => (
+        {({ handleSubmit, setFieldValue ,values }) => (
           <>
             <Form className="form form-label-right">
               {/* Invoice Details */}
@@ -181,7 +181,7 @@ export function ProductEditForm({ invoice, btnRef, saveProduct }) {
                     placeholder="Barcode"
                   />
                   <button type="button" className="btn btn-primary btn-sm" 
-                  onClick={()=>handleFetchBarcode(props,setFieldValue)}>
+                  onClick={()=>handleFetchBarcode(values.barcode,setFieldValue)}>
                     S
                   </button>
                 </div>
