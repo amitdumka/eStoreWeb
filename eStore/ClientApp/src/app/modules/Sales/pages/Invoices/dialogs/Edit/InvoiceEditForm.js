@@ -2,14 +2,14 @@
 // Data validation is based on Yup
 // Please, be familiar with article first:
 // https://hackernoon.com/react-form-validation-with-formik-and-yup-8b76bda62e10
-import React, { Component } from 'react'
-import { Formik, Form, Field } from 'formik'
-import * as Yup from 'yup'
+import React, { Component } from "react";
+import { Formik, Form, Field } from "formik";
+import * as Yup from "yup";
 import {
   Input,
   Select,
   DatePickerField,
-} from '../../../../../../../_metronic/_partials/controls'
+} from "../../../../../../../_metronic/_partials/controls";
 import {
   GridComponent,
   ColumnsDirective,
@@ -19,27 +19,33 @@ import {
   Edit,
   Filter,
   Inject,
-} from '@syncfusion/ej2-react-grids'
-import { enableRipple } from '@syncfusion/ej2-base'
-import { NumericTextBoxComponent } from '@syncfusion/ej2-react-inputs'
+} from "@syncfusion/ej2-react-grids";
+import { enableRipple } from "@syncfusion/ej2-base";
+import { NumericTextBoxComponent } from "@syncfusion/ej2-react-inputs";
 ////import { DatePickerComponent } from '@syncfusion/ej2-react-calendars'
 //import { DropDownListComponent } from '@syncfusion/ej2-react-dropdowns'
 //import { DataUtil } from '@syncfusion/ej2-data'
-import { Browser, extend } from '@syncfusion/ej2-base'
+import { Browser, extend } from "@syncfusion/ej2-base";
+
+
 // Validation schema
 const InvoiceEditSchema = Yup.object().shape({
-  mobileNo: Yup.string().required('Mobile Number is required'),
-  customerName: Yup.string().required('Customer Name is required'),
-  onDate: Yup.date().required('Date is required'),
-  totalAmount: Yup.number().required('Total Amount is required'),
-  totalTaxAmount: Yup.number().required('Total Tax is required'),
-  totalQty: Yup.number('Qty should be numeric')
-    .min(1, 'Qty should be more than zero')
-    .required('Qty is required'),
-})
-enableRipple(true)
+  mobileNo: Yup.string().required("Mobile Number is required"),
+  customerName: Yup.string().required("Customer Name is required"),
+  onDate: Yup.date().required("Date is required"),
+  totalAmount: Yup.number().required("Total Amount is required"),
+  totalTaxAmount: Yup.number().required("Total Tax is required"),
+  totalQty: Yup.number("Qty should be numeric")
+    .min(1, "Qty should be more than zero")
+    .required("Qty is required"),
+});
+
+
+enableRipple(true);
+
+
 export function ProductEditForm({ invoice, btnRef, saveProduct }) {
-  let pItems = []
+  let pItems = [];
   const AddPItem = (item) => {
     pItems.push({
       barcode: item.barcode,
@@ -47,21 +53,26 @@ export function ProductEditForm({ invoice, btnRef, saveProduct }) {
       basicPrice: item.price,
       discount: item.discount,
       tax: item.tax,
-    })
+    });
+  };
+
+  const handleFetchBarcode=(getFieldValue,setFieldValue)=>{
+    console.log(getFieldValue);
+    setFieldValue("qty",101);
   }
   const FetchPItem = ({ barcode }) => {
     // Need to redux for productItem+stock or ProductStockView
     //Like
     const ProductStockView = {
-      barcode: '',
+      barcode: "",
       mrp: 0,
       stock: 0,
       taxRate: 5,
-      ProductCategory: 'Fabric',
-      productName: 'Shirting Tersca White',
-      Unit: 'Metres',
-    }
-  }
+      ProductCategory: "Fabric",
+      productName: "Shirting Tersca White",
+      Unit: "Metres",
+    };
+  };
 
   return (
     <>
@@ -70,10 +81,10 @@ export function ProductEditForm({ invoice, btnRef, saveProduct }) {
         initialValues={invoice}
         validationSchema={InvoiceEditSchema}
         onSubmit={(values) => {
-          saveProduct(values)
+          saveProduct(values);
         }}
       >
-        {({ handleSubmit }) => (
+        {({ handleSubmit, setFieldValue ,props }) => (
           <>
             <Form className="form form-label-right">
               {/* Invoice Details */}
@@ -169,7 +180,8 @@ export function ProductEditForm({ invoice, btnRef, saveProduct }) {
                     label="Barcode"
                     placeholder="Barcode"
                   />
-                  <button type="button" className="btn btn-primary btn-sm">
+                  <button type="button" className="btn btn-primary btn-sm" 
+                  onClick={()=>handleFetchBarcode(props,setFieldValue)}>
                     S
                   </button>
                 </div>
@@ -216,7 +228,7 @@ export function ProductEditForm({ invoice, btnRef, saveProduct }) {
               </div>
               <button
                 type="submit"
-                style={{ display: 'none' }}
+                style={{ display: "none" }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
@@ -227,7 +239,7 @@ export function ProductEditForm({ invoice, btnRef, saveProduct }) {
       </Formik>
       <InvoiceDetailForm dataModel={pItems} />
     </>
-  )
+  );
 }
 export class SyncfusionBase extends React.PureComponent {
   rendereComplete() {
@@ -235,34 +247,34 @@ export class SyncfusionBase extends React.PureComponent {
   }
   componentDidMount() {
     setTimeout(() => {
-      this.rendereComplete()
-    })
+      this.rendereComplete();
+    });
   }
 }
 export default class InvoiceDetailForm extends SyncfusionBase {
   constructor() {
-    super(...arguments)
-    this.toolbarOptions = ['Add', 'Edit', 'Delete', 'Search']
+    super(...arguments);
+    this.toolbarOptions = ["Add", "Edit", "Delete", "Search"];
     this.editSettings = {
       allowEditing: true,
       allowAdding: true,
       allowDeleting: true,
-      mode: 'Dialog',
+      mode: "Dialog",
       // template: this.dialogTemplate,
-    }
-    this.editparams = { params: { popupHeight: '300px' } }
-    this.validationRules = { required: true }
-    this.orderidRules = { required: true, number: true }
-    this.pageSettings = { pageSize: 5, pageCount: 5 }
+    };
+    this.editparams = { params: { popupHeight: "300px" } };
+    this.validationRules = { required: true };
+    this.orderidRules = { required: true, number: true };
+    this.pageSettings = { pageSize: 5, pageCount: 5 };
   }
   dialogTemplate(props) {
-    return <DialogItemForm {...props} />
+    return <DialogItemForm {...props} />;
   }
   actionComplete(args) {
-    if (args.requestType === 'beginEdit' || args.requestType === 'add') {
+    if (args.requestType === "beginEdit" || args.requestType === "add") {
       if (Browser.isDevice) {
-        args.dialog.height = window.innerHeight - 90 + 'px'
-        args.dialog.dataBind()
+        args.dialog.height = window.innerHeight - 90 + "px";
+        args.dialog.dataBind();
       }
     }
   }
@@ -275,7 +287,7 @@ export default class InvoiceDetailForm extends SyncfusionBase {
             toolbar={this.toolbarOptions}
             allowPaging={true}
             allowFiltering={true}
-            filterSettings={{ type: 'Check' }}
+            filterSettings={{ type: "Check" }}
             editSettings={this.editSettings}
             pageSettings={this.pageSettings}
           >
@@ -326,7 +338,7 @@ export default class InvoiceDetailForm extends SyncfusionBase {
           </GridComponent>
         </div>
       </div>
-    )
+    );
   }
 }
 
@@ -334,21 +346,21 @@ export default class InvoiceDetailForm extends SyncfusionBase {
 //Pop up add display form
 export class DialogItemForm extends React.Component {
   constructor(props) {
-    super(props)
-    this.state = extend({}, {}, props, true)
+    super(props);
+    this.state = extend({}, {}, props, true);
   }
   onChange(args) {
-    let key = args.target.name
-    let value = args.target.value
-    this.setState({ [key]: value })
+    let key = args.target.name;
+    let value = args.target.value;
+    this.setState({ [key]: value });
   }
   componentDidMount() {
-    let state = this.state
+    let state = this.state;
     // Set initail Focus
-    state.isAdd ? this.barcode.focus() : this.qty.focus()
+    state.isAdd ? this.barcode.focus() : this.qty.focus();
   }
   render() {
-    let data = this.state
+    let data = this.state;
     return (
       <div>
         <div className="form-row">
@@ -408,7 +420,7 @@ export class DialogItemForm extends React.Component {
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 
@@ -426,20 +438,20 @@ export function PaymentForm({ invoiceNumber, onDate, payModes, edcList }) {
         {({ handleSubmit }) => (
           <>
             <Form className="form form-label-right">
-            <div className="form-group row">
-              {/* Date of Invoice */}
-              <div className="col-lg-4">
-                    <label className="text-info">
-                      On Date : {onDate && onDate}
-                    </label>
-                  </div>
-                  {/* Invoice No */}
-                  <div className="col-lg-4">
-                    <label className="text-danger">
-                      Invoice No : {invoiceNumber && invoiceNumber}
-                    </label>
-                  </div>
-            </div>
+              <div className="form-group row">
+                {/* Date of Invoice */}
+                <div className="col-lg-4">
+                  <label className="text-info">
+                    On Date : {onDate && onDate}
+                  </label>
+                </div>
+                {/* Invoice No */}
+                <div className="col-lg-4">
+                  <label className="text-danger">
+                    Invoice No : {invoiceNumber && invoiceNumber}
+                  </label>
+                </div>
+              </div>
 
               <div className="form-group row">
                 {/* PayMode */}
@@ -464,29 +476,29 @@ export function PaymentForm({ invoiceNumber, onDate, payModes, edcList }) {
                       ))}
                   </Select>
                 </div>
-                 {/*  amount Name*/}
-                 <div className="col-lg-4">
-                    <Field
-                      name="amount"
-                      component={Input}
-                      placeholder="Amount"
-                      label="Amount"
-                    />
-                  </div>
-                  {/* cash amount Name*/}
-                 <div className="col-lg-4">
-                    <Field
-                      name="cashAmount"
-                      component={Input}
-                      placeholder="Cash Amount"
-                      label="Cash Amount"
-                    />
-                  </div>
+                {/*  amount Name*/}
+                <div className="col-lg-4">
+                  <Field
+                    name="amount"
+                    component={Input}
+                    placeholder="Amount"
+                    label="Amount"
+                  />
+                </div>
+                {/* cash amount Name*/}
+                <div className="col-lg-4">
+                  <Field
+                    name="cashAmount"
+                    component={Input}
+                    placeholder="Cash Amount"
+                    label="Cash Amount"
+                  />
+                </div>
               </div>
             </Form>
           </>
         )}
       </Formik>
     </>
-  )
+  );
 }
