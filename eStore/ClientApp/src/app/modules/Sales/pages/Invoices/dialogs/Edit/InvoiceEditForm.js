@@ -1,8 +1,9 @@
+
 // Form is based on Formik
 // Data validation is based on Yup
 // Please, be familiar with article first:
 // https://hackernoon.com/react-form-validation-with-formik-and-yup-8b76bda62e10
-import React, { Component } from "react";
+import React, { Component,useEffect, useMemo  } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import {
@@ -10,6 +11,7 @@ import {
   Select,
   DatePickerField,
 } from "../../../../../../../_metronic/_partials/controls";
+import * as actions from "../../../../_redux/Invoices/Actions";
 import {
   GridComponent,
   ColumnsDirective,
@@ -26,7 +28,7 @@ import { NumericTextBoxComponent } from "@syncfusion/ej2-react-inputs";
 //import { DropDownListComponent } from '@syncfusion/ej2-react-dropdowns'
 //import { DataUtil } from '@syncfusion/ej2-data'
 import { Browser, extend } from "@syncfusion/ej2-base";
-
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 
 // Validation schema
 const InvoiceEditSchema = Yup.object().shape({
@@ -40,13 +42,25 @@ const InvoiceEditSchema = Yup.object().shape({
     .required("Qty is required"),
 });
 
-
 enableRipple(true);
 
-
 export function ProductEditForm({ invoice, btnRef, saveProduct }) {
+  const dispatch = useDispatch();
+
+  const { invoices ,commonTypes} = useSelector(
+    (state) => ({ invoices: state.invoices , commonTypes:state.commonTypes}),
+    shallowEqual
+  );
+
+  const { productStocks } = invoices;
+useEffect(() => {
+    // server call by queryParams
+   // dispatch(actions.fetchProductStocks());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch]);
   let pItems = [];
-  const AddPItem = (item) => {
+
+  const AddItem = (item) => {
     pItems.push({
       barcode: item.barcode,
       qty: item.qty,
@@ -56,14 +70,16 @@ export function ProductEditForm({ invoice, btnRef, saveProduct }) {
     });
   };
 
-  const handleFetchBarcode=(barcode,setFieldValue)=>{
+
+  const handleFetchBarcode = (barcode, setFieldValue) => {
     alert(barcode);
-    setFieldValue("qty",101);
-  }
-  const FetchPItem = ({ barcode }) => {
+    setFieldValue("qty", 101);
+  };
+
+  const FetchProductItem = ({ barcode }) => {
     // Need to redux for productItem+stock or ProductStockView
     //Like
-    const ProductStockView = {
+    let ProductStockView = {
       barcode: "",
       mrp: 0,
       stock: 0,
@@ -84,7 +100,7 @@ export function ProductEditForm({ invoice, btnRef, saveProduct }) {
           saveProduct(values);
         }}
       >
-        {({ handleSubmit, setFieldValue ,values }) => (
+        {({ handleSubmit, setFieldValue, values }) => (
           <>
             <Form className="form form-label-right">
               {/* Invoice Details */}
@@ -180,8 +196,13 @@ export function ProductEditForm({ invoice, btnRef, saveProduct }) {
                     label="Barcode"
                     placeholder="Barcode"
                   />
-                  <button type="button" className="btn btn-primary btn-sm" 
-                  onClick={()=>handleFetchBarcode(values.barcode,setFieldValue)}>
+                  <button
+                    type="button"
+                    className="btn btn-primary btn-sm"
+                    onClick={() =>
+                      handleFetchBarcode(values.barcode, setFieldValue)
+                    }
+                  >
                     S
                   </button>
                 </div>

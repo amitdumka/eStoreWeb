@@ -77,6 +77,7 @@ export function InvoiceEditorPage({
     subHeader.setTitle(_title)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [invoiceForEdit, id])
+  
   // server request for saving invoice
   const saveInvoice = (invoice) => {
     invoice.payMode = parseInt(invoice.payMode)
