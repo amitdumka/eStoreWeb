@@ -9,3 +9,14 @@ export default function EditForm({ invoice, btnRef, saveProduct }) {
         </div>
     )
 }
+
+
+
+//productStockViews
+// Barcode = c.Barcode,
+// MRP = c.ProductItem.MRP,
+// Name = c.ProductItem.ProductName,
+// ProductType = c.ProductItem.MainCategory,
+// TaxRate = c.ProductItem.TaxRate,
+// Stock = (decimal)c.Quantity,
+// Unit = c.Units

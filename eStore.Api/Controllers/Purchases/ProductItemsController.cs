@@ -31,8 +31,7 @@ namespace eStore.API.Controllers
                 Name = c.ProductItem.ProductName,
                 ProductType = c.ProductItem.MainCategory,
                 TaxRate = c.ProductItem.TaxRate,
-                Stock = (decimal)c.Quantity
-                   ,
+                Stock = (decimal)c.Quantity,
                 Unit = c.Units
             }).ToListAsync();
         }
