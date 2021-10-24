@@ -12,6 +12,27 @@ namespace eStore.BL.Importer
 {
     public class VoyProcesser
     {
+
+        public static int GenerateStockFromPurchase(eStoreDbContext db , int StoreId)
+        {
+            var data = db.PurchaseItem.Select(c => new {c.Barcode, c.Qty, c.Unit }).OrderBy(c=>c.Barcode)
+                
+                .ToList();
+
+            foreach (var item in data)
+            {
+
+               
+                Stock stock = new Stock {
+                    
+                    Barcode = item.Barcode, IsReadOnly = true, PurchaseQty = item.Qty, SaleQty=0,
+                    HoldQty=0, StoreId=StoreId, UserId="AutoAdmin", Units=item.Unit
+                };
+            }
+
+
+        }
+
         public static int ProcessBrand(eStoreDbContext db)
         {
             var data = db.VoyBrandNames.ToList ();
