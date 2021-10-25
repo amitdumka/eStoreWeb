@@ -1,6 +1,7 @@
 ﻿using eStore.BL.Mails;
 using eStore.Database;
 using eStore.Shared.Models.Banking;
+using eStore.Shared.Models.Common;
 using eStore.Shared.Models.Purchases;
 using eStore.Shared.Uploader;
 using System;
@@ -44,11 +45,30 @@ namespace eStore.BL
                         var data = JsonSerializer.Deserialize<List<Bank>> (returndata);
                         returndata = $"DataLength:{data.Count}";
                         break;
-
+                    case "StockList":
+                        
+                        var stockList = JsonSerializer.Deserialize<List<StockListDto>>(returndata);
+                        returndata = $"DataLength:{stockList.Count}";
+                        break;
                     default:
                         returndata = "Option not Supported";
                         break;
                 }
+                string rData = "";
+                int  recordCount =  db.SaveChanges();
+
+                if (recordCount > 0)
+                {
+                    rData += $"DataLength:{recordCount}";
+                }
+                else if (recordCount < 0)
+                    rData += "Error: Option not Supported!";
+                else
+                    rData += "Error: Unkown Error!";
+
+                MyMail.SendEmail($"Voy Uploader Status For Command: {mode}\t Msg={rData}\t Record Added: {recordCount}", returndata, "amitnarayansah@gmail.com");
+                return rData;
+
             }
             catch ( Exception e )
             {
@@ -108,6 +128,25 @@ namespace eStore.BL
         private void PurchaseTaxType()
         {
         }
+
+        private void StockList(eStoreDbContext db, List<StockListDto>dto)
+        {
+            foreach (var item in dto)
+            {
+                StockList sl = new StockList
+                {
+                     Barcode=item.Barcode, Count=1, LastAccess=DateTime.Now, Stock=1
+                };
+                db.StockLists.Add(sl);
+            }
+           //return db.SaveChanges();
+
+        }
+    }
+    public class StockListDto
+    {
+        public string Barcode { get; set; }
+        public string ItemName { get; set; }
     }
 
     //public class SaveData<T>
