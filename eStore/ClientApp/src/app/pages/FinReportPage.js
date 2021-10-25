@@ -5,7 +5,6 @@ import {
   TableRow,
   MenuItem,
   Checkbox,
-
 } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
 import { useSubheader } from "../../_metronic/layout";
@@ -21,7 +20,7 @@ import axios from "axios";
 import { BASE_URL } from "../../_estore/URLConstants";
 
 //export const API_URL = BASE_URL + "api/Reports";
-export const API_URL = BASE_URL+ "api/Reports";
+export const API_URL = BASE_URL + "api/Reports";
 
 export async function GetMonthlyReport(MonthlyDto) {
   var url = API_URL;
@@ -41,7 +40,7 @@ export async function GetMonthlyReport(MonthlyDto) {
     case 5:
       url = url + "/monthlyBankReport";
       break;
-      case 11:
+    case 11:
       url = url + "/monthlyDuesReport";
       break;
     case 12:
@@ -421,7 +420,7 @@ export const AttendaceReportCard = () => {
   const curYear = new Date().getFullYear() + 1;
   const [yearArray] = useState([]);
   const [emp, setEmp] = useState(0);
- // const [repoMode, setRepoMode] = useState(2);
+  // const [repoMode, setRepoMode] = useState(2);
   const [store, setStore] = useState(1);
   const [refreshData, setRefreshData] = useState(false);
   const [finYear, setFinYear] = useState("");
@@ -726,7 +725,6 @@ export const MonthlyReportCard = () => {
                 <MenuItem value={7}>Tailoring Report</MenuItem>
                 <MenuItem value={11}>Dues Report</MenuItem>
                 <MenuItem value={12}>Card/Cash Sale Report</MenuItem>
-
               </Select>
             </TableCell>
             <TableCell className="text-danger">Refreshed Data</TableCell>

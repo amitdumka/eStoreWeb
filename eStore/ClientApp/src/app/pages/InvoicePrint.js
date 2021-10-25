@@ -1,11 +1,11 @@
-import React from 'react'
-import { useSubheader } from '../../_metronic/layout'
+import React from "react";
+import { useSubheader } from "../../_metronic/layout";
 
 const inv = {
-  onDate:"12 / 12 / 2021",
-  invNo: 'C33IN2010001',
-  custName: 'Amit Kumarr',
-  mobile: '9831213339',
+  onDate: "12 / 12 / 2021",
+  invNo: "C33IN2010001",
+  custName: "Amit Kumarr",
+  mobile: "9831213339",
   cgst: 125,
   sgst: 125,
   roundOff: 0,
@@ -14,33 +14,35 @@ const inv = {
   tDisc: 600,
   total: 5400,
   netTotal: 5650,
-  mode: 'Cash',
+  mode: "Cash",
   items: [
-    { barcode: '1212121', hsn: '456123', qty: 1.2, basic: 2000, disc: 200 },
-    { barcode: '1212121', hsn: '456123', qty: 1.2, basic: 2000, disc: 200 },
-    { barcode: '1212121', hsn: '456123', qty: 1.2, basic: 2000, disc: 200 },
+    { barcode: "1212121", hsn: "456123", qty: 1.2, basic: 2000, disc: 200 },
+    { barcode: "1212121", hsn: "456123", qty: 1.2, basic: 2000, disc: 200 },
+    { barcode: "1212121", hsn: "456123", qty: 1.2, basic: 2000, disc: 200 },
   ],
+};
+
+export default function Print() {
+  return (
+    <>
+      <InvoicePrint inv={inv} />
+    </>
+  );
 }
 
-export default function Print  () {
-    return(<>
-    <InvoicePrint inv={inv}/>
-    </>)
-}
-
-export const InvoicePrint = ({inv}) => {
-  const suhbeader = useSubheader()
-  suhbeader.setTitle('Invoice Print')
+export const InvoicePrint = ({ inv }) => {
+  const suhbeader = useSubheader();
+  suhbeader.setTitle("Invoice Print");
 
   const printReceipt = () => {
-    window.print()
-  }
+    window.print();
+  };
   return (
     <>
       <div>
         <h2 align="center">Aprajita Retails</h2>
         <h4 align="center">
-          {' '}
+          {" "}
           Bhagalpur Road Dumka
           <br />
           Phone:06434-224461
@@ -64,17 +66,17 @@ export const InvoicePrint = ({inv}) => {
             <th>BasicRate</th>
             <th>Disc</th>
           </tr>
-          {inv.items && inv.items.map(item =>(
-            <tr>
-            <td>{item.barcode}</td>
-            <td>{item.hsn}</td>
-            <td>{item.qty}</td>
-            <td>{item.basic}</td>
-            <td>{inv.disc}</td>
-          </tr>
-          ))}
-          
-         
+          {inv.items &&
+            inv.items.map((item) => (
+              <tr>
+                <td>{item.barcode}</td>
+                <td>{item.hsn}</td>
+                <td>{item.qty}</td>
+                <td>{item.basic}</td>
+                <td>{inv.disc}</td>
+              </tr>
+            ))}
+
           <tr>
             <td align="center"></td>
             <td>Sub Total: </td>
@@ -91,7 +93,7 @@ export const InvoicePrint = ({inv}) => {
             </td>
             <td></td>
             <td colspan="2" align="right">
-              {' '}
+              {" "}
               Amount
             </td>
             <td>Rs. {inv.total}</td>
@@ -109,7 +111,7 @@ export const InvoicePrint = ({inv}) => {
           </tr>
         </table>
         <h4 align="center">
-          {' '}
+          {" "}
           Thanks for purchasing with The Arvind Store, Dumka
         </h4>
         <button class="hide-on-print" onClick={printReceipt}>
@@ -117,5 +119,5 @@ export const InvoicePrint = ({inv}) => {
         </button>
       </div>
     </>
-  )
-}
+  );
+};

@@ -1,18 +1,18 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useEffect, useState, useRef } from 'react'
-import SVG from 'react-inlinesvg'
-import { toAbsoluteUrl } from '../../_metronic/_helpers' //"../../../../../_metronic/_helpers";
-import { BrowserRouter, useHistory } from 'react-router-dom'
-import { useSubheader } from '../../_metronic/layout'
+import React, { useEffect, useState, useRef } from "react";
+import SVG from "react-inlinesvg";
+import { toAbsoluteUrl } from "../../_metronic/_helpers"; //"../../../../../_metronic/_helpers";
+import { BrowserRouter, useHistory } from "react-router-dom";
+import { useSubheader } from "../../_metronic/layout";
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   CardFooter,
-} from '../../_metronic/_partials/controls'
-import { shallowEqual, useDispatch, useSelector } from 'react-redux'
-import * as actions from './_redux/Actions'
+} from "../../_metronic/_partials/controls";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import * as actions from "./_redux/Actions";
 import {
   Select,
   MenuItem,
@@ -31,53 +31,53 @@ import {
   Table,
   TableHead,
   TableCell,
-} from '@material-ui/core'
+} from "@material-ui/core";
 // import {
 //   DataGrid,
 //   GridToolbar,
 //   //GridToolbarContainer,
 //  // GridToolbarExport,
 // } from "@mui/x-data-grid";
-import { DataGrid, GridToolbar } from '@material-ui/data-grid'
+import { DataGrid, GridToolbar } from "@material-ui/data-grid";
 //import { useDemoData } from '@mui/x-data-grid-generator';
 //import {PrintIcon} from "@material-ui/icons";
 
-import LocalPrintshopIcon from '@material-ui/icons/LocalPrintshop'
+import LocalPrintshopIcon from "@material-ui/icons/LocalPrintshop";
 
 //import { Alert } from "react-bootstrap";
-import { useReactToPrint } from 'react-to-print'
-import { withStyles } from '@material-ui/core'
+import { useReactToPrint } from "react-to-print";
+import { withStyles } from "@material-ui/core";
 
-import purple from '@material-ui/core/colors/purple'
-import red from '@material-ui/core/colors/red'
+import purple from "@material-ui/core/colors/purple";
+import red from "@material-ui/core/colors/red";
 
 export const pageStyle = `  @media all {    .page-break {      display: none;    }  }
     @media print {    html, body {      height: initial !important;      overflow: initial !important;      -webkit-print-color-adjust: exact;    }}
   @media print {.page-break { margin-top: 1rem; display: block; page-break-before: auto;    }  }
-   @page {    size: auto;    margin: 20mm;  }`
+   @page {    size: auto;    margin: 20mm;  }`;
 
 const PurpleSwitch = withStyles({
   switchBase: {
     color: purple[300],
-    '&$checked': {
+    "&$checked": {
       color: red[500],
     },
-    '&$checked + $track': {
+    "&$checked + $track": {
       backgroundColor: purple[500],
     },
   },
   checked: {},
   track: {},
-})(Switch)
+})(Switch);
 
 export const SystemCheckPage = () => {
-  const subHeader = useSubheader()
-  subHeader.setTitle('eStore System Check')
+  const subHeader = useSubheader();
+  subHeader.setTitle("eStore System Check");
 
   return (
     <>
-    <div>
-        <TailoringError/>
+      <div>
+        <TailoringError />
       </div>
       <div>
         <TailoringCheck />
@@ -89,117 +89,145 @@ export const SystemCheckPage = () => {
         <TailoringDuplicateCheck />
       </div>
     </>
-  )
-}
+  );
+};
 
 export function generate(element) {
   return [0, 1, 2].map((value) =>
     React.cloneElement(element, {
       key: value,
-    }),
-  )
+    })
+  );
 }
 export function AItem({ text }) {
-  console.log(text)
+  console.log(text);
   if (text != null && text.length > 0) {
     return (
       <ListItem>
         <ListItemText primary={text} secondary={null} />
       </ListItem>
-    )
+    );
   }
-  return null
+  return null;
 }
 
 export function LItem({ items }) {
-  console.log(items)
+  console.log(items);
   return (
     <List dense={true}>
       {items.map((value) => (
         <AItem text={value} />
       ))}
     </List>
-  )
+  );
 }
-export const TailoringError=()=>{
+export const TailoringError = () => {
   // Getting current state of  list from store (Redux)
   const { currentState } = useSelector(
     (state) => ({
       currentState: state.commonPageTypes,
     }),
-    shallowEqual,
-  )
-  const [store, setStore] = useState(1)
-  const history = useHistory() // example from react-router
-  const { tailoringErrors } = currentState
-  const [bOn, setBOn] = useState(true)
-  const [delivery, setDelivery] = useState(false)
-  const componentRef = useRef()
+    shallowEqual
+  );
+  const [store, setStore] = useState(1);
+  const history = useHistory(); // example from react-router
+  const { tailoringErrors } = currentState;
+  const [bOn, setBOn] = useState(true);
+  const [delivery, setDelivery] = useState(false);
+  const componentRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
     pageStyle: () => pageStyle,
-  })
-  const [RData, setRData] = useState('{ storeId:1, delivery:false }')
+  });
+  const [RData, setRData] = useState("{ storeId:1, delivery:false }");
 
   //  Redux state
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   useEffect(() => {
     // server call by queryParams
-    dispatch(actions.fetchTailoringError(RData))
+    dispatch(actions.fetchTailoringError(RData));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch])
+  }, [dispatch]);
   const handleButton = () => {
     const rData = {
       storeId: store,
       delivery: delivery,
-    }
-    console.log(rData)
-    console.log(store)
-    console.log(delivery)
-    setRData(rData)
+    };
+    console.log(rData);
+    console.log(store);
+    console.log(delivery);
+    setRData(rData);
 
-    if (store == null) alert('Kindly Select Store First')
+    if (store == null) alert("Kindly Select Store First");
     else {
       // server call by queryParams
-      dispatch(actions.fetchTailoringError(rData))
+      dispatch(actions.fetchTailoringError(rData));
       // eslint-disable-next-line react-hooks/exhaustive-deps
       alert(
-        'Please wait while processing your request.... Please ok to continue...',
-      )
+        "Please wait while processing your request.... Please ok to continue..."
+      );
     }
-  }
+  };
 
+  const openSale = (id) => {
+    history.push(`/sales/dailySales/${id}/edit`);
+  };
+  const openBooking = (id) => {
+    history.push(`/tailoring/booking/${id}/edit`);
+  };
+  const openDelivery = (id) => {
+    history.push(`/tailoring/delivery/${id}/edit`);
+  };
 
-    const openSale = (id) => {
-        history.push(`/sales/dailySales/${id}/edit`)
-    }
-    const openBooking = (id) => {
-        history.push(`/tailoring/booking/${id}/edit`)
-    }
-    const openDelivery = (id) => {
-        history.push(`/tailoring/delivery/${id}/edit`);
-    }
-
-    const DList = ({ listData } ) => {
-        console.log(listData);
+  const DList = ({ listData }) => {
+    console.log(listData);
     const columns = [
-        {
-            field: 'id', headerName: 'BookID', width: 90, identity: true, renderCell: (row) => { return (<div className="rowItem text-danger">{row.row.bookingId}</div>) }
+      {
+        field: "id",
+        headerName: "BookID",
+        width: 90,
+        identity: true,
+        renderCell: (row) => {
+          return <div className="rowItem text-danger">{row.row.bookingId}</div>;
         },
-      { field: 'saleId', headerName: 'SaleID', width: 90 ,hide:true},
-        { field: 'deliveryId', headerName: 'DelID', width: 90, hide:true},
-      { field: 'custName', headerName: 'Customer', minWidth: 150 ,hide:true},      
-      { field: 'bookingSlip', headerName: 'Slip', minWidth: 150 },
-      { field: 'invNo', headerName: 'Inv', minWidth: 100 },
-      { field: 'bookingDate', headerName: 'Date', minWidth: 100, type: 'date' },
-      { field: 'deliveryDate', headerName: 'Delivery',minWidth: 100,type: 'date'},
-      { field: 'saleDate',  headerName: 'InvoiceDate', minWidth: 100,type: 'date' ,hide:true},
-      { field: 'proposeDate',  headerName: 'Propose', minWidth: 100,type: 'date' ,hide:true},
-        { field: 'bookingAmount', headerName: 'Amount', minWidth: 90, hide:true},
-      { field: 'deliveryAmount', headerName: 'Amount', minWidth: 90 },
-        { field: 'saleAmount', headerName: 'Amount', minWidth: 90, hide:true },      
-      { field: 'errors',
-        headerName: 'Error(s)',
+      },
+      { field: "saleId", headerName: "SaleID", width: 90, hide: true },
+      { field: "deliveryId", headerName: "DelID", width: 90, hide: true },
+      { field: "custName", headerName: "Customer", minWidth: 150, hide: true },
+      { field: "bookingSlip", headerName: "Slip", minWidth: 150 },
+      { field: "invNo", headerName: "Inv", minWidth: 100 },
+      { field: "bookingDate", headerName: "Date", minWidth: 100, type: "date" },
+      {
+        field: "deliveryDate",
+        headerName: "Delivery",
+        minWidth: 100,
+        type: "date",
+      },
+      {
+        field: "saleDate",
+        headerName: "InvoiceDate",
+        minWidth: 100,
+        type: "date",
+        hide: true,
+      },
+      {
+        field: "proposeDate",
+        headerName: "Propose",
+        minWidth: 100,
+        type: "date",
+        hide: true,
+      },
+      {
+        field: "bookingAmount",
+        headerName: "Amount",
+        minWidth: 90,
+        hide: true,
+      },
+      { field: "deliveryAmount", headerName: "Amount", minWidth: 90 },
+      { field: "saleAmount", headerName: "Amount", minWidth: 90, hide: true },
+      {
+        field: "errors",
+        headerName: "Error(s)",
         minWidth: 250,
         renderCell: (params) => {
           return (
@@ -209,58 +237,76 @@ export const TailoringError=()=>{
               {params.row.saleAmtError && "Invoice Amount Mistach,"}
               {params.row.deliveryAmtError && "Late Deliver,"}
               {params.row.saleDateError && "Late Deliver,"}
-              {params.row.msg &&  params.row.msg.length>0 ?params.row.msg:""}
+              {params.row.msg && params.row.msg.length > 0
+                ? params.row.msg
+                : ""}
             </div>
-          )
-        },       
+          );
         },
-        {
-            field: 'actions', headerName: 'Actions (S/B/D)', minWidth: 190,
-            renderCell: (params) => {
-                return (<div className="rowItem">
-                    <a title="Sale" tips="Sale Edit" className="btn btn-icon btn-light btn-hover-primary btn-sm mx-3"
-                        onClick={() => openSale(params.row.saleId)}
-                    >
-                        <span className="svg-icon svg-icon-md svg-icon-primary">
-                            <SVG
-                                src={toAbsoluteUrl("/media/svg/icons/Communication/Write.svg")}
-                            />
-                        </span>
-                    </a>
-                    <> </> 
-                    <a title="Booking" hint="Booking" className="btn btn-icon btn-light btn-hover-primary btn-sm mx-3"
-                        onClick={() => openBooking(params.row.bookingId)}
-                    >
-                        <span className="svg-icon svg-icon-md svg-icon-primary">
-                            <SVG
-                                src={toAbsoluteUrl("/media/svg/icons/Communication/Write.svg")}
-                            />
-                        </span>
-                    </a>
-                    <> </> 
-                    <a title="Delivery" hint="Delivery" className="btn btn-icon btn-light btn-hover-primary btn-sm mx-3"
-                        onClick={() => openDelivery(params.row.deliveryId)}
-                    >
-                        <span className="svg-icon svg-icon-md svg-icon-primary">
-                            <SVG
-                                src={toAbsoluteUrl("/media/svg/icons/Communication/Write.svg")}
-                            />
-                        </span>
-                    </a>
-                   
-                    
-                </div>)
-            }
+      },
+      {
+        field: "actions",
+        headerName: "Actions (S/B/D)",
+        minWidth: 190,
+        renderCell: (params) => {
+          return (
+            <div className="rowItem">
+              <a
+                title="Sale"
+                tips="Sale Edit"
+                className="btn btn-icon btn-light btn-hover-primary btn-sm mx-3"
+                onClick={() => openSale(params.row.saleId)}
+              >
+                <span className="svg-icon svg-icon-md svg-icon-primary">
+                  <SVG
+                    src={toAbsoluteUrl(
+                      "/media/svg/icons/Communication/Write.svg"
+                    )}
+                  />
+                </span>
+              </a>
+              <> </>
+              <a
+                title="Booking"
+                hint="Booking"
+                className="btn btn-icon btn-light btn-hover-primary btn-sm mx-3"
+                onClick={() => openBooking(params.row.bookingId)}
+              >
+                <span className="svg-icon svg-icon-md svg-icon-primary">
+                  <SVG
+                    src={toAbsoluteUrl(
+                      "/media/svg/icons/Communication/Write.svg"
+                    )}
+                  />
+                </span>
+              </a>
+              <> </>
+              <a
+                title="Delivery"
+                hint="Delivery"
+                className="btn btn-icon btn-light btn-hover-primary btn-sm mx-3"
+                onClick={() => openDelivery(params.row.deliveryId)}
+              >
+                <span className="svg-icon svg-icon-md svg-icon-primary">
+                  <SVG
+                    src={toAbsoluteUrl(
+                      "/media/svg/icons/Communication/Write.svg"
+                    )}
+                  />
+                </span>
+              </a>
+            </div>
+          );
+        },
+      },
+    ];
 
-        },
-    ]
-   
     return (
       <div>
-        <div style={{ height: 800, width: '100%' }}>
-           <DataGrid 
-              key="bookingId"
-                id={Math.random()}
+        <div style={{ height: 800, width: "100%" }}>
+          <DataGrid
+            key="bookingId"
+            id={Math.random()}
             getRowId={(row) => row.bookingId}
             rowHeight={76}
             rows={listData && listData}
@@ -274,11 +320,11 @@ export const TailoringError=()=>{
           />
         </div>
       </div>
-    )
-  }
+    );
+  };
   const handleReset = (event) => {
-    dispatch(actions.resetTailor())
-  }
+    dispatch(actions.resetTailor());
+  };
   return (
     <Card>
       <CardHeader title="Tailoring Error">
@@ -321,7 +367,7 @@ export const TailoringError=()=>{
             className="mr-3 btn btn-info"
             value="Reset"
             onClick={() => {
-              handleReset()
+              handleReset();
             }}
           >
             Reset
@@ -337,13 +383,14 @@ export const TailoringError=()=>{
         </CardHeaderToolbar>
       </CardHeader>
       <CardBody ref={componentRef}>
-              {tailoringErrors && (
-                  <DList listData={tailoringErrors.errorList && tailoringErrors.errorList} />
+        {tailoringErrors && (
+          <DList
+            listData={tailoringErrors.errorList && tailoringErrors.errorList}
+          />
         )}
       </CardBody>
     </Card>
-  )
-
+  );
 };
 
 export const TailoringCheck = () => {
@@ -352,88 +399,88 @@ export const TailoringCheck = () => {
     (state) => ({
       currentState: state.commonPageTypes,
     }),
-    shallowEqual,
-  )
-  const [store, setStore] = useState(1)
+    shallowEqual
+  );
+  const [store, setStore] = useState(1);
 
-  const { tailoringCheckList } = currentState
-  const [bOn, setBOn] = useState(true)
-  const [delivery, setDelivery] = useState(false)
-  const componentRef = useRef()
+  const { tailoringCheckList } = currentState;
+  const [bOn, setBOn] = useState(true);
+  const [delivery, setDelivery] = useState(false);
+  const componentRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
     pageStyle: () => pageStyle,
-  })
-  const [RData, setRData] = useState('{ storeId:1, delivery:false }')
+  });
+  const [RData, setRData] = useState("{ storeId:1, delivery:false }");
 
   //  Redux state
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   useEffect(() => {
     // server call by queryParams
-    dispatch(actions.fetchTailoringCheck(RData))
+    dispatch(actions.fetchTailoringCheck(RData));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch])
+  }, [dispatch]);
   const handleButton = () => {
     const rData = {
       storeId: store,
       delivery: delivery,
-    }
-    console.log(rData)
-    console.log(store)
-    console.log(delivery)
-    setRData(rData)
+    };
+    console.log(rData);
+    console.log(store);
+    console.log(delivery);
+    setRData(rData);
 
-    if (store == null) alert('Kindly Select Store First')
+    if (store == null) alert("Kindly Select Store First");
     else {
       // server call by queryParams
-      dispatch(actions.fetchTailoringCheck(rData))
+      dispatch(actions.fetchTailoringCheck(rData));
       // eslint-disable-next-line react-hooks/exhaustive-deps
       alert(
-        'Please wait while processing your request.... Please ok to continue...',
-      )
+        "Please wait while processing your request.... Please ok to continue..."
+      );
     }
-  }
+  };
 
   const DList = ({ listData }) => {
     const columns = [
-      { field: 'id', headerName: 'ID', width: 90 },
-      { field: 'invNo', headerName: 'Inv', minWidth: 150 },
-      { field: 'slipNo', headerName: 'Slip', minWidth: 100 },
-      { field: 'bookingDate', headerName: 'Date', minWidth: 100, type: 'date' },
+      { field: "id", headerName: "ID", width: 90 },
+      { field: "invNo", headerName: "Inv", minWidth: 150 },
+      { field: "slipNo", headerName: "Slip", minWidth: 100 },
+      { field: "bookingDate", headerName: "Date", minWidth: 100, type: "date" },
       {
-        field: 'deliveryDate',
-        headerName: 'Delivery',
+        field: "deliveryDate",
+        headerName: "Delivery",
         minWidth: 100,
-        type: 'date',
+        type: "date",
       },
       {
-        field: 'proposeDate',
-        headerName: 'Propose',
+        field: "proposeDate",
+        headerName: "Propose",
         minWidth: 100,
-        type: 'date',
+        type: "date",
       },
-      { field: 'amount', headerName: 'Amount/Paid', minWidth: 150 },
+      { field: "amount", headerName: "Amount/Paid", minWidth: 150 },
       {
-        field: 'errors',
-        headerName: 'Error(s)',
+        field: "errors",
+        headerName: "Error(s)",
         minWidth: 290,
         renderCell: (params) => {
           return (
             <div className="rowItem text-danger">
               {params.row.errors && <LItem items={params.row.errors} />}
             </div>
-          )
-        },       
-      }
-    ]
+          );
+        },
+      },
+    ];
     //{generate(<ListItem><ListItemText primary={im}/></ListItem>,)}
-    const itemList = Object.keys(listData).map(function (keyName, keyIndex) {
-      return sM(listData[keyName])
-    })
-    console.log(itemList)
+    const itemList = Object.keys(listData).map(function(keyName, keyIndex) {
+      return sM(listData[keyName]);
+    });
+    console.log(itemList);
     return (
       <div>
-        <div style={{ height: 800, width: '100%' }}>
+        <div style={{ height: 800, width: "100%" }}>
           <DataGrid
             rowHeight={76}
             rows={itemList && itemList}
@@ -448,23 +495,23 @@ export const TailoringCheck = () => {
           />
         </div>
       </div>
-    )
-  }
+    );
+  };
 
   // eslint-disable-next-line no-unused-vars
   const HandleInvLists = ({ listData }) => {
     // console.log(listData);
     // var itemList;
     if (listData != null) {
-      setBOn(false)
+      setBOn(false);
       //listData.map((item,index)=>itemList+=stringMessage(item));
-      const itemList = Object.keys(listData).map(function (keyName, keyIndex) {
-        return stringMessage(listData[keyName])
-      })
+      const itemList = Object.keys(listData).map(function(keyName, keyIndex) {
+        return stringMessage(listData[keyName]);
+      });
       return (
         <>
           <h2 className="text-info text-center">
-            {' '}
+            {" "}
             List of Error(s) found in Tailoring entries.
           </h2>
           <ol className="list list-primary border border-primary rounded  pr-4 pl-5">
@@ -472,33 +519,33 @@ export const TailoringCheck = () => {
               itemList.map((item) => <li className="ml-5 p-4">{item}</li>)}
           </ol>
         </>
-      )
-    } else setBOn(true)
-  }
+      );
+    } else setBOn(true);
+  };
 
   const sM = (msg) => {
-    if (msg !== '') {
-      var dMsg = msg.split('#')
-      var error = dMsg[dMsg.length - 1].split(';')
+    if (msg !== "") {
+      var dMsg = msg.split("#");
+      var error = dMsg[dMsg.length - 1].split(";");
       const row = {
         invNo: dMsg[1],
-        id: dMsg[2] + '/' + dMsg[6],
+        id: dMsg[2] + "/" + dMsg[6],
         slipNo: dMsg[3],
         bookingDate: dMsg[4],
         deliveryDate: dMsg[5],
         proposeDate: dMsg[7],
-        amount: dMsg[9] + '/' + dMsg[8],
+        amount: dMsg[9] + "/" + dMsg[8],
         errors: error,
-      }
-      return row
-    } else return null
-  }
+      };
+      return row;
+    } else return null;
+  };
 
   const stringMessage = (msg) => {
-    console.log(msg)
-    if (msg !== '') {
-      var dMsg = msg.split('#')
-      var error = dMsg[dMsg.length - 1].split(';')
+    console.log(msg);
+    if (msg !== "") {
+      var dMsg = msg.split("#");
+      var error = dMsg[dMsg.length - 1].split(";");
       return (
         <>
           <ul className=" border border-warning rounded row pl-4">
@@ -520,18 +567,18 @@ export const TailoringCheck = () => {
               Error(s)
               <ol>
                 {error.map((e) =>
-                  e && e !== '' ? <li className="p-1">{e}</li> : '',
+                  e && e !== "" ? <li className="p-1">{e}</li> : ""
                 )}
               </ol>
             </li>
           </ul>
         </>
-      )
+      );
     }
-  }
+  };
   const handleReset = (event) => {
-    dispatch(actions.resetTailor())
-  }
+    dispatch(actions.resetTailor());
+  };
   return (
     <Card>
       <CardHeader title="Tailoring Verification">
@@ -574,7 +621,7 @@ export const TailoringCheck = () => {
             className="mr-3 btn btn-info"
             value="Reset"
             onClick={() => {
-              handleReset()
+              handleReset();
             }}
           >
             Reset
@@ -595,52 +642,52 @@ export const TailoringCheck = () => {
         )}
       </CardBody>
     </Card>
-  )
-}
+  );
+};
 export const DuplicateInvoiceCheck = () => {
   const { currentState } = useSelector(
     (state) => ({ currentState: state.commonPageTypes }),
-    shallowEqual,
-  )
+    shallowEqual
+  );
 
-  const [store, setStore] = useState()
-  const [bOn, setBOn] = useState(true)
+  const [store, setStore] = useState();
+  const [bOn, setBOn] = useState(true);
 
-  const { duplicateInvCheckList } = currentState
-  const history = useHistory() // example from react-router
+  const { duplicateInvCheckList } = currentState;
+  const history = useHistory(); // example from react-router
   // Rents Redux state
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   useEffect(() => {
     // server call by queryParams
-    dispatch(actions.fetchDuplicateInvCheck(store))
+    dispatch(actions.fetchDuplicateInvCheck(store));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch])
+  }, [dispatch]);
   const handleButton = () => {
-    if (store == null) alert('Kindly Select Store First')
+    if (store == null) alert("Kindly Select Store First");
     else {
       // server call by queryParams
-      dispatch(actions.fetchDuplicateInvCheck(store))
+      dispatch(actions.fetchDuplicateInvCheck(store));
       // eslint-disable-next-line react-hooks/exhaustive-deps
       alert(
-        'Please wait while processing your request.... Please ok to continue...',
-      )
+        "Please wait while processing your request.... Please ok to continue..."
+      );
     }
     //return( <AlertDismissible msg="Please wait while processing your request.... Please ok to continue..."/>);
-  }
+  };
 
   // const handleStoreChange = (event) => {
   //   setStore(event.target.value);
   // };
   const openEditDialog = (id) => {
-    history.push('/sales/dailySales/' + `${id}/edit`)
-  }
+    history.push("/sales/dailySales/" + `${id}/edit`);
+  };
   const openDeleteDialog = (id) => {
-    history.push('/sales/dailySales/' + `${id}/delete`)
-  }
-  const PMode = ['Cash', 'Card', '']
+    history.push("/sales/dailySales/" + `${id}/delete`);
+  };
+  const PMode = ["Cash", "Card", ""];
   const DisplayInvList = ({ invList }) => {
-    console.log(invList)
-    if (invList == null) return <></>
+    console.log(invList);
+    if (invList == null) return <></>;
     return (
       <>
         <h3 className="text-info text-center">Duplicate Invoice Listing</h3>
@@ -655,7 +702,7 @@ export const DuplicateInvoiceCheck = () => {
                 <TableCell>Id</TableCell>
                 <TableCell>Date</TableCell>
                 <TableCell>InvNo</TableCell>
-               
+
                 <TableCell>Mode</TableCell>
                 <TableCell>Inv Types</TableCell>
                 <TableCell>Amount</TableCell>
@@ -670,12 +717,12 @@ export const DuplicateInvoiceCheck = () => {
                 invList.map((inv) => (
                   <TableRow
                     key={inv.dailySaleId}
-                    sx={{ '&:last-child td, &:last-child th': { border: 1 } }}
+                    sx={{ "&:last-child td, &:last-child th": { border: 1 } }}
                   >
                     <TableCell>{inv.dailySaleId}</TableCell>
                     <TableCell>{inv.saleDate}</TableCell>
                     <TableCell>{inv.invNo}</TableCell>
-                   
+
                     <TableCell>{PMode[inv.payMode]}</TableCell>
                     <TableCell>
                       {inv.isDue && (
@@ -716,7 +763,7 @@ export const DuplicateInvoiceCheck = () => {
                         <span className="svg-icon svg-icon-md svg-icon-primary">
                           <SVG
                             src={toAbsoluteUrl(
-                              '/media/svg/icons/Communication/Write.svg',
+                              "/media/svg/icons/Communication/Write.svg"
                             )}
                           />
                         </span>
@@ -731,7 +778,7 @@ export const DuplicateInvoiceCheck = () => {
                         <span className="svg-icon svg-icon-md svg-icon-danger">
                           <SVG
                             src={toAbsoluteUrl(
-                              '/media/svg/icons/General/Trash.svg',
+                              "/media/svg/icons/General/Trash.svg"
                             )}
                           />
                         </span>
@@ -743,13 +790,13 @@ export const DuplicateInvoiceCheck = () => {
           </Table>
         </TableContainer>
       </>
-    )
-  }
+    );
+  };
 
   const ErrorList = ({ eList }) => {
     // console.log(eList);
-    if (eList != null) setBOn(false)
-    else setBOn(true)
+    if (eList != null) setBOn(false);
+    else setBOn(true);
     return (
       <>
         {eList && (
@@ -772,7 +819,7 @@ export const DuplicateInvoiceCheck = () => {
             {eList &&
               eList.map((e) => (
                 <li className="text-warning ml-3 col-lg-3">
-                  Invoice No:{' '}
+                  Invoice No:{" "}
                   <span className="text-primary  ml-2">
                     <em>{e}</em>
                   </span>
@@ -781,16 +828,16 @@ export const DuplicateInvoiceCheck = () => {
           </ul>
         )}
       </>
-    )
-  }
+    );
+  };
   const handleReset = (event) => {
-    dispatch(actions.resetDupInv())
-  }
-  const componentRef = useRef()
+    dispatch(actions.resetDupInv());
+  };
+  const componentRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
     pageStyle: () => pageStyle,
-  })
+  });
 
   return (
     <Card>
@@ -824,7 +871,7 @@ export const DuplicateInvoiceCheck = () => {
             className="mr-3 btn btn-info"
             value="Reset"
             onClick={() => {
-              handleReset()
+              handleReset();
             }}
           >
             Reset
@@ -873,54 +920,54 @@ export const DuplicateInvoiceCheck = () => {
         </div>
       </CardFooter>
     </Card>
-  )
-}
+  );
+};
 
 export const TailoringDuplicateCheck = () => {
-  const componentRef = useRef()
+  const componentRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
     pageStyle: () => pageStyle,
-  })
-  const history = useHistory() // example from react-router
+  });
+  const history = useHistory(); // example from react-router
   const { currentState } = useSelector(
     (state) => ({ currentState: state.commonPageTypes }),
-    shallowEqual,
-  )
-  const [store, setStore] = useState(1)
-  const [bOn, setBOn] = useState(true)
+    shallowEqual
+  );
+  const [store, setStore] = useState(1);
+  const [bOn, setBOn] = useState(true);
 
-  const { slipCheck } = currentState
+  const { slipCheck } = currentState;
   const handleReset = (event) => {
-    dispatch(actions.resetSlip())
-  }
+    dispatch(actions.resetSlip());
+  };
   // Rents Redux state
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   useEffect(() => {
     // server call by queryParams
-    dispatch(actions.fetchSlipCheck(store))
+    dispatch(actions.fetchSlipCheck(store));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch])
+  }, [dispatch]);
   const handleButton = () => {
-    if (store == null) alert('Kindly Select Store First')
+    if (store == null) alert("Kindly Select Store First");
     else {
       // server call by queryParams
-      dispatch(actions.fetchSlipCheck(store))
+      dispatch(actions.fetchSlipCheck(store));
       // eslint-disable-next-line react-hooks/exhaustive-deps
       alert(
-        'Please wait while processing your request.... Please ok to continue...',
-      )
+        "Please wait while processing your request.... Please ok to continue..."
+      );
     }
     //return( <AlertDismissible msg="Please wait while processing your request.... Please ok to continue..."/>);
-  }
+  };
   const openEditDialog = (id) => {
-    history.push('/tailoring/delivery/' + `${id}/edit`)
-  }
+    history.push("/tailoring/delivery/" + `${id}/edit`);
+  };
   const openDeleteDialog = (id) => {
-    history.push('/tailoring/delivery/' + `${id}/delete`)
-  }
+    history.push("/tailoring/delivery/" + `${id}/delete`);
+  };
   const ListDuplicateDelivery = ({ dupList }) => {
-    if (dupList != null && dupList.length == 0) return <></>
+    if (dupList != null && dupList.length == 0) return <></>;
     return (
       <>
         <h3 className="text-info text-center">Duplicate Delivery Listing</h3>
@@ -948,7 +995,7 @@ export const TailoringDuplicateCheck = () => {
                 dupList.map((inv) => (
                   <TableRow
                     key={inv.dailySaleId}
-                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                     <TableCell>{inv.talioringDeliveryId}</TableCell>
                     <TableCell>{inv.deliveryDate}</TableCell>
@@ -968,7 +1015,7 @@ export const TailoringDuplicateCheck = () => {
                         <span className="svg-icon svg-icon-md svg-icon-primary">
                           <SVG
                             src={toAbsoluteUrl(
-                              '/media/svg/icons/Communication/Write.svg',
+                              "/media/svg/icons/Communication/Write.svg"
                             )}
                           />
                         </span>
@@ -985,7 +1032,7 @@ export const TailoringDuplicateCheck = () => {
                         <span className="svg-icon svg-icon-md svg-icon-danger">
                           <SVG
                             src={toAbsoluteUrl(
-                              '/media/svg/icons/General/Trash.svg',
+                              "/media/svg/icons/General/Trash.svg"
                             )}
                           />
                         </span>
@@ -997,8 +1044,8 @@ export const TailoringDuplicateCheck = () => {
           </Table>
         </TableContainer>
       </>
-    )
-  }
+    );
+  };
 
   const DuplicateList = ({ eList }) => {
     if (eList === null || eList.length === 0)
@@ -1010,9 +1057,9 @@ export const TailoringDuplicateCheck = () => {
         >
           No Duplicate Entry found!
         </Typography>
-      )
-    if (eList != null) setBOn(false)
-    else setBOn(true)
+      );
+    if (eList != null) setBOn(false);
+    else setBOn(true);
     return (
       <>
         {eList && (
@@ -1043,7 +1090,7 @@ export const TailoringDuplicateCheck = () => {
             {eList &&
               eList.map((e) => (
                 <li className="text-warning ml-3 col-lg-3">
-                  Invoice No:{' '}
+                  Invoice No:{" "}
                   <span className="text-primary  ml-2">
                     <em>{e}</em>
                   </span>
@@ -1052,26 +1099,26 @@ export const TailoringDuplicateCheck = () => {
           </ul>
         )}
       </>
-    )
-  }
+    );
+  };
 
   const columns = [
-    { field: 'id', headerName: 'ID', width: 90 },
-    { field: 'onDate', headerName: 'Date', minWidth: 150, type: 'date' },
-    { field: 'custName', headerName: 'Customer', minWidth: 150 },
-    { field: 'slipNo', headerName: 'Slip No', minWidth: 150 },
-    { field: 'amount', headerName: 'Amount', minWidth: 150 },
-    { field: 'qty', headerName: 'Qty', minWidth: 150 },
+    { field: "id", headerName: "ID", width: 90 },
+    { field: "onDate", headerName: "Date", minWidth: 150, type: "date" },
+    { field: "custName", headerName: "Customer", minWidth: 150 },
+    { field: "slipNo", headerName: "Slip No", minWidth: 150 },
+    { field: "amount", headerName: "Amount", minWidth: 150 },
+    { field: "qty", headerName: "Qty", minWidth: 150 },
     {
-      field: 'slipNos',
-      headerName: 'Slips',
+      field: "slipNos",
+      headerName: "Slips",
       minWidth: 150,
       valueFormatter: (params) => {
-        const valueFormatted = Number(params.value[1]).toLocaleString()
-        return `${valueFormatted}`
+        const valueFormatted = Number(params.value[1]).toLocaleString();
+        return `${valueFormatted}`;
       },
     },
-  ]
+  ];
 
   const BookingData = ({ lData }) => {
     //console.log(lData)
@@ -1084,10 +1131,10 @@ export const TailoringDuplicateCheck = () => {
               gutterBottom
               className="text-info text-italic"
             >
-              List of Booking Data after 04/08/2020{' '}
+              List of Booking Data after 04/08/2020{" "}
             </Typography>
           </div>
-          <div style={{ height: 650, width: '100%' }}>
+          <div style={{ height: 650, width: "100%" }}>
             <DataGrid
               className="text-primary"
               rows={lData && lData}
@@ -1103,8 +1150,8 @@ export const TailoringDuplicateCheck = () => {
           </div>
         </div>
       </>
-    )
-  }
+    );
+  };
 
   return (
     <Card>
@@ -1138,7 +1185,7 @@ export const TailoringDuplicateCheck = () => {
             className="mr-3 btn btn-info"
             value="Reset"
             onClick={() => {
-              handleReset()
+              handleReset();
             }}
           >
             Reset
@@ -1189,8 +1236,8 @@ export const TailoringDuplicateCheck = () => {
         </div>
       </CardFooter>
     </Card>
-  )
-}
+  );
+};
 
 // function CustomToolbar() {
 //   return (

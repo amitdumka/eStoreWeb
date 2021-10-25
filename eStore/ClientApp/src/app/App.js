@@ -1,27 +1,26 @@
 /**
  * Entry application component used to compose providers and render Routes.
- * 
+ *
  */
 
 import React from "react";
 import { Provider } from "react-redux";
-import { BrowserRouter , useHistory} from "react-router-dom";
+import { BrowserRouter, useHistory } from "react-router-dom";
 import { PersistGate } from "redux-persist/integration/react";
 import { Routes } from "../app/Routes";
 import { I18nProvider } from "../_metronic/i18n";
 import { LayoutSplashScreen, MaterialThemeProvider } from "../_metronic/layout";
 //Okta Addition
-import { Security } from '@okta/okta-react';
-import config from '../config';
+import { Security } from "@okta/okta-react";
+import config from "../config";
 export default function App({ store, persistor, basename }) {
- //Okta Addition 
- const history = useHistory(); // example from react-router
+  //Okta Addition
+  const history = useHistory(); // example from react-router
 
- const customAuthHandler = () => {
-   // Redirect to the /login page that has a CustomLoginComponent
-   history.push('/login');
- };
-
+  const customAuthHandler = () => {
+    // Redirect to the /login page that has a CustomLoginComponent
+    history.push("/login");
+  };
 
   return (
     /* Provide Redux store */

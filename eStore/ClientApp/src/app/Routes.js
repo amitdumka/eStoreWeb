@@ -7,7 +7,7 @@
 
 import React from "react";
 import { Redirect, Switch, Route } from "react-router-dom";
-import { shallowEqual, useSelector ,useDispatch} from "react-redux";
+import { shallowEqual, useSelector, useDispatch } from "react-redux";
 import { Layout } from "../_metronic/layout";
 import BasePage from "./BasePage";
 /////import { Logout, AuthPage } from "./modules/Auth";
@@ -16,8 +16,8 @@ import { useState, useEffect } from "react";
 
 import { useOktaAuth } from "@okta/okta-react";
 import CustomLoginComponent from "./modules/okta/Login";
-import {  LoginCallback } from "@okta/okta-react";
-import  * as LoginActions from "./modules/Auth/_redux/authRedux";
+import { LoginCallback } from "@okta/okta-react";
+import * as LoginActions from "./modules/Auth/_redux/authRedux";
 
 // import Messages from "./modules/okta/Messages";
 export function Routes() {
@@ -32,14 +32,14 @@ export function Routes() {
       //user=null;
     } else {
       authService.getUser().then((info) => {
-        dispatch(LoginActions.actions.setUser(info));//.then(() => setUserInfo(info));
+        dispatch(LoginActions.actions.setUser(info)); //.then(() => setUserInfo(info));
         setUserInfo(info);
-       // user=info;
-        //isAuthorizedFor=authState.isAuthenticated; 
+        // user=info;
+        //isAuthorizedFor=authState.isAuthenticated;
         //console.log(info);
       });
     }
-  }, [authState, authService,dispatch]); // Update if authState changes
+  }, [authState, authService, dispatch]); // Update if authState changes
 
   const { isAuthorized } = useSelector(
     ({ auth }) => ({
@@ -48,7 +48,6 @@ export function Routes() {
     }),
     shallowEqual
   );
-  
 
   const logout = async () => {
     authService.logout("/");
@@ -63,7 +62,7 @@ export function Routes() {
       {!isAuthorized ? (
         /*Render auth page when user at `/auth` and not authorized.*/
         <Route>
-         <CustomLoginComponent />
+          <CustomLoginComponent />
         </Route>
       ) : (
         /*Otherwise redirect to root page (`/`)*/

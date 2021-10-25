@@ -7,8 +7,8 @@ const initialState = {
   duplicateInvCheckList: null,
   tailoringCheckList: null,
   slipCheck: null,
-  invoiceList:null,
-  tailoringErrors:null
+  invoiceList: null,
+  tailoringErrors: null,
 };
 
 export const callTypes = {

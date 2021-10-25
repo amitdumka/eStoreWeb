@@ -31,8 +31,8 @@ export const pageStyle = `  @media all {    .page-break {      display: none;   
    @page {    size: auto;    margin: 20mm;  }`;
 
 export const SaleInfoPage = () => {
- // const subHeader = useSubheader();
- // subHeader.setTitle("Sale Info");
+  // const subHeader = useSubheader();
+  // subHeader.setTitle("Sale Info");
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
@@ -92,7 +92,6 @@ export const SaleInfoPage = () => {
               <IconButton
                 className="btn btn-success mr-3"
                 onClick={handlePrint}
-                
               >
                 <LocalPrintshopIcon />
               </IconButton>
@@ -118,7 +117,7 @@ export const SaleInfoPage = () => {
             </CardHeaderToolbar>
           </CardHeader>
           <CardBody ref={componentRef} pageStyle={pageStyle}>
-               <DataList data={invoiceList && invoiceList}/>
+            <DataList data={invoiceList && invoiceList} />
           </CardBody>
         </Card>
       </div>
@@ -127,45 +126,72 @@ export const SaleInfoPage = () => {
 };
 
 const DataList = ({ data }) => {
-    if(data==null) return null;
-    //console.log(data);
-    //console.log(data.regular);
+  if (data == null) return null;
+  //console.log(data);
+  //console.log(data.regular);
   const cols = [
     { field: "id", headerName: " # ", width: 60 },
-    { field: "date", headerName: "Date", minWidth: 100, type: 'date' },
+    { field: "date", headerName: "Date", minWidth: 100, type: "date" },
     { field: "invNo", headerName: "Invoice", minWidth: 150 },
     { field: "amount", headerName: "Amount", minWidth: 150 },
   ];
- 
-  const regular = data.regular.map((r,index)=>{
-      const row={id:index+1,invNo:r.invNo, date:r.date,amount:r.amount};
-      return row;
+
+  const regular = data.regular.map((r, index) => {
+    const row = {
+      id: index + 1,
+      invNo: r.invNo,
+      date: r.date,
+      amount: r.amount,
+    };
+    return row;
   });
-  const tailoring = data.tailoring.map((r,index)=>{
-    const row={id:index+1,invNo:r.invNo, date:r.date,amount:r.amount};
+  const tailoring = data.tailoring.map((r, index) => {
+    const row = {
+      id: index + 1,
+      invNo: r.invNo,
+      date: r.date,
+      amount: r.amount,
+    };
     return row;
-});
-const due = data.due.map((r,index)=>{
-    const row={id:index+1,invNo:r.invNo, date:r.date,amount:r.amount};
+  });
+  const due = data.due.map((r, index) => {
+    const row = {
+      id: index + 1,
+      invNo: r.invNo,
+      date: r.date,
+      amount: r.amount,
+    };
     return row;
-});
-const saleReturn = data.saleReturn.map((r,index)=>{
-    const row={id:index+1,invNo:r.invNo, date:r.date,amount:r.amount};
+  });
+  const saleReturn = data.saleReturn.map((r, index) => {
+    const row = {
+      id: index + 1,
+      invNo: r.invNo,
+      date: r.date,
+      amount: r.amount,
+    };
     return row;
-});
-const manual = data.manual.map((r,index)=>{
-    const row={id:index+1,invNo:r.invNo, date:r.date,amount:r.amount};
+  });
+  const manual = data.manual.map((r, index) => {
+    const row = {
+      id: index + 1,
+      invNo: r.invNo,
+      date: r.date,
+      amount: r.amount,
+    };
     return row;
-});
+  });
 
   return (
-
     <>
       <div className="border border-success rounded m-4 p-3">
-      <Typography variant="h4" gutterBottom className="text-info text-italic">Sale Invoice</Typography>
+        <Typography variant="h4" gutterBottom className="text-info text-italic">
+          Sale Invoice
+        </Typography>
         <div style={{ height: 400, width: "100%" }}>
-           <DataGrid density="compact"
-            rows={regular && regular }
+          <DataGrid
+            density="compact"
+            rows={regular && regular}
             columns={cols}
             pageSize={8}
             checkboxSelection
@@ -173,13 +199,16 @@ const manual = data.manual.map((r,index)=>{
             components={{
               Toolbar: GridToolbar,
             }}
-          /> 
+          />
         </div>
       </div>
       <div className="border border-success rounded m-4 p-3">
-      <Typography variant="h4" gutterBottom className="text-info text-italic">Tailoring Invoice List</Typography>
+        <Typography variant="h4" gutterBottom className="text-info text-italic">
+          Tailoring Invoice List
+        </Typography>
         <div style={{ height: 400, width: "100%" }}>
-          <DataGrid density="compact"
+          <DataGrid
+            density="compact"
             rows={tailoring && tailoring}
             columns={cols}
             pageSize={8}
@@ -192,9 +221,12 @@ const manual = data.manual.map((r,index)=>{
         </div>
       </div>
       <div className="border border-success rounded m-4 p-3">
-      <Typography variant="h4" gutterBottom className="text-info text-italic">Manual Invoice List</Typography>
+        <Typography variant="h4" gutterBottom className="text-info text-italic">
+          Manual Invoice List
+        </Typography>
         <div style={{ height: 400, width: "100%" }}>
-          <DataGrid density="compact"
+          <DataGrid
+            density="compact"
             rows={manual && manual}
             columns={cols}
             pageSize={8}
@@ -207,9 +239,12 @@ const manual = data.manual.map((r,index)=>{
         </div>
       </div>
       <div className="border border-success rounded m-4 p-3">
-      <Typography variant="h4" gutterBottom className="text-info text-italic">Sales Return List</Typography>
+        <Typography variant="h4" gutterBottom className="text-info text-italic">
+          Sales Return List
+        </Typography>
         <div style={{ height: 400, width: "100%" }}>
-          <DataGrid density="compact"
+          <DataGrid
+            density="compact"
             rows={saleReturn && saleReturn}
             columns={cols}
             pageSize={8}
@@ -222,9 +257,12 @@ const manual = data.manual.map((r,index)=>{
         </div>
       </div>
       <div className="border border-success rounded m-4 p-3">
-      <Typography variant="h4" gutterBottom className="text-info text-italic">Due Invoice List</Typography>
+        <Typography variant="h4" gutterBottom className="text-info text-italic">
+          Due Invoice List
+        </Typography>
         <div style={{ height: 400, width: "100%" }}>
-          <DataGrid density="compact"
+          <DataGrid
+            density="compact"
             rows={due && due}
             columns={cols}
             pageSize={8}

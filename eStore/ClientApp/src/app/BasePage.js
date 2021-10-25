@@ -5,9 +5,9 @@ import { BuilderPage } from "./pages/BuilderPage";
 import { MyPage } from "./pages/MyPage";
 //import MyReports from "./pages/MyReports";
 import { DashboardPage } from "./pages/DashboardPage";
-import {FinReportPage} from "./pages/FinReportPage";
-import {SystemCheckPage} from "./pages/SystemCheckPage";
-import {SaleInfoPage} from "./pages/SaleInfoPage";
+import { FinReportPage } from "./pages/FinReportPage";
+import { SystemCheckPage } from "./pages/SystemCheckPage";
+import { SaleInfoPage } from "./pages/SaleInfoPage";
 import Print from "./pages/InvoicePrint";
 //import {  SecureRoute, LoginCallback } from "@okta/okta-react";
 //import CustomLoginComponent from "./modules/okta/Login";
@@ -24,7 +24,7 @@ const BankingPage = lazy(() => import("./modules/Banking/pages/BankingPage"));
 const LedgerPage = lazy(() => import("./modules/legders/pages/LedgersPage"));
 const TaxesPage = lazy(() => import("./modules/Taxes/pages/TaxesPage"));
 const DuesPage = lazy(() => import("./modules/Dues/pages/DuesPage"));
-const ReportsPage = lazy(() =>import("./modules/Reports/pages/ReportsPage"));
+const ReportsPage = lazy(() => import("./modules/Reports/pages/ReportsPage"));
 const TailoringPage = lazy(() =>
   import("./modules/Tailoring/pages/TailoringPage")
 );
@@ -32,11 +32,12 @@ const RentMainPage = lazy(() => import("./modules/Rents/pages/RentMainPage"));
 const ElectricityPage = lazy(() =>
   import("./modules/Electricity/pages/ElectricityPage")
 );
- const StoreOperationsMainPage= lazy(() =>import("./modules/StoreOperations/pages/StoreOperationsMainPage"));
- const SalesPage = lazy(() =>import("./modules/Sales/pages/SalesPage"));
+const StoreOperationsMainPage = lazy(() =>
+  import("./modules/StoreOperations/pages/StoreOperationsMainPage")
+);
+const SalesPage = lazy(() => import("./modules/Sales/pages/SalesPage"));
 
- //const FinReportPage = lazy(() =>import("./pages/FinReportPage"));
-
+//const FinReportPage = lazy(() =>import("./pages/FinReportPage"));
 
 export default function BasePage() {
   // useEffect(() => {
@@ -55,9 +56,9 @@ export default function BasePage() {
         <ContentRoute path="/builder" component={BuilderPage} />
         <ContentRoute path="/my-page" component={MyPage} />
         <ContentRoute path="/fin-page" component={FinReportPage} />
-        <ContentRoute path="/systemchecks" component={SystemCheckPage}/>
-        <ContentRoute path="/saleInfoList" component={SaleInfoPage}/>
-        <ContentRoute path="/printInv" component={Print}/>
+        <ContentRoute path="/systemchecks" component={SystemCheckPage} />
+        <ContentRoute path="/saleInfoList" component={SaleInfoPage} />
+        <ContentRoute path="/printInv" component={Print} />
 
         {/* <ContentRoute path="/my-report" component={MyReports} /> */}
         <Route path="/store" component={StoreMainPage} />
@@ -73,9 +74,9 @@ export default function BasePage() {
         {/* <Route path="/implicit/callback" component={LoginCallback} /> 
         <Route path="/login" component={CustomLoginComponent} />*/}
         <Route path="/stores" component={StoreOperationsMainPage} />
-        <Route path="/reports" component={ReportsPage}/>
-        <Route path="/sales" component={SalesPage}/>
-        
+        <Route path="/reports" component={ReportsPage} />
+        <Route path="/sales" component={SalesPage} />
+
         {/* <SecureRoute path="/messages" component={Messages} /> */}
         <Redirect to="error/error-v1" />
       </Switch>
