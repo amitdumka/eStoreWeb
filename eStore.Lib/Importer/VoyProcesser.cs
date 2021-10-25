@@ -15,20 +15,63 @@ namespace eStore.BL.Importer
 
         public static int GenerateStockFromPurchase(eStoreDbContext db , int StoreId)
         {
-            var data = db.PurchaseItem.Select(c => new {c.Barcode, c.Qty, c.Unit }).OrderBy(c=>c.Barcode)
+            var data = db.PurchaseItem.Select(c => new {c.Barcode, c.Qty, c.Unit })
+                .GroupBy(c=>new { c.Barcode, c.Qty, c.Unit})
+                .Select(c=> new { Barcode=c.Key.Barcode, Unit=c.Key.Unit, TotalQty=(double)c.Sum(c=>c.Qty)})
                 
                 .ToList();
 
             foreach (var item in data)
             {
-
-               
                 Stock stock = new Stock {
                     
-                    Barcode = item.Barcode, IsReadOnly = true, PurchaseQty = item.Qty, SaleQty=0,
+                    Barcode = item.Barcode, IsReadOnly = true, PurchaseQty = item.TotalQty, SaleQty=0,
                     HoldQty=0, StoreId=StoreId, UserId="AutoAdmin", Units=item.Unit
                 };
+                db.Stocks.Add(stock);
+                
             }
+           return db.SaveChanges();
+
+
+        }
+
+        public static int UpdateStockFromSale(eStoreDbContext db, int StoreId)
+        {
+            var data = db.SaleItems.Select(c => new { c.BarCode, c.Qty, c.Units})
+                .GroupBy(c => new { c.BarCode, c.Qty, c.Units })
+                .Select(c => new { Barcode = c.Key.BarCode, Unit = c.Key.Units, TotalQty = (double)c.Sum(c => c.Qty) })
+
+                .ToList();
+
+            foreach (var item in data)
+            {
+                var stock = db.Stocks.Where(c => c.Barcode == item.Barcode && c.StoreId == StoreId).FirstOrDefault();
+                if (stock == null)
+                {
+                    stock = new Stock
+                    {
+
+                        Barcode = item.Barcode,
+                        IsReadOnly = true,
+                        PurchaseQty = -999,
+                        SaleQty = item.TotalQty,
+                        HoldQty = 0,
+                        StoreId = StoreId,
+                        UserId = "AutoAdmin",
+                        Units = item.Unit
+                    };
+                    db.Stocks.Add(stock);
+                }
+                else
+                {
+                    stock.SaleQty += item.TotalQty;
+                    db.Stocks.Update(stock);
+                }
+                
+
+            }
+            return db.SaveChanges();
 
 
         }

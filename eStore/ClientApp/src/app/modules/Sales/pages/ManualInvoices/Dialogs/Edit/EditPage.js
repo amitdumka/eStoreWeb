@@ -85,6 +85,30 @@ export function EditPage({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [invoiceForEdit, id]);
 
+  // map formik data to sale item and invoice
+  const mapToInvoice = (data) => {
+    const invoice = {
+      onDate: data.onDate,
+      totalAmount: data.totalAmount,
+      totalTaxAmount: data.totalTaxAmount,
+      totalDiscount: data.totalDiscount,
+      roundOff: data.roundOff,
+      totalQty: data.totalQty,
+      invoiceType: 1,
+    };
+    const item={       
+         Barcode :data.item.barcoe,
+         Qty :data.item.qty,
+         Units :data.item.unit,
+         BasicPrice :data.item.basicPrice,
+         DiscountAmount :data.item.discount,
+         TaxAmount :data.item.taxAmount,
+         SalesmanId :data.item.salesmanid,
+    }
+
+
+  };
+
   //Save Data.
   const saveData = (invoice) => {
     // Note: Here need to convert data into server data format
