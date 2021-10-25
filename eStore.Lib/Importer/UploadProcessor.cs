@@ -11,34 +11,34 @@ namespace eStore.BL.Importer
             {
                 int StoreId = cmd.StoreId;
                 int Year = cmd.Year;
-                switch ( cmd.Command )
+                switch (cmd.Command)
                 {
                     case "DailySale":
-                        if ( VoyProcesser.ProcessDailySale (db, StoreId, Year) > 0 )
+                        if (VoyProcesser.ProcessDailySale(db, StoreId, Year) > 0)
                             return true;
                         else
                             return false;
 
                     case "Brand":
-                        if ( VoyProcesser.ProcessBrand (db) > 0 )
+                        if (VoyProcesser.ProcessBrand(db) > 0)
                             return true;
                         else
                             return false;
 
                     case "PItem":
-                        if ( VoyProcesser.ProcessPitem (db) > 0 )
+                        if (VoyProcesser.ProcessPitem(db) > 0)
                             return true;
                         else
                             return false;
 
                     case "PurchaseInward":
-                        if ( VoyProcesser.ProcessInwardSummary (db, cmd.StoreId, cmd.Year) > 0 )
+                        if (VoyProcesser.ProcessInwardSummary(db, cmd.StoreId, cmd.Year) > 0)
                             return true;
                         else
                             return false;
 
                     case "Sale":
-                        if ( VoyProcesser.ProcessSaleSummary (db, StoreId, Year) > 0 )
+                        if (VoyProcesser.ProcessSaleSummary(db, StoreId, Year) > 0)
                             return true;
                         else
                             return false;
@@ -49,7 +49,7 @@ namespace eStore.BL.Importer
                             return false;
 
                     case "SaleItem":
-                        if ( VoyProcesser.ProcessSale (db, StoreId, Year) > 0 )
+                        if (VoyProcesser.ProcessSale(db, StoreId, Year) > 0)
                             return true;
                         else
                             return false;
@@ -60,13 +60,23 @@ namespace eStore.BL.Importer
                             return false;
 
                     case "Customer":
-                        if ( VoyProcesser.ProcessCusomterSale (db, StoreId, Year) > 0 )
+                        if (VoyProcesser.ProcessCusomterSale(db, StoreId, Year) > 0)
                             return true;
                         else
                             return false;
 
                     case "PurchaseItem":
-                        if ( VoyProcesser.ProcessPurchase (db, cmd.StoreId, cmd.Year) > 0 )
+                        if (VoyProcesser.ProcessPurchase(db, cmd.StoreId, cmd.Year) > 0)
+                            return true;
+                        else
+                            return false;
+                    case "StockGeneration":
+                        if (VoyProcesser.GenerateStockFromPurchase(db, cmd.StoreId) > 0)
+                            return true;
+                        else
+                            return false;
+                    case "StockUpdation":
+                        if (VoyProcesser.UpdateStockFromSale(db, cmd.StoreId) > 0)
                             return true;
                         else
                             return false;
@@ -77,9 +87,9 @@ namespace eStore.BL.Importer
                         return false;
                 }
             }
-            catch ( Exception e )
+            catch (Exception e)
             {
-                Console.WriteLine ("Error: " + e.Message);
+                Console.WriteLine("Error: " + e.Message);
                 return false;
             }
         }
@@ -90,67 +100,67 @@ namespace eStore.BL.Importer
             {
                 int StoreId = cmd.StoreId;
                 int Year = cmd.Year;
-                switch ( cmd.Command )
+                switch (cmd.Command)
                 {
                     case "MISSINGITEM":
-                        return VoyProcesser.MissingBarcode (db);
+                        return VoyProcesser.MissingBarcode(db);
 
                     case "DailySale":
-                        if ( VoyProcesser.ProcessDailySale (db, StoreId, Year) > 0 )
+                        if (VoyProcesser.ProcessDailySale(db, StoreId, Year) > 0)
                             return true;
                         else
                             return false;
 
                     case "Brand":   //Over
-                        if ( VoyProcesser.ProcessBrand (db) > 0 )
+                        if (VoyProcesser.ProcessBrand(db) > 0)
                             return true;
                         else
                             return false;
 
                     case "Product":    //Over
-                        if ( new VoyProcesser ().ProcessProductItem (db, cmd.BrandName) > 0 )
+                        if (new VoyProcesser().ProcessProductItem(db, cmd.BrandName) > 0)
                             return true;
                         else
                             return false;
 
                     case "ProductItem":     //Over
-                        if ( VoyProcesser.ProcessItem (db) > 0 )
+                        if (VoyProcesser.ProcessItem(db) > 0)
                             return true;
                         else
                             return false;
 
                     case "PItem":    //Over
-                        if ( VoyProcesser.ProcessPitem (db) > 0 )
+                        if (VoyProcesser.ProcessPitem(db) > 0)
                             return true;
                         else
                             return false;
 
                     case "PurchaseInward":  //Over
-                        if ( VoyProcesser.ProcessInwardSummary (db, cmd.StoreId, cmd.Year) > 0 )
+                        if (VoyProcesser.ProcessInwardSummary(db, cmd.StoreId, cmd.Year) > 0)
                             return true;
                         else
                             return false;
 
                     case "PurchaseItem":    //Over
-                        if ( VoyProcesser.ProcessPurchase (db, cmd.StoreId, cmd.Year) > 0 )
+                        if (VoyProcesser.ProcessPurchase(db, cmd.StoreId, cmd.Year) > 0)
                             return true;
                         else
                             return false;
 
                     case "Sale":             //Over
-                        if ( VoyProcesser.ProcessSaleSummary (db, StoreId, Year) > 0 )
+                        if (VoyProcesser.ProcessSaleSummary(db, StoreId, Year) > 0)
                             return true;
                         else
                             return false;
 
                     case "SaleItem":
-                        if ( VoyProcesser.ProcessSale (db, StoreId, Year) > 0 )
+                        if (VoyProcesser.ProcessSale(db, StoreId, Year) > 0)
                             return true;
                         else
                             return false;
 
                     case "Customer":
-                        if ( VoyProcesser.ProcessCusomterSale (db, StoreId, Year) > 0 )
+                        if (VoyProcesser.ProcessCusomterSale(db, StoreId, Year) > 0)
                             return true;
                         else
                             return false;
@@ -161,9 +171,9 @@ namespace eStore.BL.Importer
                         return false;
                 }
             }
-            catch ( Exception e )
+            catch (Exception e)
             {
-                Console.WriteLine ("Error: " + e.Message);
+                Console.WriteLine("Error: " + e.Message);
                 return false;
             }
         }
