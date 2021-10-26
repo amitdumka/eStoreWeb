@@ -11,8 +11,6 @@ export const fetchEnumValue = (enumName) => (dispatch) => {
     .getEnumType(enumName)
     .then((response) => {
       const entities = response.data;
-      //console.log("Enum Name:" + enumName);
-      //console.log(entities);
       dispatch(actions.enumValueFetched({ enumName, entities }));
     })
     .catch((error) => {
@@ -24,13 +22,13 @@ export const fetchEnumValue = (enumName) => (dispatch) => {
 
 export const fetchStores = () => (dispatch) => {
   dispatch(actions.startCall({ callType: callTypes.list }));
-const tName="stores";
+  const tName = "stores";
   return requestFromServer
     .getStores()
     .then((response) => {
       const entities = response.data;
       //console.log(entities);
-      dispatch(actions.storesFetched({ tName,entities }));
+      dispatch(actions.storesFetched({ tName, entities }));
     })
     .catch((error) => {
       console.error(error);
@@ -39,3 +37,34 @@ const tName="stores";
     });
 };
 
+export const fetchSalesmen = () => (dispatch) => {
+  dispatch(actions.startCall({ callType: callTypes.list }));
+  return requestFromServer
+    .getSalesmen()
+    .then((response) => {
+      const entities = response.data;
+      //console.log(entities);
+      dispatch(actions.salesmenFetched({ entities }));
+    })
+    .catch((error) => {
+      console.error(error);
+      error.clientMessage = `$"Can't load Salesmen list"`;
+      dispatch(actions.catchError({ error, callTypes: callTypes.list }));
+    });
+};
+
+export const fetchProductStocks = () => (dispatch) => {
+  dispatch(actions.startCall({ callType: callTypes.list }));
+  return requestFromServer
+    .getProductStocks()
+    .then((response) => {
+      const entities = response.data;
+      //console.log(entities);
+      dispatch(actions.storesFetched({ entities }));
+    })
+    .catch((error) => {
+      console.error(error);
+      error.clientMessage = `$"Can't load ProductStock  list"`;
+      dispatch(actions.catchError({ error, callTypes: callTypes.list }));
+    });
+};

@@ -4,6 +4,8 @@ const initialState = {
   listLoading: false,
   actionsLoading: false,
   lastError: null,
+  salesmanList:null,
+  productStocks: null,
 
   payModes: null,
   rentTypes: null,
@@ -65,6 +67,21 @@ export const commonTypesSlice = createSlice({
       state.listLoading = false;
       state.error = null;
       state.storeList = entities;
+    },
+
+    salesmenFetched: function(state, action) {
+      const { entities } = action.payload;
+      state.actionsLoading = false;
+      state.listLoading = false;
+      state.error = null;
+      state.salesmanList = entities;
+    },
+    productStocksFetched: function(state, action) {
+      const { entities } = action.payload;
+      state.actionsLoading = false;
+      state.listLoading = false;
+      state.error = null;
+      state.productStocks = entities;
     },
     enumValueFetched: function(state, action) {
       const {enumName, entities } = action.payload;
