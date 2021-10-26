@@ -4,29 +4,30 @@ import * as Yup from "yup";
 import * as actions from "../../../../_redux/Invoices/Actions";
 import * as commonActions from "../../../../../_redux/Actions";
 import {
-    Input,
-    DatePickerField,
-  } from "../../../../../../../_metronic/_partials/controls";
-  
-  import {
-    GridComponent,
-    ColumnsDirective,
-    ColumnDirective,
-    Page,
-    Toolbar,
-    Edit,
-    Filter,
-    Inject,
-  } from "@syncfusion/ej2-react-grids";
-  import { enableRipple } from "@syncfusion/ej2-base";
-  import { NumericTextBoxComponent } from "@syncfusion/ej2-react-inputs";
-  ////import { DatePickerComponent } from '@syncfusion/ej2-react-calendars'
-  //import { DropDownListComponent } from '@syncfusion/ej2-react-dropdowns'
-  //import { DataUtil } from '@syncfusion/ej2-data'
-  import { Browser, extend } from "@syncfusion/ej2-base";
-  import { shallowEqual, useDispatch, useSelector } from "react-redux";
- 
-  enableRipple(true);
+  Input,
+  DatePickerField,
+} from "../../../../../../../_metronic/_partials/controls";
+import SyncfusionBase from "../../../../../../../_estore/controls/SyncfusionBase";
+
+import {
+  GridComponent,
+  ColumnsDirective,
+  ColumnDirective,
+  Page,
+  Toolbar,
+  Edit,
+  Filter,
+  Inject,
+} from "@syncfusion/ej2-react-grids";
+import { enableRipple } from "@syncfusion/ej2-base";
+import { NumericTextBoxComponent } from "@syncfusion/ej2-react-inputs";
+////import { DatePickerComponent } from '@syncfusion/ej2-react-calendars'
+//import { DropDownListComponent } from '@syncfusion/ej2-react-dropdowns'
+//import { DataUtil } from '@syncfusion/ej2-data'
+import { Browser, extend } from "@syncfusion/ej2-base";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+
+enableRipple(true);
 const EditSchema = Yup.object().shape({
   mobileNo: Yup.string().required("Mobile Number is required"),
   customerName: Yup.string().required("Customer Name is required"),
@@ -38,11 +39,23 @@ const EditSchema = Yup.object().shape({
     .required("Qty is required"),
 });
 
-export default function EditForm({ invoice, btnRef, saveData ,storeList, salesmanList,payModes}) {
-
+// Edit Form : The Form for inserting data. 
+export default function EditForm({
+  invoice,
+  btnRef,
+  saveData,
+  storeList,
+  salesmanList,
+  payModes,
+}) {
   const dispatch = useDispatch();
   let pItems = [];
-  const [field,setField]=useState({qty:0,amount:0,tax:0,discount:0});
+  const [field, setField] = useState({
+    qty: 0,
+    amount: 0,
+    tax: 0,
+    discount: 0,
+  });
 
   const updateDetails = (productStock, setFieldValue) => {
     //based of barcode fetch data and update MRP, Qty
@@ -57,40 +70,39 @@ export default function EditForm({ invoice, btnRef, saveData ,storeList, salesma
     //in future need to cache result in some places
     if (productStock != null) {
       setFieldValue("qty", productStock.Quantity);
-      setFieldValue("basicPrice",productStock.MRP);
-      setFieldValue("price",0);
-      setFieldValue("tax",productStock.TaxRate);
-
+      setFieldValue("basicPrice", productStock.MRP);
+      setFieldValue("price", 0);
+      setFieldValue("tax", productStock.TaxRate);
     } else {
       alert("No Product Found!");
     }
     setFieldValue("qty", 101);
   };
   const handleBarcode = (barcode, setFieldValue) => {
-    dispatch(actions.fetchProductStocks(barcode))
-      .then((response) => {
-        updateDetails(response.data, setFieldValue);
-      })
-      .catch((error) => {
-        console.log(error);
-        error.clientMessage = "Can't find Invoice";
-        alert(error);
-        //Implement SweetNotify2 here
-      });
+
+    // dispatch(actions.fetchProductStocks(barcode))
+    //   .then((response) => {
+    //     updateDetails(response.data, setFieldValue);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //     error.clientMessage = "Can't find Invoice";
+    //     alert(error);
+    //     //Implement SweetNotify2 here
+    //   });
   };
-  const onQtyChange=(qty,mrp,setFieldValue)=>{
-        let price=qty*mrp;
-        //let tax=price-(price *TaxRate/100);
-        setFieldValue("amount", price);
-  }
-  const onDiscountChange=(discount,qty,mrp,setFieldValue){
-    let price =(qty*mrp)-discount;
-     //let tax=price-(price *TaxRate/100);
-     setFieldValue("amount", price);    
-  }
+  const onQtyChange = (qty, mrp, setFieldValue) => {
+    let price = qty * mrp;
+    //let tax=price-(price *TaxRate/100);
+    setFieldValue("amount", price);
+  };
+  const onDiscountChange = (discount, qty, mrp, setFieldValue) => {
+    let price = qty * mrp - discount;
+    //let tax=price-(price *TaxRate/100);
+    setFieldValue("amount", price);
+  };
 
-  const handleAddButton=(values)=>{
-
+  const handleAddButton = (values, setFieldValue) => {
     pItems.push({
       barcode: values.barcode,
       qty: values.qty,
@@ -99,20 +111,20 @@ export default function EditForm({ invoice, btnRef, saveData ,storeList, salesma
       tax: values.tax,
     });
 
-    setField("qty",field.qty+values.qty);
-    setField("amount",field.amount+values.mrp);
-    setField("tax",field.tax+values.tax);
-    setField("discount",field.discount+values.discount);
-    
-    setFieldValue("totalAmount",field.amount);
-    setFieldValue("totalTaxAmount",field.tax);
-    setFieldValue("totalDiscount",field.discount);
-    setFieldValue("totalQty",field.qty);
-    
+    setField("qty", field.qty + values.qty);
+    setField("amount", field.amount + values.mrp);
+    setField("tax", field.tax + values.tax);
+    setField("discount", field.discount + values.discount);
+
+    setFieldValue("totalAmount", field.amount);
+    setFieldValue("totalTaxAmount", field.tax);
+    setFieldValue("totalDiscount", field.discount);
+    setFieldValue("totalQty", field.qty);
   };
 
-  return (<>
-   <Formik
+  return (
+    <>
+      <Formik
         enableReinitialize={true}
         initialValues={invoice}
         validationSchema={EditSchema}
@@ -195,7 +207,7 @@ export default function EditForm({ invoice, btnRef, saveData ,storeList, salesma
                 </div>
               </div>
 
-                  {/* Move In Different Part */}
+              {/* Move In Different Part */}
               <div className="row">
                 <h4>Add Item</h4>
               </div>
@@ -214,7 +226,7 @@ export default function EditForm({ invoice, btnRef, saveData ,storeList, salesma
                     type="button"
                     className="btn btn-primary btn-sm"
                     onClick={() =>
-                      handleFetchBarcode(values.barcode, setFieldValue)
+                      handleBarcode(values.barcode, setFieldValue)
                     }
                   >
                     S
@@ -227,7 +239,9 @@ export default function EditForm({ invoice, btnRef, saveData ,storeList, salesma
                     component={Input}
                     label="Qty"
                     placeholder="Qty"
-                    onChange={()=>onQtyChange(values.qty,values.mrp,setFieldValue)}
+                    onChange={() =>
+                      onQtyChange(values.qty, values.mrp, setFieldValue)
+                    }
                   />
                 </div>
                 <div className="col-lg-2">
@@ -245,7 +259,14 @@ export default function EditForm({ invoice, btnRef, saveData ,storeList, salesma
                     component={Input}
                     label="Discount"
                     placeholder="Discount"
-                    onChange={()=>onDiscountChange(values.discount, values.qty,values.mrp,setFieldValue)}
+                    onChange={() =>
+                      onDiscountChange(
+                        values.discount,
+                        values.qty,
+                        values.mrp,
+                        setFieldValue
+                      )
+                    }
                   />
                 </div>
                 <div className="col-lg-2">
@@ -273,103 +294,117 @@ export default function EditForm({ invoice, btnRef, saveData ,storeList, salesma
             <div className="table-danger"></div>
           </>
         )}
-      
-      <EditDetailForm dataModel={pItems} />   
+
+        
       </Formik>
-  </>);
+      <EditDetailForm dataModel={pItems} />
+    </>
+  );
 }
 
-
-export class EditDetailForm extends SyncfusionBase{
-    constructor() {
-        super(...arguments);
-        this.toolbarOptions = ["Add", "Edit", "Delete", "Search"];
-        this.editSettings = {
-          allowEditing: true,
-          allowAdding: true,
-          allowDeleting: true,
-          mode: "Dialog",
-          // template: this.dialogTemplate,
-        };
-        this.editparams = { params: { popupHeight: "300px" } };
-        this.validationRules = { required: true };
-        this.orderidRules = { required: true, number: true };
-        this.pageSettings = { pageSize: 5, pageCount: 5 };
+export class EditDetailForm extends SyncfusionBase {
+  constructor() {
+    super(...arguments);
+    this.toolbarOptions = ["Add", "Edit", "Delete", "Search"];
+    this.editSettings = {
+      allowEditing: true,
+      allowAdding: true,
+      allowDeleting: true,
+      mode: "Dialog",
+      // template: this.dialogTemplate,
+    };
+    this.editparams = { params: { popupHeight: "300px" } };
+    this.validationRules = { required: true };
+    this.orderidRules = { required: true, number: true };
+    this.pageSettings = { pageSize: 5, pageCount: 5 };
+  }
+  dialogTemplate(props) {
+    // return <DialogItemForm {...props} />;
+  }
+  actionComplete(args) {
+    if (args.requestType === "beginEdit" || args.requestType === "add") {
+      if (Browser.isDevice) {
+        args.dialog.height = window.innerHeight - 90 + "px";
+        args.dialog.dataBind();
       }
-      dialogTemplate(props) {
-        return <DialogItemForm {...props} />;
-      }
-      actionComplete(args) {
-        if (args.requestType === "beginEdit" || args.requestType === "add") {
-          if (Browser.isDevice) {
-            args.dialog.height = window.innerHeight - 90 + "px";
-            args.dialog.dataBind();
-          }
-        }
-      }
-      render() {
-        return (
-          <div className="control-pane border rounded border-primary">
-            <div className="control-section">
-              <GridComponent
-                dataSource={this.props.dataModel}
-                toolbar={this.toolbarOptions}
-                allowPaging={true}
-                allowFiltering={true}
-                filterSettings={{ type: "Check" }}
-                editSettings={this.editSettings}
-                pageSettings={this.pageSettings}
-              >
-                <ColumnsDirective>
-                  <ColumnDirective
-                    field="barcode"
-                    headerText="Barcode"
-                    width="180"
-                    textAlign="Center"
-                    validationRules={this.validationRules}
-                    editType="textedit"
-                    isPrimaryKey={true}
-                  ></ColumnDirective>
-                  <ColumnDirective
-                    editType="numericedit"
-                    field="qty"
-                    headerText="Qty"
-                    width="120"
-                    validationRules={this.orderidRules}
-                  ></ColumnDirective>
-                  <ColumnDirective
-                    field="basicPrice"
-                    headerText="Price"
-                    width="120"
-                    format="C2"
-                    textAlign="Center"
-                    editType="numericedit"
-                  ></ColumnDirective>
-                  <ColumnDirective
-                    field="discount"
-                    headerText="Discount"
-                    format="C2"
-                    editType="numericedit"
-                    width="120"
-                    validationRules={this.orderidRules}
-                    textAlign="Center"
-                  ></ColumnDirective>
-                  <ColumnDirective
-                    field="tax"
-                    format="C2"
-                    headerText="Tax"
-                    width="150"
-                    textAlign="Center"
-                    editType="numericedit"
-                  ></ColumnDirective>
-                </ColumnsDirective>
-                <Inject services={[Filter, Page, Toolbar, Edit]} />
-              </GridComponent>
-            </div>
-          </div>
-        );
-      }
+    }
+  }
+  render() {
+    return (
+      <div className="control-pane border rounded border-primary">
+        <div className="control-section">
+          <GridComponent
+            dataSource={this.props.dataModel}
+            toolbar={this.toolbarOptions}
+            allowPaging={true}
+            allowFiltering={true}
+            filterSettings={{ type: "Check" }}
+            editSettings={this.editSettings}
+            pageSettings={this.pageSettings}
+          >
+            <ColumnsDirective>
+              <ColumnDirective
+                field="barcode"
+                headerText="Barcode"
+                width="180"
+                textAlign="Center"
+                validationRules={this.validationRules}
+                editType="textedit"
+                isPrimaryKey={true}
+              ></ColumnDirective>
+              <ColumnDirective
+                editType="numericedit"
+                field="qty"
+                headerText="Qty"
+                width="120"
+                validationRules={this.orderidRules}
+              ></ColumnDirective>
+              <ColumnDirective
+                field="basicPrice"
+                headerText="Price"
+                width="120"
+                format="C2"
+                textAlign="Center"
+                editType="numericedit"
+              ></ColumnDirective>
+              <ColumnDirective
+                field="discount"
+                headerText="Discount"
+                format="C2"
+                editType="numericedit"
+                width="120"
+                validationRules={this.orderidRules}
+                textAlign="Center"
+              ></ColumnDirective>
+              <ColumnDirective
+                field="tax"
+                format="C2"
+                headerText="Tax"
+                width="150"
+                textAlign="Center"
+                editType="numericedit"
+              ></ColumnDirective>
+            </ColumnsDirective>
+            <Inject services={[Filter, Page, Toolbar, Edit]} />
+          </GridComponent>
+        </div>
+      </div>
+    );
+  }
 }
 
-
-
+// {
+//   "purchaseItemId": 1,
+//   "productPurchaseId": 142,
+//   "productPurchase": null,
+//   "productItemId": 0,
+//   "productItem": null,
+//   "barcode": "M20405501007",
+//   "qty": 14.4,
+//   "unit": 0,
+//   "cost": 507,
+//   "taxAmout": 0,
+//   "purchaseTaxTypeId": null,
+//   "purchaseTaxType": null,
+//   "costValue": 7300.8
+//   }

@@ -2,8 +2,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useSubheader } from "../../../../../../../_metronic/layout";
-import * as actions from "../../../_redux/Invoices/Actions";
-import * as cActions from "../../../../_redux/Actions";
+import * as actions from "../../../../_redux/Invoices/Actions";
+import * as cActions from "../../../../../_redux/Actions";
+
 import {
   Card,
   CardBody,
@@ -11,6 +12,7 @@ import {
   CardHeaderToolbar,
   ModalProgressBar,
 } from "../../../../../../../_metronic/_partials/controls";
+
 import EditForm from "./EditForm";
 
 const initData = {
@@ -26,6 +28,7 @@ const initData = {
   payment: null,
   invoiceItems: null,
 };
+
 const itemInitData = {
   barcode: "",
   qty: 0,
@@ -34,7 +37,7 @@ const itemInitData = {
   tax: 0,
 };
 
-/// It is invoice Edit/Entry page.
+// It is invoice Edit/Entry page.
 export function EditPage({
   history,
   match: {
@@ -46,7 +49,7 @@ export function EditPage({
   //need to set SubHeader.
 
   //Tabs
-  const [tab, setTab] = useState("invoice");
+  const [tab, setTab] = useState("Invoice");
   const [title, setTitle] = useState("");
   const dispatch = useDispatch();
   const {
@@ -58,12 +61,12 @@ export function EditPage({
     productStocks,
   } = useSelector(
     (state) => ({
-      actionsLoading: state.manualInvoices.actionsLoading,
-      invoiceForEdit: state.manualInvoices.invoiceForEdit,
+      actionsLoading: state.invoices.actionsLoading,
+      invoiceForEdit: state.invoices.invoiceForEdit,
       salesmanList: state.commonTypes.salesmanList,
       payModes: state.commonTypes.payModes,
       storeList: state.commonTypes.storeList,
-      productStocks: state.productStocks.entities,
+      // productStocks: state.productStocks.entities,
     }),
     shallowEqual
   );
@@ -71,11 +74,11 @@ export function EditPage({
   useEffect(() => {
     // Calling server for data..
     dispatch(actions.fetchInvoice(id));
-    dispatch(actions.fetchSalesman());
+    //dispatch(cActions.fetchSalesman());
     dispatch(cActions.fetchEnumValue("payMode"));
     dispatch(cActions.fetchStores());
     //Note: Will check for use which one is more effective.
-    dispatch(actions.fetchProductStocks()); //Fetch product Stock View so it can be used to later use.
+    // dispatch(actions.fetchProductStocks()); //Fetch product Stock View so it can be used to later use.
   }, [id, dispatch]);
   //Setting up header and SubHeader title.
   useEffect(() => {
@@ -191,13 +194,13 @@ export function EditPage({
         <div className="mt-5">
           {tab === "Invoice" && (
             <EditForm
-              actionsLoading={actionsLoading}
+              //actionsLoading={actionsLoading}
               invoice={invoiceForEdit || initData}
               btnRef={btnRef}
               saveData={saveData}
-              salesmanList={salesmanList}
-              payModes={payModes}
-              storeList={storeList}
+             // salesmanList={salesmanList}
+             // payModes={payModes}
+             // storeList={storeList}
             />
           )}
           {tab === "Payment" && <>Payment</>}
