@@ -8,7 +8,10 @@ import {
 
 
 
-export function PaymentForm({ invoiceNumber, onDate, payModes, edcList }) {
+export function PaymentForm({ invoiceNumber,billAmount, onDate, payModes, edcList ,btnRef}) {
+ if(invoiceNumber==null){
+   return(<>No Invoice is generated!</>);
+ }
   return (
     <>
       <Formik
@@ -33,6 +36,12 @@ export function PaymentForm({ invoiceNumber, onDate, payModes, edcList }) {
                 <div className="col-lg-4">
                   <label className="text-danger">
                     Invoice No : {invoiceNumber && invoiceNumber}
+                  </label>
+                </div>
+                {/* Bill Amount  */}
+                <div className="col-lg-4">
+                  <label className="text-danger">
+                    Bill Amount : {billAmount && billAmount}
                   </label>
                 </div>
               </div>

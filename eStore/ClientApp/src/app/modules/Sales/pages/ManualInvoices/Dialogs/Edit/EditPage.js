@@ -14,6 +14,7 @@ import {
 } from "../../../../../../../_metronic/_partials/controls";
 
 import EditForm from "./EditForm";
+import { PaymentForm } from "./PaymentForm";
 
 const initData = {
   onDate: new Date(),
@@ -51,6 +52,9 @@ export function EditPage({
   //Tabs
   const [tab, setTab] = useState("Invoice");
   const [title, setTitle] = useState("");
+  const [invoiceNumber, setInvoiceNumber] = useState("");
+  const [invoiceDate, setInvoiceDate] = useState("");
+  const [billAmount, setBillAmount] = useState(-1);
   const dispatch = useDispatch();
   const {
     actionsLoading,
@@ -119,12 +123,23 @@ export function EditPage({
     if (!id) {
       // server request for creating invoice
       //Display alert message on event completed or error occured!.
-      dispatch(actions.createInvoice(invoice)).then(() => backToInvoicesList());
+      dispatch(actions.createInvoice(invoice)).then((response) =>
+        moveToPaymentTab(response.data)
+      );
     } else {
       // server request for updating invoice
       //Display alert message on event completed or error occured!.
-      dispatch(actions.updateInvoice(invoice)).then(() => backToInvoicesList());
+      dispatch(actions.updateInvoice(invoice)).then((response) =>
+        moveToPaymentTab(response.data)
+      );
     }
+  };
+
+  const moveToPaymentTab = (invoice) => {
+    setTab("Payment");
+    setInvoiceDate(invoice.onDate);
+    setBillAmount(invoice.totalAmount);
+    setInvoiceNumber(invoice.invoiceNumber);
   };
 
   const btnRef = useRef(); //using button ref
@@ -198,12 +213,16 @@ export function EditPage({
               invoice={invoiceForEdit || initData}
               btnRef={btnRef}
               saveData={saveData}
-             // salesmanList={salesmanList}
-             // payModes={payModes}
-             // storeList={storeList}
+              // salesmanList={salesmanList}
+              // payModes={payModes}
+              // storeList={storeList}
             />
           )}
-          {tab === "Payment" && <>Payment</>}
+          {tab === "Payment" && (
+            <>
+              <PaymentForm payModes={payModes} edcList={null} btnRef={btnRef} />
+            </>
+          )}
         </div>
       </CardBody>
     </Card>
