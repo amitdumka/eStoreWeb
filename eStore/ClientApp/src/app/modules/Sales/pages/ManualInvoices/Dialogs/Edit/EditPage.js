@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useSubheader } from "../../../../../../../_metronic/layout";
-import * as actions from "../../../_redux/";
+import * as actions from "../../../_redux/Invoices/Actions";
 import * as cActions from "../../../../_redux/Actions";
 import {
   Card,
@@ -11,6 +11,7 @@ import {
   CardHeaderToolbar,
   ModalProgressBar,
 } from "../../../../../../../_metronic/_partials/controls";
+import EditForm from "./EditForm";
 
 const initData = {
   onDate: new Date(),
@@ -73,6 +74,8 @@ export function EditPage({
     dispatch(actions.fetchSalesman());
     dispatch(cActions.fetchEnumValue("payMode"));
     dispatch(cActions.fetchStores());
+    //Note: Will check for use which one is more effective.
+    dispatch(actions.fetchProductStocks()); //Fetch product Stock View so it can be used to later use.
   }, [id, dispatch]);
   //Setting up header and SubHeader title.
   useEffect(() => {
@@ -96,17 +99,15 @@ export function EditPage({
       totalQty: data.totalQty,
       invoiceType: 1,
     };
-    const item={       
-         Barcode :data.item.barcoe,
-         Qty :data.item.qty,
-         Units :data.item.unit,
-         BasicPrice :data.item.basicPrice,
-         DiscountAmount :data.item.discount,
-         TaxAmount :data.item.taxAmount,
-         SalesmanId :data.item.salesmanid,
-    }
-
-
+    const item = {
+      Barcode: data.item.barcoe,
+      Qty: data.item.qty,
+      Units: data.item.unit,
+      BasicPrice: data.item.basicPrice,
+      DiscountAmount: data.item.discount,
+      TaxAmount: data.item.taxAmount,
+      SalesmanId: data.item.salesmanid,
+    };
   };
 
   //Save Data.
@@ -114,14 +115,18 @@ export function EditPage({
     // Note: Here need to convert data into server data format
     if (!id) {
       // server request for creating invoice
+      //Display alert message on event completed or error occured!.
       dispatch(actions.createInvoice(invoice)).then(() => backToInvoicesList());
     } else {
       // server request for updating invoice
+      //Display alert message on event completed or error occured!.
       dispatch(actions.updateInvoice(invoice)).then(() => backToInvoicesList());
     }
   };
-  const btnRef = useRef();
 
+  const btnRef = useRef(); //using button ref
+
+  //Need to co-relate it with actions
   const saveInvoiceClick = () => {
     if (btnRef && btnRef.current) {
       btnRef.current.click();
@@ -185,17 +190,15 @@ export function EditPage({
         </ul>
         <div className="mt-5">
           {tab === "Invoice" && (
-            <>ManualInvoiceForm</>
-            // <ProductEditForm
-            //   actionsLoading={actionsLoading}
-            //invoice={invoiceForEdit || initData}
-            //btnRef={btnRef}
-            //   saveInvoice={saveInvoice}
-            //   invoice={invoiceForEdit || invoicesUIProps.initInvoice}
-            //   salesmanList={salesmanList}
-            //   payModes={payModes}
-            //   storeList={storeList}
-            ///>
+            <EditForm
+              actionsLoading={actionsLoading}
+              invoice={invoiceForEdit || initData}
+              btnRef={btnRef}
+              saveData={saveData}
+              salesmanList={salesmanList}
+              payModes={payModes}
+              storeList={storeList}
+            />
           )}
           {tab === "Payment" && <>Payment</>}
         </div>

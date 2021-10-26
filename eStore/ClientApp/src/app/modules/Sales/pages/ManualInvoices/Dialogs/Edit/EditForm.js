@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useMemo } from "react";
+import React, { Component, useEffect, useMemo, useState } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import * as actions from "../../../../_redux/Invoices/Actions";
@@ -38,19 +38,11 @@ const EditSchema = Yup.object().shape({
     .required("Qty is required"),
 });
 
-export default function EditForm({ invoice, btnRef, saveProduct }) {
+export default function EditForm({ invoice, btnRef, saveData ,storeList, salesmanList,payModes}) {
+
   const dispatch = useDispatch();
   let pItems = [];
-  //Insert Item to PItem List.
-  const AddItem = (item) => {
-    pItems.push({
-      barcode: item.barcode,
-      qty: item.qty,
-      basicPrice: item.price,
-      discount: item.discount,
-      tax: item.tax,
-    });
-  };
+  const [field,setField]=useState({qty:0,amount:0,tax:0,discount:0});
 
   const updateDetails = (productStock, setFieldValue) => {
     //based of barcode fetch data and update MRP, Qty
@@ -94,16 +86,38 @@ export default function EditForm({ invoice, btnRef, saveProduct }) {
   const onDiscountChange=(discount,qty,mrp,setFieldValue){
     let price =(qty*mrp)-discount;
      //let tax=price-(price *TaxRate/100);
-     setFieldValue("amount", price);
+     setFieldValue("amount", price);    
   }
+
+  const handleAddButton=(values)=>{
+
+    pItems.push({
+      barcode: values.barcode,
+      qty: values.qty,
+      basicPrice: values.mrp,
+      discount: values.discount,
+      tax: values.tax,
+    });
+
+    setField("qty",field.qty+values.qty);
+    setField("amount",field.amount+values.mrp);
+    setField("tax",field.tax+values.tax);
+    setField("discount",field.discount+values.discount);
+    
+    setFieldValue("totalAmount",field.amount);
+    setFieldValue("totalTaxAmount",field.tax);
+    setFieldValue("totalDiscount",field.discount);
+    setFieldValue("totalQty",field.qty);
+    
+  };
 
   return (<>
    <Formik
         enableReinitialize={true}
         initialValues={invoice}
-        validationSchema={InvoiceEditSchema}
+        validationSchema={EditSchema}
         onSubmit={(values) => {
-          saveProduct(values);
+          saveData(values);
         }}
       >
         {({ handleSubmit, setFieldValue, values }) => (
@@ -112,13 +126,6 @@ export default function EditForm({ invoice, btnRef, saveProduct }) {
               {/* Invoice Details */}
               <div className="form-group row">
                 <div className="col-lg-4">
-                  {/* <Field
-                    name="onDate"
-                    type="date"
-                    component={Input}
-                    placeholder="Date"
-                    label="Date"
-                  /> */}
                   <DatePickerField
                     dateFormat="yyyy-MM-dd"
                     name="onDate"
@@ -220,6 +227,7 @@ export default function EditForm({ invoice, btnRef, saveProduct }) {
                     component={Input}
                     label="Qty"
                     placeholder="Qty"
+                    onChange={()=>onQtyChange(values.qty,values.mrp,setFieldValue)}
                   />
                 </div>
                 <div className="col-lg-2">
@@ -237,6 +245,7 @@ export default function EditForm({ invoice, btnRef, saveProduct }) {
                     component={Input}
                     label="Discount"
                     placeholder="Discount"
+                    onChange={()=>onDiscountChange(values.discount, values.qty,values.mrp,setFieldValue)}
                   />
                 </div>
                 <div className="col-lg-2">
