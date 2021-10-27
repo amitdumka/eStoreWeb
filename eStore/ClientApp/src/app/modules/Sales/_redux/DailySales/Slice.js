@@ -1,6 +1,4 @@
-import {createSlice} from "@reduxjs/toolkit";
-
-
+import { createSlice } from "@reduxjs/toolkit";
 
 //DailySale
 //dailySale
@@ -11,13 +9,13 @@ const initialDailySalesState = {
   totalCount: 0,
   entities: null,
   dailySaleForEdit: undefined,
-  lastError: null, 
-  employeeEntities: null, 
-  totalCountEmp:0, 
+  lastError: null,
+  employeeEntities: null,
+  totalCountEmp: 0,
 };
 export const callTypes = {
   list: "list",
-  action: "action"
+  action: "action",
 };
 
 export const dailySalesSlice = createSlice({
@@ -40,23 +38,22 @@ export const dailySalesSlice = createSlice({
         state.actionsLoading = true;
       }
     },
-    // get All employee List 
-    employeesListFetched: function(state,action){
-      const{totalCount,entities}=action.payload;
-     state.actionsLoading=false;
-     state.listLoading =false;
-     state.error=null;
-     state.employeeEntities=entities;
-     state.totalCountEmp=totalCount;
-
+    // get All employee List
+    employeesListFetched: function(state, action) {
+      const { totalCount, entities } = action.payload;
+      state.actionsLoading = false;
+      state.listLoading = false;
+      state.error = null;
+      state.employeeEntities = entities;
+      state.totalCountEmp = totalCount;
     },
-   
+
     // getDailySaleById
     dailySaleFetched: (state, action) => {
       state.actionsLoading = false;
       state.dailySaleForEdit = action.payload.dailySaleForEdit;
       state.error = null;
-  //    console.log(state.dailySaleForEdit);
+      //    console.log(state.dailySaleForEdit);
     },
     // findDailySales
     dailySalesFetched: (state, action) => {
@@ -76,7 +73,7 @@ export const dailySalesSlice = createSlice({
     dailySaleUpdated: (state, action) => {
       state.error = null;
       state.actionsLoading = false;
-      state.entities = state.entities.map(entity => {
+      state.entities = state.entities.map((entity) => {
         if (entity.dailySaleId === action.payload.dailySale.dailySaleId) {
           return action.payload.dailySale;
         }
@@ -87,29 +84,30 @@ export const dailySalesSlice = createSlice({
     dailySaleDeleted: (state, action) => {
       state.error = null;
       state.actionsLoading = false;
-      state.entities = state.entities.filter(el => el.dailySaleId !== action.payload.dailySaleId);
+      state.entities = state.entities.filter(
+        (el) => el.dailySaleId !== action.payload.dailySaleId
+      );
     },
     // deleteDailySales
     dailySalesDeleted: (state, action) => {
       state.error = null;
       state.actionsLoading = false;
       state.entities = state.entities.filter(
-        el => !action.payload.ids.includes(el.dailySaleId)
+        (el) => !action.payload.ids.includes(el.dailySaleId)
       );
     },
 
-    
     // dailySalesUpdateState
     dailySalesStatusUpdated: (state, action) => {
       state.actionsLoading = false;
       state.error = null;
       const { ids, status } = action.payload;
-      state.entities = state.entities.map(entity => {
-        if (ids.findIndex(id => id === entity.dailySaleId) > -1) {
+      state.entities = state.entities.map((entity) => {
+        if (ids.findIndex((id) => id === entity.dailySaleId) > -1) {
           entity.status = status;
         }
         return entity;
       });
-    }
-  }
+    },
+  },
 });

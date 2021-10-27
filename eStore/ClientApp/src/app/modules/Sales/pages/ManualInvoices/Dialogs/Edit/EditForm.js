@@ -28,6 +28,7 @@ import { Browser, extend } from "@syncfusion/ej2-base";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 
 enableRipple(true);
+
 const EditSchema = Yup.object().shape({
   mobileNo: Yup.string().required("Mobile Number is required"),
   customerName: Yup.string().required("Customer Name is required"),
@@ -80,16 +81,17 @@ export default function EditForm({
   };
   const handleBarcode = (barcode, setFieldValue) => {
 
-    // dispatch(actions.fetchProductStocks(barcode))
-    //   .then((response) => {
-    //     updateDetails(response.data, setFieldValue);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //     error.clientMessage = "Can't find Invoice";
-    //     alert(error);
-    //     //Implement SweetNotify2 here
-    //   });
+    dispatch(commonActions.fetchProductStocks(barcode))
+      .then((response) => {
+        console.log(response);
+        updateDetails(response.data, setFieldValue);
+      })
+      .catch((error) => {
+        console.log(error);
+        error.clientMessage = "Can't find Invoice";
+        alert(error);
+        //Implement SweetNotify2 here
+      });
   };
   const onQtyChange = (qty, mrp, setFieldValue) => {
     let price = qty * mrp;
