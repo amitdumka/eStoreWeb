@@ -242,7 +242,8 @@ export const TailoringError = () => {
                 : ""}
             </div>
           );
-        },
+        }
+        ,
       },
       {
         field: "actions",

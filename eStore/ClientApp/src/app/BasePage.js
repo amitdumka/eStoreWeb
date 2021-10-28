@@ -9,6 +9,7 @@ import { FinReportPage } from "./pages/FinReportPage";
 import { SystemCheckPage } from "./pages/SystemCheckPage";
 import { SaleInfoPage } from "./pages/SaleInfoPage";
 import Print from "./pages/InvoicePrint";
+import StockVerify from "./pages/Componets/StockVerify";
 //import {  SecureRoute, LoginCallback } from "@okta/okta-react";
 //import CustomLoginComponent from "./modules/okta/Login";
 //import Messages from "./modules/okta/Messages";
@@ -59,6 +60,7 @@ export default function BasePage() {
         <ContentRoute path="/systemchecks" component={SystemCheckPage} />
         <ContentRoute path="/saleInfoList" component={SaleInfoPage} />
         <ContentRoute path="/printInv" component={Print} />
+        <ContentRoute path="/stockVerify" component={StockVerify} />
 
         {/* <ContentRoute path="/my-report" component={MyReports} /> */}
         <Route path="/store" component={StoreMainPage} />
