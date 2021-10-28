@@ -13,7 +13,6 @@ export const fetchEmployees = (id) => (dispatch) => {
     .then((response) => {
       const entities = response.data;
       const totalCount = response.data.length;
-     // console.log(entities);
       dispatch(actions.employeesListFetched({ totalCount, entities }));
     })
     .catch((error) => {
@@ -49,8 +48,6 @@ export const fetchDailySale = (id) => (dispatch) => {
     .getDailySaleById(id)
     .then((response) => {
       const dailySale = response.data;
-    //  console.log(response);
-      
       dispatch(actions.dailySaleFetched({ dailySaleForEdit: dailySale }));
     })
     .catch((error) => {
