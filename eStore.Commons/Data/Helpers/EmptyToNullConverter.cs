@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace eStore.Commons.Data.Helpers
 {
+    //Added
     public class EmptyToNullConverter : JsonConverter
     {
         private JsonSerializer _stringSerializer = new JsonSerializer ();

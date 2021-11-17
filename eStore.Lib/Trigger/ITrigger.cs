@@ -1,5 +1,6 @@
 ﻿using eStore.Database;
 
+//Added
 namespace eStore.BL.Triggers
 {
     /// <summary>

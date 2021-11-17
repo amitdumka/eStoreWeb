@@ -1,7 +1,7 @@
 ﻿using MailKit.Net.Smtp;
 using MailKit.Security;
 using MimeKit;
-
+//Added
 namespace eStore.BL.Mails
 {
     public static class MailConfig
