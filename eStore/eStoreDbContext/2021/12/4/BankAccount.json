@@ -1,0 +1,79 @@
+[
+  {
+    "BankAccountId": 1,
+    "BankId": 1,
+    "Account": "SBI_CC-37604947464",
+    "BranchName": "LIC Dumka",
+    "AccountType": 2
+  },
+  {
+    "BankAccountId": 2,
+    "BankId": 2,
+    "Account": "ICICI Saving-063001502791",
+    "BranchName": "Dumka",
+    "AccountType": 0
+  },
+  {
+    "BankAccountId": 3,
+    "BankId": 5,
+    "Account": "AmitKumar_BOB\t-31310100005502",
+    "BranchName": "Dumka",
+    "AccountType": 0
+  },
+  {
+    "BankAccountId": 5,
+    "BankId": 4,
+    "Account": "AmitKumar_PNB-4492000100013840",
+    "BranchName": "Dumka",
+    "AccountType": 0
+  },
+  {
+    "BankAccountId": 6,
+    "BankId": 2,
+    "Account": "AprajitaRetails_ICICI-63005500372",
+    "BranchName": "Dumka",
+    "AccountType": 1
+  },
+  {
+    "BankAccountId": 7,
+    "BankId": 2,
+    "Account": "Shalini_ICICI-063001504395",
+    "BranchName": "Dumka",
+    "AccountType": 0
+  },
+  {
+    "BankAccountId": 8,
+    "BankId": 7,
+    "Account": "HDFC_CA-50200006818376",
+    "BranchName": "Dumka",
+    "AccountType": 1
+  },
+  {
+    "BankAccountId": 9,
+    "BankId": 3,
+    "Account": "Bandhan_CurrentAcc-10170001063385",
+    "BranchName": "Dumka",
+    "AccountType": 1
+  },
+  {
+    "BankAccountId": 11,
+    "BankId": 1,
+    "Account": "SBI_OD-37604947464",
+    "BranchName": "LIC Dumka",
+    "AccountType": 3
+  },
+  {
+    "BankAccountId": 12,
+    "BankId": 14,
+    "Account": "IDBI_CA-1257102000002230",
+    "BranchName": "Dumka",
+    "AccountType": 1
+  },
+  {
+    "BankAccountId": 13,
+    "BankId": 1,
+    "Account": "SBI_Current-35130948344",
+    "BranchName": "LIC Dumka",
+    "AccountType": 1
+  }
+]

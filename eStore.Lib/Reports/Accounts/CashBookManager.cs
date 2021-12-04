@@ -230,9 +230,10 @@ namespace eStore.BL.Reports.Accounts
 
             decimal OpnBal = 0;
             decimal ColBal = 0;
-            CashWork worker = new CashWork ();
+            //CashWork worker = new CashWork ();
             try
             {
+                CashWork worker = new CashWork();
                 ColBal = worker.GetClosingBalance (db, oDate.AddDays (-1), Store);
                 OpnBal = (decimal?) db.CashInHands.Where (c => ( c.CIHDate ) == ( oDate ) && c.StoreId == Store).FirstOrDefault ().OpenningBalance ?? 0;
                 if ( OpnBal != ColBal )

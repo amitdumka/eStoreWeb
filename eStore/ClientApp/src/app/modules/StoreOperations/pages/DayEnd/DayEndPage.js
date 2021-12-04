@@ -15,7 +15,7 @@ import axios from "axios";
 import { BASE_URL } from "../../../../../_estore/URLConstants";
 import { SweetAlert } from "./CControls";
 //Day end Entry form.
-export const API_URL = BASE_URL + "api/endOfDays";
+export const API_URL = BASE_URL + "/api/endOfDays";
 export function DayEndPage() {
   //const UIContext = createContext();
   //const subHeader = useSubheader();

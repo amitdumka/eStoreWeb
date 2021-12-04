@@ -19,8 +19,8 @@ import * as EmpAcction from "../modules/Payrolls/_redux/employees/Actions";
 import axios from "axios";
 import { BASE_URL } from "../../_estore/URLConstants";
 
-//export const API_URL = BASE_URL + "api/Reports";
-export const API_URL = BASE_URL + "api/Reports";
+//export const API_URL = BASE_URL + "/api/Reports";
+export const API_URL = BASE_URL + "/api/Reports";
 
 export async function GetMonthlyReport(MonthlyDto) {
   var url = API_URL;

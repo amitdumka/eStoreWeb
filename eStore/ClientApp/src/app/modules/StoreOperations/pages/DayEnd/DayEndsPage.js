@@ -35,7 +35,7 @@ export function UIProvider({ UIEvents, children }) {
 
 
 //Day end Entry form.
-export const API_URL = BASE_URL + "api/endOfDays";
+export const API_URL = BASE_URL + "/api/endOfDays";
 const schema = yup.object().shape({
     cashInHand: yup.number().required("Cash at Store is required!"),
     totalAmount: yup

@@ -1,9 +1,11 @@
 using eStore.Database;
+using eStore.Lib.Expoters;
 using eStore.Shared.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -27,6 +29,18 @@ namespace eStore.API.Controllers
         {
             return await _context.Apps.ToListAsync ();
         }
+
+        // GET: api/Apps
+        [HttpGet("backupJsonDB")]
+        public async Task<FileStreamResult> GetJsonDatabaseAsync()
+        {
+            DatabaseExpoter de = new DatabaseExpoter(_context, 1);
+            string filename=await de.ExportToJson();
+
+            var stream = new FileStream(filename, FileMode.Open);
+            return File(stream, "application/zip", "eStoreDBContextJson.zip");
+        }
+
 
         // GET: api/Apps/5
         [HttpGet ("{id}")]

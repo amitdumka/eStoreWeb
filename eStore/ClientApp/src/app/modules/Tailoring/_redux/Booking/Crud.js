@@ -6,8 +6,8 @@ import { BASE_URL } from "../../../../../_estore/URLConstants";
 //booking
 //Booking
 
-export const API_BASE_URL = BASE_URL + "api/";
-export const API_URL = BASE_URL + "api/tailoringbookings";
+export const API_BASE_URL = BASE_URL + "/api/";
+export const API_URL = BASE_URL + "/api/tailoringbookings";
 // CREATE =>  POST: add a new booking to the server
 export async function createBooking(booking) {
   return await axios.post(API_URL, booking, {

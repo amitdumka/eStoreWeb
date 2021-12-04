@@ -4,7 +4,7 @@ import { BASE_URL } from "../../../../../_estore/URLConstants";
 //Bank
 //bank
 
-export const API_URL = BASE_URL + "api/banks";
+export const API_URL = BASE_URL + "/api/banks";
 
 // CREATE =>  POST: add a new bank to the server
 export async function createBank(bank) {
