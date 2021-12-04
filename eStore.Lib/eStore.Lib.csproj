@@ -20,4 +20,10 @@
     <ProjectReference Include="..\eStore.Extensions\eStore.Extensions.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Expoters\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Expoters\" />
+  </ItemGroup>
 </Project>
