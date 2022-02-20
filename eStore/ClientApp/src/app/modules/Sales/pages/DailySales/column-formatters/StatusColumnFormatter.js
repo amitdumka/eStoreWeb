@@ -28,7 +28,8 @@ export function TagGeneratorColumnFormatter(cellContent, row) {
       {row && row.isDue === true &&<span className={getLabelCssClasses(0)}> "Due"</span>}
       {row && row.isManualBill === true &&  <span className={getLabelCssClasses(1)}>"Manual Bill"</span>}
       {row && row.isTailoringBill === true &&  <span className={getLabelCssClasses(2)}>"Tailoring"</span>}
-      {row && row.isSaleReturn === true &&  <span className={getLabelCssClasses(3)}>"Sales Return"</span>}
+          {row && row.isSaleReturn === true && <span className={getLabelCssClasses(3)}>"Sales Return"</span>}
+          {row && row.isAdjustedBill === true && <span className={getLabelCssClasses(3)}>"Bill Adjusted"</span>}
     </>
   );
 }
