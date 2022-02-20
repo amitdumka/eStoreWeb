@@ -206,6 +206,8 @@ namespace eStore.Database
         public DbSet<eStore.Shared.Models.Sales.Payments.EDC> CardMachine { get; set; } //APi
         public DbSet<eStore.Shared.Models.Sales.Payments.EDCTranscation> CardTranscations { get; set; }//API
 
+        public DbSet<AdjustedBill> AdjustedBills { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

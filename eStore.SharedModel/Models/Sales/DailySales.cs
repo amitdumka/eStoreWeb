@@ -66,6 +66,21 @@ namespace eStore.Shared.Models.Sales
         public virtual PointRedeemed PointRedeemed { get; set; }
 
         public virtual IEnumerable<DailySalePayment> Payments { get; set; }
+        [Display(Name = "Adjusted Bill")]
+        public bool IsAdjustedBill { get; set; }
+
+
+    }
+
+    public class AdjustedBill
+    {
+        public int AdjustedBillId { get; set; }
+        public DateTime OnDate { get; set; }
+        public string InvoiceNumber { get; set; }
+        public string TragetInvoices { get; set; }
+        public decimal AdjustedAmount { get; set; }
+        public decimal DifferenceAmount { get; set; }
+
     }
 
     public class DuesList

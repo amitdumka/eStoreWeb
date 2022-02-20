@@ -46,6 +46,9 @@ namespace eStore.Shared.Modals.Sales
         [Display(Name = "Sale Return")]
         public bool IsSaleReturn { get; set; }
 
+        [Display(nameof = "Adjusted Bill")]
+        public bool IsAdjustedBill { get; set; }
+
         public string Remarks { get; set; }
 
         [DefaultValue(false)]
@@ -53,6 +56,16 @@ namespace eStore.Shared.Modals.Sales
 
     }
 
-   
-   
+    public class AdjustedBill
+    {
+        public DateTime OnDate { get; set; }
+        public string InvoiceNumber { get; set; }
+        public List<string> TragetInvoices { get; set; }
+        public decimal AdjustedAmount { get; set; }
+        public decimal DifferenceAmount { get; set; }
+
+    }
+
+
+
 }
