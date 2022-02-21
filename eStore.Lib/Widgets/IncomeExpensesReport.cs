@@ -23,16 +23,16 @@ namespace eStore.BL.Widgets
         public decimal TotalManualSale { get; set; }
 
         [DataType (DataType.Currency), Column (TypeName = "money"), Display (Name = "Total Receipts")]
-        public decimal TotalRecipts { get; set; }
+        public decimal TotalReceipts { get; set; }
 
         [DataType (DataType.Currency), Column (TypeName = "money"), Display (Name = "Cash Receipts")]
-        public decimal TotalCashRecipts { get; set; }
+        public decimal TotalCashReceipts { get; set; }
 
         [DataType (DataType.Currency), Column (TypeName = "money"), Display (Name = "Other Income")]
         public decimal TotalOtherIncome { get; set; }
 
         [DataType (DataType.Currency), Column (TypeName = "money"), Display (Name = "Total Income")]
-        public decimal TotalIncome { get { return ( TotalSale + TotalTailoringSale + TotalManualSale + TotalRecipts + TotalCashRecipts + TotalOtherIncome ); } }
+        public decimal TotalIncome { get { return ( TotalSale + TotalTailoringSale + TotalManualSale + TotalReceipts + TotalCashReceipts + TotalOtherIncome ); } }
 
         //Expenses
         [DataType (DataType.Currency), Column (TypeName = "money"), Display (Name = "Staff Payments")]

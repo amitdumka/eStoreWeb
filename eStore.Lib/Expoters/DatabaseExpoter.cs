@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace eStore.Lib.Expoters
+namespace eStore.Lib.Exporters
 {
     public class DatabaseExpoter
     {
@@ -55,7 +55,7 @@ namespace eStore.Lib.Expoters
                     return false;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 ExportedList.Add(fn, false);
                 return false;
@@ -70,7 +70,7 @@ namespace eStore.Lib.Expoters
             await ToJsonFile("Stores", await db.Stores.ToListAsync());
             await ToJsonFile("Employee", await db.Employees.ToListAsync());
             await ToJsonFile("Attendance ", await db.Attendances.Where(c=>c.StoreId==StoreId).ToListAsync());
-            await ToJsonFile("BankAcconts ", await db.BankAccounts.ToListAsync());
+            await ToJsonFile("BankAccounts ", await db.BankAccounts.ToListAsync());
             await ToJsonFile("BankDeposits ", await db.BankDeposits.ToListAsync());
             await ToJsonFile("Bankpayement ", await db.BankPayments.ToListAsync());
 

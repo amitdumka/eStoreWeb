@@ -311,7 +311,7 @@ namespace eStore.BL.Widgets
                 EmployeeId = EmpId,
                 EmployeeName = emp.StaffName,
                 IsWorking = emp.IsWorking,
-                JoinningDate = emp.JoiningDate,
+                JoiningsDate = emp.JoiningDate,
                 LeavingDate = emp.LeavingDate,
                 Type = emp.Category,
                 Employee = emp,
@@ -365,7 +365,7 @@ namespace eStore.BL.Widgets
                 Employee = emp,
                 EmployeeName = emp.StaffName,
                 IsWorking = emp.IsWorking,
-                JoinningDate = emp.JoiningDate,
+                JoiningDate = emp.JoiningDate,
                 LeavingDate = emp.LeavingDate,
                 Type = emp.Category,
                 NoOfBill = -1,
@@ -470,7 +470,7 @@ namespace eStore.BL.Widgets
                 MonthlySale = (decimal?)db.DailySales.Where(C => (C.SaleDate).Month == (DateTime.Today).Month && C.SaleDate.Year == DateTime.Today.Year).Sum(c => (long?)c.Amount) ?? 0,
                 YearlySale = (decimal?)db.DailySales.Where(C => (C.SaleDate).Year == (DateTime.Today).Year).Sum(c => (long?)c.Amount) ?? 0,
                 WeeklySale = (decimal?)db.DailySales.Where(C => C.SaleDate.Date <= DateTime.Today.Date && C.SaleDate.Date >= DateTime.Today.Date.AddDays(-7)).Sum(c => (long?)c.Amount) ?? 0,
-                QuaterlySale = (decimal?)db.DailySales.Where(C => C.SaleDate.Month >= DateTime.Today.AddMonths(-3).Month && C.SaleDate.Month <= DateTime.Today.Month && C.SaleDate.Year == DateTime.Today.Year).Sum(c => (long?)c.Amount) ?? 0,
+                QuarterlySale = (decimal?)db.DailySales.Where(C => C.SaleDate.Month >= DateTime.Today.AddMonths(-3).Month && C.SaleDate.Month <= DateTime.Today.Month && C.SaleDate.Year == DateTime.Today.Year).Sum(c => (long?)c.Amount) ?? 0,
             };
 
             return record;

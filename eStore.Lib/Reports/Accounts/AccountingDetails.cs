@@ -32,16 +32,16 @@ namespace eStore.BL.Reports.Accounts
             }
             DetailIEVM.IncomeExpenseRepot = new IERVM
             {
-                Today = CalculateIncomeExpenes (db, onDate, false, false),
-                Monthly = CalculateIncomeExpenes (db, onDate, true, false),
-                Yearly = CalculateIncomeExpenes (db, onDate, false, true),
-                CurrentWeek = CalculateIncomeExpenes (db, onDate, false, false, true),
+                Today = CalculateIncomeExpenses (db, onDate, false, false),
+                Monthly = CalculateIncomeExpenses (db, onDate, true, false),
+                Yearly = CalculateIncomeExpenses (db, onDate, false, true),
+                CurrentWeek = CalculateIncomeExpenses (db, onDate, false, false, true),
             };
 
             return DetailIEVM;
         }
 
-        public IncomeExpensesReport CalculateIncomeExpenes(eStoreDbContext db, DateTime onDate, bool IsMonth, bool IsYear, bool IsWeekLy = false)
+        public IncomeExpensesReport CalculateIncomeExpenses(eStoreDbContext db, DateTime onDate, bool IsMonth, bool IsYear, bool IsWeekLy = false)
         {
             IncomeExpensesReport ierData = null;
             if ( IsMonth )
@@ -74,11 +74,11 @@ namespace eStore.BL.Reports.Accounts
                     //+ db.StaffAdvancePayments.Where(c => (c.PaymentDate).Month == (onDate).Month).Sum(c => c.Amount),
                     //TotalTailoringPayments = db.TailoringSalaryPayments.Where (c => ( c.PaymentDate ).Month == ( onDate ).Month).Sum (c => c.Amount) + db.TailoringStaffAdvancePayments.Where (c => ( c.PaymentDate ).Month == ( onDate ).Month).Sum (c => c.Amount),
 
-                    //Reciepts
-                    TotalRecipts = db.Receipts.Where (c => ( c.OnDate ).Month == ( onDate ).Month).Sum (c => c.Amount) +
+                    //Receipts
+                    TotalReceipts = db.Receipts.Where (c => ( c.OnDate ).Month == ( onDate ).Month).Sum (c => c.Amount) +
               db.StaffAdvanceReceipts.Where (c => ( c.ReceiptDate ).Month == ( onDate ).Month).Sum (c => c.Amount),
                     //+ db.TailoringStaffAdvanceReceipts.Where (c => ( c.ReceiptDate ).Month == ( onDate ).Month).Sum (c => c.Amount),
-                    TotalCashRecipts = db.CashReceipts.Where (c => ( c.InwardDate ).Month == ( onDate ).Month).Sum (c => c.Amount),
+                    TotalCashReceipts = db.CashReceipts.Where (c => ( c.InwardDate ).Month == ( onDate ).Month).Sum (c => c.Amount),
 
                     TotalRecovery = db.DuesLists.Where (c => c.RecoveryDate.Value.Month == onDate.Month).Sum (c => c.Amount),
 
@@ -116,11 +116,11 @@ namespace eStore.BL.Reports.Accounts
                     TotalStaffPayments = db.SalaryPayments.Where (c => ( c.PaymentDate ).Year == ( onDate ).Year).Sum (c => c.Amount),// + db.StaffAdvancePayments.Where(c => (c.PaymentDate).Year == (onDate).Year).Sum(c => c.Amount),
                     //TotalTailoringPayments = db.TailoringSalaryPayments.Where (c => ( c.PaymentDate ).Year == ( onDate ).Year).Sum (c => c.Amount) + db.TailoringStaffAdvancePayments.Where (c => ( c.PaymentDate ).Year == ( onDate ).Year).Sum (c => c.Amount),
 
-                    //Reciepts
-                    TotalRecipts = db.Receipts.Where (c => ( c.OnDate ).Year == ( onDate ).Year).Sum (c => c.Amount) +
+                    //Receipts
+                    TotalReceipts = db.Receipts.Where (c => ( c.OnDate ).Year == ( onDate ).Year).Sum (c => c.Amount) +
               db.StaffAdvanceReceipts.Where (c => ( c.ReceiptDate ).Year == ( onDate ).Year).Sum (c => c.Amount),
                     //+db.TailoringStaffAdvanceReceipts.Where (c => ( c.ReceiptDate ).Year == ( onDate ).Year).Sum (c => c.Amount),
-                    TotalCashRecipts = db.CashReceipts.Where (c => ( c.InwardDate ).Year == ( onDate ).Year).Sum (c => c.Amount),
+                    TotalCashReceipts = db.CashReceipts.Where (c => ( c.InwardDate ).Year == ( onDate ).Year).Sum (c => c.Amount),
 
                     TotalRecovery = db.DuesLists.Where (c => c.RecoveryDate.Value.Year == onDate.Year).Sum (c => c.Amount),
 
@@ -160,11 +160,11 @@ namespace eStore.BL.Reports.Accounts
                     TotalStaffPayments = db.SalaryPayments.Where (c => ( c.PaymentDate ).Date >= startDate.Date && c.PaymentDate.Date <= endDate.Date).Sum (c => c.Amount),// + db.StaffAdvancePayments.Where(c => (c.PaymentDate).Date >= startDate.Date && c.PaymentDate.Date <= endDate.Date).Sum(c => c.Amount),
                     // TotalTailoringPayments = db.TailoringSalaryPayments.Where (c => ( c.PaymentDate ).Date >= startDate.Date && c.PaymentDate.Date <= endDate.Date).Sum (c => c.Amount) + db.TailoringStaffAdvancePayments.Where (c => ( c.PaymentDate ).Date >= startDate.Date && c.PaymentDate.Date <= endDate.Date).Sum (c => c.Amount),
 
-                    //Reciepts
-                    TotalRecipts = db.Receipts.Where (c => ( c.OnDate ).Date >= startDate.Date && c.OnDate.Date <= endDate.Date).Sum (c => c.Amount) +
+                    //Receipts
+                    TotalReceipts = db.Receipts.Where (c => ( c.OnDate ).Date >= startDate.Date && c.OnDate.Date <= endDate.Date).Sum (c => c.Amount) +
              db.StaffAdvanceReceipts.Where (c => ( c.ReceiptDate ).Date >= startDate.Date && c.ReceiptDate.Date <= endDate.Date).Sum (c => c.Amount),
                     //+ db.TailoringStaffAdvanceReceipts.Where (c => ( c.ReceiptDate ).Date >= startDate.Date && c.ReceiptDate.Date <= endDate.Date).Sum (c => c.Amount),
-                    TotalCashRecipts = db.CashReceipts.Where (c => ( c.InwardDate ).Date >= startDate.Date && c.InwardDate.Date <= endDate.Date).Sum (c => c.Amount),
+                    TotalCashReceipts = db.CashReceipts.Where (c => ( c.InwardDate ).Date >= startDate.Date && c.InwardDate.Date <= endDate.Date).Sum (c => c.Amount),
 
                     TotalRecovery = db.DuesLists.Where (c => c.RecoveryDate.Value.Date == onDate.Date).Sum (c => c.Amount),
 
@@ -202,11 +202,11 @@ namespace eStore.BL.Reports.Accounts
                     TotalStaffPayments = db.SalaryPayments.Where (c => ( c.PaymentDate ).Date == ( onDate ).Date).Sum (c => c.Amount),// + db.StaffAdvancePayments.Where(c => (c.PaymentDate).Date == (onDate).Date).Sum(c => c.Amount),
                     // TotalTailoringPayments = db.TailoringSalaryPayments.Where (c => ( c.PaymentDate ).Date == ( onDate ).Date).Sum (c => c.Amount) + db.TailoringStaffAdvancePayments.Where (c => ( c.PaymentDate ).Date == ( onDate ).Date).Sum (c => c.Amount),
 
-                    //Reciepts
-                    TotalRecipts = db.Receipts.Where (c => ( c.OnDate ).Date == ( onDate ).Date).Sum (c => c.Amount) +
+                    //Receipts
+                    TotalReceipts = db.Receipts.Where (c => ( c.OnDate ).Date == ( onDate ).Date).Sum (c => c.Amount) +
               db.StaffAdvanceReceipts.Where (c => ( c.ReceiptDate ).Date == ( onDate ).Date).Sum (c => c.Amount),
                     //+  db.TailoringStaffAdvanceReceipts.Where (c => ( c.ReceiptDate ).Date == ( onDate ).Date).Sum (c => c.Amount),
-                    TotalCashRecipts = db.CashReceipts.Where (c => ( c.InwardDate ).Date == ( onDate ).Date).Sum (c => c.Amount),
+                    TotalCashReceipts = db.CashReceipts.Where (c => ( c.InwardDate ).Date == ( onDate ).Date).Sum (c => c.Amount),
 
                     TotalRecovery = db.DuesLists.Where (c => c.RecoveryDate.Value.Date == onDate.Date).Sum (c => c.Amount),
 
@@ -281,7 +281,7 @@ namespace eStore.BL.Reports.Accounts
                 {
                     Amount = item.Amount,
                     OnDate = item.OnDate,
-                    Particulars = $"Slip No:{item.RecieptSlipNo}\t From: {item.PartyName}",
+                    Particulars = $"Slip No:{item.ReceiptSlipNo}\t From: {item.PartyName}",
                     IsNonCash = ( item.PayMode == PaymentMode.Cash ? false : true )
                 };
                 IncomeDetails.Add (vmdata);
@@ -486,7 +486,7 @@ namespace eStore.BL.Reports.Accounts
                 {
                     Amount = item.Amount,
                     OnDate = item.OnDate,
-                    Particulars = $"Slip No:{item.RecieptSlipNo}\t From: {item.PartyName}",
+                    Particulars = $"Slip No:{item.ReceiptSlipNo}\t From: {item.PartyName}",
                     IsNonCash = ( item.PayMode == PaymentMode.Cash ? false : true )
                 };
                 IncomeDetails.Add (vmdata);

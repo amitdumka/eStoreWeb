@@ -116,7 +116,7 @@ namespace eStore.Reports.Accounts
             var recptData = db.Receipts.Where (c => c.StoreId == storeId && c.OnDate.Month == onDate.Month && c.OnDate.Year == onDate.Year)
                 .Select (c => new TData
                 {
-                    SlipNo = c.RecieptSlipNo,
+                    SlipNo = c.ReceiptSlipNo,
                     Amount = c.Amount,
                     Date = c.OnDate,
                     Id = c.ReceiptId,

@@ -353,9 +353,9 @@ namespace eStore.Api.Controllers
                     var data3 = db.Receipts.Where(c => c.StoreId == storeId && c.OnDate.Month == i && c.OnDate.Year == year).ToList();
                     foreach (var sd in data3)
                     {
-                        if (!string.IsNullOrEmpty(sd.RecieptSlipNo))
+                        if (!string.IsNullOrEmpty(sd.ReceiptSlipNo))
                         {
-                            sd.RecieptSlipNo = sd.RecieptSlipNo.ToUpper().Trim();
+                            sd.ReceiptSlipNo = sd.ReceiptSlipNo.ToUpper().Trim();
                             db.Receipts.Update(sd);
                         }
                     }

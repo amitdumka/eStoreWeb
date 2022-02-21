@@ -119,7 +119,7 @@ namespace eStore.Database
         public DbSet<RegularCardDetail> CardDetails { get; set; } //APi
 
         public DbSet<DuesList> DuesLists { get; set; } //API
-        public DbSet<DueRecoverd> DueRecoverds { get; set; } //API
+        public DbSet<DueRecoverd> DueRecovered { get; set; } //API
 
         public DbSet<CashInHand> CashInHands { get; set; }//APi
         public DbSet<CashInBank> CashInBanks { get; set; }//API

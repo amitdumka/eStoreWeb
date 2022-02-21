@@ -134,7 +134,7 @@ namespace eStore.BL.Widgets
                 MonthlySale = (decimal?) db.DailySales.Where (C => ( C.SaleDate ).Month == ( DateTime.Today ).Month && C.SaleDate.Year == DateTime.Today.Year).Sum (c => (long?) c.Amount) ?? 0,
                 YearlySale = (decimal?) db.DailySales.Where (C => ( C.SaleDate ).Year == ( DateTime.Today ).Year).Sum (c => (long?) c.Amount) ?? 0,
                 WeeklySale = (decimal?) db.DailySales.Where (C => C.SaleDate.Date <= DateTime.Today.Date && C.SaleDate.Date >= DateTime.Today.Date.AddDays (-7)).Sum (c => (long?) c.Amount) ?? 0,
-                QuaterlySale = (decimal?) db.DailySales.Where (C => C.SaleDate.Month >= DateTime.Today.AddMonths (-3).Month && C.SaleDate.Month <= DateTime.Today.Month && C.SaleDate.Year == DateTime.Today.Year).Sum (c => (long?) c.Amount) ?? 0,
+                QuarterlySale = (decimal?) db.DailySales.Where (C => C.SaleDate.Month >= DateTime.Today.AddMonths (-3).Month && C.SaleDate.Month <= DateTime.Today.Month && C.SaleDate.Year == DateTime.Today.Year).Sum (c => (long?) c.Amount) ?? 0,
             };
 
             return record;
@@ -487,7 +487,7 @@ namespace eStore.BL.Widgets
                 EmployeeId = EmpId,
                 EmployeeName = emp.StaffName,
                 IsWorking = emp.IsWorking,
-                JoinningDate = emp.JoiningDate,
+                JoiningsDate = emp.JoiningDate,
                 LeavingDate = emp.LeavingDate,
                 Type = emp.Category,
                 Employee = emp,
@@ -527,7 +527,7 @@ namespace eStore.BL.Widgets
 
             var SaleList = db.DailySales.Where (c => c.SalesmanId == smId && c.SaleDate > sDate.AddDays (-1) && c.SaleDate < endDate.AddDays (1)).Select (c => new { c.Amount, c.IsManualBill, c.IsSaleReturn, c.IsTailoringBill, c.StoreId }).ToList ();
 
-            var SalryPaidList = db.SalaryPayments.Where (c => c.EmployeeId == EmpId && c.PaymentDate > sDate.AddDays (-1) && c.PaymentDate < endDate.AddDays (1))
+            var SalaryPaidList = db.SalaryPayments.Where (c => c.EmployeeId == EmpId && c.PaymentDate > sDate.AddDays (-1) && c.PaymentDate < endDate.AddDays (1))
                 .Select (c => new { c.SalaryPaymentId, c.SalaryComponet, c.SalaryMonth, c.Amount }).ToList ();
             //TODO:var AdvPaidList = db.StaffAdvancePayments.Where(c => c.EmployeeId == EmpId && c.PaymentDate > sDate.AddDays(-1) && c.PaymentDate < endDate.AddDays(1))
             //  .Select(c => new { c.Amount, c.StaffAdvancePaymentId }).ToList();
@@ -541,7 +541,7 @@ namespace eStore.BL.Widgets
                 Employee = emp,
                 EmployeeName = emp.StaffName,
                 IsWorking = emp.IsWorking,
-                JoinningDate = emp.JoiningDate,
+                JoiningDate = emp.JoiningDate,
                 LeavingDate = emp.LeavingDate,
                 Type = emp.Category,
                 NoOfBill = -1,
@@ -564,13 +564,13 @@ namespace eStore.BL.Widgets
             }
             if ( emp.Category == EmpType.Salesman )
             {
-                empFin.TotalLastPcIncentive = SalryPaidList.Where (c => c.SalaryComponet == SalaryComponet.LastPcs).Sum (c => c.Amount);
-                empFin.TotalWowBillIncentive = SalryPaidList.Where (c => c.SalaryComponet == SalaryComponet.WOWBill).Sum (c => c.Amount);
-                empFin.TotalSaleIncentive = SalryPaidList.Where (c => c.SalaryComponet == SalaryComponet.Incentive).Sum (c => c.Amount);
+                empFin.TotalLastPcIncentive = SalaryPaidList.Where (c => c.SalaryComponet == SalaryComponet.LastPcs).Sum (c => c.Amount);
+                empFin.TotalWowBillIncentive = SalaryPaidList.Where (c => c.SalaryComponet == SalaryComponet.WOWBill).Sum (c => c.Amount);
+                empFin.TotalSaleIncentive = SalaryPaidList.Where (c => c.SalaryComponet == SalaryComponet.Incentive).Sum (c => c.Amount);
             }
             else if ( emp.Category == EmpType.StoreManager )
             {
-                empFin.TotalSaleIncentive = SalryPaidList.Where (c => c.SalaryComponet == SalaryComponet.Incentive).Sum (c => c.Amount);
+                empFin.TotalSaleIncentive = SalaryPaidList.Where (c => c.SalaryComponet == SalaryComponet.Incentive).Sum (c => c.Amount);
 
                 empFin.NoOfBill = db.DailySales.Where (c => c.StoreId == emp.StoreId && c.SaleDate > sDate.AddDays (-1) && c.SaleDate < endDate.AddDays (1) && !c.IsManualBill && !c.IsSaleReturn && !c.IsTailoringBill).Select (c => new { c.Amount }).Count ();
                 empFin.TotalSale = db.DailySales.Where (c => c.StoreId == emp.StoreId && c.SaleDate > sDate.AddDays (-1) && c.SaleDate < endDate.AddDays (1) && !c.IsManualBill && !c.IsSaleReturn && !c.IsTailoringBill).Select (c => new { c.Amount }).Sum (c => c.Amount);
@@ -578,9 +578,9 @@ namespace eStore.BL.Widgets
                     empFin.AverageSale = empFin.TotalSale / empFin.NoOfBill;
             }
 
-            empFin.TotalSalaryPaid = SalryPaidList.Where (c => c.SalaryComponet == SalaryComponet.NetSalary).Sum (c => c.Amount);
-            empFin.TotalSalaryPaid += SalryPaidList.Where (c => c.SalaryComponet == SalaryComponet.SundaySalary).Sum (c => c.Amount);
-            empFin.TotalSalaryPaid += SalryPaidList.Where (c => c.SalaryComponet == SalaryComponet.Others).Sum (c => c.Amount);
+            empFin.TotalSalaryPaid = SalaryPaidList.Where (c => c.SalaryComponet == SalaryComponet.NetSalary).Sum (c => c.Amount);
+            empFin.TotalSalaryPaid += SalaryPaidList.Where (c => c.SalaryComponet == SalaryComponet.SundaySalary).Sum (c => c.Amount);
+            empFin.TotalSalaryPaid += SalaryPaidList.Where (c => c.SalaryComponet == SalaryComponet.Others).Sum (c => c.Amount);
 
             empFin.TotalSalaryAdvancePaid = 0;// AdvPaidList.Sum(c => c.Amount);
             empFin.TotalAdvancePaidOff = AdvRecList.Sum (c => c.Amount);
@@ -617,7 +617,7 @@ namespace eStore.BL.Widgets
         public TailoringReport TailoringReport { get; set; }
         public List<EmployeeInfo> EmpInfoList { get; set; }
 
-        // public ManaulSaleReport ManaulSale { get; set; }
+        // public ManualSaleReport ManualSale { get; set; }
         //public List<EmpStatus> PresentEmp { get; set; }
         public AccountsInfo AccountsInfo { get; set; }
 
@@ -632,7 +632,7 @@ namespace eStore.BL.Widgets
         [DataType (DataType.Currency), Column (TypeName = "money")]
         public decimal TodaySale { get; set; }
 
-        [Display (Name = "Montly")]
+        [Display (Name = "Monthly")]
         [DataType (DataType.Currency), Column (TypeName = "money")]
         public decimal MonthlySale { get; set; }
 
@@ -640,7 +640,7 @@ namespace eStore.BL.Widgets
         [DataType (DataType.Currency), Column (TypeName = "money")]
         public decimal YearlySale { get; set; }
 
-        //public decimal QuaterlySale { get; set; }
+        //public decimal QuarterlySale { get; set; }
 
         [Display (Name = "Booking")]
         public int TodayBooking { get; set; }
@@ -685,7 +685,7 @@ namespace eStore.BL.Widgets
 
         [DataType (DataType.Currency), Column (TypeName = "money")]
         [Display (Name = "Quarterly")]
-        public decimal QuaterlySale { get; set; }
+        public decimal QuarterlySale { get; set; }
     }
 
     public class EmployeeInfo
@@ -908,8 +908,8 @@ namespace eStore.BL.Widgets
         public EmpType Type { get; set; }
 
         [DataType (DataType.Date), DisplayFormat (DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        [Display (Name = "Joinning Date")]
-        public DateTime JoinningDate { get; set; }
+        [Display (Name = "Joining Date")]
+        public DateTime JoiningDate { get; set; }
 
         [DataType (DataType.Date), DisplayFormat (DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Display (Name = "Leaving Date")]
@@ -1005,8 +1005,8 @@ namespace eStore.BL.Widgets
         public EmpType Type { get; set; }
 
         [DataType (DataType.Date), DisplayFormat (DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        [Display (Name = "Joinning Date")]
-        public DateTime JoinningDate { get; set; }
+        [Display (Name = "Joining Date")]
+        public DateTime JoiningsDate { get; set; }
 
         [DataType (DataType.Date), DisplayFormat (DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Display (Name = "Leaving Date")]

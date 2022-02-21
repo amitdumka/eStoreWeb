@@ -10,6 +10,6 @@ namespace eStore.Shared.Models.Accounts
         public new string PartyName { get; set; }
 
         [Display (Name = "Receipt Slip No ")]
-        public string RecieptSlipNo { get; set; }
+        public string ReceiptSlipNo { get; set; }
     }
 }

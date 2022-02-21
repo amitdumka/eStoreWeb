@@ -136,7 +136,7 @@ namespace eStore.BL.Reports.Accounts
                 .Select (c => new { c.Amount, c.DailySale.SaleDate, c.DailySale.InvNo, c.IsPartialRecovery, c.DuesListId })
                 .ToList ();
 
-            var recovery = db.DueRecoverds.Where (c => c.StoreId == storeId && c.PaidDate.Month == date.Month && c.PaidDate.Year == date.Year)
+            var recovery = db.DueRecovered.Where (c => c.StoreId == storeId && c.PaidDate.Month == date.Month && c.PaidDate.Year == date.Year)
                 .Select (c => new { c.DueRecoverdId, c.AmountPaid, c.IsPartialPayment, c.PaidDate, c.DuesList.DailySale.InvNo, c.DuesList.DailySale.SaleDate, c.DuesList.Amount })
                 .ToList ();
 
@@ -524,7 +524,7 @@ namespace eStore.BL.Reports.Accounts
                             PartyName = c.PartyName,
                             Particulars = c.PaymentDetails,
                             Remarks = c.Remarks,
-                            SlipNo = c.RecieptSlipNo
+                            SlipNo = c.ReceiptSlipNo
                         }).ToList ();
                     break;
 
@@ -847,7 +847,7 @@ namespace eStore.BL.Reports.Accounts
             var recptData = db.Receipts.Where (c => c.StoreId == storeId && c.OnDate.Month == onDate.Month && c.OnDate.Year == onDate.Year)
                 .Select (c => new TData
                 {
-                    SlipNo = c.RecieptSlipNo,
+                    SlipNo = c.ReceiptSlipNo,
                     Amount = c.Amount,
                     Date = c.OnDate,
                     Id = c.ReceiptId,
