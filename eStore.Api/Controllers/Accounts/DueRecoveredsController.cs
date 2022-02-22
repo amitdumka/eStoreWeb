@@ -25,14 +25,14 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<DueRecoverd>>> GetDueRecoverds()
         {
-            return await _context.DueRecovered.Include (c => c.DuesList).ThenInclude (c => c.DailySale).OrderByDescending (c => c.PaidDate).ToListAsync ();
+            return await _context.DueRecovereds.Include (c => c.DuesList).ThenInclude (c => c.DailySale).OrderByDescending (c => c.PaidDate).ToListAsync ();
         }
 
         // GET: api/DueRecovereds/5
         [HttpGet ("{id}")]
         public async Task<ActionResult<DueRecoverd>> GetDueRecoverd(int id)
         {
-            var dueRecoverd = await _context.DueRecovered.FindAsync (id);
+            var dueRecoverd = await _context.DueRecovereds.FindAsync (id);
 
             if ( dueRecoverd == null )
             {
@@ -78,7 +78,7 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<DueRecoverd>> PostDueRecoverd(DueRecoverd dueRecoverd)
         {
-            _context.DueRecovered.Add (dueRecoverd);
+            _context.DueRecovereds.Add (dueRecoverd);
             await _context.SaveChangesAsync ();
 
             return CreatedAtAction ("GetDueRecoverd", new { id = dueRecoverd.DueRecoverdId }, dueRecoverd);
@@ -88,13 +88,13 @@ namespace eStore.API.Controllers
         [HttpDelete ("{id}")]
         public async Task<IActionResult> DeleteDueRecoverd(int id)
         {
-            var dueRecoverd = await _context.DueRecovered.FindAsync (id);
+            var dueRecoverd = await _context.DueRecovereds.FindAsync (id);
             if ( dueRecoverd == null )
             {
                 return NotFound ();
             }
 
-            _context.DueRecovered.Remove (dueRecoverd);
+            _context.DueRecovereds.Remove (dueRecoverd);
             await _context.SaveChangesAsync ();
 
             return NoContent ();
@@ -102,7 +102,7 @@ namespace eStore.API.Controllers
 
         private bool DueRecoverdExists(int id)
         {
-            return _context.DueRecovered.Any (e => e.DueRecoverdId == id);
+            return _context.DueRecovereds.Any (e => e.DueRecoverdId == id);
         }
     }
 }

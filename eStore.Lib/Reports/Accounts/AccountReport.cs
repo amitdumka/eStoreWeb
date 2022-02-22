@@ -136,7 +136,7 @@ namespace eStore.BL.Reports.Accounts
                 .Select (c => new { c.Amount, c.DailySale.SaleDate, c.DailySale.InvNo, c.IsPartialRecovery, c.DuesListId })
                 .ToList ();
 
-            var recovery = db.DueRecovered.Where (c => c.StoreId == storeId && c.PaidDate.Month == date.Month && c.PaidDate.Year == date.Year)
+            var recovery = db.DueRecovereds.Where (c => c.StoreId == storeId && c.PaidDate.Month == date.Month && c.PaidDate.Year == date.Year)
                 .Select (c => new { c.DueRecoverdId, c.AmountPaid, c.IsPartialPayment, c.PaidDate, c.DuesList.DailySale.InvNo, c.DuesList.DailySale.SaleDate, c.DuesList.Amount })
                 .ToList ();
 

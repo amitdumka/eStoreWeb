@@ -227,7 +227,7 @@ namespace eStore.BL.Reports.Accounts
             // var tailor = db.TailoringStaffAdvanceReceipts.Where (c => c.ReceiptDate.Date == onDate.Date);
             var staff = db.StaffAdvanceReceipts.Where (c => c.ReceiptDate.Date == onDate.Date);
             var rec = db.Receipts.Where (c => c.OnDate.Date == onDate.Date);
-            var recover = db.DueRecoverds.Where (c => c.PaidDate.Date == onDate.Date);
+            var recover = db.DueRecovereds.Where (c => c.PaidDate.Date == onDate.Date);
             foreach ( var item in sales )
             {
                 IncomeExpensesVM vmdata = new IncomeExpensesVM
@@ -430,8 +430,8 @@ namespace eStore.BL.Reports.Accounts
             var cashRec = db.CashReceipts.Where (c => c.InwardDate.Date >= startDate.Date && c.InwardDate.Date <= endDate.Date).ToList ();
             var staff = db.StaffAdvanceReceipts.Include (c => c.Employee).Where (c => c.ReceiptDate.Date >= startDate.Date && c.ReceiptDate.Date <= endDate.Date).ToList ();
             var rec = db.Receipts.Where (c => c.OnDate.Date >= startDate.Date && c.OnDate.Date <= endDate.Date).ToList ();
-
-            var recover = db.DueRecoverds.Include (c => c.DuesList).Include (c => c.DuesList.DailySale).Where (c => c.PaidDate.Date >= startDate.Date && c.PaidDate.Date <= endDate.Date).ToList ();
+                            
+            var recover = db.DueRecovereds.Include (c => c.DuesList).Include (c => c.DuesList.DailySale).Where (c => c.PaidDate.Date >= startDate.Date && c.PaidDate.Date <= endDate.Date).ToList ();
 
             foreach ( var item in sales )
             {

@@ -43,7 +43,7 @@ namespace eStore.BL.Widgets
                 //Dues
 
                 TotalDues = db.DuesLists.Include (c => c.DailySale).Where (c => c.DailySale.SaleDate.Date >= start.Date && c.DailySale.SaleDate.Date <= end.Date).Sum (c => c.Amount),
-                TotalRecovery = db.DueRecovered.Where (c => c.PaidDate.Date >= start.Date && c.PaidDate.Date <= end.Date).Sum (c => c.AmountPaid)
+                TotalRecovery = db.DueRecovereds.Where (c => c.PaidDate.Date >= start.Date && c.PaidDate.Date <= end.Date).Sum (c => c.AmountPaid)
             };
             ierData.TotalPendingDues = ierData.TotalDues - ierData.TotalRecovery;
             return ierData;
@@ -72,7 +72,7 @@ namespace eStore.BL.Widgets
                 TotalHomeExpenses = db.CashPayments.Where (c => c.PaymentDate.Month == onDate.Month && c.Mode.Transcation == "Home Expenses").Sum (c => c.Amount),
                 //Dues
                 TotalDues = db.DuesLists.Include (c => c.DailySale).Where (c => c.DailySale.SaleDate.Month == onDate.Month).Sum (c => c.Amount),
-                TotalRecovery = db.DueRecovered.Where (c => c.PaidDate.Month == onDate.Month).Sum (c => c.AmountPaid)
+                TotalRecovery = db.DueRecovereds.Where (c => c.PaidDate.Month == onDate.Month).Sum (c => c.AmountPaid)
             };
             ierData.TotalPendingDues = ierData.TotalDues - ierData.TotalRecovery;
             return ierData;
@@ -101,7 +101,7 @@ namespace eStore.BL.Widgets
                 TotalHomeExpenses = db.CashPayments.Where (c => c.PaymentDate.Year == onDate.Year && c.Mode.Transcation == "Home Expenses").Sum (c => c.Amount),
                 //Dues
                 TotalDues = db.DuesLists.Include (c => c.DailySale).Where (c => c.DailySale.SaleDate.Year == onDate.Year).Sum (c => c.Amount),
-                TotalRecovery = db.DueRecovered.Where (c => c.PaidDate.Year == onDate.Year).Sum (c => c.AmountPaid)
+                TotalRecovery = db.DueRecovereds.Where (c => c.PaidDate.Year == onDate.Year).Sum (c => c.AmountPaid)
             };
             ierData.TotalPendingDues = ierData.TotalDues - ierData.TotalRecovery;
             return ierData;
@@ -130,7 +130,7 @@ namespace eStore.BL.Widgets
                 TotalHomeExpenses = db.CashPayments.Where (c => c.PaymentDate.Date == onDate.Date && c.Mode.Transcation == "Home Expenses").Sum (c => c.Amount),
                 //Dues
                 TotalDues = db.DuesLists.Include (c => c.DailySale).Where (c => c.DailySale.SaleDate.Date == onDate.Date).Sum (c => c.Amount),
-                TotalRecovery = db.DueRecovered.Where (c => c.PaidDate.Date == onDate.Date).Sum (c => c.AmountPaid)
+                TotalRecovery = db.DueRecovereds.Where (c => c.PaidDate.Date == onDate.Date).Sum (c => c.AmountPaid)
             };
             ierData.TotalPendingDues = ierData.TotalDues - ierData.TotalRecovery;
             return ierData;
