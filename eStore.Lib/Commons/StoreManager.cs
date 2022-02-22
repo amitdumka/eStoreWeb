@@ -72,7 +72,7 @@ namespace eStore.BL.Commons
             pettyCash.CashReciepts += db.CashReceipts.Where (c => c.StoreId == storeId && c.InwardDate.Date == date.Date).Select (c => c.Amount).Sum ();
 
             pettyCash.BankDeposit = db.BankDeposits.Where (c => c.StoreId == storeId && c.OnDate.Date == date.Date).Select (c => c.Amount).Sum ();
-            pettyCash.OhterReceipts = db.DueRecovered.Where (c => c.StoreId == storeId && c.PaidDate.Date == date.Date).Select (c => c.AmountPaid).Sum ();
+            pettyCash.OhterReceipts = db.DueRecovereds.Where (c => c.StoreId == storeId && c.PaidDate.Date == date.Date).Select (c => c.AmountPaid).Sum ();
 
             pettyCash.ClosingCash = (decimal?) db.PettyCashBooks.Where (c => c.OnDate.Date == date.AddDays (-1) && c.StoreId == storeId).Select (c => c.ClosingCash).FirstOrDefault () ?? 0;
 
