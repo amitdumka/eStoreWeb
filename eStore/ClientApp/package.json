@@ -53,6 +53,7 @@
     "@syncfusion/ej2": "19.2.62",
     "@syncfusion/ej2-base": "^19.2.60",
     "@syncfusion/ej2-react-grids": "19.2.62",
+    "@syncfusion/ej2-react-inputs": "^19.4.52",
     "@tanem/svg-injector": "8.0.50",
     "apexcharts": "3.19.2",
     "axios": "0.19.2",

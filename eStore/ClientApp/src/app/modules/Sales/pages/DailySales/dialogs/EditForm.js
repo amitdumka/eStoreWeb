@@ -158,15 +158,16 @@ export function EditForm({
                     <span className="text-danger ml-3 mr-3">
                       <Field name="isSaleReturn" type="checkbox" /> Sales Return
                                       </span>
-                                      <span className="text-danger ml-3 mr-3">
-                                          <Field name="isAdjustedBill" type="checkbox" /> Adjusted
-                                      </span>
+                                      
                   </div>
                   <div className="col-lg-4">
                     <Field name="isManualBill" type="checkbox" /> Manual Bill
                     <span className="text-primary ml-3 mr-3">
                       <Field name="isTailoringBill" type="checkbox" /> Tailoring{" "}
                     </span>
+                  </div>
+                  <div className="col-lg-4">
+                    <Field name="isAdjustedBill" type="checkbox" /> Sale Adjusted      
                   </div>
                 </div>
               </Form>
