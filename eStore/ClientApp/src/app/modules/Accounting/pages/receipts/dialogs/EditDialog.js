@@ -21,11 +21,10 @@ export function EditDialog({ id, show, onHide }) {
 
   // Receipts Redux state
   const dispatch = useDispatch();
-  const { actionsLoading, receiptForEdit ,employeeList, partiesList, bankAccountsList,payModes} = useSelector(
+  const { actionsLoading, receiptForEdit , partiesList, bankAccountsList,payModes} = useSelector(
     (state) => ({
       actionsLoading: state.receipts.actionsLoading,
       receiptForEdit: state.receipts.receiptForEdit,
-      employeeList:state.receipts.employeeEntities,
       partiesList:state.receipts.partiesEntities, 
       bankAccountsList:state.receipts.bankaccEntities, 
       payModes:state.commonTypes.payModes
@@ -38,13 +37,14 @@ export function EditDialog({ id, show, onHide }) {
     dispatch(actions.fetchReceipt(id));
     dispatch(actions.fetchParties());
     dispatch(actions.fetchBankAccounts());
-    dispatch(actions.fetchEmployees());
     dispatch(commonActions.fetchEnumValue("payMode"));
   }, [id, dispatch]);
 
   // server request for saving receipt
   const saveReceipt = (receipt) => {
     receipt.payMode=parseInt(receipt.payMode);
+    console.log(receipt);
+    
     if (!id) {
       // server request for creating receipt
       dispatch(actions.createReceipt(receipt)).then(() => onHide());
@@ -67,7 +67,6 @@ export function EditDialog({ id, show, onHide }) {
         actionsLoading={actionsLoading}
         receipt={receiptForEdit || receiptsUIProps.initReceipt}
         onHide={onHide}
-        employeeList={employeeList}
         partiesList={partiesList}
         bankAccountsList={bankAccountsList}
         payModes={payModes}

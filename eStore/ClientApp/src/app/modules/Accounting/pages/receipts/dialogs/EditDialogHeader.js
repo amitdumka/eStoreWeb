@@ -21,7 +21,7 @@ export function EditDialogHeader({ id }) {
   useEffect(() => {
     let _title = id ? "" : "New Receipt";
     if (receiptForEdit && id) {
-      _title = `Edit receipt '${receiptForEdit.firstName} ${receiptForEdit.lastName}'`;
+      _title = `Edit receipt on '${receiptForEdit.onDate} / ${receiptForEdit.partyName}'`;
     }
 
     setTitle(_title);

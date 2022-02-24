@@ -42,7 +42,7 @@ export function UIProvider({ UIEvents, children }) {
   }, []);
 
   const initCashReceipt = {
-    cashReceiptId: 1,
+    cashReceiptId: null,
     inwardDate: new Date(),
     transcationModeId: 6,
     mode: null,
@@ -56,7 +56,7 @@ export function UIProvider({ UIEvents, children }) {
     entryStatus: 0,
     isReadOnly: false,
   };
-
+ 
   const value = {
     queryParams,
     setQueryParamsBase,

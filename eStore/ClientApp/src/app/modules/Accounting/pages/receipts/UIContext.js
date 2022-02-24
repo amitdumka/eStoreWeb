@@ -44,7 +44,7 @@ export function UIProvider({ UIEvents, children }) {
   const initReceipt = {
     receiptId: 0,
     partyName: "",
-    recieptSlipNo: "",
+    receiptSlipNo: "",
     onDate: new Date(),
     payMode: 0,
     bankAccountId: null,

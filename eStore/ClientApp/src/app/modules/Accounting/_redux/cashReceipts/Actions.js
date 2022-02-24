@@ -14,7 +14,7 @@ export const fetchParties = (id) => (dispatch) => {
     .then((response) => {
       const entities = response.data;
       const totalCount = response.data.length;
-      console.log(entities);
+     
       dispatch(actions.partiesListFetched({ totalCount, entities }));
     })
     .catch((error) => {
@@ -31,7 +31,7 @@ export const fetchBankAccounts = (id) => (dispatch) => {
     .then((response) => {
       const entities = response.data;
       const totalCount = response.data.length;
-      console.log(entities);
+     
       dispatch(actions.bankAccountsListFetched({ totalCount, entities }));
     })
     .catch((error) => {
@@ -51,7 +51,7 @@ export const fetchTranscations = (id) => (dispatch) => {
     .then((response) => {
       const entities = response.data;
       const totalCount = response.data.length;
-      console.log(entities);
+     
       dispatch(actions.transcationsListFetched({ totalCount, entities }));
     })
     .catch((error) => {

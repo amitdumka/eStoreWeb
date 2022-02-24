@@ -19,7 +19,7 @@ namespace eStore.Shared.Models.Accounts
         [Display (Name = "Mode")]
         public int TranscationModeId { get; set; }
 
-        public TranscationMode Mode { get; set; }
+        public virtual TranscationMode Mode { get; set; }
 
         [Display (Name = "Receipt From"), Required]
         public string ReceiptFrom { get; set; }

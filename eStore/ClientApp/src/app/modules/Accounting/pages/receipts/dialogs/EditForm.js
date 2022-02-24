@@ -19,8 +19,6 @@ import {
 const ReceiptEditSchema = Yup.object().shape({
   onDate: Yup.date().required("Date is required"),
   amount: Yup.number().integer().moreThan(0).positive().min(1).required("Amount is required"),
-  employeeId: Yup.number().moreThan(0).required("Paid By is required"),
- // particulars: Yup.string().required("Particulars Month is required"),
   payMode: Yup.number().required("Receipt Mode is required"),
   partyName: Yup.string().required("Paid To is required"),
   remarks: Yup.string().required("Receipt details is required"),
@@ -32,8 +30,8 @@ export function EditForm({
   saveReceipt,
   receipt,
   actionsLoading,
-  onHide,
-  employeeList, partiesList, bankAccountsList
+  onHide,payModes,
+  partiesList, bankAccountsList
 }) {
   return (
     <>
@@ -64,22 +62,6 @@ export function EditForm({
                     </Select>
                   </div>
 
-                   {/* Paid By
-                   <div className="col-lg-4">
-                    <Select
-                      name="employeeId"
-                      placeholder="Paid By"
-                      label="Paid By"
-                    >
-                      <option value="">Select Employee</option>
-                      {employeeList.map((item) => (
-                        <option key={item.employeeId} value={item.employeeId}>
-                          {item.staffName}
-                        </option>
-                      ))}
-                    </Select>
-                  </div> */}
-                  
                   {/* Party  */}
                   <div className="col-lg-4">
                     <Select name="partyId" label="Ledger">
@@ -91,8 +73,6 @@ export function EditForm({
                       ))}
                     </Select>
                   </div>
-                  
-                 
                 </div>
                
                 <div className="form-group row">
@@ -145,8 +125,11 @@ export function EditForm({
                    {/* PayMode */}
                    <div className="col-lg-4">
                     <Select name="payMode" label="Receipt Mode">
-                      <option value="0">Cash</option>
-                      <option value="1">Card</option>
+                      {payModes.map((item) => (
+                        <option key={item.value} value={item.value}>
+                          {item.name}
+                        </option>
+                      ))}
                     </Select>
                   </div>
                  </div>
@@ -165,7 +148,7 @@ export function EditForm({
                  {/*  State Name*/}
                  <div className="col-lg-4">
                     <Field
-                      name="receiptDetails"
+                      name="paymentDetails"
                       component={Input}
                       placeholder="Receipt Details"
                       label="Receipt Details"

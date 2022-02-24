@@ -18,11 +18,16 @@ import {
 // Validation schema
 const CashReceiptEditSchema = Yup.object().shape({
   inwardDate: Yup.date().required("Date is required"),
-  amount: Yup.number().integer().moreThan(0).positive().min(1).required("Amount is required"),
+  amount: Yup.number()
+    .integer()
+    .moreThan(0)
+    .positive()
+    .min(1)
+    .required("Amount is required"),
   receiptFrom: Yup.string().required("Paid To is required"),
   remarks: Yup.string().required("CashReceipt details is required"),
   storeId: Yup.number().required("Select Store "),
-  slipNo:Yup.string().required("CashReceipt Slip No is required"),
+  slipNo: Yup.string().required("CashReceipt Slip No is required"),
 });
 
 export function EditForm({
@@ -30,7 +35,7 @@ export function EditForm({
   cashReceipt,
   actionsLoading,
   onHide,
-  transcationList
+  transcationList,
 }) {
   return (
     <>
@@ -52,32 +57,30 @@ export function EditForm({
               )}
               <Form className="form form-label-right">
                 <div className="form-group row">
-                  
-                   {/* Store */}
-                   <div className="col-lg-4">
+                  {/* Store */}
+                  <div className="col-lg-4">
                     <Select name="storeId" label="Store">
                       <option value="1">Dumka</option>
                       <option value="2">Jamshedpur</option>
                     </Select>
                   </div>
 
-                  
-                  
                   {/* Party  */}
                   <div className="col-lg-4">
                     <Select name="transcationModeId" label="Mode">
-                      <option value={null} >Select Mode</option>
+                      <option value={null}>Select Mode</option>
                       {transcationList.map((item) => (
-                        <option key={item.transcationModeId} value={item.transcationModeId}>
+                        <option
+                          key={item.transcationModeId}
+                          value={item.transcationModeId}
+                        >
                           {item.transcation}
                         </option>
                       ))}
                     </Select>
                   </div>
-                  
-                 
                 </div>
-               
+
                 <div className="form-group row">
                   {/* Date of CashReceipt */}
                   <div className="col-lg-4">
@@ -88,7 +91,7 @@ export function EditForm({
                     />
                   </div>
                   {/*  State Name*/}
-                 <div className="col-lg-4">
+                  <div className="col-lg-4">
                     <Field
                       name="slipNo"
                       component={Input}
@@ -96,8 +99,8 @@ export function EditForm({
                       label="CashReceipt SlipNo"
                     />
                   </div>
-                   {/*  Paid To Name*/}
-                   <div className="col-lg-4">
+                  {/*  Paid To Name*/}
+                  <div className="col-lg-4">
                     <Field
                       name="receiptFrom"
                       component={Input}
@@ -116,16 +119,16 @@ export function EditForm({
                       label="Amount"
                     />
                   </div>
-                 {/*  State Name*/}
-                 <div className="col-lg-4">
+                  {/*  State Name*/}
+                  <div className="col-lg-4">
                     <Field
                       name="remarks"
                       component={Input}
                       placeholder="Remarks"
                       label="Remarks"
                     />
-                  </div>                  
-                 </div>
+                  </div>
+                </div>
               </Form>
             </Modal.Body>
             <Modal.Footer>

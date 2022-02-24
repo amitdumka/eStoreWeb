@@ -14,7 +14,7 @@ export const fetchParties = (id) => (dispatch) => {
     .then((response) => {
       const entities = response.data;
       const totalCount = response.data.length;
-      console.log(entities);
+      //console.log(entities);
       dispatch(actions.partiesListFetched({ totalCount, entities }));
     })
     .catch((error) => {
@@ -31,7 +31,7 @@ export const fetchBankAccounts = (id) => (dispatch) => {
     .then((response) => {
       const entities = response.data;
       const totalCount = response.data.length;
-      console.log(entities);
+     // console.log(entities);
       dispatch(actions.bankAccountsListFetched({ totalCount, entities }));
     })
     .catch((error) => {
@@ -51,7 +51,7 @@ export const fetchEmployees = (id) => (dispatch) => {
     .then((response) => {
       const entities = response.data;
       const totalCount = response.data.length;
-      console.log(entities);
+      //console.log(entities);
       dispatch(actions.employeesListFetched({ totalCount, entities }));
     })
     .catch((error) => {
@@ -131,7 +131,7 @@ export const updateReceipt = (receipt) => (dispatch) => {
   return requestFromServer
     .updateReceipt(receipt)
     .then(() => {
-      console.log(receipt);
+     // console.log(receipt);
       dispatch(actions.receiptUpdated({ receipt }));
     })
     .catch((error) => {
