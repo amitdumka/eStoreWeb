@@ -128,11 +128,11 @@ namespace eStore.BL.Widgets
         {
             DailySaleReport record = new DailySaleReport
             {
-                DailySale = (decimal?) db.DailySales.Where (C => ( C.SaleDate.Date ) == ( DateTime.Today.Date) && !C.IsAdjustedBill).Sum (c => (long?) c.Amount) ?? 0,
-                YesterdaySale = (decimal?) db.DailySales.Where (C => ( C.SaleDate.Date ) == ( DateTime.Today.Date.AddDays (-1)) && !C.IsAdjustedBill).Sum (c => (long?) c.Amount) ?? 0,
+                DailySale = (decimal?) db.DailySales.Where (C => ( C.SaleDate.Date ) == ( DateTime.Today.Date )).Sum (c => (long?) c.Amount) ?? 0,
+                YesterdaySale = (decimal?) db.DailySales.Where (C => ( C.SaleDate.Date ) == ( DateTime.Today.Date.AddDays (-1) )).Sum (c => (long?) c.Amount) ?? 0,
 
-                MonthlySale = (decimal?) db.DailySales.Where (C => ( C.SaleDate ).Month == ( DateTime.Today ).Month && !C.IsAdjustedBill && C.SaleDate.Year == DateTime.Today.Year).Sum (c => (long?) c.Amount) ?? 0,
-                YearlySale = (decimal?) db.DailySales.Where (C => ( C.SaleDate ).Year == ( DateTime.Today ).Year).Sum (c => (long?) c.Amount) ?? 0 ,
+                MonthlySale = (decimal?) db.DailySales.Where (C => ( C.SaleDate ).Month == ( DateTime.Today ).Month && C.SaleDate.Year == DateTime.Today.Year).Sum (c => (long?) c.Amount) ?? 0,
+                YearlySale = (decimal?) db.DailySales.Where (C => ( C.SaleDate ).Year == ( DateTime.Today ).Year).Sum (c => (long?) c.Amount) ?? 0,
                 WeeklySale = (decimal?) db.DailySales.Where (C => C.SaleDate.Date <= DateTime.Today.Date && C.SaleDate.Date >= DateTime.Today.Date.AddDays (-7)).Sum (c => (long?) c.Amount) ?? 0,
                 QuarterlySale = (decimal?) db.DailySales.Where (C => C.SaleDate.Month >= DateTime.Today.AddMonths (-3).Month && C.SaleDate.Month <= DateTime.Today.Month && C.SaleDate.Year == DateTime.Today.Year).Sum (c => (long?) c.Amount) ?? 0,
             };
@@ -304,7 +304,7 @@ namespace eStore.BL.Widgets
                 .Where (c => c.Status == AttUnit.Absent && c.AttDate.Year == DateTime.Today.Year && c.AttDate.Month == DateTime.Today.Month && c.IsTailoring == false)
                  .GroupBy (c => c.Employee.FirstName).OrderBy (c => c.Key).Select (g => new { StaffName = g.Key, Days = g.Count () }).ToList ();
 
-            var totalSale = db.DailySales.Include (c => c.Salesman).Where (c => c.SaleDate.Year == DateTime.Today.Year && c.SaleDate.Month == DateTime.Today.Month)
+            var totalSale = db.DailySales.Include (c => c.Salesman).Where (c => c.SaleDate.Year == DateTime.Today.Year  && !c.IsAdjustedBill && c.SaleDate.Month == DateTime.Today.Month)
                 .Select (a => new { StaffName = a.Salesman.SalesmanName, a.Amount }).ToList ();
 
             if ( WithTailor )
@@ -320,7 +320,7 @@ namespace eStore.BL.Widgets
                    .Where (c => c.Status == AttUnit.Absent && c.AttDate.Year == DateTime.Today.Year && c.AttDate.Month == DateTime.Today.Month)
                     .GroupBy (c => c.Employee.FirstName).OrderBy (c => c.Key).Select (g => new { StaffName = g.Key, Days = g.Count () }).ToList ();
 
-                totalSale = db.DailySales.Include (c => c.Salesman).Where (c => c.SaleDate.Year == DateTime.Today.Year && c.SaleDate.Month == DateTime.Today.Month).Select (a => new { StaffName = a.Salesman.SalesmanName, a.Amount }).ToList ();
+                totalSale = db.DailySales.Include (c => c.Salesman).Where (c => c.SaleDate.Year == DateTime.Today.Year && c.SaleDate.Month == DateTime.Today.Month && !c.IsAdjustedBill).Select (a => new { StaffName = a.Salesman.SalesmanName, a.Amount }).ToList ();
             }
 
             List<EmployeeInfo> infoList = new List<EmployeeInfo> ();
