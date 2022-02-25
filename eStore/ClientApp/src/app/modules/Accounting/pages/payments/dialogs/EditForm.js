@@ -33,7 +33,7 @@ export function EditForm({
   payment,
   actionsLoading,
   onHide,
-   partiesList, bankAccountsList
+   partiesList, bankAccountsList,payModes
 }) {
   return (
     <>
@@ -63,23 +63,7 @@ export function EditForm({
                       <option value="2">Jamshedpur</option>
                     </Select>
                   </div>
-
-                   {/* Paid By
-                   <div className="col-lg-4">
-                    <Select
-                      name="employeeId"
-                      placeholder="Paid By"
-                      label="Paid By"
-                    >
-                      <option value="">Select Employee</option>
-                      {employeeList.map((item) => (
-                        <option key={item.employeeId} value={item.employeeId}>
-                          {item.staffName}
-                        </option>
-                      ))}
-                    </Select>
-                  </div> */}
-                  
+   
                   {/* Party  */}
                   <div className="col-lg-4">
                     <Select name="partyId" label="Ledger">
@@ -145,8 +129,11 @@ export function EditForm({
                    {/* PayMode */}
                    <div className="col-lg-4">
                     <Select name="payMode" label="Payment Mode">
-                      <option value="0">Cash</option>
-                      <option value="1">Card</option>
+                    {payModes && payModes.map((item) => (
+                        <option key={item.value} value={item.value}>
+                          {item.name}
+                        </option>
+                      ))}
                     </Select>
                   </div>
                  </div>

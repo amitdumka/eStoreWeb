@@ -20,11 +20,11 @@ export function EditDialog({ id, show, onHide }) {
 
   // CashReceipts Redux state
   const dispatch = useDispatch();
-  const { actionsLoading, cashReceiptForEdit ,transcationList} = useSelector(
+  const { actionsLoading, cashReceiptForEdit, transcationList } = useSelector(
     (state) => ({
       actionsLoading: state.cashReceipts.actionsLoading,
       cashReceiptForEdit: state.cashReceipts.cashReceiptForEdit,
-      transcationList:state.cashReceipts.transcationEntities,
+      transcationList: state.cashReceipts.transcationEntities,
     }),
     shallowEqual
   );
@@ -37,6 +37,7 @@ export function EditDialog({ id, show, onHide }) {
 
   // server request for saving cashReceipt
   const saveCashReceipt = (cashReceipt) => {
+    console.log(cashReceipt);
     if (!id) {
       // server request for creating cashReceipt
       dispatch(actions.createCashReceipt(cashReceipt)).then(() => onHide());

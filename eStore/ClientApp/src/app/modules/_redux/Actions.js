@@ -11,6 +11,9 @@ export const fetchEnumValue = (enumName) => (dispatch) => {
     .getEnumType(enumName)
     .then((response) => {
       const entities = response.data;
+      console.log(enumName);
+      console.log(entities);
+
       dispatch(actions.enumValueFetched({ enumName, entities }));
     })
     .catch((error) => {

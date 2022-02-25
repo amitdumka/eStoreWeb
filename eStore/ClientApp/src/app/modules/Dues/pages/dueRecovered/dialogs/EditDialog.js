@@ -43,12 +43,13 @@ export function EditDialog({ id, show, onHide }) {
     dispatch(actions.fetchDueRecovered(id));
      dispatch(commonActions.fetchEnumValue("payMode"));
      dispatch(actions.fetchDueList());
-    //dispatch(actions.fetchEmployees());
+    
   }, [id, dispatch]);
 
   // server request for saving dueRecovered
   const saveDueRecovered = (dueRecovered) => {
-    dueRecovered.payMode = parseInt(dueRecovered.payMode);
+    dueRecovered.modes = parseInt(dueRecovered.modes);
+    console.log(dueRecovered);
     if (!id) {
       // server request for creating dueRecovered
       dispatch(actions.createDueRecovered(dueRecovered)).then(() => onHide());

@@ -213,7 +213,7 @@ export function setEnumValue(state, actionName, entities) {
     case "employeeType":
       state.employeeType = entities;
       break;
-    case "ledgerEntryType":
+     case "ledgerEntryType":
       state.employeeType = entities;
       break;
     case "ledgerCategoryType":

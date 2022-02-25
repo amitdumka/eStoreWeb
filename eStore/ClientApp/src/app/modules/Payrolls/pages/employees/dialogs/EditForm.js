@@ -39,7 +39,14 @@ const EmployeeEditSchema = Yup.object().shape({
   storeId: Yup.number().required("Store is required"),
 });
 
-export function EditForm({ saveEmployee, employee, actionsLoading, onHide }) {
+export function EditForm({
+  saveEmployee,
+  employee,
+  actionsLoading,
+  onHide,
+  storeList,
+  employeeType,
+}) {
   return (
     <>
       <Formik
@@ -122,8 +129,12 @@ export function EditForm({ saveEmployee, employee, actionsLoading, onHide }) {
                   {/* Store */}
                   <div className="col-lg-4">
                     <Select name="storeId" label="Store">
-                      <option value="1">Aprajita Retails</option>
-                      <option value="2">Aprajita Retails, Jamshedpur</option>
+                      {storeList &&
+                        storeList.map((item) => (
+                          <option key={item.storeId} value={item.storeId}>
+                            {item.storeName}
+                          </option>
+                        ))}
                     </Select>
                   </div>
 
@@ -178,10 +189,12 @@ export function EditForm({ saveEmployee, employee, actionsLoading, onHide }) {
                   {/* Department */}
                   <div className="col-lg-4">
                     <Select name="category" label="Department">
-                      <option value="1">Store Manager</option>
-                      <option value="2">Salesman</option>
-                      <option value="3">HouseKeeping</option>
-                      <option value="4">Accountant</option>
+                      {employeeType &&
+                        employeeType.map((item) => (
+                          <option key={item.value} value={item.value}>
+                            {item.name}
+                          </option>
+                        ))}
                     </Select>
                   </div>
                   {/*  Qualification*/}

@@ -2,6 +2,7 @@ import React, { useEffect, useMemo } from "react";
 import { Modal } from "react-bootstrap";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import * as actions from "../../../_redux/employees/Actions";
+import * as cActions from "../../../../_redux/Actions";
 import { EditDialogHeader } from "./EditDialogHeader";
 import { EditForm } from "./EditForm";
 import { useUIContext } from "../UIContext";
@@ -17,10 +18,13 @@ export function EditDialog({ id, show, onHide }) {
 
   // Employees Redux state
   const dispatch = useDispatch();
-  const { actionsLoading, employeeForEdit } = useSelector(
+  const { actionsLoading, employeeForEdit,storeList ,employeeType} = useSelector(
     (state) => ({
       actionsLoading: state.employees.actionsLoading,
       employeeForEdit: state.employees.employeeForEdit,
+      storeList: state.commonTypes.storeList,
+      employeeType: state.commonTypes.employeeType,
+
     }),
     shallowEqual
   );
@@ -28,6 +32,8 @@ export function EditDialog({ id, show, onHide }) {
   useEffect(() => {
     // server call for getting Employee by id
     dispatch(actions.fetchEmployee(id));
+    dispatch(cActions.fetchEnumValue("employeeType"));
+    dispatch(cActions.fetchStores());
   }, [id, dispatch]);
 
   // server request for saving employee
@@ -57,6 +63,9 @@ export function EditDialog({ id, show, onHide }) {
         actionsLoading={actionsLoading}
         employee={employeeForEdit || employeesUIProps.initEmployee}
         onHide={onHide}
+        employeeType={employeeType}
+        storeList={storeList}
+
       />
     </Modal>
   );
