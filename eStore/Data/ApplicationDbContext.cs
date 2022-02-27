@@ -1,13 +1,8 @@
 ﻿using eStore.Models;
-using eStore.Shared.Models.Users;
 using IdentityServer4.EntityFramework.Options;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace eStore.Data
 {
@@ -18,6 +13,6 @@ namespace eStore.Data
             IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
         {
         }
-        
+
     }
 }

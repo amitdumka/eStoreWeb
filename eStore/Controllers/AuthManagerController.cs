@@ -1,17 +1,14 @@
 ﻿using eStore.Shared.Models.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace eStore.Controllers
 {
-    [Route ("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class AuthManagerController : ControllerBase
     {
@@ -28,11 +25,11 @@ namespace eStore.Controllers
         //    if ( result.Succeeded )
         //    {
         //        var usr= await _signInManager.UserManager.GetUserAsync(null);
-                   
+
         //        return LocalRedirect (returnUrl);
         //    }  
         //    else
-            
+
         //    if ( result.IsLockedOut )
         //    {
         //       // _logger.LogWarning ("User account locked out.");
@@ -44,18 +41,18 @@ namespace eStore.Controllers
         //        return Page ();
         //    }
         //}
-        
-        
-        
+
+
+
         // GET: api/<AuthManagerController>
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            return new string [] { "value1", "value2" };
+            return new string[] { "value1", "value2" };
         }
 
         // GET api/<AuthManagerController>/5
-        [HttpGet ("{id}")]
+        [HttpGet("{id}")]
         public string Get(int id)
         {
             return "value";
@@ -68,13 +65,13 @@ namespace eStore.Controllers
         }
 
         // PUT api/<AuthManagerController>/5
-        [HttpPut ("{id}")]
+        [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
         }
 
         // DELETE api/<AuthManagerController>/5
-        [HttpDelete ("{id}")]
+        [HttpDelete("{id}")]
         public void Delete(int id)
         {
         }

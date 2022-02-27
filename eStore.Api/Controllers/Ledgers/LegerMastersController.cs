@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
-    [Route ("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class LegerMastersController : ControllerBase
@@ -25,18 +25,18 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<LedgerMaster>>> GetLedgerMasters()
         {
-            return await _context.LedgerMasters.ToListAsync ();
+            return await _context.LedgerMasters.ToListAsync();
         }
 
         // GET: api/LegerMasters/5
-        [HttpGet ("{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<LedgerMaster>> GetLedgerMaster(int id)
         {
-            var ledgerMaster = await _context.LedgerMasters.FindAsync (id);
+            var ledgerMaster = await _context.LedgerMasters.FindAsync(id);
 
-            if ( ledgerMaster == null )
+            if (ledgerMaster == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
             return ledgerMaster;
@@ -44,25 +44,25 @@ namespace eStore.API.Controllers
 
         // PUT: api/LegerMasters/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut ("{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> PutLedgerMaster(int id, LedgerMaster ledgerMaster)
         {
-            if ( id != ledgerMaster.LedgerMasterId )
+            if (id != ledgerMaster.LedgerMasterId)
             {
-                return BadRequest ();
+                return BadRequest();
             }
 
-            _context.Entry (ledgerMaster).State = EntityState.Modified;
+            _context.Entry(ledgerMaster).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync ();
+                await _context.SaveChangesAsync();
             }
-            catch ( DbUpdateConcurrencyException )
+            catch (DbUpdateConcurrencyException)
             {
-                if ( !LedgerMasterExists (id) )
+                if (!LedgerMasterExists(id))
                 {
-                    return NotFound ();
+                    return NotFound();
                 }
                 else
                 {
@@ -70,7 +70,7 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return NoContent ();
+            return NoContent();
         }
 
         // POST: api/LegerMasters
@@ -78,31 +78,31 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<LedgerMaster>> PostLedgerMaster(LedgerMaster ledgerMaster)
         {
-            _context.LedgerMasters.Add (ledgerMaster);
-            await _context.SaveChangesAsync ();
+            _context.LedgerMasters.Add(ledgerMaster);
+            await _context.SaveChangesAsync();
 
-            return CreatedAtAction ("GetLedgerMaster", new { id = ledgerMaster.LedgerMasterId }, ledgerMaster);
+            return CreatedAtAction("GetLedgerMaster", new { id = ledgerMaster.LedgerMasterId }, ledgerMaster);
         }
 
         // DELETE: api/LegerMasters/5
-        [HttpDelete ("{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteLedgerMaster(int id)
         {
-            var ledgerMaster = await _context.LedgerMasters.FindAsync (id);
-            if ( ledgerMaster == null )
+            var ledgerMaster = await _context.LedgerMasters.FindAsync(id);
+            if (ledgerMaster == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
-            _context.LedgerMasters.Remove (ledgerMaster);
-            await _context.SaveChangesAsync ();
+            _context.LedgerMasters.Remove(ledgerMaster);
+            await _context.SaveChangesAsync();
 
-            return NoContent ();
+            return NoContent();
         }
 
         private bool LedgerMasterExists(int id)
         {
-            return _context.LedgerMasters.Any (e => e.LedgerMasterId == id);
+            return _context.LedgerMasters.Any(e => e.LedgerMasterId == id);
         }
     }
 }

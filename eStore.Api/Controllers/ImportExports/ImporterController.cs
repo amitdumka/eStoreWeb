@@ -18,7 +18,7 @@ namespace eStore.API.Controllers
         public string CallBackUrl { get; set; }
     }
 
-    [Route ("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class ImporterController : ControllerBase
@@ -38,43 +38,43 @@ namespace eStore.API.Controllers
         [HttpPost]
         public ActionResult Post(ImportDto import)
         {
-            _queue.QueueBackgroundWorkItem (async token =>
-            {
-                using ( var scope = _serviceScopeFactory.CreateScope () )
-                {
-                    var db = scope.ServiceProvider.GetRequiredService<eStoreDbContext> ();
-                    new DataImpoter ().ImportJson (db, import.CommandMode, import.JsonData, import.EmailId, import.CallBackUrl);
-                    await Task.Delay (TimeSpan.FromSeconds (5), token);
-                }
-            });
-            return Ok ("Uploader is processing! It will be inform after completation. ");
+            _queue.QueueBackgroundWorkItem(async token =>
+           {
+               using (var scope = _serviceScopeFactory.CreateScope())
+               {
+                   var db = scope.ServiceProvider.GetRequiredService<eStoreDbContext>();
+                   new DataImpoter().ImportJson(db, import.CommandMode, import.JsonData, import.EmailId, import.CallBackUrl);
+                   await Task.Delay(TimeSpan.FromSeconds(5), token);
+               }
+           });
+            return Ok("Uploader is processing! It will be inform after completation. ");
         }
 
-        [HttpPost ("voyagerImport")]
+        [HttpPost("voyagerImport")]
         public ActionResult PostVoyagerData(ImportDto import)
         {
-            _queue.QueueBackgroundWorkItem (async token =>
-            {
-                using ( var scope = _serviceScopeFactory.CreateScope () )
-                {
-                    var db = scope.ServiceProvider.GetRequiredService<eStoreDbContext> ();
-                    ImportVoyData.ImportJsonAsync (db, import.CommandMode, import.JsonData, import.EmailId, import.CallBackUrl);
-                    await Task.Delay (TimeSpan.FromSeconds (5), token);
-                }
-            });
-            return Ok ("Uploader is processing! It will be inform after completation. ");
+            _queue.QueueBackgroundWorkItem(async token =>
+           {
+               using (var scope = _serviceScopeFactory.CreateScope())
+               {
+                   var db = scope.ServiceProvider.GetRequiredService<eStoreDbContext>();
+                   ImportVoyData.ImportJsonAsync(db, import.CommandMode, import.JsonData, import.EmailId, import.CallBackUrl);
+                   await Task.Delay(TimeSpan.FromSeconds(5), token);
+               }
+           });
+            return Ok("Uploader is processing! It will be inform after completation. ");
         }
 
-        [HttpPost ("ProcessVoyager")]
+        [HttpPost("ProcessVoyager")]
         public ActionResult PostProcessVoyagerUpload(ProcessorCommand command)
         {
             if (
            // new UploadProcessor().ProcessVoyagerUpload(db, command))
-           UploadProcessor.ProcessUpload (db, command) )
+           UploadProcessor.ProcessUpload(db, command))
 
-                return Ok ("Command Processed");
+                return Ok("Command Processed");
             else
-                return Ok ("Error occured");
+                return Ok("Error occured");
         }
     }
 }

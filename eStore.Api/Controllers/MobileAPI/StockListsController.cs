@@ -1,11 +1,11 @@
 ﻿using eStore.Database;
+using eStore.Shared.Models.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using eStore.Shared.Models.Common;
 
 namespace eStore.Api.Controllers
 {

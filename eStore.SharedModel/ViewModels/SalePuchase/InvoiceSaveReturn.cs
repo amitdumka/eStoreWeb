@@ -48,8 +48,8 @@ namespace eStore.Shared.ViewModels.SalePuchase
 
         public static SaleInvoiceView CopyTo(RegularInvoice inv, List<RegularSaleItem> sItems)
         {
-            List<SaleItemView> saleItems = new List<SaleItemView> ();
-            foreach ( var item in sItems )
+            List<SaleItemView> saleItems = new List<SaleItemView>();
+            foreach (var item in sItems)
             {
                 SaleItemView si = new SaleItemView
                 {
@@ -61,7 +61,7 @@ namespace eStore.Shared.ViewModels.SalePuchase
                     SmCode = item.Salesman.SalesmanName,
                     Units = "Pcs/Mtrs"
                 };
-                saleItems.Add (si);
+                saleItems.Add(si);
                 //TODO: add unit name
             }
 
@@ -70,25 +70,25 @@ namespace eStore.Shared.ViewModels.SalePuchase
                 SaleItems = saleItems,
                 InvoiceNo = inv.InvoiceNo,
                 OnDate = inv.OnDate,
-                NoofItem = inv.TotalItems.ToString (),
+                NoofItem = inv.TotalItems.ToString(),
                 CustomerName = inv.Customer.FullName,
-                TotalQty = inv.TotalQty.ToString (),
-                TotalAmount = inv.TotalBillAmount.ToString (),
-                Discount = inv.TotalDiscountAmount.ToString ()
+                TotalQty = inv.TotalQty.ToString(),
+                TotalAmount = inv.TotalBillAmount.ToString(),
+                Discount = inv.TotalDiscountAmount.ToString()
             };
 
-            if ( inv.PaymentDetail.CardAmount > 0 )
+            if (inv.PaymentDetail.CardAmount > 0)
             {
                 vm.PaymentMode = "Card";
-                vm.CardAmount = inv.PaymentDetail.CardAmount.ToString ();
-                vm.AuthCode = inv.PaymentDetail.CardDetail.AuthCode.ToString ();
-                vm.CardNumber = inv.PaymentDetail.CardDetail.LastDigit.ToString ();
+                vm.CardAmount = inv.PaymentDetail.CardAmount.ToString();
+                vm.AuthCode = inv.PaymentDetail.CardDetail.AuthCode.ToString();
+                vm.CardNumber = inv.PaymentDetail.CardDetail.LastDigit.ToString();
                 vm.CardType = "#";
             }
             else
             {
                 vm.PaymentMode = "Cash";
-                vm.CashAmount = inv.PaymentDetail.CashAmount.ToString ();
+                vm.CashAmount = inv.PaymentDetail.CashAmount.ToString();
             }
 
             return vm;

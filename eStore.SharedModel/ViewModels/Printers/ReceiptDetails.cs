@@ -14,7 +14,7 @@ namespace eStore.Shared.ViewModels.Printers
         public ReceiptDetails(string invNo, DateTime onDate, string time, string custName)
         {
             BillNo = "Bill No: " + invNo;
-            BillDate = "                  Date: " + onDate.Date.ToShortDateString ();
+            BillDate = "                  Date: " + onDate.Date.ToShortDateString();
             BillTime = "                  Time: " + time;
             CustomerName = "Customer Name: " + custName;
         }

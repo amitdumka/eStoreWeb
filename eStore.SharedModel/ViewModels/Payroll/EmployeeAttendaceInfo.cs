@@ -26,29 +26,29 @@ namespace eStore.Shared.ViewModels.Payroll
     {
         public int SalesmanInfoId { get; set; }
 
-        [Display (Name = "Salesman")]
+        [Display(Name = "Salesman")]
         public string SalesmanName { get; set; }
 
         //public int? EmployeeId { get; set; }
         //public virtual Employee Employee { get; set; }
-        [DataType (DataType.Currency), Column (TypeName = "money")]
+        [DataType(DataType.Currency), Column(TypeName = "money")]
         public decimal TotalSale { get; set; }
 
-        [DataType (DataType.Currency), Column (TypeName = "money")]
+        [DataType(DataType.Currency), Column(TypeName = "money")]
         public decimal CurrentYear { get; set; }
 
-        [DataType (DataType.Currency), Column (TypeName = "money")]
+        [DataType(DataType.Currency), Column(TypeName = "money")]
         public decimal CurrentMonth { get; set; }
 
-        [DataType (DataType.Currency), Column (TypeName = "money")]
+        [DataType(DataType.Currency), Column(TypeName = "money")]
         public decimal LastMonth { get; set; }
 
-        [DataType (DataType.Currency), Column (TypeName = "money")]
+        [DataType(DataType.Currency), Column(TypeName = "money")]
         public decimal LastYear { get; set; }
 
         public int TotalBillCount { get; set; }
 
-        [DataType (DataType.Currency), Column (TypeName = "money")]
+        [DataType(DataType.Currency), Column(TypeName = "money")]
         public decimal Average { set; get; }
     }
 }
