@@ -15,18 +15,18 @@ namespace eStore.Lib.Accounts
                 PartyId = party.PartyId,
                 LedgerTypeId = party.LedgerTypeId
             };
-            db.Add (master);
-            return db.SaveChanges ();
+            db.Add(master);
+            return db.SaveChanges();
         }
 
         public static int UpdateLedgerMaster(eStoreDbContext db, Party party)
         {
-            var master = db.LedgerMasters.Where (c => c.PartyId == party.PartyId).FirstOrDefault ();
-            if ( master != null )
+            var master = db.LedgerMasters.Where(c => c.PartyId == party.PartyId).FirstOrDefault();
+            if (master != null)
             {
                 master.LedgerTypeId = party.LedgerTypeId;
-                db.Update (master);
-                return db.SaveChanges ();
+                db.Update(master);
+                return db.SaveChanges();
             }
             else
                 return -1;

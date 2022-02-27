@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
-    [Route ("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class StoreOpensController : ControllerBase
@@ -25,18 +25,18 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<StoreOpen>>> GetStoreOpens()
         {
-            return await _context.StoreOpens.ToListAsync ();
+            return await _context.StoreOpens.ToListAsync();
         }
 
         // GET: api/StoreOpens/5
-        [HttpGet ("{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<StoreOpen>> GetStoreOpen(int id)
         {
-            var storeOpen = await _context.StoreOpens.FindAsync (id);
+            var storeOpen = await _context.StoreOpens.FindAsync(id);
 
-            if ( storeOpen == null )
+            if (storeOpen == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
             return storeOpen;
@@ -44,25 +44,25 @@ namespace eStore.API.Controllers
 
         // PUT: api/StoreOpens/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut ("{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> PutStoreOpen(int id, StoreOpen storeOpen)
         {
-            if ( id != storeOpen.StoreOpenId )
+            if (id != storeOpen.StoreOpenId)
             {
-                return BadRequest ();
+                return BadRequest();
             }
 
-            _context.Entry (storeOpen).State = EntityState.Modified;
+            _context.Entry(storeOpen).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync ();
+                await _context.SaveChangesAsync();
             }
-            catch ( DbUpdateConcurrencyException )
+            catch (DbUpdateConcurrencyException)
             {
-                if ( !StoreOpenExists (id) )
+                if (!StoreOpenExists(id))
                 {
-                    return NotFound ();
+                    return NotFound();
                 }
                 else
                 {
@@ -70,7 +70,7 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return NoContent ();
+            return NoContent();
         }
 
         // POST: api/StoreOpens
@@ -78,31 +78,31 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<StoreOpen>> PostStoreOpen(StoreOpen storeOpen)
         {
-            _context.StoreOpens.Add (storeOpen);
-            await _context.SaveChangesAsync ();
+            _context.StoreOpens.Add(storeOpen);
+            await _context.SaveChangesAsync();
 
-            return CreatedAtAction ("GetStoreOpen", new { id = storeOpen.StoreOpenId }, storeOpen);
+            return CreatedAtAction("GetStoreOpen", new { id = storeOpen.StoreOpenId }, storeOpen);
         }
 
         // DELETE: api/StoreOpens/5
-        [HttpDelete ("{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteStoreOpen(int id)
         {
-            var storeOpen = await _context.StoreOpens.FindAsync (id);
-            if ( storeOpen == null )
+            var storeOpen = await _context.StoreOpens.FindAsync(id);
+            if (storeOpen == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
-            _context.StoreOpens.Remove (storeOpen);
-            await _context.SaveChangesAsync ();
+            _context.StoreOpens.Remove(storeOpen);
+            await _context.SaveChangesAsync();
 
-            return NoContent ();
+            return NoContent();
         }
 
         private bool StoreOpenExists(int id)
         {
-            return _context.StoreOpens.Any (e => e.StoreOpenId == id);
+            return _context.StoreOpens.Any(e => e.StoreOpenId == id);
         }
     }
 }

@@ -20,28 +20,28 @@ namespace eStore.BL.Tailor
         /// <param name="isDelete"></param>
         public void OnUpdateData(eStoreDbContext db, TalioringDelivery delivery, bool isEdit, bool isDelete = false)
         {
-            TalioringBooking booking = db.TalioringBookings.Find (delivery.TalioringBookingId);
+            TalioringBooking booking = db.TalioringBookings.Find(delivery.TalioringBookingId);
             //Updating Booking for Delivery Status.
-            if ( isEdit )
+            if (isEdit)
             {
-                if ( booking != null )
+                if (booking != null)
                 {
-                    var oldId = db.TailoringDeliveries.Where (c => c.TalioringDeliveryId == delivery.TalioringDeliveryId).Select (c => new { c.TalioringBookingId }).FirstOrDefault ();
-                    if ( oldId.TalioringBookingId != delivery.TalioringBookingId )
+                    var oldId = db.TailoringDeliveries.Where(c => c.TalioringDeliveryId == delivery.TalioringDeliveryId).Select(c => new { c.TalioringBookingId }).FirstOrDefault();
+                    if (oldId.TalioringBookingId != delivery.TalioringBookingId)
                     {
-                        TalioringBooking old = db.TalioringBookings.Find (oldId.TalioringBookingId);
+                        TalioringBooking old = db.TalioringBookings.Find(oldId.TalioringBookingId);
                         old.IsDelivered = false;
                         booking.IsDelivered = true;
-                        db.Entry (booking).State = EntityState.Modified;
-                        db.Entry (old).State = EntityState.Modified;
+                        db.Entry(booking).State = EntityState.Modified;
+                        db.Entry(old).State = EntityState.Modified;
                     }
                 }
             }
             else
             {
-                if ( booking != null )
+                if (booking != null)
                 {
-                    if ( isDelete )
+                    if (isDelete)
                     {
                         booking.IsDelivered = false;
                     }
@@ -49,7 +49,7 @@ namespace eStore.BL.Tailor
                     {
                         booking.IsDelivered = true;
                     }
-                    db.Entry (booking).State = EntityState.Modified;
+                    db.Entry(booking).State = EntityState.Modified;
                 }
             }
         }

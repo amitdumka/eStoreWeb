@@ -13,16 +13,16 @@ namespace eStore.Shared.Models.Stores
         public virtual Vendor Vendor { get; set; }
         public ArvindAccount Arvind { get; set; }
 
-        [DataType (DataType.Date), DisplayFormat (DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime OnDate { get; set; }
 
         public string InvoiceNo { get; set; }
         public DateTime InvoiceDate { get; set; }
         public decimal InvoiceAmount { get; set; }
 
-        public int [] PaymentIds { get; set; }
-        public DateTime [] PaymentDates { get; set; }
-        public decimal [] PaymentAmounts { get; set; }
+        public int[] PaymentIds { get; set; }
+        public DateTime[] PaymentDates { get; set; }
+        public decimal[] PaymentAmounts { get; set; }
         public bool IsInvoiceBillPaid { get; set; }
     }
 }

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
-    [Route ("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class PaymentDetailsController : ControllerBase
@@ -25,18 +25,18 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PaymentDetail>>> GetPaymentDetails()
         {
-            return await _context.PaymentDetails.ToListAsync ();
+            return await _context.PaymentDetails.ToListAsync();
         }
 
         // GET: api/PaymentDetails/5
-        [HttpGet ("{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<PaymentDetail>> GetPaymentDetail(string id)
         {
-            var paymentDetail = await _context.PaymentDetails.FindAsync (id);
+            var paymentDetail = await _context.PaymentDetails.FindAsync(id);
 
-            if ( paymentDetail == null )
+            if (paymentDetail == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
             return paymentDetail;
@@ -44,25 +44,25 @@ namespace eStore.API.Controllers
 
         // PUT: api/PaymentDetails/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut ("{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> PutPaymentDetail(string id, PaymentDetail paymentDetail)
         {
-            if ( id != paymentDetail.InvoiceNo )
+            if (id != paymentDetail.InvoiceNo)
             {
-                return BadRequest ();
+                return BadRequest();
             }
 
-            _context.Entry (paymentDetail).State = EntityState.Modified;
+            _context.Entry(paymentDetail).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync ();
+                await _context.SaveChangesAsync();
             }
-            catch ( DbUpdateConcurrencyException )
+            catch (DbUpdateConcurrencyException)
             {
-                if ( !PaymentDetailExists (id) )
+                if (!PaymentDetailExists(id))
                 {
-                    return NotFound ();
+                    return NotFound();
                 }
                 else
                 {
@@ -70,7 +70,7 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return NoContent ();
+            return NoContent();
         }
 
         // POST: api/PaymentDetails
@@ -78,16 +78,16 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<PaymentDetail>> PostPaymentDetail(PaymentDetail paymentDetail)
         {
-            _context.PaymentDetails.Add (paymentDetail);
+            _context.PaymentDetails.Add(paymentDetail);
             try
             {
-                await _context.SaveChangesAsync ();
+                await _context.SaveChangesAsync();
             }
-            catch ( DbUpdateException )
+            catch (DbUpdateException)
             {
-                if ( PaymentDetailExists (paymentDetail.InvoiceNo) )
+                if (PaymentDetailExists(paymentDetail.InvoiceNo))
                 {
-                    return Conflict ();
+                    return Conflict();
                 }
                 else
                 {
@@ -95,28 +95,28 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return CreatedAtAction ("GetPaymentDetail", new { id = paymentDetail.InvoiceNo }, paymentDetail);
+            return CreatedAtAction("GetPaymentDetail", new { id = paymentDetail.InvoiceNo }, paymentDetail);
         }
 
         // DELETE: api/PaymentDetails/5
-        [HttpDelete ("{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePaymentDetail(string id)
         {
-            var paymentDetail = await _context.PaymentDetails.FindAsync (id);
-            if ( paymentDetail == null )
+            var paymentDetail = await _context.PaymentDetails.FindAsync(id);
+            if (paymentDetail == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
-            _context.PaymentDetails.Remove (paymentDetail);
-            await _context.SaveChangesAsync ();
+            _context.PaymentDetails.Remove(paymentDetail);
+            await _context.SaveChangesAsync();
 
-            return NoContent ();
+            return NoContent();
         }
 
         private bool PaymentDetailExists(string id)
         {
-            return _context.PaymentDetails.Any (e => e.InvoiceNo == id);
+            return _context.PaymentDetails.Any(e => e.InvoiceNo == id);
         }
     }
 }

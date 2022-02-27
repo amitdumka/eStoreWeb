@@ -20,10 +20,10 @@ namespace eStore.Shared.Models.Todos
 
         public CalendarViewModel(int month, int year)
         {
-            DateTime firstDay = new DateTime (year, month, 1);
-            OffsetFromSun = (int) firstDay.DayOfWeek;
-            NumberOfDays = DateTime.DaysInMonth (year, month);
-            Name = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName (month);
+            DateTime firstDay = new DateTime(year, month, 1);
+            OffsetFromSun = (int)firstDay.DayOfWeek;
+            NumberOfDays = DateTime.DaysInMonth(year, month);
+            Name = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(month);
         }
     }
 
@@ -46,7 +46,7 @@ namespace eStore.Shared.Models.Todos
         public string Title { get; set; }
         public string Content { get; set; }
 
-        [RegularExpression (@"^(?:[a-zA-Z0-9_\-]*,?){0,3}$", ErrorMessage = "Maximum 3 comma separated tags!")]
+        [RegularExpression(@"^(?:[a-zA-Z0-9_\-]*,?){0,3}$", ErrorMessage = "Maximum 3 comma separated tags!")]
         public string Tags { get; set; }
 
         public bool Public { get; set; }
@@ -56,7 +56,7 @@ namespace eStore.Shared.Models.Todos
     {
         public string RequestId { get; set; }
 
-        public bool ShowRequestId => !string.IsNullOrEmpty (RequestId);
+        public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
     }
 
     public class HomeViewModel
@@ -80,32 +80,32 @@ namespace eStore.Shared.Models.Todos
         public Guid Id { get; set; }
 
         [Required]
-        [MaxLength (450)]
+        [MaxLength(450)]
         public string UserId { get; set; }
 
         [Required]
-        [MinLength (3)]
-        [MaxLength (50)]
+        [MinLength(3)]
+        [MaxLength(50)]
         public string Title { get; set; }
 
-        [MaxLength (200)]
-        [MinLength (15)]
-        [DataType (DataType.MultilineText)]
+        [MaxLength(200)]
+        [MinLength(15)]
+        [DataType(DataType.MultilineText)]
         public string Content { get; set; }
 
         public bool Done { get; set; }
 
-        [DataType (DataType.DateTime)]
-        [Column ("Added")]
-        [EditorBrowsable (EditorBrowsableState.Never)]
+        [DataType(DataType.DateTime)]
+        [Column("Added")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public DateTime Added { get; set; }
 
         //[NotMapped]
         //public Instant Added { get; set; }
 
-        [DataType (DataType.DateTime)]
-        [Column ("DueTo")]
-        [EditorBrowsable (EditorBrowsableState.Never)]
+        [DataType(DataType.DateTime)]
+        [Column("DueTo")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public DateTime DueTo { get; set; }
 
         // [NotMapped]
@@ -135,10 +135,10 @@ namespace eStore.Shared.Models.Todos
 
         [NotMapped]
         //TODO: remove this coment and remove notmapped [Column("Tags")]
-        [MaxLength (Constants.MAX_TAGS)]
+        [MaxLength(Constants.MAX_TAGS)]
         public IEnumerable<string> Tags { get; set; }
 
-        [Display (Name = "Public")]
+        [Display(Name = "Public")]
         public bool IsPublic { get; set; }
 
         //TODO: to make TODO list for particular user.
@@ -154,7 +154,7 @@ namespace eStore.Shared.Models.Todos
         [Required, Key]
         public Guid TodoId { get; set; }
 
-        [MaxLength (500)]
+        [MaxLength(500)]
         public string Path { get; set; }
 
         public long Size { get; set; }
@@ -163,19 +163,19 @@ namespace eStore.Shared.Models.Todos
     public class TodoItemCreateViewModel
     {
         [Required]
-        [MinLength (3)]
-        [MaxLength (50)]
+        [MinLength(3)]
+        [MaxLength(50)]
         public string Title { get; set; }
 
-        [MaxLength (200)]
-        [MinLength (5)]
-        [DataType (DataType.MultilineText)]
+        [MaxLength(200)]
+        [MinLength(5)]
+        [DataType(DataType.MultilineText)]
         public string Content { get; set; }
 
-        [DataType (DataType.DateTime)]
+        [DataType(DataType.DateTime)]
         public DateTime DuetoDateTime { get; set; }
 
-        [RegularExpression (@"^(?:[a-zA-Z0-9_\-]*,?){0,3}$", ErrorMessage = "Maximum 3 comma separated tags!")]
+        [RegularExpression(@"^(?:[a-zA-Z0-9_\-]*,?){0,3}$", ErrorMessage = "Maximum 3 comma separated tags!")]
         public string Tags { get; set; }
 
         public bool Public { get; set; }

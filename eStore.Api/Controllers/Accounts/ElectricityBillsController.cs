@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
-    [Route ("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class ElectricityBillsController : ControllerBase
@@ -25,18 +25,18 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<EletricityBill>>> GetEletricityBills()
         {
-            return await _context.EletricityBills.Include (c => c.Connection).OrderByDescending (c => c.BillDate).ToListAsync ();
+            return await _context.EletricityBills.Include(c => c.Connection).OrderByDescending(c => c.BillDate).ToListAsync();
         }
 
         // GET: api/ElectricityBills/5
-        [HttpGet ("{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<EletricityBill>> GetEletricityBill(int id)
         {
-            var eletricityBill = await _context.EletricityBills.FindAsync (id);
+            var eletricityBill = await _context.EletricityBills.FindAsync(id);
 
-            if ( eletricityBill == null )
+            if (eletricityBill == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
             return eletricityBill;
@@ -44,25 +44,25 @@ namespace eStore.API.Controllers
 
         // PUT: api/ElectricityBills/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut ("{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> PutEletricityBill(int id, EletricityBill eletricityBill)
         {
-            if ( id != eletricityBill.EletricityBillId )
+            if (id != eletricityBill.EletricityBillId)
             {
-                return BadRequest ();
+                return BadRequest();
             }
 
-            _context.Entry (eletricityBill).State = EntityState.Modified;
+            _context.Entry(eletricityBill).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync ();
+                await _context.SaveChangesAsync();
             }
-            catch ( DbUpdateConcurrencyException )
+            catch (DbUpdateConcurrencyException)
             {
-                if ( !EletricityBillExists (id) )
+                if (!EletricityBillExists(id))
                 {
-                    return NotFound ();
+                    return NotFound();
                 }
                 else
                 {
@@ -70,7 +70,7 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return NoContent ();
+            return NoContent();
         }
 
         // POST: api/ElectricityBills
@@ -78,31 +78,31 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<EletricityBill>> PostEletricityBill(EletricityBill eletricityBill)
         {
-            _context.EletricityBills.Add (eletricityBill);
-            await _context.SaveChangesAsync ();
+            _context.EletricityBills.Add(eletricityBill);
+            await _context.SaveChangesAsync();
 
-            return CreatedAtAction ("GetEletricityBill", new { id = eletricityBill.EletricityBillId }, eletricityBill);
+            return CreatedAtAction("GetEletricityBill", new { id = eletricityBill.EletricityBillId }, eletricityBill);
         }
 
         // DELETE: api/ElectricityBills/5
-        [HttpDelete ("{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEletricityBill(int id)
         {
-            var eletricityBill = await _context.EletricityBills.FindAsync (id);
-            if ( eletricityBill == null )
+            var eletricityBill = await _context.EletricityBills.FindAsync(id);
+            if (eletricityBill == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
-            _context.EletricityBills.Remove (eletricityBill);
-            await _context.SaveChangesAsync ();
+            _context.EletricityBills.Remove(eletricityBill);
+            await _context.SaveChangesAsync();
 
-            return NoContent ();
+            return NoContent();
         }
 
         private bool EletricityBillExists(int id)
         {
-            return _context.EletricityBills.Any (e => e.EletricityBillId == id);
+            return _context.EletricityBills.Any(e => e.EletricityBillId == id);
         }
     }
 }

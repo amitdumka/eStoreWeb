@@ -34,10 +34,10 @@ namespace eStore.Shared.Models.Sales.Payments
         public string EDCName { get; set; }
         public int AccountNumberId { get; set; }
 
-        [DataType (DataType.Date), DisplayFormat (DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime StartDate { get; set; }
 
-        [DataType (DataType.Date), DisplayFormat (DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? EndDate { get; set; }
 
         public bool IsWorking { get; set; }
@@ -51,10 +51,10 @@ namespace eStore.Shared.Models.Sales.Payments
         public int EDCId { get; set; }
         public virtual EDC CardMachine { get; set; }
 
-        [DataType (DataType.Currency), Column (TypeName = "money")]
+        [DataType(DataType.Currency), Column(TypeName = "money")]
         public decimal Amount { get; set; }
 
-        [DataType (DataType.Date), DisplayFormat (DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime OnDate { get; set; }
 
         public string CardEndingNumber { get; set; }
@@ -75,10 +75,10 @@ namespace eStore.Shared.Models.Sales.Payments
         public virtual DailySale DailySale { get; set; }
         public string InvoiceNumber { get; set; }
 
-        [DataType (DataType.Date), DisplayFormat (DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime OnDate { get; set; }
 
-        [DataType (DataType.Currency), Column (TypeName = "money")]
+        [DataType(DataType.Currency), Column(TypeName = "money")]
         public decimal Amount { get; set; }
 
         public string Remarks { get; set; }

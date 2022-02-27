@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
-    [Route ("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class OnlineVendorsController : ControllerBase
@@ -25,18 +25,18 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<OnlineVendor>>> GetOnlineVendors()
         {
-            return await _context.OnlineVendors.ToListAsync ();
+            return await _context.OnlineVendors.ToListAsync();
         }
 
         // GET: api/OnlineVendors/5
-        [HttpGet ("{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<OnlineVendor>> GetOnlineVendor(int id)
         {
-            var onlineVendor = await _context.OnlineVendors.FindAsync (id);
+            var onlineVendor = await _context.OnlineVendors.FindAsync(id);
 
-            if ( onlineVendor == null )
+            if (onlineVendor == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
             return onlineVendor;
@@ -44,25 +44,25 @@ namespace eStore.API.Controllers
 
         // PUT: api/OnlineVendors/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut ("{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> PutOnlineVendor(int id, OnlineVendor onlineVendor)
         {
-            if ( id != onlineVendor.OnlineVendorId )
+            if (id != onlineVendor.OnlineVendorId)
             {
-                return BadRequest ();
+                return BadRequest();
             }
 
-            _context.Entry (onlineVendor).State = EntityState.Modified;
+            _context.Entry(onlineVendor).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync ();
+                await _context.SaveChangesAsync();
             }
-            catch ( DbUpdateConcurrencyException )
+            catch (DbUpdateConcurrencyException)
             {
-                if ( !OnlineVendorExists (id) )
+                if (!OnlineVendorExists(id))
                 {
-                    return NotFound ();
+                    return NotFound();
                 }
                 else
                 {
@@ -70,7 +70,7 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return NoContent ();
+            return NoContent();
         }
 
         // POST: api/OnlineVendors
@@ -78,31 +78,31 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<OnlineVendor>> PostOnlineVendor(OnlineVendor onlineVendor)
         {
-            _context.OnlineVendors.Add (onlineVendor);
-            await _context.SaveChangesAsync ();
+            _context.OnlineVendors.Add(onlineVendor);
+            await _context.SaveChangesAsync();
 
-            return CreatedAtAction ("GetOnlineVendor", new { id = onlineVendor.OnlineVendorId }, onlineVendor);
+            return CreatedAtAction("GetOnlineVendor", new { id = onlineVendor.OnlineVendorId }, onlineVendor);
         }
 
         // DELETE: api/OnlineVendors/5
-        [HttpDelete ("{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOnlineVendor(int id)
         {
-            var onlineVendor = await _context.OnlineVendors.FindAsync (id);
-            if ( onlineVendor == null )
+            var onlineVendor = await _context.OnlineVendors.FindAsync(id);
+            if (onlineVendor == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
-            _context.OnlineVendors.Remove (onlineVendor);
-            await _context.SaveChangesAsync ();
+            _context.OnlineVendors.Remove(onlineVendor);
+            await _context.SaveChangesAsync();
 
-            return NoContent ();
+            return NoContent();
         }
 
         private bool OnlineVendorExists(int id)
         {
-            return _context.OnlineVendors.Any (e => e.OnlineVendorId == id);
+            return _context.OnlineVendors.Any(e => e.OnlineVendorId == id);
         }
     }
 }

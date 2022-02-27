@@ -10,7 +10,7 @@ namespace eStore.Shared.Models.Stores
     {
         public int SalesmanId { get; set; }
 
-        [Display (Name = "Salesman")]
+        [Display(Name = "Salesman")]
         public string SalesmanName { get; set; }
 
         //public virtual ICollection<DailySale> DailySales { get; set; }

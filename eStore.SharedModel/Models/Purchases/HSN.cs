@@ -18,7 +18,7 @@ namespace eStore.Shared.Models.Purchases
         public int Rate { get; set; }
         public DateTime EffectiveDate { get; set; }
 
-        [Display (Name = "CESS"), DataType (DataType.Currency), Column (TypeName = "money")]
+        [Display(Name = "CESS"), DataType(DataType.Currency), Column(TypeName = "money")]
         public decimal CESS { get; set; }
 
         public ICollection<RegularSaleItem> RegularSaleItems { get; set; }

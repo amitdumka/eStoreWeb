@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
-    [Route ("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class CashPaymentsController : ControllerBase
@@ -30,22 +30,22 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CashPayment>>> GetCashPayments()
         {
-            return await _context.CashPayments.Include (c => c.Mode).OrderByDescending (c => c.PaymentDate).ToListAsync ();
+            return await _context.CashPayments.Include(c => c.Mode).OrderByDescending(c => c.PaymentDate).ToListAsync();
         }
 
         // GET: api/CashPayments/dto
-        [HttpGet ("dto")]
-        public IEnumerable<CashPaymentDto> GetCashPaymentsDto() => _mapper.Map<IEnumerable<CashPaymentDto>> (_context.CashPayments.Include (c => c.Mode).Include (c => c.Store).Where (c => c.PaymentDate.Year == DateTime.Today.Year).OrderByDescending (c => c.PaymentDate).ToList ());
+        [HttpGet("dto")]
+        public IEnumerable<CashPaymentDto> GetCashPaymentsDto() => _mapper.Map<IEnumerable<CashPaymentDto>>(_context.CashPayments.Include(c => c.Mode).Include(c => c.Store).Where(c => c.PaymentDate.Year == DateTime.Today.Year).OrderByDescending(c => c.PaymentDate).ToList());
 
         // GET: api/CashPayments/5
-        [HttpGet ("{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<CashPayment>> GetCashPayment(int id)
         {
-            var cashPayment = await _context.CashPayments.FindAsync (id);
+            var cashPayment = await _context.CashPayments.FindAsync(id);
 
-            if ( cashPayment == null )
+            if (cashPayment == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
             return cashPayment;
@@ -53,25 +53,25 @@ namespace eStore.API.Controllers
 
         // PUT: api/CashPayments/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut ("{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> PutCashPayment(int id, CashPayment cashPayment)
         {
-            if ( id != cashPayment.CashPaymentId )
+            if (id != cashPayment.CashPaymentId)
             {
-                return BadRequest ();
+                return BadRequest();
             }
 
-            _context.Entry (cashPayment).State = EntityState.Modified;
+            _context.Entry(cashPayment).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync ();
+                await _context.SaveChangesAsync();
             }
-            catch ( DbUpdateConcurrencyException )
+            catch (DbUpdateConcurrencyException)
             {
-                if ( !CashPaymentExists (id) )
+                if (!CashPaymentExists(id))
                 {
-                    return NotFound ();
+                    return NotFound();
                 }
                 else
                 {
@@ -79,7 +79,7 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return NoContent ();
+            return NoContent();
         }
 
         // POST: api/CashPayments
@@ -87,31 +87,31 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<CashPayment>> PostCashPayment(CashPayment cashPayment)
         {
-            _context.CashPayments.Add (cashPayment);
-            await _context.SaveChangesAsync ();
+            _context.CashPayments.Add(cashPayment);
+            await _context.SaveChangesAsync();
 
-            return CreatedAtAction ("GetCashPayment", new { id = cashPayment.CashPaymentId }, cashPayment);
+            return CreatedAtAction("GetCashPayment", new { id = cashPayment.CashPaymentId }, cashPayment);
         }
 
         // DELETE: api/CashPayments/5
-        [HttpDelete ("{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCashPayment(int id)
         {
-            var cashPayment = await _context.CashPayments.FindAsync (id);
-            if ( cashPayment == null )
+            var cashPayment = await _context.CashPayments.FindAsync(id);
+            if (cashPayment == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
-            _context.CashPayments.Remove (cashPayment);
-            await _context.SaveChangesAsync ();
+            _context.CashPayments.Remove(cashPayment);
+            await _context.SaveChangesAsync();
 
-            return NoContent ();
+            return NoContent();
         }
 
         private bool CashPaymentExists(int id)
         {
-            return _context.CashPayments.Any (e => e.CashPaymentId == id);
+            return _context.CashPayments.Any(e => e.CashPaymentId == id);
         }
     }
 }

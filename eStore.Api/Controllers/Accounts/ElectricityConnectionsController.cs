@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
-    [Route ("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class ElectricityConnectionsController : ControllerBase
@@ -25,18 +25,18 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ElectricityConnection>>> GetElectricityConnections()
         {
-            return await _context.ElectricityConnections.ToListAsync ();
+            return await _context.ElectricityConnections.ToListAsync();
         }
 
         // GET: api/ElectricityConnections/5
-        [HttpGet ("{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<ElectricityConnection>> GetElectricityConnection(int id)
         {
-            var electricityConnection = await _context.ElectricityConnections.FindAsync (id);
+            var electricityConnection = await _context.ElectricityConnections.FindAsync(id);
 
-            if ( electricityConnection == null )
+            if (electricityConnection == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
             return electricityConnection;
@@ -44,25 +44,25 @@ namespace eStore.API.Controllers
 
         // PUT: api/ElectricityConnections/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut ("{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> PutElectricityConnection(int id, ElectricityConnection electricityConnection)
         {
-            if ( id != electricityConnection.ElectricityConnectionId )
+            if (id != electricityConnection.ElectricityConnectionId)
             {
-                return BadRequest ();
+                return BadRequest();
             }
 
-            _context.Entry (electricityConnection).State = EntityState.Modified;
+            _context.Entry(electricityConnection).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync ();
+                await _context.SaveChangesAsync();
             }
-            catch ( DbUpdateConcurrencyException )
+            catch (DbUpdateConcurrencyException)
             {
-                if ( !ElectricityConnectionExists (id) )
+                if (!ElectricityConnectionExists(id))
                 {
-                    return NotFound ();
+                    return NotFound();
                 }
                 else
                 {
@@ -70,7 +70,7 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return NoContent ();
+            return NoContent();
         }
 
         // POST: api/ElectricityConnections
@@ -78,31 +78,31 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<ElectricityConnection>> PostElectricityConnection(ElectricityConnection electricityConnection)
         {
-            _context.ElectricityConnections.Add (electricityConnection);
-            await _context.SaveChangesAsync ();
+            _context.ElectricityConnections.Add(electricityConnection);
+            await _context.SaveChangesAsync();
 
-            return CreatedAtAction ("GetElectricityConnection", new { id = electricityConnection.ElectricityConnectionId }, electricityConnection);
+            return CreatedAtAction("GetElectricityConnection", new { id = electricityConnection.ElectricityConnectionId }, electricityConnection);
         }
 
         // DELETE: api/ElectricityConnections/5
-        [HttpDelete ("{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteElectricityConnection(int id)
         {
-            var electricityConnection = await _context.ElectricityConnections.FindAsync (id);
-            if ( electricityConnection == null )
+            var electricityConnection = await _context.ElectricityConnections.FindAsync(id);
+            if (electricityConnection == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
-            _context.ElectricityConnections.Remove (electricityConnection);
-            await _context.SaveChangesAsync ();
+            _context.ElectricityConnections.Remove(electricityConnection);
+            await _context.SaveChangesAsync();
 
-            return NoContent ();
+            return NoContent();
         }
 
         private bool ElectricityConnectionExists(int id)
         {
-            return _context.ElectricityConnections.Any (e => e.ElectricityConnectionId == id);
+            return _context.ElectricityConnections.Any(e => e.ElectricityConnectionId == id);
         }
     }
 }

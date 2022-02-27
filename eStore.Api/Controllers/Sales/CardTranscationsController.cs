@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
-    [Route ("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class CardTranscationsController : ControllerBase
@@ -30,14 +30,14 @@ namespace eStore.API.Controllers
         }
 
         // GET: api/CardTranscations/5
-        [HttpGet ("{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<EDCTranscation>> GetEDCTranscation(int id)
         {
-            var eDCTranscation = await _context.CardTranscations.FindAsync (id);
+            var eDCTranscation = await _context.CardTranscations.FindAsync(id);
 
-            if ( eDCTranscation == null )
+            if (eDCTranscation == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
             return eDCTranscation;
@@ -45,25 +45,25 @@ namespace eStore.API.Controllers
 
         // PUT: api/CardTranscations/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut ("{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> PutEDCTranscation(int id, EDCTranscation eDCTranscation)
         {
-            if ( id != eDCTranscation.EDCTranscationId )
+            if (id != eDCTranscation.EDCTranscationId)
             {
-                return BadRequest ();
+                return BadRequest();
             }
 
-            _context.Entry (eDCTranscation).State = EntityState.Modified;
+            _context.Entry(eDCTranscation).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync ();
+                await _context.SaveChangesAsync();
             }
-            catch ( DbUpdateConcurrencyException )
+            catch (DbUpdateConcurrencyException)
             {
-                if ( !EDCTranscationExists (id) )
+                if (!EDCTranscationExists(id))
                 {
-                    return NotFound ();
+                    return NotFound();
                 }
                 else
                 {
@@ -71,7 +71,7 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return NoContent ();
+            return NoContent();
         }
 
         // POST: api/CardTranscations
@@ -79,31 +79,31 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<EDCTranscation>> PostEDCTranscation(EDCTranscation eDCTranscation)
         {
-            _context.CardTranscations.Add (eDCTranscation);
-            await _context.SaveChangesAsync ();
+            _context.CardTranscations.Add(eDCTranscation);
+            await _context.SaveChangesAsync();
 
-            return CreatedAtAction ("GetEDCTranscation", new { id = eDCTranscation.EDCTranscationId }, eDCTranscation);
+            return CreatedAtAction("GetEDCTranscation", new { id = eDCTranscation.EDCTranscationId }, eDCTranscation);
         }
 
         // DELETE: api/CardTranscations/5
-        [HttpDelete ("{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEDCTranscation(int id)
         {
-            var eDCTranscation = await _context.CardTranscations.FindAsync (id);
-            if ( eDCTranscation == null )
+            var eDCTranscation = await _context.CardTranscations.FindAsync(id);
+            if (eDCTranscation == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
-            _context.CardTranscations.Remove (eDCTranscation);
-            await _context.SaveChangesAsync ();
+            _context.CardTranscations.Remove(eDCTranscation);
+            await _context.SaveChangesAsync();
 
-            return NoContent ();
+            return NoContent();
         }
 
         private bool EDCTranscationExists(int id)
         {
-            return _context.CardTranscations.Any (e => e.EDCTranscationId == id);
+            return _context.CardTranscations.Any(e => e.EDCTranscationId == id);
         }
     }
 }

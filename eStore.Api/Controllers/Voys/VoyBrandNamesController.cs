@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
-    [Route ("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class VoyBrandNamesController : ControllerBase
@@ -25,18 +25,18 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<VoyBrandName>>> GetVoyBrandNames()
         {
-            return await _context.VoyBrandNames.ToListAsync ();
+            return await _context.VoyBrandNames.ToListAsync();
         }
 
         // GET: api/VoyBrandNames/5
-        [HttpGet ("{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<VoyBrandName>> GetVoyBrandName(string id)
         {
-            var voyBrandName = await _context.VoyBrandNames.FindAsync (id);
+            var voyBrandName = await _context.VoyBrandNames.FindAsync(id);
 
-            if ( voyBrandName == null )
+            if (voyBrandName == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
             return voyBrandName;
@@ -44,25 +44,25 @@ namespace eStore.API.Controllers
 
         // PUT: api/VoyBrandNames/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut ("{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> PutVoyBrandName(string id, VoyBrandName voyBrandName)
         {
-            if ( id != voyBrandName.BRANDCODE )
+            if (id != voyBrandName.BRANDCODE)
             {
-                return BadRequest ();
+                return BadRequest();
             }
 
-            _context.Entry (voyBrandName).State = EntityState.Modified;
+            _context.Entry(voyBrandName).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync ();
+                await _context.SaveChangesAsync();
             }
-            catch ( DbUpdateConcurrencyException )
+            catch (DbUpdateConcurrencyException)
             {
-                if ( !VoyBrandNameExists (id) )
+                if (!VoyBrandNameExists(id))
                 {
-                    return NotFound ();
+                    return NotFound();
                 }
                 else
                 {
@@ -70,7 +70,7 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return NoContent ();
+            return NoContent();
         }
 
         // POST: api/VoyBrandNames
@@ -78,16 +78,16 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<VoyBrandName>> PostVoyBrandName(VoyBrandName voyBrandName)
         {
-            _context.VoyBrandNames.Add (voyBrandName);
+            _context.VoyBrandNames.Add(voyBrandName);
             try
             {
-                await _context.SaveChangesAsync ();
+                await _context.SaveChangesAsync();
             }
-            catch ( DbUpdateException )
+            catch (DbUpdateException)
             {
-                if ( VoyBrandNameExists (voyBrandName.BRANDCODE) )
+                if (VoyBrandNameExists(voyBrandName.BRANDCODE))
                 {
-                    return Conflict ();
+                    return Conflict();
                 }
                 else
                 {
@@ -95,28 +95,28 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return CreatedAtAction ("GetVoyBrandName", new { id = voyBrandName.BRANDCODE }, voyBrandName);
+            return CreatedAtAction("GetVoyBrandName", new { id = voyBrandName.BRANDCODE }, voyBrandName);
         }
 
         // DELETE: api/VoyBrandNames/5
-        [HttpDelete ("{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteVoyBrandName(string id)
         {
-            var voyBrandName = await _context.VoyBrandNames.FindAsync (id);
-            if ( voyBrandName == null )
+            var voyBrandName = await _context.VoyBrandNames.FindAsync(id);
+            if (voyBrandName == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
-            _context.VoyBrandNames.Remove (voyBrandName);
-            await _context.SaveChangesAsync ();
+            _context.VoyBrandNames.Remove(voyBrandName);
+            await _context.SaveChangesAsync();
 
-            return NoContent ();
+            return NoContent();
         }
 
         private bool VoyBrandNameExists(string id)
         {
-            return _context.VoyBrandNames.Any (e => e.BRANDCODE == id);
+            return _context.VoyBrandNames.Any(e => e.BRANDCODE == id);
         }
     }
 }

@@ -7,7 +7,7 @@ namespace eStore.Shared.Models.Purchases
     {
         public int SupplierID { get; set; }
 
-        [Display (Name = "Supplier")]
+        [Display(Name = "Supplier")]
         public string SuppilerName { get; set; }
 
         public string Warehouse { get; set; }

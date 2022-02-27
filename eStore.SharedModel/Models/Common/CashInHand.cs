@@ -15,26 +15,26 @@ namespace eStore.Shared.Models.Common
         public int CashInHandId { get; set; }
 
         // [Index(IsUnique = true)]
-        [Display (Name = "Cash-in-hand Date")]
+        [Display(Name = "Cash-in-hand Date")]
         public DateTime CIHDate { get; set; }
 
-        [Display (Name = "Opening Balance")]
-        [DataType (DataType.Currency), Column (TypeName = "money")]
+        [Display(Name = "Opening Balance")]
+        [DataType(DataType.Currency), Column(TypeName = "money")]
         public decimal OpenningBalance { get; set; }
 
-        [Display (Name = "ClosingBalance")]
-        [DataType (DataType.Currency), Column (TypeName = "money")]
+        [Display(Name = "ClosingBalance")]
+        [DataType(DataType.Currency), Column(TypeName = "money")]
         public decimal ClosingBalance { get; set; }
 
-        [Display (Name = "Cash-In Amount")]
-        [DataType (DataType.Currency), Column (TypeName = "money")]
+        [Display(Name = "Cash-In Amount")]
+        [DataType(DataType.Currency), Column(TypeName = "money")]
         public decimal CashIn { get; set; }
 
-        [Display (Name = "Cash-Out Amount")]
-        [DataType (DataType.Currency), Column (TypeName = "money")]
+        [Display(Name = "Cash-Out Amount")]
+        [DataType(DataType.Currency), Column(TypeName = "money")]
         public decimal CashOut { get; set; }
 
-        [Display (Name = "CashInHand")]
+        [Display(Name = "CashInHand")]
         public decimal InHand
         {
             get
@@ -44,7 +44,7 @@ namespace eStore.Shared.Models.Common
         }
 
         //Version 3.0
-        [DefaultValue (1)]
+        [DefaultValue(1)]
         public int? StoreId { get; set; }
 
         public virtual Store Store { get; set; }
@@ -54,26 +54,26 @@ namespace eStore.Shared.Models.Common
     {
         public int CashInBankId { get; set; }
 
-        [Display (Name = "Cash-in-Bank Date")]
+        [Display(Name = "Cash-in-Bank Date")]
         // [Index(IsUnique = true)]
         public DateTime CIBDate { get; set; }
 
-        [Display (Name = "Opening Balance")]
-        [DataType (DataType.Currency), Column (TypeName = "money")]
+        [Display(Name = "Opening Balance")]
+        [DataType(DataType.Currency), Column(TypeName = "money")]
         public decimal OpenningBalance { get; set; }
 
-        [DataType (DataType.Currency), Column (TypeName = "money")]
-        [Display (Name = "ClosingBalance")]
+        [DataType(DataType.Currency), Column(TypeName = "money")]
+        [Display(Name = "ClosingBalance")]
         public decimal ClosingBalance { get; set; }
 
-        [DataType (DataType.Currency), Column (TypeName = "money")]
+        [DataType(DataType.Currency), Column(TypeName = "money")]
         public decimal CashIn { get; set; }
 
-        [Display (Name = "Cash-Out Amount")]
-        [DataType (DataType.Currency), Column (TypeName = "money")]
+        [Display(Name = "Cash-Out Amount")]
+        [DataType(DataType.Currency), Column(TypeName = "money")]
         public decimal CashOut { get; set; }
 
-        [Display (Name = "CashInBank")]
+        [Display(Name = "CashInBank")]
         public decimal InHand
         {
             get
@@ -83,7 +83,7 @@ namespace eStore.Shared.Models.Common
         }
 
         //Version 3.0
-        [DefaultValue (1)]
+        [DefaultValue(1)]
         public int? StoreId { get; set; }
 
         public virtual Store Store { get; set; }

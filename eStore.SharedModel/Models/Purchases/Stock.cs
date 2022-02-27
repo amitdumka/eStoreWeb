@@ -11,23 +11,23 @@ namespace eStore.Shared.Models.Purchases
     {
         public int StockId { set; get; }
 
-        [Display (Name = "Product")]
+        [Display(Name = "Product")]
         public int? ProductItemId { set; get; }
 
         public string Barcode { get; set; }
 
-        [ForeignKey ("Barcode")]
+        [ForeignKey("Barcode")]
         public virtual ProductItem ProductItem { get; set; }
 
         public double Quantity { get { return PurchaseQty - SaleQty - HoldQty; } }
 
-        [Display (Name = "Sale Qty")]
+        [Display(Name = "Sale Qty")]
         public double SaleQty { get; set; }
 
-        [Display (Name = "Purchase Qty")]
+        [Display(Name = "Purchase Qty")]
         public double PurchaseQty { get; set; }
 
-        [Display (Name = "Hold Qty")]
+        [Display(Name = "Hold Qty")]
         public double HoldQty { get; set; }
 
         public Unit Units { get; set; }

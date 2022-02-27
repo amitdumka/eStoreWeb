@@ -9,24 +9,24 @@ namespace eStore.Shared.Models.Payroll
     {
         public int StaffAdvanceReceiptId { get; set; }
 
-        [Display (Name = "Staff Name")]
+        [Display(Name = "Staff Name")]
         public int EmployeeId { get; set; }
 
         public Employee Employee { get; set; }
 
-        [DataType (DataType.Date), DisplayFormat (DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        [Display (Name = "Receipt Date")]
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [Display(Name = "Receipt Date")]
         public DateTime ReceiptDate { get; set; }
 
-        [DataType (DataType.Currency), Column (TypeName = "money")]
+        [DataType(DataType.Currency), Column(TypeName = "money")]
         public decimal Amount { get; set; }
 
-        [Display (Name = "Payment Mode")]
+        [Display(Name = "Payment Mode")]
         public PayMode PayMode { get; set; }
 
         public string Details { get; set; }
 
-        [Display (Name = "Party")]
+        [Display(Name = "Party")]
         public int? PartyId { get; set; }
 
         public virtual Party Party { get; set; }

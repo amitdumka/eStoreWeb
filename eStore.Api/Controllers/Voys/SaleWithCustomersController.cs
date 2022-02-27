@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
-    [Route ("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class SaleWithCustomersController : ControllerBase
@@ -25,18 +25,18 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SaleWithCustomer>>> GetSaleWithCustomers()
         {
-            return await _context.SaleWithCustomers.ToListAsync ();
+            return await _context.SaleWithCustomers.ToListAsync();
         }
 
         // GET: api/SaleWithCustomers/5
-        [HttpGet ("{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<SaleWithCustomer>> GetSaleWithCustomer(int id)
         {
-            var saleWithCustomer = await _context.SaleWithCustomers.FindAsync (id);
+            var saleWithCustomer = await _context.SaleWithCustomers.FindAsync(id);
 
-            if ( saleWithCustomer == null )
+            if (saleWithCustomer == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
             return saleWithCustomer;
@@ -44,25 +44,25 @@ namespace eStore.API.Controllers
 
         // PUT: api/SaleWithCustomers/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut ("{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> PutSaleWithCustomer(int id, SaleWithCustomer saleWithCustomer)
         {
-            if ( id != saleWithCustomer.Id )
+            if (id != saleWithCustomer.Id)
             {
-                return BadRequest ();
+                return BadRequest();
             }
 
-            _context.Entry (saleWithCustomer).State = EntityState.Modified;
+            _context.Entry(saleWithCustomer).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync ();
+                await _context.SaveChangesAsync();
             }
-            catch ( DbUpdateConcurrencyException )
+            catch (DbUpdateConcurrencyException)
             {
-                if ( !SaleWithCustomerExists (id) )
+                if (!SaleWithCustomerExists(id))
                 {
-                    return NotFound ();
+                    return NotFound();
                 }
                 else
                 {
@@ -70,7 +70,7 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return NoContent ();
+            return NoContent();
         }
 
         // POST: api/SaleWithCustomers
@@ -78,31 +78,31 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<SaleWithCustomer>> PostSaleWithCustomer(SaleWithCustomer saleWithCustomer)
         {
-            _context.SaleWithCustomers.Add (saleWithCustomer);
-            await _context.SaveChangesAsync ();
+            _context.SaleWithCustomers.Add(saleWithCustomer);
+            await _context.SaveChangesAsync();
 
-            return CreatedAtAction ("GetSaleWithCustomer", new { id = saleWithCustomer.Id }, saleWithCustomer);
+            return CreatedAtAction("GetSaleWithCustomer", new { id = saleWithCustomer.Id }, saleWithCustomer);
         }
 
         // DELETE: api/SaleWithCustomers/5
-        [HttpDelete ("{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSaleWithCustomer(int id)
         {
-            var saleWithCustomer = await _context.SaleWithCustomers.FindAsync (id);
-            if ( saleWithCustomer == null )
+            var saleWithCustomer = await _context.SaleWithCustomers.FindAsync(id);
+            if (saleWithCustomer == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
-            _context.SaleWithCustomers.Remove (saleWithCustomer);
-            await _context.SaveChangesAsync ();
+            _context.SaleWithCustomers.Remove(saleWithCustomer);
+            await _context.SaveChangesAsync();
 
-            return NoContent ();
+            return NoContent();
         }
 
         private bool SaleWithCustomerExists(int id)
         {
-            return _context.SaleWithCustomers.Any (e => e.Id == id);
+            return _context.SaleWithCustomers.Any(e => e.Id == id);
         }
     }
 }

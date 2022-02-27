@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
-    [Route ("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class BankAccountsController : ControllerBase
@@ -25,18 +25,18 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<BankAccount>>> GetBankAccounts()
         {
-            return await _context.BankAccounts.Include (c => c.Bank).ToListAsync ();
+            return await _context.BankAccounts.Include(c => c.Bank).ToListAsync();
         }
 
         // GET: api/BankAccounts/5
-        [HttpGet ("{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<BankAccount>> GetBankAccount(int id)
         {
-            var bankAccount = await _context.BankAccounts.FindAsync (id);
+            var bankAccount = await _context.BankAccounts.FindAsync(id);
 
-            if ( bankAccount == null )
+            if (bankAccount == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
             return bankAccount;
@@ -44,25 +44,25 @@ namespace eStore.API.Controllers
 
         // PUT: api/BankAccounts/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut ("{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> PutBankAccount(int id, BankAccount bankAccount)
         {
-            if ( id != bankAccount.BankAccountId )
+            if (id != bankAccount.BankAccountId)
             {
-                return BadRequest ();
+                return BadRequest();
             }
 
-            _context.Entry (bankAccount).State = EntityState.Modified;
+            _context.Entry(bankAccount).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync ();
+                await _context.SaveChangesAsync();
             }
-            catch ( DbUpdateConcurrencyException )
+            catch (DbUpdateConcurrencyException)
             {
-                if ( !BankAccountExists (id) )
+                if (!BankAccountExists(id))
                 {
-                    return NotFound ();
+                    return NotFound();
                 }
                 else
                 {
@@ -70,7 +70,7 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return NoContent ();
+            return NoContent();
         }
 
         // POST: api/BankAccounts
@@ -78,31 +78,31 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<BankAccount>> PostBankAccount(BankAccount bankAccount)
         {
-            _context.BankAccounts.Add (bankAccount);
-            await _context.SaveChangesAsync ();
+            _context.BankAccounts.Add(bankAccount);
+            await _context.SaveChangesAsync();
 
-            return CreatedAtAction ("GetBankAccount", new { id = bankAccount.BankAccountId }, bankAccount);
+            return CreatedAtAction("GetBankAccount", new { id = bankAccount.BankAccountId }, bankAccount);
         }
 
         // DELETE: api/BankAccounts/5
-        [HttpDelete ("{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBankAccount(int id)
         {
-            var bankAccount = await _context.BankAccounts.FindAsync (id);
-            if ( bankAccount == null )
+            var bankAccount = await _context.BankAccounts.FindAsync(id);
+            if (bankAccount == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
-            _context.BankAccounts.Remove (bankAccount);
-            await _context.SaveChangesAsync ();
+            _context.BankAccounts.Remove(bankAccount);
+            await _context.SaveChangesAsync();
 
-            return NoContent ();
+            return NoContent();
         }
 
         private bool BankAccountExists(int id)
         {
-            return _context.BankAccounts.Any (e => e.BankAccountId == id);
+            return _context.BankAccounts.Any(e => e.BankAccountId == id);
         }
     }
 }

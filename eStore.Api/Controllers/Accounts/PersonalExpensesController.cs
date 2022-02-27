@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
-    [Route ("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class PersonalExpensesController : ControllerBase
@@ -25,18 +25,18 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PersonalExpense>>> GetPersonalExpenses()
         {
-            return await _context.PersonalExpenses.ToListAsync ();
+            return await _context.PersonalExpenses.ToListAsync();
         }
 
         // GET: api/PersonalExpenses/5
-        [HttpGet ("{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<PersonalExpense>> GetPersonalExpense(int id)
         {
-            var personalExpense = await _context.PersonalExpenses.FindAsync (id);
+            var personalExpense = await _context.PersonalExpenses.FindAsync(id);
 
-            if ( personalExpense == null )
+            if (personalExpense == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
             return personalExpense;
@@ -44,25 +44,25 @@ namespace eStore.API.Controllers
 
         // PUT: api/PersonalExpenses/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut ("{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> PutPersonalExpense(int id, PersonalExpense personalExpense)
         {
-            if ( id != personalExpense.PersonalExpenseId )
+            if (id != personalExpense.PersonalExpenseId)
             {
-                return BadRequest ();
+                return BadRequest();
             }
 
-            _context.Entry (personalExpense).State = EntityState.Modified;
+            _context.Entry(personalExpense).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync ();
+                await _context.SaveChangesAsync();
             }
-            catch ( DbUpdateConcurrencyException )
+            catch (DbUpdateConcurrencyException)
             {
-                if ( !PersonalExpenseExists (id) )
+                if (!PersonalExpenseExists(id))
                 {
-                    return NotFound ();
+                    return NotFound();
                 }
                 else
                 {
@@ -70,7 +70,7 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return NoContent ();
+            return NoContent();
         }
 
         // POST: api/PersonalExpenses
@@ -78,31 +78,31 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<PersonalExpense>> PostPersonalExpense(PersonalExpense personalExpense)
         {
-            _context.PersonalExpenses.Add (personalExpense);
-            await _context.SaveChangesAsync ();
+            _context.PersonalExpenses.Add(personalExpense);
+            await _context.SaveChangesAsync();
 
-            return CreatedAtAction ("GetPersonalExpense", new { id = personalExpense.PersonalExpenseId }, personalExpense);
+            return CreatedAtAction("GetPersonalExpense", new { id = personalExpense.PersonalExpenseId }, personalExpense);
         }
 
         // DELETE: api/PersonalExpenses/5
-        [HttpDelete ("{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePersonalExpense(int id)
         {
-            var personalExpense = await _context.PersonalExpenses.FindAsync (id);
-            if ( personalExpense == null )
+            var personalExpense = await _context.PersonalExpenses.FindAsync(id);
+            if (personalExpense == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
-            _context.PersonalExpenses.Remove (personalExpense);
-            await _context.SaveChangesAsync ();
+            _context.PersonalExpenses.Remove(personalExpense);
+            await _context.SaveChangesAsync();
 
-            return NoContent ();
+            return NoContent();
         }
 
         private bool PersonalExpenseExists(int id)
         {
-            return _context.PersonalExpenses.Any (e => e.PersonalExpenseId == id);
+            return _context.PersonalExpenses.Any(e => e.PersonalExpenseId == id);
         }
     }
 }

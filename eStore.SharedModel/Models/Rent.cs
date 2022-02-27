@@ -8,20 +8,20 @@ namespace eStore.Shared.Models.Accounts.Expenses
     {
         public int RentId { get; set; }
 
-        [Display (Name = "Location")]
+        [Display(Name = "Location")]
         public int RentedLocationId { get; set; }
 
         public virtual RentedLocation Location { get; set; }
         public RentType RentType { get; set; }
 
-        [DataType (DataType.Date), DisplayFormat (DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        [Display (Name = "Date")]
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [Display(Name = "Date")]
         public DateTime OnDate { get; set; }
 
         public string Period { get; set; }
 
-        [Display (Name = "Amount")]
-        [DataType (DataType.Currency), Column (TypeName = "money")]
+        [Display(Name = "Amount")]
+        [DataType(DataType.Currency), Column(TypeName = "money")]
         public decimal Amount { get; set; }
 
         public PaymentMode Mode { get; set; }

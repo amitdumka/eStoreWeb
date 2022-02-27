@@ -10,22 +10,22 @@ namespace eStore.Shared.Models.Accounts.Expenses
         public int ElectricityConnectionId { get; set; }
         public string BillNumber { get; set; }
 
-        [DataType (DataType.Date), DisplayFormat (DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true), Display (Name = "Date")]
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true), Display(Name = "Date")]
         public DateTime BillDate { get; set; }
 
-        [DataType (DataType.Date), DisplayFormat (DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true), Display (Name = "Date")]
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true), Display(Name = "Date")]
         public DateTime MeterReadingDate { get; set; }
 
         public double CurrentMeterReading { get; set; }
         public double TotalUnit { get; set; }
 
-        [Display (Name = "Current Amount"), DataType (DataType.Currency), Column (TypeName = "money")]
+        [Display(Name = "Current Amount"), DataType(DataType.Currency), Column(TypeName = "money")]
         public decimal CurrentAmount { get; set; }
 
-        [Display (Name = "Arrear Amount"), DataType (DataType.Currency), Column (TypeName = "money")]
+        [Display(Name = "Arrear Amount"), DataType(DataType.Currency), Column(TypeName = "money")]
         public decimal ArrearAmount { get; set; }
 
-        [Display (Name = "Net Amount"), DataType (DataType.Currency), Column (TypeName = "money")]
+        [Display(Name = "Net Amount"), DataType(DataType.Currency), Column(TypeName = "money")]
         public decimal NetDemand { get; set; }
 
         public ElectricityConnection Connection { get; set; }

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
-    [Route ("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class StoreHolidaysController : ControllerBase
@@ -25,18 +25,18 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<StoreHoliday>>> GetStoreHolidays()
         {
-            return await _context.StoreHolidays.ToListAsync ();
+            return await _context.StoreHolidays.ToListAsync();
         }
 
         // GET: api/StoreHolidays/5
-        [HttpGet ("{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<StoreHoliday>> GetStoreHoliday(int id)
         {
-            var storeHoliday = await _context.StoreHolidays.FindAsync (id);
+            var storeHoliday = await _context.StoreHolidays.FindAsync(id);
 
-            if ( storeHoliday == null )
+            if (storeHoliday == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
             return storeHoliday;
@@ -44,25 +44,25 @@ namespace eStore.API.Controllers
 
         // PUT: api/StoreHolidays/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut ("{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> PutStoreHoliday(int id, StoreHoliday storeHoliday)
         {
-            if ( id != storeHoliday.StoreHolidayId )
+            if (id != storeHoliday.StoreHolidayId)
             {
-                return BadRequest ();
+                return BadRequest();
             }
 
-            _context.Entry (storeHoliday).State = EntityState.Modified;
+            _context.Entry(storeHoliday).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync ();
+                await _context.SaveChangesAsync();
             }
-            catch ( DbUpdateConcurrencyException )
+            catch (DbUpdateConcurrencyException)
             {
-                if ( !StoreHolidayExists (id) )
+                if (!StoreHolidayExists(id))
                 {
-                    return NotFound ();
+                    return NotFound();
                 }
                 else
                 {
@@ -70,7 +70,7 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return NoContent ();
+            return NoContent();
         }
 
         // POST: api/StoreHolidays
@@ -78,31 +78,31 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<StoreHoliday>> PostStoreHoliday(StoreHoliday storeHoliday)
         {
-            _context.StoreHolidays.Add (storeHoliday);
-            await _context.SaveChangesAsync ();
+            _context.StoreHolidays.Add(storeHoliday);
+            await _context.SaveChangesAsync();
 
-            return CreatedAtAction ("GetStoreHoliday", new { id = storeHoliday.StoreHolidayId }, storeHoliday);
+            return CreatedAtAction("GetStoreHoliday", new { id = storeHoliday.StoreHolidayId }, storeHoliday);
         }
 
         // DELETE: api/StoreHolidays/5
-        [HttpDelete ("{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteStoreHoliday(int id)
         {
-            var storeHoliday = await _context.StoreHolidays.FindAsync (id);
-            if ( storeHoliday == null )
+            var storeHoliday = await _context.StoreHolidays.FindAsync(id);
+            if (storeHoliday == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
-            _context.StoreHolidays.Remove (storeHoliday);
-            await _context.SaveChangesAsync ();
+            _context.StoreHolidays.Remove(storeHoliday);
+            await _context.SaveChangesAsync();
 
-            return NoContent ();
+            return NoContent();
         }
 
         private bool StoreHolidayExists(int id)
         {
-            return _context.StoreHolidays.Any (e => e.StoreHolidayId == id);
+            return _context.StoreHolidays.Any(e => e.StoreHolidayId == id);
         }
     }
 }

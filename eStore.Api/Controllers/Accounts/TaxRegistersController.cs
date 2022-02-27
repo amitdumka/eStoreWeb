@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
-    [Route ("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class TaxRegistersController : ControllerBase
@@ -25,18 +25,18 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TaxRegister>>> GetTaxRegisters()
         {
-            return await _context.TaxRegisters.ToListAsync ();
+            return await _context.TaxRegisters.ToListAsync();
         }
 
         // GET: api/TaxRegisters/5
-        [HttpGet ("{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<TaxRegister>> GetTaxRegister(int id)
         {
-            var taxRegister = await _context.TaxRegisters.FindAsync (id);
+            var taxRegister = await _context.TaxRegisters.FindAsync(id);
 
-            if ( taxRegister == null )
+            if (taxRegister == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
             return taxRegister;
@@ -44,25 +44,25 @@ namespace eStore.API.Controllers
 
         // PUT: api/TaxRegisters/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut ("{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> PutTaxRegister(int id, TaxRegister taxRegister)
         {
-            if ( id != taxRegister.Id )
+            if (id != taxRegister.Id)
             {
-                return BadRequest ();
+                return BadRequest();
             }
 
-            _context.Entry (taxRegister).State = EntityState.Modified;
+            _context.Entry(taxRegister).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync ();
+                await _context.SaveChangesAsync();
             }
-            catch ( DbUpdateConcurrencyException )
+            catch (DbUpdateConcurrencyException)
             {
-                if ( !TaxRegisterExists (id) )
+                if (!TaxRegisterExists(id))
                 {
-                    return NotFound ();
+                    return NotFound();
                 }
                 else
                 {
@@ -70,7 +70,7 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return NoContent ();
+            return NoContent();
         }
 
         // POST: api/TaxRegisters
@@ -78,31 +78,31 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<TaxRegister>> PostTaxRegister(TaxRegister taxRegister)
         {
-            _context.TaxRegisters.Add (taxRegister);
-            await _context.SaveChangesAsync ();
+            _context.TaxRegisters.Add(taxRegister);
+            await _context.SaveChangesAsync();
 
-            return CreatedAtAction ("GetTaxRegister", new { id = taxRegister.Id }, taxRegister);
+            return CreatedAtAction("GetTaxRegister", new { id = taxRegister.Id }, taxRegister);
         }
 
         // DELETE: api/TaxRegisters/5
-        [HttpDelete ("{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTaxRegister(int id)
         {
-            var taxRegister = await _context.TaxRegisters.FindAsync (id);
-            if ( taxRegister == null )
+            var taxRegister = await _context.TaxRegisters.FindAsync(id);
+            if (taxRegister == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
-            _context.TaxRegisters.Remove (taxRegister);
-            await _context.SaveChangesAsync ();
+            _context.TaxRegisters.Remove(taxRegister);
+            await _context.SaveChangesAsync();
 
-            return NoContent ();
+            return NoContent();
         }
 
         private bool TaxRegisterExists(int id)
         {
-            return _context.TaxRegisters.Any (e => e.Id == id);
+            return _context.TaxRegisters.Any(e => e.Id == id);
         }
     }
 }

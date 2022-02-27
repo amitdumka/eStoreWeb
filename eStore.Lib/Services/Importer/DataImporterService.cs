@@ -9,7 +9,7 @@ namespace eStore.Services.Importer
     {
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            throw new NotImplementedException ();
+            throw new NotImplementedException();
         }
     }
 }

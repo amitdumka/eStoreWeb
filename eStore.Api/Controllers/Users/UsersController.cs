@@ -1,5 +1,4 @@
-﻿using System;
-using eStore.Database;
+﻿using eStore.Database;
 using eStore.Shared.Models.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +12,7 @@ namespace eStore.Api.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
-    public class UsersController:ControllerBase
+    public class UsersController : ControllerBase
     {
         private readonly eStoreDbContext _context;
         public UsersController(eStoreDbContext db)

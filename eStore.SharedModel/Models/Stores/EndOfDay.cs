@@ -11,8 +11,8 @@ namespace eStore.Shared.Models.Stores
     {
         public int EndOfDayId { get; set; }
 
-        [DataType (DataType.Date), DisplayFormat (DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        [Display (Name = "EOD Date")]
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [Display(Name = "EOD Date")]
         // [Index(IsUnique = true)]
         public DateTime EOD_Date { get; set; }
 
@@ -20,17 +20,17 @@ namespace eStore.Shared.Models.Stores
         public float Suiting { get; set; }
         public int USPA { get; set; }
 
-        [Display (Name = "FM/Arrow/Others")]
+        [Display(Name = "FM/Arrow/Others")]
         public int FM_Arrow { get; set; }
 
-        [Display (Name = "Arvind RTW")]
+        [Display(Name = "Arvind RTW")]
         public int RWT { get; set; }
 
-        [Display (Name = "Accessories")]
+        [Display(Name = "Accessories")]
         public int Access { get; set; }
 
-        [Display (Name = "Cash at Store")]
-        [DataType (DataType.Currency), Column (TypeName = "money")]
+        [Display(Name = "Cash at Store")]
+        [DataType(DataType.Currency), Column(TypeName = "money")]
         public decimal CashInHand { get; set; }
 
         //public int TailoringBooking { get; set; }
@@ -41,48 +41,48 @@ namespace eStore.Shared.Models.Stores
     {
         public int PettyCashBookId { get; set; }
 
-        [DataType (DataType.Date), DisplayFormat (DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime OnDate { get; set; }
 
-        [DataType (DataType.Currency), Column (TypeName = "money")]
+        [DataType(DataType.Currency), Column(TypeName = "money")]
         public decimal OpeningCash { get; set; }
 
-        [DataType (DataType.Currency), Column (TypeName = "money")]
+        [DataType(DataType.Currency), Column(TypeName = "money")]
         public decimal ClosingCash { get; set; }
 
-        [DataType (DataType.Currency), Column (TypeName = "money")]
+        [DataType(DataType.Currency), Column(TypeName = "money")]
         public decimal SystemSale { get; set; }
 
-        [DataType (DataType.Currency), Column (TypeName = "money")]
+        [DataType(DataType.Currency), Column(TypeName = "money")]
         public decimal TailoringSale { get; set; }
 
-        [DataType (DataType.Currency), Column (TypeName = "money")]
+        [DataType(DataType.Currency), Column(TypeName = "money")]
         public decimal ManualSale { get; set; }
 
-        [DataType (DataType.Currency), Column (TypeName = "money")]
+        [DataType(DataType.Currency), Column(TypeName = "money")]
         public decimal CashReciepts { get; set; }
 
-        [DataType (DataType.Currency), Column (TypeName = "money")]
+        [DataType(DataType.Currency), Column(TypeName = "money")]
         public decimal OhterReceipts { get; set; }
 
         public string RecieptRemarks { get; set; }
 
-        [DataType (DataType.Currency), Column (TypeName = "money")]
+        [DataType(DataType.Currency), Column(TypeName = "money")]
         public decimal CardSwipe { get; set; }
 
-        [DataType (DataType.Currency), Column (TypeName = "money")]
+        [DataType(DataType.Currency), Column(TypeName = "money")]
         public decimal BankDeposit { get; set; }
 
-        [DataType (DataType.Currency), Column (TypeName = "money")]
+        [DataType(DataType.Currency), Column(TypeName = "money")]
         public decimal TotalExpenses { get; set; }
 
-        [DataType (DataType.Currency), Column (TypeName = "money")]
+        [DataType(DataType.Currency), Column(TypeName = "money")]
         public decimal TotalPayments { get; set; }
 
         public string PaymentRemarks { get; set; }
         public string CustomerDuesNames { get; set; }
 
-        [DataType (DataType.Currency), Column (TypeName = "money")]
+        [DataType(DataType.Currency), Column(TypeName = "money")]
         public decimal TotalDues { get; set; }
     }
 }

@@ -18,10 +18,10 @@ namespace eStore.BL
         public string ImportJson(eStoreDbContext db, string mode, dynamic jsonData, string email, string callbackUrl)
         {
             _db = db;
-            string returndata = JsonSerializer.Serialize (jsonData);
+            string returndata = JsonSerializer.Serialize(jsonData);
             try
             {
-                switch ( mode )
+                switch (mode)
                 {
                     case "Sales":
                         break;
@@ -42,11 +42,11 @@ namespace eStore.BL
                         break;
 
                     case "Bank":
-                        var data = JsonSerializer.Deserialize<List<Bank>> (returndata);
+                        var data = JsonSerializer.Deserialize<List<Bank>>(returndata);
                         returndata = $"DataLength:{data.Count}";
                         break;
                     case "StockList":
-                        
+
                         var stockList = JsonSerializer.Deserialize<List<StockListDto>>(returndata);
                         returndata = $"DataLength:{stockList.Count}";
                         break;
@@ -55,7 +55,7 @@ namespace eStore.BL
                         break;
                 }
                 string rData = "";
-                int  recordCount =  db.SaveChanges();
+                int recordCount = db.SaveChanges();
 
                 if (recordCount > 0)
                 {
@@ -70,7 +70,7 @@ namespace eStore.BL
                 return rData;
 
             }
-            catch ( Exception e )
+            catch (Exception e)
             {
                 returndata = "Error: " + e.Message;
             }
@@ -88,16 +88,16 @@ namespace eStore.BL
 
         private SortedList<int, string> AddBanks(List<Bank> banks)
         {
-            SortedList<int, string> duplicateList = new SortedList<int, string> ();
-            foreach ( var bank in banks )
+            SortedList<int, string> duplicateList = new SortedList<int, string>();
+            foreach (var bank in banks)
             {
-                if ( _db.Set<Bank> ().Any (x => x.BankName == bank.BankName) )
+                if (_db.Set<Bank>().Any(x => x.BankName == bank.BankName))
                 {
-                    duplicateList.Add (bank.BankId, bank.BankName);
-                    banks.Remove (bank);
+                    duplicateList.Add(bank.BankId, bank.BankName);
+                    banks.Remove(bank);
                 }
             }
-            _db.Banks.AddRange (banks);
+            _db.Banks.AddRange(banks);
             return duplicateList;
         }
 
@@ -129,17 +129,20 @@ namespace eStore.BL
         {
         }
 
-        private void StockList(eStoreDbContext db, List<StockListDto>dto)
+        private void StockList(eStoreDbContext db, List<StockListDto> dto)
         {
             foreach (var item in dto)
             {
                 StockList sl = new StockList
                 {
-                     Barcode=item.Barcode, Count=1, LastAccess=DateTime.Now, Stock=1
+                    Barcode = item.Barcode,
+                    Count = 1,
+                    LastAccess = DateTime.Now,
+                    Stock = 1
                 };
                 db.StockLists.Add(sl);
             }
-           //return db.SaveChanges();
+            //return db.SaveChanges();
 
         }
     }
@@ -164,65 +167,65 @@ namespace eStore.BL
     {
         public static async System.Threading.Tasks.Task<string> ImportJsonAsync(eStoreDbContext db, string Command, dynamic jsonData, string email, string callbackUrl)
         {
-            string returndata = JsonSerializer.Serialize (jsonData);
+            string returndata = JsonSerializer.Serialize(jsonData);
             int recordCount = 0;
             string rData = "";
             try
             {
-                switch ( Command )
+                switch (Command)
                 {
                     case "VoyBrandName":
-                        var jd = JsonSerializer.Deserialize<IEnumerable<VoyBrandName>> (returndata);
-                        await db.AddRangeAsync (jd);
+                        var jd = JsonSerializer.Deserialize<IEnumerable<VoyBrandName>>(returndata);
+                        await db.AddRangeAsync(jd);
                         break;
 
                     case "ProductMaster":
 
-                        await db.AddRangeAsync (JsonSerializer.Deserialize<IEnumerable<ProductMaster>> (returndata));
+                        await db.AddRangeAsync(JsonSerializer.Deserialize<IEnumerable<ProductMaster>>(returndata));
                         break;
 
                     case "ProductList":
 
-                        await db.AddRangeAsync (JsonSerializer.Deserialize<IEnumerable<ProductList>> (returndata));
+                        await db.AddRangeAsync(JsonSerializer.Deserialize<IEnumerable<ProductList>>(returndata));
                         break;
 
                     case "TaxRegister":
 
-                        await db.AddRangeAsync (JsonSerializer.Deserialize<IEnumerable<TaxRegister>> (returndata));
+                        await db.AddRangeAsync(JsonSerializer.Deserialize<IEnumerable<TaxRegister>>(returndata));
                         break;
 
                     case "VoySaleInvoice":
 
-                        await db.AddRangeAsync (JsonSerializer.Deserialize<IEnumerable<VoySaleInvoice>> (returndata));
+                        await db.AddRangeAsync(JsonSerializer.Deserialize<IEnumerable<VoySaleInvoice>>(returndata));
                         break;
 
                     case "VoySaleInvoiceSum":
 
-                        await db.AddRangeAsync (JsonSerializer.Deserialize<IEnumerable<VoySaleInvoiceSum>> (returndata));
+                        await db.AddRangeAsync(JsonSerializer.Deserialize<IEnumerable<VoySaleInvoiceSum>>(returndata));
                         break;
 
                     case "VoyPurchaseInward":
 
-                        await db.AddRangeAsync (JsonSerializer.Deserialize<IEnumerable<VoyPurchaseInward>> (returndata));
+                        await db.AddRangeAsync(JsonSerializer.Deserialize<IEnumerable<VoyPurchaseInward>>(returndata));
                         break;
 
                     case "InwardSummary":
 
-                        await db.AddRangeAsync (JsonSerializer.Deserialize<IEnumerable<InwardSummary>> (returndata));
+                        await db.AddRangeAsync(JsonSerializer.Deserialize<IEnumerable<InwardSummary>>(returndata));
                         break;
 
                     case "SaleWithCustomer":
 
-                        await db.AddRangeAsync (JsonSerializer.Deserialize<IEnumerable<SaleWithCustomer>> (returndata));
+                        await db.AddRangeAsync(JsonSerializer.Deserialize<IEnumerable<SaleWithCustomer>>(returndata));
                         break;
 
                     case "ItemCategory":
-                        await db.AddRangeAsync (JsonSerializer.Deserialize<IEnumerable<Category>> (returndata));
+                        await db.AddRangeAsync(JsonSerializer.Deserialize<IEnumerable<Category>>(returndata));
 
                         break;
 
                     case "ItemData":
-                        await db.AddRangeAsync (JsonSerializer.Deserialize<IEnumerable<ItemData>> (returndata));
+                        await db.AddRangeAsync(JsonSerializer.Deserialize<IEnumerable<ItemData>>(returndata));
 
                         break;
 
@@ -232,23 +235,23 @@ namespace eStore.BL
                         break;
                 }
 
-                recordCount = await db.SaveChangesAsync ();
+                recordCount = await db.SaveChangesAsync();
 
-                if ( recordCount > 0 )
+                if (recordCount > 0)
                 {
                     rData += $"DataLength:{recordCount}";
                 }
-                else if ( recordCount < 0 )
+                else if (recordCount < 0)
                     rData += "Error: Option not Supported!";
                 else
                     rData += "Error: Unkown Error!";
 
-                MyMail.SendEmail ($"Voy Uploader Status For Command: {Command}\t Msg={rData}\t Record Added: {recordCount}", returndata, "amitnarayansah@gmail.com");
+                MyMail.SendEmail($"Voy Uploader Status For Command: {Command}\t Msg={rData}\t Record Added: {recordCount}", returndata, "amitnarayansah@gmail.com");
                 return rData;
             }
-            catch ( Exception e )
+            catch (Exception e)
             {
-                MyMail.SendEmail ($"Error On Voy Uploader For Comamnd : {Command}\t . {DateTime.Now.ToString ()}", $"Error Occured!.Msg= {e.Message}\n Inner Exp= {e.InnerException}\n Stack Tracce= {e.StackTrace} ", "amitnarayansah@gmail.com");
+                MyMail.SendEmail($"Error On Voy Uploader For Comamnd : {Command}\t . {DateTime.Now.ToString()}", $"Error Occured!.Msg= {e.Message}\n Inner Exp= {e.InnerException}\n Stack Tracce= {e.StackTrace} ", "amitnarayansah@gmail.com");
                 return "Error: " + e.Message;
             }
         }

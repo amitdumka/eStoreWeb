@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
-    [Route ("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class StoreOperationsController : ControllerBase
@@ -29,11 +29,11 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<IEnumerable<StoreDailyOperation>> GetAsync()
         {
-            var open = await db.StoreOpens.Where (c => c.OpenningTime.Date.Year == DateTime.Today.Date.Year).OrderByDescending (c => c.OpenningTime).ToListAsync ();
-            var close = await db.StoreCloses.Where (c => c.ClosingDate.Date.Year == DateTime.Today.Date.Year).OrderByDescending (c => c.ClosingDate).ToListAsync ();
+            var open = await db.StoreOpens.Where(c => c.OpenningTime.Date.Year == DateTime.Today.Date.Year).OrderByDescending(c => c.OpenningTime).ToListAsync();
+            var close = await db.StoreCloses.Where(c => c.ClosingDate.Date.Year == DateTime.Today.Date.Year).OrderByDescending(c => c.ClosingDate).ToListAsync();
 
-            List<StoreDailyOperation> toList = new List<StoreDailyOperation> ();
-            foreach ( var item in open )
+            List<StoreDailyOperation> toList = new List<StoreDailyOperation>();
+            foreach (var item in open)
             {
                 StoreDailyOperation a = new StoreDailyOperation
                 {
@@ -49,26 +49,26 @@ namespace eStore.API.Controllers
                     UserId = item.UserId,
                 };
 
-                StoreClose c = close.Where (c => c.ClosingDate.Date == item.OpenningTime.Date).FirstOrDefault ();
-                if ( c != null )
+                StoreClose c = close.Where(c => c.ClosingDate.Date == item.OpenningTime.Date).FirstOrDefault();
+                if (c != null)
                 {
                     a.ClosingTime = c.ClosingDate;
                     a.Remarks = a.Remarks + "   \t:CR: " + c.Remarks;
                     a.StoreCloseId = c.StoreCloseId;
                 }
 
-                toList.Add (a);
+                toList.Add(a);
             }
 
             return toList;
         }
 
-        [HttpGet ("storeStatus")]
+        [HttpGet("storeStatus")]
         public async Task<ActionResult<StoreStatusDto>> GetStoreStatusAsync(int StoreId)
         {
-            var Closeid = await db.StoreCloses.Where (c => c.StoreId == StoreId && c.ClosingDate.Date == DateTime.Today.Date).Select (c => c.StoreCloseId).FirstOrDefaultAsync ();
+            var Closeid = await db.StoreCloses.Where(c => c.StoreId == StoreId && c.ClosingDate.Date == DateTime.Today.Date).Select(c => c.StoreCloseId).FirstOrDefaultAsync();
 
-            var Openid = await db.StoreOpens.Where (c => c.StoreId == StoreId && c.OpenningTime.Date == DateTime.Today.Date).Select (c => c.StoreOpenId).FirstOrDefaultAsync ();
+            var Openid = await db.StoreOpens.Where(c => c.StoreId == StoreId && c.OpenningTime.Date == DateTime.Today.Date).Select(c => c.StoreOpenId).FirstOrDefaultAsync();
 
             StoreStatusDto status = new StoreStatusDto { ClosedId = Closeid, OpenId = Openid };
             //string returnData = $"{{open:{Openid}, closeId: {Closeid}}}";
@@ -77,11 +77,11 @@ namespace eStore.API.Controllers
         }
 
         // GET api/<StoreOperationsController>/5
-        [HttpGet ("{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<StoreDailyOperation>> GetAsync(int id)
         {
-            var open = await db.StoreOpens.FindAsync (id);
-            if ( open != null )
+            var open = await db.StoreOpens.FindAsync(id);
+            if (open != null)
             {
                 StoreDailyOperation sdo = new StoreDailyOperation
                 {
@@ -93,9 +93,9 @@ namespace eStore.API.Controllers
                     StoreOpenId = open.StoreOpenId,
                     UserId = open.UserId,
                 };
-                var close = await db.StoreCloses.Where (c => c.ClosingDate.Date == open.OpenningTime.Date).FirstOrDefaultAsync ();
+                var close = await db.StoreCloses.Where(c => c.ClosingDate.Date == open.OpenningTime.Date).FirstOrDefaultAsync();
 
-                if ( close != null )
+                if (close != null)
                 {
                     sdo.ClosingTime = close.ClosingDate;
                     sdo.Remarks = sdo.Remarks + "   \t:CR: " + close.Remarks;
@@ -110,7 +110,7 @@ namespace eStore.API.Controllers
             }
             else
             {
-                return NotFound ();
+                return NotFound();
             }
         }
 
@@ -121,60 +121,60 @@ namespace eStore.API.Controllers
         }
 
         // PUT api/<StoreOperationsController>/5
-        [HttpPut ("{id}")]
+        [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
         }
 
         // DELETE api/<StoreOperationsController>/5
-        [HttpDelete ("{id}")]
+        [HttpDelete("{id}")]
         public void Delete(int id)
         {
         }
 
-        [HttpPost ("storeClosed")]
+        [HttpPost("storeClosed")]
         public async Task<ActionResult<IEnumerable<Shared.Models.Payroll.Attendance>>> PostStoreCloseAsync(StoreHoliday holiday)
         {
-            db.StoreHolidays.Add (holiday);
-            var status = await db.SaveChangesAsync ();
+            db.StoreHolidays.Add(holiday);
+            var status = await db.SaveChangesAsync();
 
-            if ( status > 0 )
+            if (status > 0)
             {
-                var result = await StoreManager.GenerateAttendancForStoreClosedAsync (db, holiday.StoreId, holiday.Reason, holiday.Remarks, holiday.OnDate);
+                var result = await StoreManager.GenerateAttendancForStoreClosedAsync(db, holiday.StoreId, holiday.Reason, holiday.Remarks, holiday.OnDate);
 
-                if ( result )
+                if (result)
                 {
-                    var att = await db.Attendances.Include (c => c.Employee).Where (c => c.StoreId == holiday.StoreId && c.AttDate == holiday.OnDate).ToListAsync ();
+                    var att = await db.Attendances.Include(c => c.Employee).Where(c => c.StoreId == holiday.StoreId && c.AttDate == holiday.OnDate).ToListAsync();
                     return att;
                 }
                 else
-                    return NotFound ();
+                    return NotFound();
             }
             else
-                return NotFound ();
+                return NotFound();
         }
 
-        [HttpPost ("storeClosedNDays")]
+        [HttpPost("storeClosedNDays")]
         public async Task<bool> PostStoreClosedNDaysAsync(StoreHolidays storeHolidays)
         {
-            List<StoreHoliday> hList = new List<StoreHoliday> ();
+            List<StoreHoliday> hList = new List<StoreHoliday>();
             DateTime onDate = storeHolidays.Holiday.OnDate;
             do
             {
                 storeHolidays.Holiday.OnDate = onDate;
-                hList.Add (storeHolidays.Holiday);
-                onDate = onDate.AddDays (1);
-            } while ( onDate.Date > storeHolidays.EndDate.Date );
+                hList.Add(storeHolidays.Holiday);
+                onDate = onDate.AddDays(1);
+            } while (onDate.Date > storeHolidays.EndDate.Date);
             try
             {
-                await db.StoreHolidays.AddRangeAsync (hList);
-                await db.SaveChangesAsync ();
-                await StoreManager.GenerateAttendancForStoreClosedAsync (db, storeHolidays.Holiday.StoreId, storeHolidays.Holiday.Reason, storeHolidays.Holiday.Remarks, storeHolidays.Holiday.OnDate, storeHolidays.EndDate);
+                await db.StoreHolidays.AddRangeAsync(hList);
+                await db.SaveChangesAsync();
+                await StoreManager.GenerateAttendancForStoreClosedAsync(db, storeHolidays.Holiday.StoreId, storeHolidays.Holiday.Reason, storeHolidays.Holiday.Remarks, storeHolidays.Holiday.OnDate, storeHolidays.EndDate);
                 return true;
             }
-            catch ( Exception e )
+            catch (Exception e)
             {
-                Console.WriteLine (e.Message);
+                Console.WriteLine(e.Message);
                 return false;
             }
         }

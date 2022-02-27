@@ -13,17 +13,17 @@ namespace eStore.Ops.Identity
         //TODO: Create API For Login/ Register and LogOut.  then this concept will work.
         public static async Task<string> LoginAsync(SignInManager<AppUser> _signInManager, InputModel Input, string returnUrl)
         {
-            var result = await _signInManager.PasswordSignInAsync (Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
-            if ( result.Succeeded )
+            var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+            if (result.Succeeded)
             {
                 // _logger.LogInformation("User logged in.");
-                return ( returnUrl );
+                return (returnUrl);
             }
 
-            if ( result.IsLockedOut )
+            if (result.IsLockedOut)
             {
                 // _logger.LogWarning("User account locked out.");
-                return ( "./Lockout" );
+                return ("./Lockout");
             }
             else
             {
@@ -46,20 +46,20 @@ namespace eStore.Ops.Identity
         public static async Task CreateRoles(IServiceProvider serviceProvider)
         {
             //adding custom roles
-            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>> ();
-            var UserManager = serviceProvider.GetRequiredService<UserManager<AppUser>> ();
+            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var UserManager = serviceProvider.GetRequiredService<UserManager<AppUser>>();
 
-            string [] roleNames = { "Admin", "StoreManager", "Salesman", "Accountant", "RemoteAccountant", "Member", "PowerUser", "GuestUsers", "GuestPowerUsers" };
+            string[] roleNames = { "Admin", "StoreManager", "Salesman", "Accountant", "RemoteAccountant", "Member", "PowerUser", "GuestUsers", "GuestPowerUsers" };
 
             IdentityResult roleResult;
 
-            foreach ( var roleName in roleNames )
+            foreach (var roleName in roleNames)
             {
                 //creating the roles and seeding them to the database
-                var roleExist = await RoleManager.RoleExistsAsync (roleName);
-                if ( !roleExist )
+                var roleExist = await RoleManager.RoleExistsAsync(roleName);
+                if (!roleExist)
                 {
-                    roleResult = await RoleManager.CreateAsync (new IdentityRole (roleName));
+                    roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
                 }
             }
             //creating a super user who could maintain the web app
@@ -74,20 +74,20 @@ namespace eStore.Ops.Identity
                 LastName = "User"
             };
             string UserPassword = "Admin@1234";
-            var _user = await UserManager.FindByEmailAsync ("Admin@eStore.In");
-            if ( _user == null )
+            var _user = await UserManager.FindByEmailAsync("Admin@eStore.In");
+            if (_user == null)
             {
-                var createPowerUser = await UserManager.CreateAsync (poweruser, UserPassword);
-                if ( createPowerUser.Succeeded )
+                var createPowerUser = await UserManager.CreateAsync(poweruser, UserPassword);
+                if (createPowerUser.Succeeded)
                 {
                     //here we tie the new user to the "Admin" role
-                    await UserManager.AddToRoleAsync (poweruser, "Admin");
+                    await UserManager.AddToRoleAsync(poweruser, "Admin");
 
                     //Need to Update Confirmed Email.
 
-                    _ = await UserManager.GetUserIdAsync (poweruser);
-                    var code = await UserManager.GenerateEmailConfirmationTokenAsync (poweruser);
-                    _ = await UserManager.ConfirmEmailAsync (poweruser, code);
+                    _ = await UserManager.GetUserIdAsync(poweruser);
+                    var code = await UserManager.GenerateEmailConfirmationTokenAsync(poweruser);
+                    _ = await UserManager.ConfirmEmailAsync(poweruser, code);
                 }
             }
         }

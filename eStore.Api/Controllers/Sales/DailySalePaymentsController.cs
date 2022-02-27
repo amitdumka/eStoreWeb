@@ -1,5 +1,4 @@
 ﻿using eStore.Database;
-using eStore.Shared.Models.Sales;
 using eStore.Shared.Models.Sales.Payments;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
-    [Route ("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class DailySalePaymentsController : ControllerBase
@@ -26,18 +25,18 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<DailySalePayment>>> GetDailySalePayments()
         {
-            return await _context.DailySalePayments.ToListAsync ();
+            return await _context.DailySalePayments.ToListAsync();
         }
 
         // GET: api/DailySalePayments/5
-        [HttpGet ("{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<DailySalePayment>> GetPayment(int id)
         {
-            var payment = await _context.DailySalePayments.FindAsync (id);
+            var payment = await _context.DailySalePayments.FindAsync(id);
 
-            if ( payment == null )
+            if (payment == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
             return payment;
@@ -45,25 +44,25 @@ namespace eStore.API.Controllers
 
         // PUT: api/DailySalePayments/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut ("{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> PutPayment(int id, DailySalePayment payment)
         {
-            if ( id != payment.DailySalePaymentId )
+            if (id != payment.DailySalePaymentId)
             {
-                return BadRequest ();
+                return BadRequest();
             }
 
-            _context.Entry (payment).State = EntityState.Modified;
+            _context.Entry(payment).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync ();
+                await _context.SaveChangesAsync();
             }
-            catch ( DbUpdateConcurrencyException )
+            catch (DbUpdateConcurrencyException)
             {
-                if ( !PaymentExists (id) )
+                if (!PaymentExists(id))
                 {
-                    return NotFound ();
+                    return NotFound();
                 }
                 else
                 {
@@ -71,7 +70,7 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return NoContent ();
+            return NoContent();
         }
 
         // POST: api/DailySalePayments
@@ -79,31 +78,31 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<DailySalePayment>> PostPayment(DailySalePayment payment)
         {
-            _context.DailySalePayments.Add (payment);
-            await _context.SaveChangesAsync ();
+            _context.DailySalePayments.Add(payment);
+            await _context.SaveChangesAsync();
 
-            return CreatedAtAction ("GetPayment", new { id = payment.DailySalePaymentId }, payment);
+            return CreatedAtAction("GetPayment", new { id = payment.DailySalePaymentId }, payment);
         }
 
         // DELETE: api/DailySalePayments/5
-        [HttpDelete ("{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePayment(int id)
         {
-            var payment = await _context.DailySalePayments.FindAsync (id);
-            if ( payment == null )
+            var payment = await _context.DailySalePayments.FindAsync(id);
+            if (payment == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
-            _context.DailySalePayments.Remove (payment);
-            await _context.SaveChangesAsync ();
+            _context.DailySalePayments.Remove(payment);
+            await _context.SaveChangesAsync();
 
-            return NoContent ();
+            return NoContent();
         }
 
         private bool PaymentExists(int id)
         {
-            return _context.DailySalePayments.Any (e => e.DailySalePaymentId == id);
+            return _context.DailySalePayments.Any(e => e.DailySalePaymentId == id);
         }
     }
 }

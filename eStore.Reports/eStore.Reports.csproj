@@ -7,7 +7,6 @@
   <ItemGroup>
     <Folder Include="Miscs\" />
     <Folder Include="Helpers\" />
-    <Folder Include="Payrolls\" />
     <Folder Include="SalePurchases\" />
   </ItemGroup>
 

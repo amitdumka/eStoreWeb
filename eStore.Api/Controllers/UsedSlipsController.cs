@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace eStore.Controllers
 {
-    [Route ("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class UsedSlipsController : ControllerBase
@@ -25,18 +25,18 @@ namespace eStore.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UsedSlip>>> GetUsedSlips()
         {
-            return await _context.UsedSlips.ToListAsync ();
+            return await _context.UsedSlips.ToListAsync();
         }
 
         // GET: api/UsedSlips/5
-        [HttpGet ("{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<UsedSlip>> GetUsedSlip(int id)
         {
-            var usedSlip = await _context.UsedSlips.FindAsync (id);
+            var usedSlip = await _context.UsedSlips.FindAsync(id);
 
-            if ( usedSlip == null )
+            if (usedSlip == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
             return usedSlip;
@@ -44,25 +44,25 @@ namespace eStore.Controllers
 
         // PUT: api/UsedSlips/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut ("{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> PutUsedSlip(int id, UsedSlip usedSlip)
         {
-            if ( id != usedSlip.UsedSlipId )
+            if (id != usedSlip.UsedSlipId)
             {
-                return BadRequest ();
+                return BadRequest();
             }
 
-            _context.Entry (usedSlip).State = EntityState.Modified;
+            _context.Entry(usedSlip).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync ();
+                await _context.SaveChangesAsync();
             }
-            catch ( DbUpdateConcurrencyException )
+            catch (DbUpdateConcurrencyException)
             {
-                if ( !UsedSlipExists (id) )
+                if (!UsedSlipExists(id))
                 {
-                    return NotFound ();
+                    return NotFound();
                 }
                 else
                 {
@@ -70,7 +70,7 @@ namespace eStore.Controllers
                 }
             }
 
-            return NoContent ();
+            return NoContent();
         }
 
         // POST: api/UsedSlips
@@ -78,31 +78,31 @@ namespace eStore.Controllers
         [HttpPost]
         public async Task<ActionResult<UsedSlip>> PostUsedSlip(UsedSlip usedSlip)
         {
-            _context.UsedSlips.Add (usedSlip);
-            await _context.SaveChangesAsync ();
+            _context.UsedSlips.Add(usedSlip);
+            await _context.SaveChangesAsync();
 
-            return CreatedAtAction ("GetUsedSlip", new { id = usedSlip.UsedSlipId }, usedSlip);
+            return CreatedAtAction("GetUsedSlip", new { id = usedSlip.UsedSlipId }, usedSlip);
         }
 
         // DELETE: api/UsedSlips/5
-        [HttpDelete ("{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUsedSlip(int id)
         {
-            var usedSlip = await _context.UsedSlips.FindAsync (id);
-            if ( usedSlip == null )
+            var usedSlip = await _context.UsedSlips.FindAsync(id);
+            if (usedSlip == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
-            _context.UsedSlips.Remove (usedSlip);
-            await _context.SaveChangesAsync ();
+            _context.UsedSlips.Remove(usedSlip);
+            await _context.SaveChangesAsync();
 
-            return NoContent ();
+            return NoContent();
         }
 
         private bool UsedSlipExists(int id)
         {
-            return _context.UsedSlips.Any (e => e.UsedSlipId == id);
+            return _context.UsedSlips.Any(e => e.UsedSlipId == id);
         }
     }
 }

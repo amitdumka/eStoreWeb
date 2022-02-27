@@ -1,5 +1,4 @@
-﻿using System;
-namespace eStore.Shared.Models.Users
+﻿namespace eStore.Shared.Models.Users
 {
     public class User
     {

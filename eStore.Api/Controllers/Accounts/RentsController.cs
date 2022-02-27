@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
-    [Route ("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class RentsController : ControllerBase
@@ -25,18 +25,18 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Rent>>> GetRents()
         {
-            return await _context.Rents.Include (c => c.Location).OrderByDescending (c => c.OnDate).ToListAsync ();
+            return await _context.Rents.Include(c => c.Location).OrderByDescending(c => c.OnDate).ToListAsync();
         }
 
         // GET: api/Rents/5
-        [HttpGet ("{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<Rent>> GetRent(int id)
         {
-            var rent = await _context.Rents.FindAsync (id);
+            var rent = await _context.Rents.FindAsync(id);
 
-            if ( rent == null )
+            if (rent == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
             return rent;
@@ -44,25 +44,25 @@ namespace eStore.API.Controllers
 
         // PUT: api/Rents/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut ("{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> PutRent(int id, Rent rent)
         {
-            if ( id != rent.RentId )
+            if (id != rent.RentId)
             {
-                return BadRequest ();
+                return BadRequest();
             }
 
-            _context.Entry (rent).State = EntityState.Modified;
+            _context.Entry(rent).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync ();
+                await _context.SaveChangesAsync();
             }
-            catch ( DbUpdateConcurrencyException )
+            catch (DbUpdateConcurrencyException)
             {
-                if ( !RentExists (id) )
+                if (!RentExists(id))
                 {
-                    return NotFound ();
+                    return NotFound();
                 }
                 else
                 {
@@ -70,7 +70,7 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return NoContent ();
+            return NoContent();
         }
 
         // POST: api/Rents
@@ -78,31 +78,31 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Rent>> PostRent(Rent rent)
         {
-            _context.Rents.Add (rent);
-            await _context.SaveChangesAsync ();
+            _context.Rents.Add(rent);
+            await _context.SaveChangesAsync();
 
-            return CreatedAtAction ("GetRent", new { id = rent.RentId }, rent);
+            return CreatedAtAction("GetRent", new { id = rent.RentId }, rent);
         }
 
         // DELETE: api/Rents/5
-        [HttpDelete ("{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRent(int id)
         {
-            var rent = await _context.Rents.FindAsync (id);
-            if ( rent == null )
+            var rent = await _context.Rents.FindAsync(id);
+            if (rent == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
-            _context.Rents.Remove (rent);
-            await _context.SaveChangesAsync ();
+            _context.Rents.Remove(rent);
+            await _context.SaveChangesAsync();
 
-            return NoContent ();
+            return NoContent();
         }
 
         private bool RentExists(int id)
         {
-            return _context.Rents.Any (e => e.RentId == id);
+            return _context.Rents.Any(e => e.RentId == id);
         }
     }
 }

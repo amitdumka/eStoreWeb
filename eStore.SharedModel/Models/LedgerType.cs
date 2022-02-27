@@ -6,7 +6,7 @@ namespace eStore.Shared.Models.Accounts
     {
         public int LedgerTypeId { get; set; }
 
-        [Display (Name = "Name")]
+        [Display(Name = "Name")]
         public string LedgerNameType { get; set; }
 
         public LedgerCategory Category { get; set; }

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
-    [Route ("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class StocksController : ControllerBase
@@ -25,18 +25,18 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Stock>>> GetStocks()
         {
-            return await _context.Stocks.ToListAsync ();
+            return await _context.Stocks.ToListAsync();
         }
 
         // GET: api/Stocks/5
-        [HttpGet ("{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<Stock>> GetStock(int id)
         {
-            var stock = await _context.Stocks.FindAsync (id);
+            var stock = await _context.Stocks.FindAsync(id);
 
-            if ( stock == null )
+            if (stock == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
             return stock;
@@ -44,25 +44,25 @@ namespace eStore.API.Controllers
 
         // PUT: api/Stocks/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut ("{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> PutStock(int id, Stock stock)
         {
-            if ( id != stock.StockId )
+            if (id != stock.StockId)
             {
-                return BadRequest ();
+                return BadRequest();
             }
 
-            _context.Entry (stock).State = EntityState.Modified;
+            _context.Entry(stock).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync ();
+                await _context.SaveChangesAsync();
             }
-            catch ( DbUpdateConcurrencyException )
+            catch (DbUpdateConcurrencyException)
             {
-                if ( !StockExists (id) )
+                if (!StockExists(id))
                 {
-                    return NotFound ();
+                    return NotFound();
                 }
                 else
                 {
@@ -70,7 +70,7 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return NoContent ();
+            return NoContent();
         }
 
         // POST: api/Stocks
@@ -78,31 +78,31 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Stock>> PostStock(Stock stock)
         {
-            _context.Stocks.Add (stock);
-            await _context.SaveChangesAsync ();
+            _context.Stocks.Add(stock);
+            await _context.SaveChangesAsync();
 
-            return CreatedAtAction ("GetStock", new { id = stock.StockId }, stock);
+            return CreatedAtAction("GetStock", new { id = stock.StockId }, stock);
         }
 
         // DELETE: api/Stocks/5
-        [HttpDelete ("{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteStock(int id)
         {
-            var stock = await _context.Stocks.FindAsync (id);
-            if ( stock == null )
+            var stock = await _context.Stocks.FindAsync(id);
+            if (stock == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
-            _context.Stocks.Remove (stock);
-            await _context.SaveChangesAsync ();
+            _context.Stocks.Remove(stock);
+            await _context.SaveChangesAsync();
 
-            return NoContent ();
+            return NoContent();
         }
 
         private bool StockExists(int id)
         {
-            return _context.Stocks.Any (e => e.StockId == id);
+            return _context.Stocks.Any(e => e.StockId == id);
         }
     }
 }

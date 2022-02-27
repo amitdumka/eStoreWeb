@@ -26,9 +26,9 @@ namespace eStore.Payroll
         /// <returns>return true when success; false when error occured.</returns>
         public static async Task<bool> StoreClosedAsync(eStoreDbContext db, int StoreId, DateTime onDate, bool isHoliday, string Reason)
         {
-            var empId = await db.Employees.Where (c => c.StoreId == StoreId && c.IsWorking && !c.IsTailors).Select (c => c.EmployeeId).ToListAsync ();
-            List<Attendance> closedAtt = new List<Attendance> ();
-            foreach ( var emp in empId )
+            var empId = await db.Employees.Where(c => c.StoreId == StoreId && c.IsWorking && !c.IsTailors).Select(c => c.EmployeeId).ToListAsync();
+            List<Attendance> closedAtt = new List<Attendance>();
+            foreach (var emp in empId)
             {
                 Attendance newAtt = new Attendance
                 {
@@ -42,15 +42,15 @@ namespace eStore.Payroll
                     UserId = "AutoAdded",
                     EntryStatus = EntryStatus.Added
                 };
-                if ( isHoliday )
+                if (isHoliday)
                     newAtt.Status = AttUnit.Holiday;
                 else
                     newAtt.Status = AttUnit.StoreClosed;
-                closedAtt.Add (newAtt);
+                closedAtt.Add(newAtt);
             }
 
-            db.Attendances.AddRange (closedAtt);
-            if ( await db.SaveChangesAsync () > 0 )
+            db.Attendances.AddRange(closedAtt);
+            if (await db.SaveChangesAsync() > 0)
                 return true;
             else
                 return false;
@@ -65,27 +65,28 @@ namespace eStore.Payroll
         /// <returns></returns>
         public static async Task<EmployeeAttendaceInfo> EmployeeAttendaceListAsync(eStoreDbContext db, int EmpId, DateTime? ondate)
         {
-            var emp = db.Employees.Find (EmpId);
-            if ( emp == null )
+            var emp = db.Employees.Find(EmpId);
+            if (emp == null)
                 return null;
 
             var empid = emp.EmployeeId;
 
-            DateTime ValidDate = ondate.HasValue ? (DateTime) ondate : DateTime.Today;
+            DateTime ValidDate = ondate.HasValue ? (DateTime)ondate : DateTime.Today;
 
             var attList = await db.Attendances
-                            .Where (c => c.EmployeeId == empid && c.AttDate.Month == ValidDate.Month && c.AttDate.Year == ValidDate.Year)
-                            .OrderBy (c => c.AttDate).ToListAsync ();
+                            .Where(c => c.EmployeeId == empid && c.AttDate.Month == ValidDate.Month && c.AttDate.Year == ValidDate.Year)
+                            .OrderBy(c => c.AttDate).ToListAsync();
 
-            if ( attList != null )
+            if (attList != null)
             {
-                var p = attList.Where (c => c.Status == AttUnit.Present).Count ();
-                var a = attList.Where (c => c.Status == AttUnit.Absent).Count ();
-                int noofdays = DateTime.DaysInMonth (DateTime.Today.Year, DateTime.Today.Month);
-                int noofsunday = DateHelper.CountDays (DayOfWeek.Sunday, DateTime.Today);
-                int sunPresent = attList.Where (c => c.Status == AttUnit.Sunday).Count ();
-                int halfDays = attList.Where (c => c.Status == AttUnit.HalfDay).Count ();
-                int totalAtt = p + sunPresent + ( halfDays / 2 );
+                var p = attList.Where(c => c.Status == AttUnit.Present).Count();
+                var a = attList.Where(c => c.Status == AttUnit.Absent).Count();
+                int noofdays = DateTime.DaysInMonth(DateTime.Today.Year, DateTime.Today.Month);
+                int noofsunday = DateHelper.CountDays(DayOfWeek.Sunday, DateTime.Today);
+                int sunPresent = attList.Where(c => c.Status == AttUnit.Sunday).Count();
+                int halfDays = attList.Where(c => c.Status == AttUnit.HalfDay).Count();
+                int totalAtt = p + sunPresent + (halfDays / 2);
+
                 EmployeeAttendaceInfo info = new EmployeeAttendaceInfo
                 {
                     EmpId = EmpId,

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
-    [Route ("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class PettyCashBooksController : ControllerBase
@@ -25,18 +25,18 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PettyCashBook>>> GetPettyCashBooks()
         {
-            return await _context.PettyCashBooks.ToListAsync ();
+            return await _context.PettyCashBooks.ToListAsync();
         }
 
         // GET: api/PettyCashBooks/5
-        [HttpGet ("{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<PettyCashBook>> GetPettyCashBook(int id)
         {
-            var pettyCashBook = await _context.PettyCashBooks.FindAsync (id);
+            var pettyCashBook = await _context.PettyCashBooks.FindAsync(id);
 
-            if ( pettyCashBook == null )
+            if (pettyCashBook == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
             return pettyCashBook;
@@ -44,25 +44,25 @@ namespace eStore.API.Controllers
 
         // PUT: api/PettyCashBooks/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut ("{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> PutPettyCashBook(int id, PettyCashBook pettyCashBook)
         {
-            if ( id != pettyCashBook.PettyCashBookId )
+            if (id != pettyCashBook.PettyCashBookId)
             {
-                return BadRequest ();
+                return BadRequest();
             }
 
-            _context.Entry (pettyCashBook).State = EntityState.Modified;
+            _context.Entry(pettyCashBook).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync ();
+                await _context.SaveChangesAsync();
             }
-            catch ( DbUpdateConcurrencyException )
+            catch (DbUpdateConcurrencyException)
             {
-                if ( !PettyCashBookExists (id) )
+                if (!PettyCashBookExists(id))
                 {
-                    return NotFound ();
+                    return NotFound();
                 }
                 else
                 {
@@ -70,7 +70,7 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return NoContent ();
+            return NoContent();
         }
 
         // POST: api/PettyCashBooks
@@ -78,31 +78,31 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<PettyCashBook>> PostPettyCashBook(PettyCashBook pettyCashBook)
         {
-            _context.PettyCashBooks.Add (pettyCashBook);
-            await _context.SaveChangesAsync ();
+            _context.PettyCashBooks.Add(pettyCashBook);
+            await _context.SaveChangesAsync();
 
-            return CreatedAtAction ("GetPettyCashBook", new { id = pettyCashBook.PettyCashBookId }, pettyCashBook);
+            return CreatedAtAction("GetPettyCashBook", new { id = pettyCashBook.PettyCashBookId }, pettyCashBook);
         }
 
         // DELETE: api/PettyCashBooks/5
-        [HttpDelete ("{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePettyCashBook(int id)
         {
-            var pettyCashBook = await _context.PettyCashBooks.FindAsync (id);
-            if ( pettyCashBook == null )
+            var pettyCashBook = await _context.PettyCashBooks.FindAsync(id);
+            if (pettyCashBook == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
-            _context.PettyCashBooks.Remove (pettyCashBook);
-            await _context.SaveChangesAsync ();
+            _context.PettyCashBooks.Remove(pettyCashBook);
+            await _context.SaveChangesAsync();
 
-            return NoContent ();
+            return NoContent();
         }
 
         private bool PettyCashBookExists(int id)
         {
-            return _context.PettyCashBooks.Any (e => e.PettyCashBookId == id);
+            return _context.PettyCashBooks.Any(e => e.PettyCashBookId == id);
         }
     }
 }

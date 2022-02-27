@@ -643,7 +643,7 @@ namespace eStore.Api.Controllers
                     error.Add(item, $"Id:{b.TalioringBookingId}\t Slip:{b.BookingSlipNo}, \t No Delivery");
                 else
                     error.Add(item, $"Inv:{item},\t Booking/Deliver Missing");
-           }
+            }
             return error;
         }
     }
@@ -708,7 +708,7 @@ namespace eStore.Api.Controllers
         public int SaleId { get; set; }
         public string BookingSlip { get; set; }
         public string InvNo { get; set; }
-        public string   msg { get; set; }
+        public string msg { get; set; }
         public string CustName { get; set; }
         public decimal BookingAmount { get; set; }
         public decimal DeliverAmount { get; set; }
@@ -720,8 +720,8 @@ namespace eStore.Api.Controllers
         public bool lateDelivery { get; set; }
         public bool saleDateError { get; set; }
         public bool deliveryAmtError { get; set; }
-        public bool saleAmtError{ get; set; }
-        public bool invNotFound{ get; set; }
+        public bool saleAmtError { get; set; }
+        public bool invNotFound { get; set; }
 
     }
 }

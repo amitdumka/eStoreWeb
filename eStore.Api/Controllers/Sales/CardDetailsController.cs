@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
-    [Route ("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class CardDetailsController : ControllerBase
@@ -25,18 +25,18 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<RegularCardDetail>>> GetCardDetails()
         {
-            return await _context.CardDetails.ToListAsync ();
+            return await _context.CardDetails.ToListAsync();
         }
 
         // GET: api/CardDetails/5
-        [HttpGet ("{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<RegularCardDetail>> GetCardDetail(int id)
         {
-            var cardDetail = await _context.CardDetails.FindAsync (id);
+            var cardDetail = await _context.CardDetails.FindAsync(id);
 
-            if ( cardDetail == null )
+            if (cardDetail == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
             return cardDetail;
@@ -44,25 +44,25 @@ namespace eStore.API.Controllers
 
         // PUT: api/CardDetails/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut ("{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> PutCardDetail(int id, RegularCardDetail cardDetail)
         {
-            if ( id != cardDetail.RegularCardDetailId )
+            if (id != cardDetail.RegularCardDetailId)
             {
-                return BadRequest ();
+                return BadRequest();
             }
 
-            _context.Entry (cardDetail).State = EntityState.Modified;
+            _context.Entry(cardDetail).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync ();
+                await _context.SaveChangesAsync();
             }
-            catch ( DbUpdateConcurrencyException )
+            catch (DbUpdateConcurrencyException)
             {
-                if ( !CardDetailExists (id) )
+                if (!CardDetailExists(id))
                 {
-                    return NotFound ();
+                    return NotFound();
                 }
                 else
                 {
@@ -70,7 +70,7 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return NoContent ();
+            return NoContent();
         }
 
         // POST: api/CardDetails
@@ -78,31 +78,31 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<RegularCardDetail>> PostCardDetail(RegularCardDetail cardDetail)
         {
-            _context.CardDetails.Add (cardDetail);
-            await _context.SaveChangesAsync ();
+            _context.CardDetails.Add(cardDetail);
+            await _context.SaveChangesAsync();
 
-            return CreatedAtAction ("GetCardDetail", new { id = cardDetail.RegularCardDetailId }, cardDetail);
+            return CreatedAtAction("GetCardDetail", new { id = cardDetail.RegularCardDetailId }, cardDetail);
         }
 
         // DELETE: api/CardDetails/5
-        [HttpDelete ("{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCardDetail(int id)
         {
-            var cardDetail = await _context.CardDetails.FindAsync (id);
-            if ( cardDetail == null )
+            var cardDetail = await _context.CardDetails.FindAsync(id);
+            if (cardDetail == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
-            _context.CardDetails.Remove (cardDetail);
-            await _context.SaveChangesAsync ();
+            _context.CardDetails.Remove(cardDetail);
+            await _context.SaveChangesAsync();
 
-            return NoContent ();
+            return NoContent();
         }
 
         private bool CardDetailExists(int id)
         {
-            return _context.CardDetails.Any (e => e.RegularCardDetailId == id);
+            return _context.CardDetails.Any(e => e.RegularCardDetailId == id);
         }
     }
 }

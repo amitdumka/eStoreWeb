@@ -8,11 +8,11 @@ namespace eStore.Shared.Models.Common
     /// </summary>
     public class TranscationMode
     {
-        [Display (Name = "Mode")]
+        [Display(Name = "Mode")]
         public int TranscationModeId { get; set; }
 
         //[Index(IsUnique = true)]
-        [Display (Name = "Transaction Mode")]
+        [Display(Name = "Transaction Mode")]
         public string Transcation { get; set; }
 
         //public virtual ICollection<CashReceipt> CashReceipts { get; set; }
@@ -23,14 +23,14 @@ namespace eStore.Shared.Models.Common
     {
         public int PurchaseTaxTypeId { get; set; }
 
-        [Display (Name = "Tax")]
+        [Display(Name = "Tax")]
         public string TaxName { get; set; }
 
-        [Display (Name = "Tax Type")]
+        [Display(Name = "Tax Type")]
         public TaxType TaxType { get; set; }
 
-        [Display (Name = "Composite Rate")]
-        [DataType (DataType.Currency), Column (TypeName = "money")]
+        [Display(Name = "Composite Rate")]
+        [DataType(DataType.Currency), Column(TypeName = "money")]
         public decimal CompositeRate { get; set; }
 
         //Navigation
@@ -44,7 +44,7 @@ namespace eStore.Shared.Models.Common
         public string TaxName { get; set; }
         public TaxType TaxType { get; set; }
 
-        [DataType (DataType.Currency), Column (TypeName = "money")]
+        [DataType(DataType.Currency), Column(TypeName = "money")]
         public decimal CompositeRate { get; set; }
 
         //Navigation
@@ -55,14 +55,14 @@ namespace eStore.Shared.Models.Common
     {
         public int TaxNameId { get; set; }
 
-        [Display (Name = "Tax")]
+        [Display(Name = "Tax")]
         public string Name { get; set; }
 
-        [Display (Name = "Tax Type")]
+        [Display(Name = "Tax Type")]
         public TaxType TaxType { get; set; }
 
-        [Display (Name = "Composite Rate")]
-        [DataType (DataType.Currency), Column (TypeName = "money")]
+        [Display(Name = "Composite Rate")]
+        [DataType(DataType.Currency), Column(TypeName = "money")]
         public decimal CompositeRate { get; set; }
 
         public bool OutPutTax { get; set; }

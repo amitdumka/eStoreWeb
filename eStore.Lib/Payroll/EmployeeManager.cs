@@ -15,26 +15,26 @@ namespace eStore.Payroll
     {
         public static async Task PostEmployeeAdditionAsync(eStoreDbContext db, Employee employee, UserManager<AppUser> userManager)
         {
-            Console.WriteLine ($"Emp Name= {employee.FirstName}");
+            Console.WriteLine($"Emp Name= {employee.FirstName}");
 
             // await EmployeeManager.AddEmployeeLoginAsync(db, employee, userManager);
-            if ( employee.Category == EmpType.Salesman )
-                await AddSaleman (db, employee);
+            if (employee.Category == EmpType.Salesman)
+                await AddSaleman(db, employee);
         }
 
         public static async Task AddSaleman(eStoreDbContext db, Employee employee)
         {
-            Console.WriteLine ($"Emp Name= {employee.FirstName}");
-            if ( DBDataChecker.IsSalesmanExists (db, employee.FirstName + " " + employee.LastName, employee.StoreId) )
+            Console.WriteLine($"Emp Name= {employee.FirstName}");
+            if (DBDataChecker.IsSalesmanExists(db, employee.FirstName + " " + employee.LastName, employee.StoreId))
             {
-                var sm = db.Salesmen.Where (c => c.SalesmanName == employee.FirstName + " " + employee.LastName && c.StoreId == employee.StoreId).First ();
+                var sm = db.Salesmen.Where(c => c.SalesmanName == employee.FirstName + " " + employee.LastName && c.StoreId == employee.StoreId).First();
                 sm.EmployeeId = employee.EmployeeId;
                 sm.EntryStatus = EntryStatus.Updated;
-                db.Update (sm);
+                db.Update(sm);
             }
             else
             {
-                Console.WriteLine ($"Emp Name= {employee.FirstName}");
+                Console.WriteLine($"Emp Name= {employee.FirstName}");
                 Salesman sm = new Salesman
                 {
                     EmployeeId = employee.EmployeeId,
@@ -44,9 +44,9 @@ namespace eStore.Payroll
                     UserId = employee.UserId,
                     EntryStatus = EntryStatus.Added
                 };
-                db.Salesmen.Add (sm);
+                db.Salesmen.Add(sm);
             }
-            await db.SaveChangesAsync ();
+            await db.SaveChangesAsync();
         }
 
         //public static async Task AddEmployeeLoginAsync(eStoreDbContext db, Employee employee, UserManager<AppUser> userManager)

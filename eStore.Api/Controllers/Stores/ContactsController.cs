@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
-    [Route ("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class ContactsController : ControllerBase
@@ -25,18 +25,18 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Contact>>> GetContacts()
         {
-            return await _context.Contacts.ToListAsync ();
+            return await _context.Contacts.ToListAsync();
         }
 
         // GET: api/Contacts/5
-        [HttpGet ("{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<Contact>> GetContact(int id)
         {
-            var contact = await _context.Contacts.FindAsync (id);
+            var contact = await _context.Contacts.FindAsync(id);
 
-            if ( contact == null )
+            if (contact == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
             return contact;
@@ -44,25 +44,25 @@ namespace eStore.API.Controllers
 
         // PUT: api/Contacts/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut ("{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> PutContact(int id, Contact contact)
         {
-            if ( id != contact.ContactId )
+            if (id != contact.ContactId)
             {
-                return BadRequest ();
+                return BadRequest();
             }
 
-            _context.Entry (contact).State = EntityState.Modified;
+            _context.Entry(contact).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync ();
+                await _context.SaveChangesAsync();
             }
-            catch ( DbUpdateConcurrencyException )
+            catch (DbUpdateConcurrencyException)
             {
-                if ( !ContactExists (id) )
+                if (!ContactExists(id))
                 {
-                    return NotFound ();
+                    return NotFound();
                 }
                 else
                 {
@@ -70,7 +70,7 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return NoContent ();
+            return NoContent();
         }
 
 
@@ -81,31 +81,31 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Contact>> PostContact(Contact contact)
         {
-            _context.Contacts.Add (contact);
-            await _context.SaveChangesAsync ();
+            _context.Contacts.Add(contact);
+            await _context.SaveChangesAsync();
 
-            return CreatedAtAction ("GetContact", new { id = contact.ContactId }, contact);
+            return CreatedAtAction("GetContact", new { id = contact.ContactId }, contact);
         }
 
         // DELETE: api/Contacts/5
-        [HttpDelete ("{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteContact(int id)
         {
-            var contact = await _context.Contacts.FindAsync (id);
-            if ( contact == null )
+            var contact = await _context.Contacts.FindAsync(id);
+            if (contact == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
-            _context.Contacts.Remove (contact);
-            await _context.SaveChangesAsync ();
+            _context.Contacts.Remove(contact);
+            await _context.SaveChangesAsync();
 
-            return NoContent ();
+            return NoContent();
         }
 
         private bool ContactExists(int id)
         {
-            return _context.Contacts.Any (e => e.ContactId == id);
+            return _context.Contacts.Any(e => e.ContactId == id);
         }
     }
 }

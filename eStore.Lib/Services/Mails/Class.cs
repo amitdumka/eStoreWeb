@@ -63,16 +63,16 @@ namespace AprajitaRetails.Services.Mails
 
     public class AppException : Exception
     {
-        public AppException() : base ()
+        public AppException() : base()
         {
         }
 
-        public AppException(string message) : base (message)
+        public AppException(string message) : base(message)
         {
         }
 
-        public AppException(string message, params object [] args)
-            : base (String.Format (CultureInfo.CurrentCulture, message, args))
+        public AppException(string message, params object[] args)
+            : base(String.Format(CultureInfo.CurrentCulture, message, args))
         {
         }
     }
@@ -94,18 +94,18 @@ namespace AprajitaRetails.Services.Mails
         public void Send(string from, string to, string subject, string html)
         {
             // create message
-            var email = new MimeMessage ();
-            email.Sender = MailboxAddress.Parse (from);
-            email.To.Add (MailboxAddress.Parse (to));
+            var email = new MimeMessage();
+            email.Sender = MailboxAddress.Parse(from);
+            email.To.Add(MailboxAddress.Parse(to));
             email.Subject = subject;
-            email.Body = new TextPart (TextFormat.Html) { Text = html };
+            email.Body = new TextPart(TextFormat.Html) { Text = html };
 
             // send email
-            using var smtp = new SmtpClient ();
-            smtp.Connect (_appSettings.SmtpHost, _appSettings.SmtpPort, SecureSocketOptions.StartTls);
-            smtp.Authenticate (_appSettings.SmtpUser, _appSettings.SmtpPass);
-            smtp.Send (email);
-            smtp.Disconnect (true);
+            using var smtp = new SmtpClient();
+            smtp.Connect(_appSettings.SmtpHost, _appSettings.SmtpPort, SecureSocketOptions.StartTls);
+            smtp.Authenticate(_appSettings.SmtpUser, _appSettings.SmtpPass);
+            smtp.Send(email);
+            smtp.Disconnect(true);
         }
     }
 }

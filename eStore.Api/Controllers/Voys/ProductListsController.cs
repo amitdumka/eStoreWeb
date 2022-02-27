@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
-    [Route ("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class ProductListsController : ControllerBase
@@ -25,18 +25,18 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProductList>>> GetProductLists()
         {
-            return await _context.ProductLists.ToListAsync ();
+            return await _context.ProductLists.ToListAsync();
         }
 
         // GET: api/ProductLists/5
-        [HttpGet ("{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<ProductList>> GetProductList(string id)
         {
-            var productList = await _context.ProductLists.FindAsync (id);
+            var productList = await _context.ProductLists.FindAsync(id);
 
-            if ( productList == null )
+            if (productList == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
             return productList;
@@ -44,25 +44,25 @@ namespace eStore.API.Controllers
 
         // PUT: api/ProductLists/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut ("{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> PutProductList(string id, ProductList productList)
         {
-            if ( id != productList.BarCode )
+            if (id != productList.BarCode)
             {
-                return BadRequest ();
+                return BadRequest();
             }
 
-            _context.Entry (productList).State = EntityState.Modified;
+            _context.Entry(productList).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync ();
+                await _context.SaveChangesAsync();
             }
-            catch ( DbUpdateConcurrencyException )
+            catch (DbUpdateConcurrencyException)
             {
-                if ( !ProductListExists (id) )
+                if (!ProductListExists(id))
                 {
-                    return NotFound ();
+                    return NotFound();
                 }
                 else
                 {
@@ -70,7 +70,7 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return NoContent ();
+            return NoContent();
         }
 
         // POST: api/ProductLists
@@ -78,16 +78,16 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<ProductList>> PostProductList(ProductList productList)
         {
-            _context.ProductLists.Add (productList);
+            _context.ProductLists.Add(productList);
             try
             {
-                await _context.SaveChangesAsync ();
+                await _context.SaveChangesAsync();
             }
-            catch ( DbUpdateException )
+            catch (DbUpdateException)
             {
-                if ( ProductListExists (productList.BarCode) )
+                if (ProductListExists(productList.BarCode))
                 {
-                    return Conflict ();
+                    return Conflict();
                 }
                 else
                 {
@@ -95,28 +95,28 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return CreatedAtAction ("GetProductList", new { id = productList.BarCode }, productList);
+            return CreatedAtAction("GetProductList", new { id = productList.BarCode }, productList);
         }
 
         // DELETE: api/ProductLists/5
-        [HttpDelete ("{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProductList(string id)
         {
-            var productList = await _context.ProductLists.FindAsync (id);
-            if ( productList == null )
+            var productList = await _context.ProductLists.FindAsync(id);
+            if (productList == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
-            _context.ProductLists.Remove (productList);
-            await _context.SaveChangesAsync ();
+            _context.ProductLists.Remove(productList);
+            await _context.SaveChangesAsync();
 
-            return NoContent ();
+            return NoContent();
         }
 
         private bool ProductListExists(string id)
         {
-            return _context.ProductLists.Any (e => e.BarCode == id);
+            return _context.ProductLists.Any(e => e.BarCode == id);
         }
     }
 }

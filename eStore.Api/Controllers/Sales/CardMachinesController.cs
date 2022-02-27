@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
-    [Route ("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class CardMachinesController : ControllerBase
@@ -25,18 +25,18 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<EDC>>> GetCardMachine()
         {
-            return await _context.CardMachine.ToListAsync ();
+            return await _context.CardMachine.ToListAsync();
         }
 
         // GET: api/CardMachines/5
-        [HttpGet ("{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<EDC>> GetEDC(int id)
         {
-            var eDC = await _context.CardMachine.FindAsync (id);
+            var eDC = await _context.CardMachine.FindAsync(id);
 
-            if ( eDC == null )
+            if (eDC == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
             return eDC;
@@ -44,25 +44,25 @@ namespace eStore.API.Controllers
 
         // PUT: api/CardMachines/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut ("{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> PutEDC(int id, EDC eDC)
         {
-            if ( id != eDC.EDCId )
+            if (id != eDC.EDCId)
             {
-                return BadRequest ();
+                return BadRequest();
             }
 
-            _context.Entry (eDC).State = EntityState.Modified;
+            _context.Entry(eDC).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync ();
+                await _context.SaveChangesAsync();
             }
-            catch ( DbUpdateConcurrencyException )
+            catch (DbUpdateConcurrencyException)
             {
-                if ( !EDCExists (id) )
+                if (!EDCExists(id))
                 {
-                    return NotFound ();
+                    return NotFound();
                 }
                 else
                 {
@@ -70,7 +70,7 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return NoContent ();
+            return NoContent();
         }
 
         // POST: api/CardMachines
@@ -78,31 +78,31 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<EDC>> PostEDC(EDC eDC)
         {
-            _context.CardMachine.Add (eDC);
-            await _context.SaveChangesAsync ();
+            _context.CardMachine.Add(eDC);
+            await _context.SaveChangesAsync();
 
-            return CreatedAtAction ("GetEDC", new { id = eDC.EDCId }, eDC);
+            return CreatedAtAction("GetEDC", new { id = eDC.EDCId }, eDC);
         }
 
         // DELETE: api/CardMachines/5
-        [HttpDelete ("{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEDC(int id)
         {
-            var eDC = await _context.CardMachine.FindAsync (id);
-            if ( eDC == null )
+            var eDC = await _context.CardMachine.FindAsync(id);
+            if (eDC == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
-            _context.CardMachine.Remove (eDC);
-            await _context.SaveChangesAsync ();
+            _context.CardMachine.Remove(eDC);
+            await _context.SaveChangesAsync();
 
-            return NoContent ();
+            return NoContent();
         }
 
         private bool EDCExists(int id)
         {
-            return _context.CardMachine.Any (e => e.EDCId == id);
+            return _context.CardMachine.Any(e => e.EDCId == id);
         }
     }
 }

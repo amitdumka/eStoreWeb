@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
-    [Route ("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class BankWithdrawalsController : ControllerBase
@@ -25,18 +25,18 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<BankWithdrawal>>> GetBankWithdrawals()
         {
-            return await _context.BankWithdrawals.Include (c => c.Account).OrderByDescending (c => c.OnDate).ToListAsync ();
+            return await _context.BankWithdrawals.Include(c => c.Account).OrderByDescending(c => c.OnDate).ToListAsync();
         }
 
         // GET: api/BankWithdrawals/5
-        [HttpGet ("{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<BankWithdrawal>> GetBankWithdrawal(int id)
         {
-            var bankWithdrawal = await _context.BankWithdrawals.FindAsync (id);
+            var bankWithdrawal = await _context.BankWithdrawals.FindAsync(id);
 
-            if ( bankWithdrawal == null )
+            if (bankWithdrawal == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
             return bankWithdrawal;
@@ -44,25 +44,25 @@ namespace eStore.API.Controllers
 
         // PUT: api/BankWithdrawals/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut ("{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> PutBankWithdrawal(int id, BankWithdrawal bankWithdrawal)
         {
-            if ( id != bankWithdrawal.BankWithdrawalId )
+            if (id != bankWithdrawal.BankWithdrawalId)
             {
-                return BadRequest ();
+                return BadRequest();
             }
 
-            _context.Entry (bankWithdrawal).State = EntityState.Modified;
+            _context.Entry(bankWithdrawal).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync ();
+                await _context.SaveChangesAsync();
             }
-            catch ( DbUpdateConcurrencyException )
+            catch (DbUpdateConcurrencyException)
             {
-                if ( !BankWithdrawalExists (id) )
+                if (!BankWithdrawalExists(id))
                 {
-                    return NotFound ();
+                    return NotFound();
                 }
                 else
                 {
@@ -70,7 +70,7 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return NoContent ();
+            return NoContent();
         }
 
         // POST: api/BankWithdrawals
@@ -78,31 +78,31 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<BankWithdrawal>> PostBankWithdrawal(BankWithdrawal bankWithdrawal)
         {
-            _context.BankWithdrawals.Add (bankWithdrawal);
-            await _context.SaveChangesAsync ();
+            _context.BankWithdrawals.Add(bankWithdrawal);
+            await _context.SaveChangesAsync();
 
-            return CreatedAtAction ("GetBankWithdrawal", new { id = bankWithdrawal.BankWithdrawalId }, bankWithdrawal);
+            return CreatedAtAction("GetBankWithdrawal", new { id = bankWithdrawal.BankWithdrawalId }, bankWithdrawal);
         }
 
         // DELETE: api/BankWithdrawals/5
-        [HttpDelete ("{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBankWithdrawal(int id)
         {
-            var bankWithdrawal = await _context.BankWithdrawals.FindAsync (id);
-            if ( bankWithdrawal == null )
+            var bankWithdrawal = await _context.BankWithdrawals.FindAsync(id);
+            if (bankWithdrawal == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
-            _context.BankWithdrawals.Remove (bankWithdrawal);
-            await _context.SaveChangesAsync ();
+            _context.BankWithdrawals.Remove(bankWithdrawal);
+            await _context.SaveChangesAsync();
 
-            return NoContent ();
+            return NoContent();
         }
 
         private bool BankWithdrawalExists(int id)
         {
-            return _context.BankWithdrawals.Any (e => e.BankWithdrawalId == id);
+            return _context.BankWithdrawals.Any(e => e.BankWithdrawalId == id);
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using eStore.Database;
-using eStore.Shared.Models.Sales;
 using eStore.Shared.Models.Sales.Payments;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
-    [Route ("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class BankPaymentsController : ControllerBase
@@ -26,18 +25,18 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<BankPayment>>> GetBankPayments()
         {
-            return await _context.BankPayments.ToListAsync ();
+            return await _context.BankPayments.ToListAsync();
         }
 
         // GET: api/BankPayments/5
-        [HttpGet ("{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<BankPayment>> GetBankPayment(int id)
         {
-            var bankPayment = await _context.BankPayments.FindAsync (id);
+            var bankPayment = await _context.BankPayments.FindAsync(id);
 
-            if ( bankPayment == null )
+            if (bankPayment == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
             return bankPayment;
@@ -45,25 +44,25 @@ namespace eStore.API.Controllers
 
         // PUT: api/BankPayments/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut ("{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> PutBankPayment(int id, BankPayment bankPayment)
         {
-            if ( id != bankPayment.BankPaymentId )
+            if (id != bankPayment.BankPaymentId)
             {
-                return BadRequest ();
+                return BadRequest();
             }
 
-            _context.Entry (bankPayment).State = EntityState.Modified;
+            _context.Entry(bankPayment).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync ();
+                await _context.SaveChangesAsync();
             }
-            catch ( DbUpdateConcurrencyException )
+            catch (DbUpdateConcurrencyException)
             {
-                if ( !BankPaymentExists (id) )
+                if (!BankPaymentExists(id))
                 {
-                    return NotFound ();
+                    return NotFound();
                 }
                 else
                 {
@@ -71,7 +70,7 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return NoContent ();
+            return NoContent();
         }
 
         // POST: api/BankPayments
@@ -79,31 +78,31 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<BankPayment>> PostBankPayment(BankPayment bankPayment)
         {
-            _context.BankPayments.Add (bankPayment);
-            await _context.SaveChangesAsync ();
+            _context.BankPayments.Add(bankPayment);
+            await _context.SaveChangesAsync();
 
-            return CreatedAtAction ("GetBankPayment", new { id = bankPayment.BankPaymentId }, bankPayment);
+            return CreatedAtAction("GetBankPayment", new { id = bankPayment.BankPaymentId }, bankPayment);
         }
 
         // DELETE: api/BankPayments/5
-        [HttpDelete ("{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBankPayment(int id)
         {
-            var bankPayment = await _context.BankPayments.FindAsync (id);
-            if ( bankPayment == null )
+            var bankPayment = await _context.BankPayments.FindAsync(id);
+            if (bankPayment == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
-            _context.BankPayments.Remove (bankPayment);
-            await _context.SaveChangesAsync ();
+            _context.BankPayments.Remove(bankPayment);
+            await _context.SaveChangesAsync();
 
-            return NoContent ();
+            return NoContent();
         }
 
         private bool BankPaymentExists(int id)
         {
-            return _context.BankPayments.Any (e => e.BankPaymentId == id);
+            return _context.BankPayments.Any(e => e.BankPaymentId == id);
         }
     }
 }

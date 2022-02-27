@@ -20,13 +20,13 @@ namespace eStore.Ops.Session
     {
         public static void Write<T>(ISession session, string KeyName, T ValueData)
         {
-            session.Set<T> (KeyName, ValueData);
+            session.Set<T>(KeyName, ValueData);
         }
 
         public static T Read<T>(ISession session, string key)
         {
-            var value = session.GetString (key);
-            return value == null ? default : JsonSerializer.Deserialize<T> (value);
+            var value = session.GetString(key);
+            return value == null ? default : JsonSerializer.Deserialize<T>(value);
         }
     }
 }

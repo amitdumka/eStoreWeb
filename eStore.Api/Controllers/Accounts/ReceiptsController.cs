@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
-    [Route ("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class ReceiptsController : ControllerBase
@@ -29,22 +29,22 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Receipt>>> GetReceipts()
         {
-            return await _context.Receipts.Include (c => c.Store).Include (c => c.Party).Include (c => c.FromAccount).OrderByDescending (c => c.OnDate).ToListAsync ();
+            return await _context.Receipts.Include(c => c.Store).Include(c => c.Party).Include(c => c.FromAccount).OrderByDescending(c => c.OnDate).ToListAsync();
         }
 
         // GET: api/Receipts/dto
-        [HttpGet ("dto")]
-        public IEnumerable<ReceiptDto> GetReceiptsDto() => _mapper.Map<IEnumerable<ReceiptDto>> (_context.Receipts.Include (c => c.Store).Include (c => c.Party).Include (c => c.FromAccount).OrderByDescending (c => c.OnDate).ToList ());
+        [HttpGet("dto")]
+        public IEnumerable<ReceiptDto> GetReceiptsDto() => _mapper.Map<IEnumerable<ReceiptDto>>(_context.Receipts.Include(c => c.Store).Include(c => c.Party).Include(c => c.FromAccount).OrderByDescending(c => c.OnDate).ToList());
 
         // GET: api/Receipts/5
-        [HttpGet ("{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<Receipt>> GetReceipt(int id)
         {
-            var receipt = await _context.Receipts.FindAsync (id);
+            var receipt = await _context.Receipts.FindAsync(id);
 
-            if ( receipt == null )
+            if (receipt == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
             return receipt;
@@ -52,28 +52,28 @@ namespace eStore.API.Controllers
 
         // PUT: api/Receipts/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut ("{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> PutReceipt(int id, Receipt receipt)
         {
-            if ( id != receipt.ReceiptId )
+            if (id != receipt.ReceiptId)
             {
-                return BadRequest ();
+                return BadRequest();
             }
-            if ( receipt.PayMode == PaymentMode.Cash )
+            if (receipt.PayMode == PaymentMode.Cash)
             {
                 receipt.BankAccountId = null;
             }
-            _context.Entry (receipt).State = EntityState.Modified;
+            _context.Entry(receipt).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync ();
+                await _context.SaveChangesAsync();
             }
-            catch ( DbUpdateConcurrencyException )
+            catch (DbUpdateConcurrencyException)
             {
-                if ( !ReceiptExists (id) )
+                if (!ReceiptExists(id))
                 {
-                    return NotFound ();
+                    return NotFound();
                 }
                 else
                 {
@@ -81,7 +81,7 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return NoContent ();
+            return NoContent();
         }
 
         // POST: api/Receipts
@@ -89,35 +89,35 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Receipt>> PostReceipt(Receipt receipt)
         {
-            if ( receipt.PayMode == PaymentMode.Cash )
+            if (receipt.PayMode == PaymentMode.Cash)
             {
                 receipt.BankAccountId = null;
             }
-            _context.Receipts.Add (receipt);
-            await _context.SaveChangesAsync ();
+            _context.Receipts.Add(receipt);
+            await _context.SaveChangesAsync();
 
-            return CreatedAtAction ("GetReceipt", new { id = receipt.ReceiptId }, receipt);
+            return CreatedAtAction("GetReceipt", new { id = receipt.ReceiptId }, receipt);
         }
 
         // DELETE: api/Receipts/5
-        [HttpDelete ("{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteReceipt(int id)
         {
-            var receipt = await _context.Receipts.FindAsync (id);
-            if ( receipt == null )
+            var receipt = await _context.Receipts.FindAsync(id);
+            if (receipt == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
-            _context.Receipts.Remove (receipt);
-            await _context.SaveChangesAsync ();
+            _context.Receipts.Remove(receipt);
+            await _context.SaveChangesAsync();
 
-            return NoContent ();
+            return NoContent();
         }
 
         private bool ReceiptExists(int id)
         {
-            return _context.Receipts.Any (e => e.ReceiptId == id);
+            return _context.Receipts.Any(e => e.ReceiptId == id);
         }
     }
 }

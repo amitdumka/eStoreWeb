@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
-    [Route ("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class CashDetailsController : ControllerBase
@@ -25,18 +25,18 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CashDetail>>> GetCashDetail()
         {
-            return await _context.CashDetail.ToListAsync ();
+            return await _context.CashDetail.ToListAsync();
         }
 
         // GET: api/CashDetails/5
-        [HttpGet ("{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<CashDetail>> GetCashDetail(int id)
         {
-            var cashDetail = await _context.CashDetail.FindAsync (id);
+            var cashDetail = await _context.CashDetail.FindAsync(id);
 
-            if ( cashDetail == null )
+            if (cashDetail == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
             return cashDetail;
@@ -44,25 +44,25 @@ namespace eStore.API.Controllers
 
         // PUT: api/CashDetails/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut ("{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> PutCashDetail(int id, CashDetail cashDetail)
         {
-            if ( id != cashDetail.CashDetailId )
+            if (id != cashDetail.CashDetailId)
             {
-                return BadRequest ();
+                return BadRequest();
             }
 
-            _context.Entry (cashDetail).State = EntityState.Modified;
+            _context.Entry(cashDetail).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync ();
+                await _context.SaveChangesAsync();
             }
-            catch ( DbUpdateConcurrencyException )
+            catch (DbUpdateConcurrencyException)
             {
-                if ( !CashDetailExists (id) )
+                if (!CashDetailExists(id))
                 {
-                    return NotFound ();
+                    return NotFound();
                 }
                 else
                 {
@@ -70,7 +70,7 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return NoContent ();
+            return NoContent();
         }
 
         // POST: api/CashDetails
@@ -78,31 +78,31 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<CashDetail>> PostCashDetail(CashDetail cashDetail)
         {
-            _context.CashDetail.Add (cashDetail);
-            await _context.SaveChangesAsync ();
+            _context.CashDetail.Add(cashDetail);
+            await _context.SaveChangesAsync();
 
-            return CreatedAtAction ("GetCashDetail", new { id = cashDetail.CashDetailId }, cashDetail);
+            return CreatedAtAction("GetCashDetail", new { id = cashDetail.CashDetailId }, cashDetail);
         }
 
         // DELETE: api/CashDetails/5
-        [HttpDelete ("{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCashDetail(int id)
         {
-            var cashDetail = await _context.CashDetail.FindAsync (id);
-            if ( cashDetail == null )
+            var cashDetail = await _context.CashDetail.FindAsync(id);
+            if (cashDetail == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
-            _context.CashDetail.Remove (cashDetail);
-            await _context.SaveChangesAsync ();
+            _context.CashDetail.Remove(cashDetail);
+            await _context.SaveChangesAsync();
 
-            return NoContent ();
+            return NoContent();
         }
 
         private bool CashDetailExists(int id)
         {
-            return _context.CashDetail.Any (e => e.CashDetailId == id);
+            return _context.CashDetail.Any(e => e.CashDetailId == id);
         }
     }
 }

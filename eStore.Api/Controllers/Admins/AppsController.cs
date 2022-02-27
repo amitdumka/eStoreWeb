@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
-    [Route ("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class AppsController : ControllerBase
@@ -27,7 +27,7 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AppInfo>>> GetApps()
         {
-            return await _context.Apps.ToListAsync ();
+            return await _context.Apps.ToListAsync();
         }
 
         // GET: api/Apps
@@ -35,7 +35,7 @@ namespace eStore.API.Controllers
         public async Task<FileStreamResult> GetJsonDatabaseAsync()
         {
             DatabaseExpoter de = new DatabaseExpoter(_context, 1);
-            string filename=await de.ExportToJson();
+            string filename = await de.ExportToJson();
 
             var stream = new FileStream(filename, FileMode.Open);
             return File(stream, "application/zip", "eStoreDBContextJson.zip");
@@ -43,14 +43,14 @@ namespace eStore.API.Controllers
 
 
         // GET: api/Apps/5
-        [HttpGet ("{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<AppInfo>> GetAppInfo(int id)
         {
-            var appInfo = await _context.Apps.FindAsync (id);
+            var appInfo = await _context.Apps.FindAsync(id);
 
-            if ( appInfo == null )
+            if (appInfo == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
             return appInfo;
@@ -58,25 +58,25 @@ namespace eStore.API.Controllers
 
         // PUT: api/Apps/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut ("{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> PutAppInfo(int id, AppInfo appInfo)
         {
-            if ( id != appInfo.AppInfoId )
+            if (id != appInfo.AppInfoId)
             {
-                return BadRequest ();
+                return BadRequest();
             }
 
-            _context.Entry (appInfo).State = EntityState.Modified;
+            _context.Entry(appInfo).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync ();
+                await _context.SaveChangesAsync();
             }
-            catch ( DbUpdateConcurrencyException )
+            catch (DbUpdateConcurrencyException)
             {
-                if ( !AppInfoExists (id) )
+                if (!AppInfoExists(id))
                 {
-                    return NotFound ();
+                    return NotFound();
                 }
                 else
                 {
@@ -84,7 +84,7 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return NoContent ();
+            return NoContent();
         }
 
         // POST: api/Apps
@@ -92,31 +92,31 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<AppInfo>> PostAppInfo(AppInfo appInfo)
         {
-            _context.Apps.Add (appInfo);
-            await _context.SaveChangesAsync ();
+            _context.Apps.Add(appInfo);
+            await _context.SaveChangesAsync();
 
-            return CreatedAtAction ("GetAppInfo", new { id = appInfo.AppInfoId }, appInfo);
+            return CreatedAtAction("GetAppInfo", new { id = appInfo.AppInfoId }, appInfo);
         }
 
         // DELETE: api/Apps/5
-        [HttpDelete ("{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAppInfo(int id)
         {
-            var appInfo = await _context.Apps.FindAsync (id);
-            if ( appInfo == null )
+            var appInfo = await _context.Apps.FindAsync(id);
+            if (appInfo == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
-            _context.Apps.Remove (appInfo);
-            await _context.SaveChangesAsync ();
+            _context.Apps.Remove(appInfo);
+            await _context.SaveChangesAsync();
 
-            return NoContent ();
+            return NoContent();
         }
 
         private bool AppInfoExists(int id)
         {
-            return _context.Apps.Any (e => e.AppInfoId == id);
+            return _context.Apps.Any(e => e.AppInfoId == id);
         }
     }
 }

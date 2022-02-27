@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31205.134
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eStore", "eStore\eStore.csproj", "{92C87F32-E922-4346-9099-82A42F3A1B82}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eStore.WebAPI", "eStore.WebAPI\eStore.WebAPI.csproj", "{2D4520C6-BB34-4D31-8E3A-FCDAD7160FFB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eStore.Api", "eStore.Api\eStore.Api.csproj", "{551794F3-2B19-4F1E-A568-A966BB283D38}"
 EndProject
@@ -39,10 +37,6 @@ Global
 		{92C87F32-E922-4346-9099-82A42F3A1B82}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{92C87F32-E922-4346-9099-82A42F3A1B82}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{92C87F32-E922-4346-9099-82A42F3A1B82}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2D4520C6-BB34-4D31-8E3A-FCDAD7160FFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2D4520C6-BB34-4D31-8E3A-FCDAD7160FFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2D4520C6-BB34-4D31-8E3A-FCDAD7160FFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2D4520C6-BB34-4D31-8E3A-FCDAD7160FFB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{551794F3-2B19-4F1E-A568-A966BB283D38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{551794F3-2B19-4F1E-A568-A966BB283D38}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{551794F3-2B19-4F1E-A568-A966BB283D38}.Release|Any CPU.ActiveCfg = Release|Any CPU

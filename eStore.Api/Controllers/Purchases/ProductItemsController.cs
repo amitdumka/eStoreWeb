@@ -24,7 +24,7 @@ namespace eStore.API.Controllers
         [HttpGet("ProductStockViews")]
         public async Task<ActionResult<IEnumerable<ProductStockView>>> GetProductStockViewsAsync()
         {
-           return await _context.Stocks.Include(c => c.ProductItem).Select(c => new ProductStockView
+            return await _context.Stocks.Include(c => c.ProductItem).Select(c => new ProductStockView
             {
                 Barcode = c.Barcode,
                 MRP = c.ProductItem.MRP,
@@ -39,7 +39,7 @@ namespace eStore.API.Controllers
         [HttpGet("ProductStockViews{id}")]
         public async Task<ActionResult<ProductStockView>> GetProductStockViewAsync(string id)
         {
-            var pItem= await _context.Stocks.Include(c => c.ProductItem).Where(c=>c.Barcode==id).Select(c => new ProductStockView
+            var pItem = await _context.Stocks.Include(c => c.ProductItem).Where(c => c.Barcode == id).Select(c => new ProductStockView
             {
                 Barcode = c.Barcode,
                 MRP = c.ProductItem.MRP,
@@ -47,10 +47,10 @@ namespace eStore.API.Controllers
                 ProductType = c.ProductItem.MainCategory,
                 TaxRate = c.ProductItem.TaxRate,
                 Stock = (decimal)c.Quantity
-                    ,
+                         ,
                 Unit = c.Units
             }).FirstOrDefaultAsync();
-            if(pItem==null) return NotFound();
+            if (pItem == null) return NotFound();
             return pItem;
         }
 

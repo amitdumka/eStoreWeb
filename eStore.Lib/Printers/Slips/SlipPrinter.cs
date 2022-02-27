@@ -57,7 +57,7 @@ namespace eStore.Lib.Printers.Slip
         {
             db = context;
             StoreId = Store;
-            var st = db.Stores.Find (Store);
+            var st = db.Stores.Find(Store);
             StoreName = st.StoreName;
             StoreAddress = st.Address;
             StoreCity = st.City;
@@ -73,87 +73,87 @@ namespace eStore.Lib.Printers.Slip
         {
             //TODO: Add QR Code and 4 Pcs copy name like Original , duplicate,
             FileName += SlipName + "_" + sDetail.SlipNumber + "_Report.pdf";
-            string path = Path.Combine (ConData.WWWroot, FileName);
+            string path = Path.Combine(ConData.WWWroot, FileName);
             var PageType = PageSize.A4;
-            if ( IsLandscape )
-                PageType = PageSize.A4.Rotate ();
+            if (IsLandscape)
+                PageType = PageSize.A4.Rotate();
 
-            using PdfWriter pdfWriter = new PdfWriter (FileName);
-            using PdfDocument pdf = new PdfDocument (pdfWriter);
-            using Document pdfDoc = new Document (pdf, PageType);
-            pdfDoc.SetMargins (10, 5, 10, 5);
-            pdfDoc.SetBorderTop (new SolidBorder (2));
+            using PdfWriter pdfWriter = new PdfWriter(FileName);
+            using PdfDocument pdf = new PdfDocument(pdfWriter);
+            using Document pdfDoc = new Document(pdf, PageType);
+            pdfDoc.SetMargins(10, 5, 10, 5);
+            pdfDoc.SetBorderTop(new SolidBorder(2));
 
-            Style code = new Style ();
-            PdfFont timesRoman = PdfFontFactory.CreateFont (iText.IO.Font.Constants.StandardFonts.TIMES_ROMAN);
-            code.SetFont (timesRoman).SetFontSize (12);
-            Paragraph TopLine = new Paragraph (GSTNO + "\t\t" + SlipName).SetFontSize (10);
-            TopLine.SetTextAlignment (iText.Layout.Properties.TextAlignment.CENTER);
-            pdfDoc.Add (TopLine);
+            Style code = new Style();
+            PdfFont timesRoman = PdfFontFactory.CreateFont(iText.IO.Font.Constants.StandardFonts.TIMES_ROMAN);
+            code.SetFont(timesRoman).SetFontSize(12);
+            Paragraph TopLine = new Paragraph(GSTNO + "\t\t" + SlipName).SetFontSize(10);
+            TopLine.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
+            pdfDoc.Add(TopLine);
             //Header
-            Paragraph p = new Paragraph (StoreName + "\n").SetFontSize (12);
-            p.SetTextAlignment (iText.Layout.Properties.TextAlignment.CENTER);
-            p.Add (StoreAddress + "\n");
-            p.Add (StoreCity + "\n");
-            p.Add ("Ph No: " + StorePhoneNo + "\n");
-            pdfDoc.Add (p);
-            Paragraph SecondLine = new Paragraph ($"No.: {sDetail.SlipNumber}\t\t\t\tDate: {sDetail.SlipDate}").SetFontSize (10);
-            pdfDoc.Add (SecondLine);
-            Paragraph PartyLine = new Paragraph ($"{PartyLineStart} {sDetail.PartyName}, {sDetail.PartyAddress}\n").SetFontSize (12);
-            PartyLine.Add ($"{AmountLineStart} {AmountInString} only, {AmountLineEnd}\n");
-            PartyLine.Add ($"{OnAccountLine} {sDetail.Naration} {PaymentDetailsLine} {sDetail.PaymentDetails}\n");
-            pdfDoc.Add (PartyLine);
-            Paragraph AALine = new Paragraph ($"Rs. {sDetail.Amount} /-").SetFontSize (14);
-            pdfDoc.Add (AALine);
-            Paragraph SignLine = new Paragraph ("\n\n").SetFontSize (12);
-            SignLine.Add ($"{ForLine}\t\t\t\t{PartyLineRec}");
-            pdfDoc.Add (SignLine);
+            Paragraph p = new Paragraph(StoreName + "\n").SetFontSize(12);
+            p.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
+            p.Add(StoreAddress + "\n");
+            p.Add(StoreCity + "\n");
+            p.Add("Ph No: " + StorePhoneNo + "\n");
+            pdfDoc.Add(p);
+            Paragraph SecondLine = new Paragraph($"No.: {sDetail.SlipNumber}\t\t\t\tDate: {sDetail.SlipDate}").SetFontSize(10);
+            pdfDoc.Add(SecondLine);
+            Paragraph PartyLine = new Paragraph($"{PartyLineStart} {sDetail.PartyName}, {sDetail.PartyAddress}\n").SetFontSize(12);
+            PartyLine.Add($"{AmountLineStart} {AmountInString} only, {AmountLineEnd}\n");
+            PartyLine.Add($"{OnAccountLine} {sDetail.Naration} {PaymentDetailsLine} {sDetail.PaymentDetails}\n");
+            pdfDoc.Add(PartyLine);
+            Paragraph AALine = new Paragraph($"Rs. {sDetail.Amount} /-").SetFontSize(14);
+            pdfDoc.Add(AALine);
+            Paragraph SignLine = new Paragraph("\n\n").SetFontSize(12);
+            SignLine.Add($"{ForLine}\t\t\t\t{PartyLineRec}");
+            pdfDoc.Add(SignLine);
 
-            pdfDoc.Close ();
-            pdf.Close ();
-            pdfWriter.Close ();
-            return AddPageNumber (FileName, "Report_" + FileName);
+            pdfDoc.Close();
+            pdf.Close();
+            pdfWriter.Close();
+            return AddPageNumber(FileName, "Report_" + FileName);
         }
 
         private string AddPageNumber(string sourceFileName, string fileName)
         {
-            using PdfDocument pdfDoc = new PdfDocument (new PdfReader (sourceFileName), new PdfWriter (fileName));
-            using Document doc = new Document (pdfDoc);
+            using PdfDocument pdfDoc = new PdfDocument(new PdfReader(sourceFileName), new PdfWriter(fileName));
+            using Document doc = new Document(pdfDoc);
 
-            int numberOfPages = pdfDoc.GetNumberOfPages ();
+            int numberOfPages = pdfDoc.GetNumberOfPages();
 
-            for ( int i = 1 ; i <= numberOfPages ; i++ )
+            for (int i = 1; i <= numberOfPages; i++)
             {
                 // Write aligned text to the specified by parameters point
                 //doc.ShowTextAligned (new Paragraph ("Page " + i + " of " + numberOfPages),
                 //        559, 806, i, TextAlignment.RIGHT, VerticalAlignment.TOP, 0);
-                doc.ShowTextAligned (new Paragraph ("Page " + i + " of " + numberOfPages).SetFontColor (ColorConstants.DARK_GRAY),
+                doc.ShowTextAligned(new Paragraph("Page " + i + " of " + numberOfPages).SetFontColor(ColorConstants.DARK_GRAY),
                        1, 1, i, TextAlignment.RIGHT, VerticalAlignment.BOTTOM, 0);
             }
 
-            doc.Close ();
-            pdfDoc.Close ();
-            CleanUp (fileName);
+            doc.Close();
+            pdfDoc.Close();
+            CleanUp(fileName);
             return fileName;
         }
 
-        private string [] FileList()
+        private string[] FileList()
         {
-            string [] filePaths = Directory.GetFiles (Directory.GetCurrentDirectory (), "*.pdf");
+            string[] filePaths = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.pdf");
 
             return filePaths;
         }
 
         private bool CleanUp(string fileName)
         {
-            string [] filePaths = Directory.GetFiles (Directory.GetCurrentDirectory (), "*.pdf");
-            foreach ( var item in filePaths )
+            string[] filePaths = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.pdf");
+            foreach (var item in filePaths)
             {
-                if ( item.Contains (fileName) )
+                if (item.Contains(fileName))
                 { }
                 else
                 {
-                    File.Delete (item);
+                    File.Delete(item);
                 }
             }
             return true;
@@ -175,20 +175,20 @@ namespace eStore.Lib.Printers.Slip
         /// <returns> filename saved as</returns>
         public static string AddPageNumberToPdf(string fileName)
         {
-            using PdfReader reader = new PdfReader (fileName);
-            string fName = "cashBook_" + ( DateTime.Now.ToFileTimeUtc () + 1001 ) + ".pdf";
-            using PdfWriter writer = new PdfWriter (Path.Combine ("wwwroot", fName));
+            using PdfReader reader = new PdfReader(fileName);
+            string fName = "cashBook_" + (DateTime.Now.ToFileTimeUtc() + 1001) + ".pdf";
+            using PdfWriter writer = new PdfWriter(Path.Combine("wwwroot", fName));
 
-            using PdfDocument pdfDoc2 = new PdfDocument (reader, writer);
-            Document doc2 = new Document (pdfDoc2);
+            using PdfDocument pdfDoc2 = new PdfDocument(reader, writer);
+            Document doc2 = new Document(pdfDoc2);
 
-            int numberOfPages = pdfDoc2.GetNumberOfPages ();
-            for ( int i = 1 ; i <= numberOfPages ; i++ )
+            int numberOfPages = pdfDoc2.GetNumberOfPages();
+            for (int i = 1; i <= numberOfPages; i++)
             {
-                doc2.ShowTextAligned (new Paragraph ("Page " + i + " of " + numberOfPages),
+                doc2.ShowTextAligned(new Paragraph("Page " + i + " of " + numberOfPages),
                         559, 806, i, TextAlignment.RIGHT, VerticalAlignment.BOTTOM, 0);
             }
-            doc2.Close ();
+            doc2.Close();
             return fName;
         }
     }

@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using eStore.Database;
+﻿using eStore.Database;
 using eStore.Shared.Models.Sales;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace eStore.Api.Controllers.Sales
 {
@@ -105,4 +105,4 @@ namespace eStore.Api.Controllers.Sales
         }
     }
 
- }
+}

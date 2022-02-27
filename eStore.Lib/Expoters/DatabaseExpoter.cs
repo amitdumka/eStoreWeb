@@ -1,5 +1,4 @@
 ﻿using eStore.Database;
-using eStore.Shared.Models.Stores;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,7 +6,6 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace eStore.Lib.Exporters
 {
@@ -33,18 +31,18 @@ namespace eStore.Lib.Exporters
                 IgnoreNullValues = true,
                 IgnoreReadOnlyProperties = true,
                 WriteIndented = true,
-                ReferenceHandler= null//ReferenceHandler.Preserve
+                ReferenceHandler = null//ReferenceHandler.Preserve
             };
-            string fn="";
+            string fn = "";
             try
             {
                 if (obj != null && obj.Count > 0)
                 {
                     //System.Collections.Generic.List`1[eStore.Shared.Models.Stores.Store]
-                    fn = obj.ToString().Replace("System.Collections.Generic.List`1[eStore.Shared","").Replace(".Models.","").Replace("]", "").Split(".").Last();
-                    
+                    fn = obj.ToString().Replace("System.Collections.Generic.List`1[eStore.Shared", "").Replace(".Models.", "").Replace("]", "").Split(".").Last();
+
                     using FileStream createStream = File.Create($"{folder}/{fn}.json");
-                    await JsonSerializer.SerializeAsync(createStream, obj,options);
+                    await JsonSerializer.SerializeAsync(createStream, obj, options);
                     await createStream.DisposeAsync();
                     ExportedList.Add(fn, true);
                     return true;
@@ -69,7 +67,7 @@ namespace eStore.Lib.Exporters
 
             await ToJsonFile("Stores", await db.Stores.ToListAsync());
             await ToJsonFile("Employee", await db.Employees.ToListAsync());
-            await ToJsonFile("Attendance ", await db.Attendances.Where(c=>c.StoreId==StoreId).ToListAsync());
+            await ToJsonFile("Attendance ", await db.Attendances.Where(c => c.StoreId == StoreId).ToListAsync());
             await ToJsonFile("BankAccounts ", await db.BankAccounts.ToListAsync());
             await ToJsonFile("BankDeposits ", await db.BankDeposits.ToListAsync());
             await ToJsonFile("Bankpayement ", await db.BankPayments.ToListAsync());

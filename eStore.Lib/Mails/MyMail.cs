@@ -17,38 +17,38 @@ namespace eStore.BL.Mails
     {
         public static void SendEmail(string subjects, string messages, string toAddress)
         {
-            var message = new MimeMessage ();
-            message.From.Add (new MailboxAddress ("Aprajita Retails", MailConfig.UserName));
-            message.To.Add (new MailboxAddress (/*"",*/toAddress));
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress("Aprajita Retails", MailConfig.UserName));
+            message.To.Add(new MailboxAddress(/*"",*/toAddress));
             message.Subject = subjects;
-            message.Body = new TextPart ("plain") { Text = messages };
+            message.Body = new TextPart("plain") { Text = messages };
             // For demo-purposes, accept all SSL certificates (in case the server supports STARTTLS)
             using var client = new SmtpClient { ServerCertificateValidationCallback = (s, c, h, e) => true };
-            client.Connect (MailConfig.SMTPAddress, MailConfig.SMTPPort, SecureSocketOptions.Auto);
+            client.Connect(MailConfig.SMTPAddress, MailConfig.SMTPPort, SecureSocketOptions.Auto);
             // Note: only needed if the SMTP server requires authentication
-            client.Authenticate (MailConfig.UserName, MailConfig.Password);
-            client.Send (message);
-            client.Disconnect (true);
+            client.Authenticate(MailConfig.UserName, MailConfig.Password);
+            client.Send(message);
+            client.Disconnect(true);
         }
 
         public static void SendEmails(string subjects, string messages, string toAddress)
         {
-            var message = new MimeMessage ();
-            message.From.Add (new MailboxAddress ("Aprajita Retails", MailConfig.UserName));
-            var emailId = toAddress.Split (',');
-            foreach ( var item in emailId )
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress("Aprajita Retails", MailConfig.UserName));
+            var emailId = toAddress.Split(',');
+            foreach (var item in emailId)
             {
-                message.To.Add (MailboxAddress.Parse (item));
+                message.To.Add(MailboxAddress.Parse(item));
             }
             message.Subject = subjects;
-            message.Body = new TextPart ("plain") { Text = messages };
+            message.Body = new TextPart("plain") { Text = messages };
             // For demo-purposes, accept all SSL certificates (in case the server supports STARTTLS)
             using var client = new SmtpClient { ServerCertificateValidationCallback = (s, c, h, e) => true };
-            client.Connect (MailConfig.SMTPAddress, MailConfig.SMTPPort, SecureSocketOptions.Auto);
+            client.Connect(MailConfig.SMTPAddress, MailConfig.SMTPPort, SecureSocketOptions.Auto);
             // Note: only needed if the SMTP server requires authentication
-            client.Authenticate (MailConfig.UserName, MailConfig.Password);
-            client.Send (message);
-            client.Disconnect (true);
+            client.Authenticate(MailConfig.UserName, MailConfig.Password);
+            client.Send(message);
+            client.Disconnect(true);
         }
     }
 
@@ -56,40 +56,40 @@ namespace eStore.BL.Mails
     {
         public static void MailLog(string messages, string? subjects)
         {
-            var message = new MimeMessage ();
-            message.From.Add (new MailboxAddress ("Aprajita Retails", MailConfig.UserName));
-            message.To.Add (new MailboxAddress (/*"",*/"amitnarayansah@gmail.com"));
-            if ( subjects != null )
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress("Aprajita Retails", MailConfig.UserName));
+            message.To.Add(new MailboxAddress(/*"",*/"amitnarayansah@gmail.com"));
+            if (subjects != null)
                 message.Subject = "AprajitaRetails " + subjects + " ";
             else
                 message.Subject = "AprajitaRetails Log:";
-            message.Body = new TextPart ("plain") { Text = messages };
+            message.Body = new TextPart("plain") { Text = messages };
 
             using var client = new SmtpClient
             {
                 // For demo-purposes, accept all SSL certificates (in case the server supports STARTTLS)
                 ServerCertificateValidationCallback = (s, c, h, e) => true
             };
-            client.Connect (MailConfig.SMTPAddress, MailConfig.SMTPPort, MailConfig.SSL);
+            client.Connect(MailConfig.SMTPAddress, MailConfig.SMTPPort, MailConfig.SSL);
             // Note: only needed if the SMTP server requires authentication
-            client.Authenticate (MailConfig.UserName, MailConfig.Password);
-            client.Send (message);
-            client.Disconnect (true);
+            client.Authenticate(MailConfig.UserName, MailConfig.Password);
+            client.Send(message);
+            client.Disconnect(true);
         }
 
         public static void MailError(string messages)
         {
-            MailLog (messages, "Error Log:");
+            MailLog(messages, "Error Log:");
         }
 
         public static void MailInfo(string messages)
         {
-            MailLog (messages, "Info Log:");
+            MailLog(messages, "Info Log:");
         }
 
         public static void MailWarning(string messages)
         {
-            MailLog (messages, "Warning Log:");
+            MailLog(messages, "Warning Log:");
         }
     }
 

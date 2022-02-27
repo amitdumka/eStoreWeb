@@ -46,23 +46,23 @@ namespace AprajitaRetails.Services.Mails
             // create message
             try
             {
-                var email = new MimeMessage ();
-                email.From.Add (new MailboxAddress (_smtpSetting.SenderName, _smtpSetting.SenderEmail));
-                email.To.Add (MailboxAddress.Parse (emailId));
+                var email = new MimeMessage();
+                email.From.Add(new MailboxAddress(_smtpSetting.SenderName, _smtpSetting.SenderEmail));
+                email.To.Add(MailboxAddress.Parse(emailId));
                 email.Subject = subject;
-                email.Body = new TextPart (TextFormat.Html) { Text = body };
+                email.Body = new TextPart(TextFormat.Html) { Text = body };
 
                 // send email
-                using var smtp = new SmtpClient ();
-                smtp.Connect (_smtpSetting.SmtpHost, _smtpSetting.SmtpPort, SecureSocketOptions.StartTls);
-                smtp.Authenticate (_smtpSetting.SmtpUser, _smtpSetting.SmtpPass);
-                smtp.Send (email);
-                smtp.Disconnect (true);
+                using var smtp = new SmtpClient();
+                smtp.Connect(_smtpSetting.SmtpHost, _smtpSetting.SmtpPort, SecureSocketOptions.StartTls);
+                smtp.Authenticate(_smtpSetting.SmtpUser, _smtpSetting.SmtpPass);
+                smtp.Send(email);
+                smtp.Disconnect(true);
                 await Task.CompletedTask;
             }
-            catch ( Exception ex )
+            catch (Exception ex)
             {
-                throw new InvalidOperationException (ex.Message);
+                throw new InvalidOperationException(ex.Message);
             }
         }
 
@@ -72,25 +72,25 @@ namespace AprajitaRetails.Services.Mails
             // create message
             try
             {
-                var email = new MimeMessage ();
-                email.From.Add (new MailboxAddress (_smtpSetting.SenderName, _smtpSetting.SenderEmail));
+                var email = new MimeMessage();
+                email.From.Add(new MailboxAddress(_smtpSetting.SenderName, _smtpSetting.SenderEmail));
 
                 //TODO:  add Mulitple Id  email.To.Add(MailboxAddress.Parse(emailId));
 
                 email.Subject = subject;
-                email.Body = new TextPart (TextFormat.Html) { Text = body };
+                email.Body = new TextPart(TextFormat.Html) { Text = body };
 
                 // send email
-                using var smtp = new SmtpClient ();
-                smtp.Connect (_smtpSetting.SmtpHost, _smtpSetting.SmtpPort, SecureSocketOptions.StartTls);
-                smtp.Authenticate (_smtpSetting.SmtpUser, _smtpSetting.SmtpPass);
-                smtp.Send (email);
-                smtp.Disconnect (true);
+                using var smtp = new SmtpClient();
+                smtp.Connect(_smtpSetting.SmtpHost, _smtpSetting.SmtpPort, SecureSocketOptions.StartTls);
+                smtp.Authenticate(_smtpSetting.SmtpUser, _smtpSetting.SmtpPass);
+                smtp.Send(email);
+                smtp.Disconnect(true);
                 await Task.CompletedTask;
             }
-            catch ( Exception ex )
+            catch (Exception ex)
             {
-                throw new InvalidOperationException (ex.Message);
+                throw new InvalidOperationException(ex.Message);
             }
         }
     }

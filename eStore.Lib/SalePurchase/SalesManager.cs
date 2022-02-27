@@ -9,50 +9,50 @@ namespace eStore.BL.SalePurchase
     {
         private void UpDateAmount(eStoreDbContext db, DailySale dailySale, bool IsEdit)
         {
-            if ( IsEdit )
+            if (IsEdit)
             {
-                if ( dailySale.PayMode == PayMode.Cash && dailySale.CashAmount > 0 )
+                if (dailySale.PayMode == PayMode.Cash && dailySale.CashAmount > 0)
                 {
-                    CashTrigger.UpdateCashInHand (db, dailySale.SaleDate, 0 - dailySale.CashAmount);
+                    CashTrigger.UpdateCashInHand(db, dailySale.SaleDate, 0 - dailySale.CashAmount);
                 }
                 //TODO: in future make it more robust
-                if ( dailySale.PayMode != PayMode.Cash && dailySale.PayMode != PayMode.Coupons && dailySale.PayMode != PayMode.Points )
+                if (dailySale.PayMode != PayMode.Cash && dailySale.PayMode != PayMode.Coupons && dailySale.PayMode != PayMode.Points)
                 {
-                    CashTrigger.UpdateCashInBank (db, dailySale.SaleDate, 0 - ( dailySale.Amount - dailySale.CashAmount ));
+                    CashTrigger.UpdateCashInBank(db, dailySale.SaleDate, 0 - (dailySale.Amount - dailySale.CashAmount));
                 }
             }
             else
             {
-                if ( dailySale.PayMode == PayMode.Cash && dailySale.CashAmount > 0 )
+                if (dailySale.PayMode == PayMode.Cash && dailySale.CashAmount > 0)
                 {
-                    CashTrigger.UpdateCashInHand (db, dailySale.SaleDate, dailySale.CashAmount);
+                    CashTrigger.UpdateCashInHand(db, dailySale.SaleDate, dailySale.CashAmount);
                 }
                 //TODO: in future make it more robust
-                if ( dailySale.PayMode != PayMode.Cash && dailySale.PayMode != PayMode.Coupons && dailySale.PayMode != PayMode.Points )
+                if (dailySale.PayMode != PayMode.Cash && dailySale.PayMode != PayMode.Coupons && dailySale.PayMode != PayMode.Points)
                 {
-                    CashTrigger.UpdateCashInBank (db, dailySale.SaleDate, dailySale.Amount - dailySale.CashAmount);
+                    CashTrigger.UpdateCashInBank(db, dailySale.SaleDate, dailySale.Amount - dailySale.CashAmount);
                 }
             }
         }
 
         private void UpdateDueAmount(eStoreDbContext db, DailySale dailySale, bool IsEdit)
         {
-            if ( IsEdit )
+            if (IsEdit)
             {
-                var dId = db.DuesLists.Where (c => c.DailySaleId == dailySale.DailySaleId).FirstOrDefault ();
-                if ( dId != null )
+                var dId = db.DuesLists.Where(c => c.DailySaleId == dailySale.DailySaleId).FirstOrDefault();
+                if (dId != null)
                 {
-                    if ( dailySale.IsDue )
+                    if (dailySale.IsDue)
                     {
                         decimal dueAmt;
-                        if ( dailySale.Amount != dailySale.CashAmount )
+                        if (dailySale.Amount != dailySale.CashAmount)
                         {
                             dueAmt = dailySale.Amount - dailySale.CashAmount;
                         }
                         else
                             dueAmt = dailySale.Amount;
 
-                        DuesList dl = new DuesList ()
+                        DuesList dl = new DuesList()
                         {
                             DuesListId = dId.DuesListId,
                             Amount = dueAmt,
@@ -65,13 +65,13 @@ namespace eStore.BL.SalePurchase
                             UserId = dailySale.UserId,
                         };
 
-                        if ( dId.RecoveryDate != null )
+                        if (dId.RecoveryDate != null)
                             dl.RecoveryDate = dId.RecoveryDate;
 
-                        db.DuesLists.Update (dl);
+                        db.DuesLists.Update(dl);
                     }
                     else
-                        db.DuesLists.Remove (dId);
+                        db.DuesLists.Remove(dId);
                 }
                 else
                 {
@@ -81,14 +81,14 @@ namespace eStore.BL.SalePurchase
             else
             {
                 decimal dueAmt;
-                if ( dailySale.Amount != dailySale.CashAmount )
+                if (dailySale.Amount != dailySale.CashAmount)
                 {
                     dueAmt = dailySale.Amount - dailySale.CashAmount;
                 }
                 else
                     dueAmt = dailySale.Amount;
 
-                DuesList dl = new DuesList ()
+                DuesList dl = new DuesList()
                 {
                     Amount = dueAmt,
                     DailySale = dailySale,
@@ -99,35 +99,35 @@ namespace eStore.BL.SalePurchase
                     IsRecovered = false,
                     UserId = dailySale.UserId
                 };
-                db.DuesLists.Add (dl);
+                db.DuesLists.Add(dl);
             }
         }
 
         private void UpdateSalesRetun(eStoreDbContext db, DailySale dailySale, bool IsEdit)
         {
-            if ( IsEdit )
+            if (IsEdit)
             {
-                if ( dailySale.PayMode == PayMode.Cash && dailySale.CashAmount > 0 )
+                if (dailySale.PayMode == PayMode.Cash && dailySale.CashAmount > 0)
                 {
-                    CashTrigger.UpDateCashOutHand (db, dailySale.SaleDate, 0 - dailySale.CashAmount);
+                    CashTrigger.UpDateCashOutHand(db, dailySale.SaleDate, 0 - dailySale.CashAmount);
                 }
                 //TODO: in future make it more robust
-                if ( dailySale.PayMode != PayMode.Cash && dailySale.PayMode != PayMode.Coupons && dailySale.PayMode != PayMode.Points )
+                if (dailySale.PayMode != PayMode.Cash && dailySale.PayMode != PayMode.Coupons && dailySale.PayMode != PayMode.Points)
                 {
-                    CashTrigger.UpDateCashOutBank (db, dailySale.SaleDate, 0 - ( dailySale.Amount - dailySale.CashAmount ));
+                    CashTrigger.UpDateCashOutBank(db, dailySale.SaleDate, 0 - (dailySale.Amount - dailySale.CashAmount));
                 }
                 //dailySale.Amount = 0 - dailySale.Amount;
             }
             else
             {
-                if ( dailySale.PayMode == PayMode.Cash && dailySale.CashAmount > 0 )
+                if (dailySale.PayMode == PayMode.Cash && dailySale.CashAmount > 0)
                 {
-                    CashTrigger.UpDateCashOutHand (db, dailySale.SaleDate, dailySale.CashAmount);
+                    CashTrigger.UpDateCashOutHand(db, dailySale.SaleDate, dailySale.CashAmount);
                 }
                 //TODO: in future make it more robust
-                if ( dailySale.PayMode != PayMode.Cash && dailySale.PayMode != PayMode.Coupons && dailySale.PayMode != PayMode.Points )
+                if (dailySale.PayMode != PayMode.Cash && dailySale.PayMode != PayMode.Coupons && dailySale.PayMode != PayMode.Points)
                 {
-                    CashTrigger.UpDateCashOutBank (db, dailySale.SaleDate, dailySale.Amount - dailySale.CashAmount);
+                    CashTrigger.UpDateCashOutBank(db, dailySale.SaleDate, dailySale.Amount - dailySale.CashAmount);
                 }
                 dailySale.Amount = 0 - dailySale.Amount;
             }
@@ -135,36 +135,36 @@ namespace eStore.BL.SalePurchase
 
         public void OnInsert(eStoreDbContext db, DailySale dailySale)
         {
-            if ( !dailySale.IsSaleReturn )
+            if (!dailySale.IsSaleReturn)
             { //Normal Bill
-                if ( dailySale.IsDue )
+                if (dailySale.IsDue)
                 {
                     //Due Bill
-                    UpdateDueAmount (db, dailySale, false);
+                    UpdateDueAmount(db, dailySale, false);
                 }
-                UpDateAmount (db, dailySale, false);
+                UpDateAmount(db, dailySale, false);
             }
             else
             {
                 //Sale Return Bill
-                UpdateSalesRetun (db, dailySale, false);
+                UpdateSalesRetun(db, dailySale, false);
             }
-            db.SaveChanges ();
+            db.SaveChanges();
             //TODO: SaleBot.NotifySale(db, dailySale.SalesmanId, dailySale.Amount);
         }
 
         public void OnDelete(eStoreDbContext db, DailySale dailySale)
         {
             //TODO: Handle for Dues
-            if ( dailySale.IsSaleReturn )
+            if (dailySale.IsSaleReturn)
             {
-                UpdateSalesRetun (db, dailySale, true);
+                UpdateSalesRetun(db, dailySale, true);
             }
             else
             {
-                if ( dailySale.IsDue )
+                if (dailySale.IsDue)
                 {
-                    UpdateDueAmount (db, dailySale, true);
+                    UpdateDueAmount(db, dailySale, true);
                 }
                 else
                 {
@@ -181,7 +181,7 @@ namespace eStore.BL.SalePurchase
                     // throw new Exception();
                 }
 
-                UpDateAmount (db, dailySale, true);
+                UpDateAmount(db, dailySale, true);
             }
             //db.SaveChanges ();
         }
@@ -189,35 +189,35 @@ namespace eStore.BL.SalePurchase
         public void OnUpdate(eStoreDbContext db, DailySale dailySale)
         {
             //TODO:SaleManager:OnUpdate
-            var oldSale = db.DailySales.Find (dailySale.DailySaleId);
+            var oldSale = db.DailySales.Find(dailySale.DailySaleId);
 
-            UpDateAmount (db, oldSale, true);
+            UpDateAmount(db, oldSale, true);
 
-            if ( oldSale.IsSaleReturn )
+            if (oldSale.IsSaleReturn)
             {
                 // SaleRetun
             }
             else
             {
                 // Normal Bill
-                if ( oldSale.IsDue )
+                if (oldSale.IsDue)
                 {
-                    if ( !dailySale.IsDue )
+                    if (!dailySale.IsDue)
                     {
                         //UpdateSalesRetun (db, oldSale, true);
-                        UpdateDueAmount (db, dailySale, true);
+                        UpdateDueAmount(db, dailySale, true);
                     }
                     else
                     {
-                        UpdateDueAmount (db, dailySale, true);
+                        UpdateDueAmount(db, dailySale, true);
                     }
                 }
                 else
                 { //TODO: Add due
                 }
 
-                UpDateAmount (db, oldSale, true);
-                UpDateAmount (db, dailySale, false);
+                UpDateAmount(db, oldSale, true);
+                UpDateAmount(db, dailySale, false);
             }
 
             //TODO: SaleBot.NotifySale(db, dailySale.SalesmanId, dailySale.Amount);

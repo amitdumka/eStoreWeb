@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
-    [Route ("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class ProductMastersController : ControllerBase
@@ -25,18 +25,18 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProductMaster>>> GetProductMasters()
         {
-            return await _context.ProductMasters.ToListAsync ();
+            return await _context.ProductMasters.ToListAsync();
         }
 
         // GET: api/ProductMasters/5
-        [HttpGet ("{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<ProductMaster>> GetProductMaster(string id)
         {
-            var productMaster = await _context.ProductMasters.FindAsync (id);
+            var productMaster = await _context.ProductMasters.FindAsync(id);
 
-            if ( productMaster == null )
+            if (productMaster == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
             return productMaster;
@@ -44,25 +44,25 @@ namespace eStore.API.Controllers
 
         // PUT: api/ProductMasters/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut ("{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> PutProductMaster(string id, ProductMaster productMaster)
         {
-            if ( id != productMaster.PRODUCTCODE )
+            if (id != productMaster.PRODUCTCODE)
             {
-                return BadRequest ();
+                return BadRequest();
             }
 
-            _context.Entry (productMaster).State = EntityState.Modified;
+            _context.Entry(productMaster).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync ();
+                await _context.SaveChangesAsync();
             }
-            catch ( DbUpdateConcurrencyException )
+            catch (DbUpdateConcurrencyException)
             {
-                if ( !ProductMasterExists (id) )
+                if (!ProductMasterExists(id))
                 {
-                    return NotFound ();
+                    return NotFound();
                 }
                 else
                 {
@@ -70,7 +70,7 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return NoContent ();
+            return NoContent();
         }
 
         // POST: api/ProductMasters
@@ -78,16 +78,16 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<ProductMaster>> PostProductMaster(ProductMaster productMaster)
         {
-            _context.ProductMasters.Add (productMaster);
+            _context.ProductMasters.Add(productMaster);
             try
             {
-                await _context.SaveChangesAsync ();
+                await _context.SaveChangesAsync();
             }
-            catch ( DbUpdateException )
+            catch (DbUpdateException)
             {
-                if ( ProductMasterExists (productMaster.PRODUCTCODE) )
+                if (ProductMasterExists(productMaster.PRODUCTCODE))
                 {
-                    return Conflict ();
+                    return Conflict();
                 }
                 else
                 {
@@ -95,28 +95,28 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return CreatedAtAction ("GetProductMaster", new { id = productMaster.PRODUCTCODE }, productMaster);
+            return CreatedAtAction("GetProductMaster", new { id = productMaster.PRODUCTCODE }, productMaster);
         }
 
         // DELETE: api/ProductMasters/5
-        [HttpDelete ("{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProductMaster(string id)
         {
-            var productMaster = await _context.ProductMasters.FindAsync (id);
-            if ( productMaster == null )
+            var productMaster = await _context.ProductMasters.FindAsync(id);
+            if (productMaster == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
-            _context.ProductMasters.Remove (productMaster);
-            await _context.SaveChangesAsync ();
+            _context.ProductMasters.Remove(productMaster);
+            await _context.SaveChangesAsync();
 
-            return NoContent ();
+            return NoContent();
         }
 
         private bool ProductMasterExists(string id)
         {
-            return _context.ProductMasters.Any (e => e.PRODUCTCODE == id);
+            return _context.ProductMasters.Any(e => e.PRODUCTCODE == id);
         }
     }
 }

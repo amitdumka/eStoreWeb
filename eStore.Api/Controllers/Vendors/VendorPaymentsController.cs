@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace eStore.Controllers
 {
-    [Route ("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class VendorPaymentsController : ControllerBase
@@ -25,18 +25,18 @@ namespace eStore.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<VendorPayment>>> GetVendorPayments()
         {
-            return await _context.VendorPayments.ToListAsync ();
+            return await _context.VendorPayments.ToListAsync();
         }
 
         // GET: api/VendorPayments/5
-        [HttpGet ("{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<VendorPayment>> GetVendorPayment(int id)
         {
-            var vendorPayment = await _context.VendorPayments.FindAsync (id);
+            var vendorPayment = await _context.VendorPayments.FindAsync(id);
 
-            if ( vendorPayment == null )
+            if (vendorPayment == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
             return vendorPayment;
@@ -44,25 +44,25 @@ namespace eStore.Controllers
 
         // PUT: api/VendorPayments/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut ("{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> PutVendorPayment(int id, VendorPayment vendorPayment)
         {
-            if ( id != vendorPayment.VendorPaymentId )
+            if (id != vendorPayment.VendorPaymentId)
             {
-                return BadRequest ();
+                return BadRequest();
             }
 
-            _context.Entry (vendorPayment).State = EntityState.Modified;
+            _context.Entry(vendorPayment).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync ();
+                await _context.SaveChangesAsync();
             }
-            catch ( DbUpdateConcurrencyException )
+            catch (DbUpdateConcurrencyException)
             {
-                if ( !VendorPaymentExists (id) )
+                if (!VendorPaymentExists(id))
                 {
-                    return NotFound ();
+                    return NotFound();
                 }
                 else
                 {
@@ -70,7 +70,7 @@ namespace eStore.Controllers
                 }
             }
 
-            return NoContent ();
+            return NoContent();
         }
 
         // POST: api/VendorPayments
@@ -78,31 +78,31 @@ namespace eStore.Controllers
         [HttpPost]
         public async Task<ActionResult<VendorPayment>> PostVendorPayment(VendorPayment vendorPayment)
         {
-            _context.VendorPayments.Add (vendorPayment);
-            await _context.SaveChangesAsync ();
+            _context.VendorPayments.Add(vendorPayment);
+            await _context.SaveChangesAsync();
 
-            return CreatedAtAction ("GetVendorPayment", new { id = vendorPayment.VendorPaymentId }, vendorPayment);
+            return CreatedAtAction("GetVendorPayment", new { id = vendorPayment.VendorPaymentId }, vendorPayment);
         }
 
         // DELETE: api/VendorPayments/5
-        [HttpDelete ("{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteVendorPayment(int id)
         {
-            var vendorPayment = await _context.VendorPayments.FindAsync (id);
-            if ( vendorPayment == null )
+            var vendorPayment = await _context.VendorPayments.FindAsync(id);
+            if (vendorPayment == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
-            _context.VendorPayments.Remove (vendorPayment);
-            await _context.SaveChangesAsync ();
+            _context.VendorPayments.Remove(vendorPayment);
+            await _context.SaveChangesAsync();
 
-            return NoContent ();
+            return NoContent();
         }
 
         private bool VendorPaymentExists(int id)
         {
-            return _context.VendorPayments.Any (e => e.VendorPaymentId == id);
+            return _context.VendorPayments.Any(e => e.VendorPaymentId == id);
         }
     }
 }

@@ -13,32 +13,39 @@ namespace eStore.BL.Importer
     public class VoyProcesser
     {
 
-        public static int GenerateStockFromPurchase(eStoreDbContext db , int StoreId)
+        public static int GenerateStockFromPurchase(eStoreDbContext db, int StoreId)
         {
-            var data = db.PurchaseItem.Select(c => new {c.Barcode, c.Qty, c.Unit })
-                .GroupBy(c=>new { c.Barcode, c.Qty, c.Unit})
-                .Select(c=> new { Barcode=c.Key.Barcode, Unit=c.Key.Unit, TotalQty=(double)c.Sum(c=>c.Qty)})
-                
+            var data = db.PurchaseItem.Select(c => new { c.Barcode, c.Qty, c.Unit })
+                .GroupBy(c => new { c.Barcode, c.Qty, c.Unit })
+                .Select(c => new { Barcode = c.Key.Barcode, Unit = c.Key.Unit, TotalQty = (double)c.Sum(c => c.Qty) })
+
                 .ToList();
 
             foreach (var item in data)
             {
-                Stock stock = new Stock {
-                    
-                    Barcode = item.Barcode, IsReadOnly = true, PurchaseQty = item.TotalQty, SaleQty=0,
-                    HoldQty=0, StoreId=StoreId, UserId="AutoAdmin", Units=item.Unit
+                Stock stock = new Stock
+                {
+
+                    Barcode = item.Barcode,
+                    IsReadOnly = true,
+                    PurchaseQty = item.TotalQty,
+                    SaleQty = 0,
+                    HoldQty = 0,
+                    StoreId = StoreId,
+                    UserId = "AutoAdmin",
+                    Units = item.Unit
                 };
                 db.Stocks.Add(stock);
-                
+
             }
-           return db.SaveChanges();
+            return db.SaveChanges();
 
 
         }
 
         public static int UpdateStockFromSale(eStoreDbContext db, int StoreId)
         {
-            var data = db.SaleItems.Select(c => new { c.BarCode, c.Qty, c.Units})
+            var data = db.SaleItems.Select(c => new { c.BarCode, c.Qty, c.Units })
                 .GroupBy(c => new { c.BarCode, c.Qty, c.Units })
                 .Select(c => new { Barcode = c.Key.BarCode, Unit = c.Key.Units, TotalQty = (double)c.Sum(c => c.Qty) })
 
@@ -68,7 +75,7 @@ namespace eStore.BL.Importer
                     stock.SaleQty += item.TotalQty;
                     db.Stocks.Update(stock);
                 }
-                
+
 
             }
             return db.SaveChanges();
@@ -78,115 +85,115 @@ namespace eStore.BL.Importer
 
         public static int ProcessBrand(eStoreDbContext db)
         {
-            var data = db.VoyBrandNames.ToList ();
-            foreach ( var item in data )
+            var data = db.VoyBrandNames.ToList();
+            foreach (var item in data)
             {
                 Brand b = new Brand { BCode = item.BRANDCODE, BrandName = item.BRANDNAME };
-                db.Brands.Add (b);
+                db.Brands.Add(b);
             }
-            return db.SaveChanges ();
+            return db.SaveChanges();
         }
 
         public static int ProcessCusomterSale(eStoreDbContext db, int StoreId, int year)
         {
             // TODO: here reduce data size as much as possible
-            var data = db.SaleWithCustomers.Where (c => c.Phone != null && c.Phone != "").ToList ();
+            var data = db.SaleWithCustomers.Where(c => c.Phone != null && c.Phone != "").ToList();
             int count = data.Count;
-            var custs = data.Select (c => new Customer { FirstName = c.CustomerName, City = c.Address, MobileNo = c.Phone }).Distinct ().ToList ();
+            var custs = data.Select(c => new Customer { FirstName = c.CustomerName, City = c.Address, MobileNo = c.Phone }).Distinct().ToList();
             int cCnt = custs.Count;
             int s = count - cCnt;
-            Console.WriteLine (s);
+            Console.WriteLine(s);
 
-            foreach ( var item in custs )
+            foreach (var item in custs)
             {
-                if ( !string.IsNullOrEmpty (item.FirstName) )
+                if (!string.IsNullOrEmpty(item.FirstName))
                 {
-                    var names = item.FirstName.Split (" ");
-                    if ( names [0] == "Mrs" || names [0] == "Ms" )
+                    var names = item.FirstName.Split(" ");
+                    if (names[0] == "Mrs" || names[0] == "Ms")
                         item.Gender = Gender.Female;
                     else
                         item.Gender = Gender.Male;
-                    item.FirstName = names [1];
-                    for ( int i = 2 ; i < names.Length ; i++ )
-                        item.LastName += names [i];
+                    item.FirstName = names[1];
+                    for (int i = 2; i < names.Length; i++)
+                        item.LastName += names[i];
                     item.Age = 30;
                     ;
                     item.CreatedDate = DateTime.Today;
 
-                    item.TotalAmount = data.Where (c => c.Phone == item.MobileNo).Select (c => new { billAmt = (decimal) c.BillAmt }).Sum (c => c.billAmt);
-                    item.NoOfBills = data.Where (c => c.Phone == item.MobileNo).Count ();
+                    item.TotalAmount = data.Where(c => c.Phone == item.MobileNo).Select(c => new { billAmt = (decimal)c.BillAmt }).Sum(c => c.billAmt);
+                    item.NoOfBills = data.Where(c => c.Phone == item.MobileNo).Count();
                 }
                 else
                 {
-                    custs.Remove (item);
+                    custs.Remove(item);
                 }
             }
-            db.Customers.AddRange (custs);
-            return db.SaveChanges ();
+            db.Customers.AddRange(custs);
+            return db.SaveChanges();
         }
 
         public static int ProcessDailySale(eStoreDbContext db, int StoreId, int year)
         {
-            var data = db.VoySaleInvoiceSums.Where (c => c.InvoiceDate.Year == year).ToList ();
-            var sData = db.DailySales.Where (c => c.SaleDate.Year == year && c.StoreId == StoreId && !c.IsManualBill).ToList ();
-            var idata = db.VoySaleInvoices.Where (c => c.InvoiceDate.EndsWith ("" + year)).Select (c => new { c.InvoiceNo, c.SalesManName }).ToList ();
-            var sms = db.Salesmen.ToList ();
-            foreach ( var item in data )
+            var data = db.VoySaleInvoiceSums.Where(c => c.InvoiceDate.Year == year).ToList();
+            var sData = db.DailySales.Where(c => c.SaleDate.Year == year && c.StoreId == StoreId && !c.IsManualBill).ToList();
+            var idata = db.VoySaleInvoices.Where(c => c.InvoiceDate.EndsWith("" + year)).Select(c => new { c.InvoiceNo, c.SalesManName }).ToList();
+            var sms = db.Salesmen.ToList();
+            foreach (var item in data)
             {
-                var eD = sData.Where (c => c.InvNo == item.InvoiceNo).FirstOrDefault ();
+                var eD = sData.Where(c => c.InvNo == item.InvoiceNo).FirstOrDefault();
 
-                if ( eD != null )
+                if (eD != null)
                 {
-                    if ( eD.SaleDate.Date == item.InvoiceDate.Date )
+                    if (eD.SaleDate.Date == item.InvoiceDate.Date)
                         eD.IsMatchedWithVOy = true;
                     else
                         eD.IsMatchedWithVOy = false;
-                    if ( eD.Amount == item.BillAmt )
+                    if (eD.Amount == item.BillAmt)
                         eD.IsMatchedWithVOy = true;
                     else
                         eD.IsMatchedWithVOy = false;
 
-                    if ( eD.TaxAmount == item.TaxAmt )
+                    if (eD.TaxAmount == item.TaxAmt)
                         eD.IsMatchedWithVOy = true;
                     else
                     { eD.TaxAmount = item.TaxAmt; eD.IsMatchedWithVOy = true; }
 
-                    switch ( item.PaymentMode )
+                    switch (item.PaymentMode)
                     {
                         case "CRD":
-                            if ( eD.PayMode == PayMode.Card )
+                            if (eD.PayMode == PayMode.Card)
                                 eD.IsMatchedWithVOy = true;
                             else
                                 eD.IsMatchedWithVOy = false;
                             break;
 
                         case "CAS":
-                            if ( eD.PayMode == PayMode.Cash )
+                            if (eD.PayMode == PayMode.Cash)
                                 eD.IsMatchedWithVOy = true;
                             else
                                 eD.IsMatchedWithVOy = false;
                             break;
 
                         case "MIX":
-                            if ( eD.PayMode == PayMode.MixPayments )
+                            if (eD.PayMode == PayMode.MixPayments)
                                 eD.IsMatchedWithVOy = true;
                             else
                                 eD.IsMatchedWithVOy = false;
                             break;
 
                         default:
-                            if ( eD.PayMode == PayMode.Others )
+                            if (eD.PayMode == PayMode.Others)
                                 eD.IsMatchedWithVOy = true;
                             else
                                 eD.IsMatchedWithVOy = false;
                             break;
                     }
 
-                    if ( eD.IsMatchedWithVOy )
+                    if (eD.IsMatchedWithVOy)
                         eD.Remarks += "\t#AutoVerified";
                     else
                         eD.Remarks += "\t#Auto-BugInEntry";
-                    db.DailySales.Update (eD);
+                    db.DailySales.Update(eD);
                 }
                 else
                 {
@@ -210,7 +217,7 @@ namespace eStore.BL.Importer
                         TaxAmount = item.TaxAmt
                     };
 
-                    switch ( item.PaymentMode )
+                    switch (item.PaymentMode)
                     {
                         case "CRD":
                             sale.PayMode = PayMode.Card;
@@ -230,43 +237,43 @@ namespace eStore.BL.Importer
                             sale.Remarks += "\t#PayMode:" + item.PaymentMode;
                             break;
                     }
-                    if ( item.TailoringFlag == "Y" )
+                    if (item.TailoringFlag == "Y")
                         sale.IsTailoringBill = true;
-                    var smid = idata.Where (c => c.InvoiceNo == sale.InvNo).FirstOrDefault ().SalesManName;
-                    sale.SalesmanId = sms.Where (c => c.SalesmanName.Contains (smid)).Select (c => c.SalesmanId).FirstOrDefault ();
+                    var smid = idata.Where(c => c.InvoiceNo == sale.InvNo).FirstOrDefault().SalesManName;
+                    sale.SalesmanId = sms.Where(c => c.SalesmanName.Contains(smid)).Select(c => c.SalesmanId).FirstOrDefault();
 
-                    db.DailySales.Add (sale);
+                    db.DailySales.Add(sale);
                 }
             }
 
-            return db.SaveChanges ();
+            return db.SaveChanges();
         }
 
         public static int ProcessInwardSummary(eStoreDbContext db, int StoreId, int year)
         {
-            var data = db.InwardSummaries.ToList ();
-            var sData = db.Suppliers.ToList ();
-            if ( sData == null || sData.Count < 1 )
+            var data = db.InwardSummaries.ToList();
+            var sData = db.Suppliers.ToList();
+            if (sData == null || sData.Count < 1)
             {
-                var sup = db.InwardSummaries.Select (c => c.PartyName).Distinct ();
-                foreach ( var item in sup )
+                var sup = db.InwardSummaries.Select(c => c.PartyName).Distinct();
+                foreach (var item in sup)
                 {
                     Supplier s = new Supplier
                     {
                         SuppilerName = item,
                         Warehouse = item
                     };
-                    db.Suppliers.Add (s);
+                    db.Suppliers.Add(s);
                 }
                ;
-                if ( db.SaveChanges () > 0 )
-                    sData = db.Suppliers.ToList ();
+                if (db.SaveChanges() > 0)
+                    sData = db.Suppliers.ToList();
                 else
                     return -111;
             }
 
-            if ( sData != null && data != null && sData.Count > 0 && data.Count > 0 )
-                foreach ( var item in data )
+            if (sData != null && data != null && sData.Count > 0 && data.Count > 0)
+                foreach (var item in data)
                 {
                     ProductPurchase purchase = new ProductPurchase
                     {
@@ -284,37 +291,37 @@ namespace eStore.BL.Importer
                         TotalBasicAmount = 0,
                         TotalCost = item.TotalCost,
                         TotalMRPValue = item.TotalMRPValue,
-                        TotalQty = (double) item.TotalQty,
+                        TotalQty = (double)item.TotalQty,
                         TotalTax = 0,
                         UserId = "AutoAdded",
-                        SupplierID = sData.Where (c => c.SuppilerName.Contains (item.PartyName)).Select (c => c.SupplierID).FirstOrDefault (),
+                        SupplierID = sData.Where(c => c.SuppilerName.Contains(item.PartyName)).Select(c => c.SupplierID).FirstOrDefault(),
                     };
-                    db.ProductPurchases.Add (purchase);
+                    db.ProductPurchases.Add(purchase);
                 }
-            return db.SaveChanges ();
+            return db.SaveChanges();
         }
 
         public static int ProcessPurchase(eStoreDbContext db, int StoreId, int year)
         {
-            var data = db.VoyPurchaseInwards.Where (c => c.GRNDate.Year == year).OrderBy (c => c.InvoiceNo).ToList ();
+            var data = db.VoyPurchaseInwards.Where(c => c.GRNDate.Year == year).OrderBy(c => c.InvoiceNo).ToList();
 
-            if ( data != null && data.Count > 0 )
+            if (data != null && data.Count > 0)
             {
-                var pData = db.ProductPurchases.Where (c => c.StoreId == StoreId && c.InWardDate.Year == year).OrderBy (c => c.InvoiceNo).ToList ();
+                var pData = db.ProductPurchases.Where(c => c.StoreId == StoreId && c.InWardDate.Year == year).OrderBy(c => c.InvoiceNo).ToList();
                 ProductPurchase pur = null;
 
-                foreach ( var item in data )
+                foreach (var item in data)
                 {
-                    if ( pur == null )
+                    if (pur == null)
                     {
-                        pur = pData.Where (c => c.InvoiceNo == item.InvoiceNo).FirstOrDefault ();
-                        pur.PurchaseItems = new List<PurchaseItem> ();
+                        pur = pData.Where(c => c.InvoiceNo == item.InvoiceNo).FirstOrDefault();
+                        pur.PurchaseItems = new List<PurchaseItem>();
                         // create purchase item
                     }
-                    else if ( pur.InvoiceNo != item.InvoiceNo )
+                    else if (pur.InvoiceNo != item.InvoiceNo)
                     {
-                        pur = pData.Where (c => c.InvoiceNo == item.InvoiceNo).FirstOrDefault ();
-                        pur.PurchaseItems = new List<PurchaseItem> ();
+                        pur = pData.Where(c => c.InvoiceNo == item.InvoiceNo).FirstOrDefault();
+                        pur.PurchaseItems = new List<PurchaseItem>();
                     }
 
                     PurchaseItem pItem = new PurchaseItem
@@ -322,16 +329,16 @@ namespace eStore.BL.Importer
                         Barcode = item.Barcode,
                         Cost = item.Cost,
                         CostValue = item.CostValue,
-                        Qty = (double) item.Quantity,
+                        Qty = (double)item.Quantity,
                         TaxAmout = item.TaxAmt
                     };
                     pur.TotalBasicAmount += item.Cost;
                     pur.TotalTax += item.TaxAmt;
-                    pur.PurchaseItems.Add (pItem);
+                    pur.PurchaseItems.Add(pItem);
                     //UpdateProductItem (db, item.Barcode, item.MRP, item.Cost, "", null, false);
                 }
-                db.ProductPurchases.UpdateRange (pData);
-                return db.SaveChanges ();
+                db.ProductPurchases.UpdateRange(pData);
+                return db.SaveChanges();
             }
             else
             {
@@ -344,15 +351,15 @@ namespace eStore.BL.Importer
             try
             {
                 string bName = brandName;
-                Console.WriteLine ("B:" + bName);
+                Console.WriteLine("B:" + bName);
 
-                int brandId = db.Brands.Where (c => c.BrandName == brandName).Select (c => c.BrandId).FirstOrDefault ();
+                int brandId = db.Brands.Where(c => c.BrandName == brandName).Select(c => c.BrandId).FirstOrDefault();
 
-                var data = db.TaxRegisters.Where (c => c.BrandName == brandName && c.InvoiceType == "Sales").Select (c => new { c.BARCODE, c.StyleCode, c.ProductName, c.ItemDesc, c.TaxRate, c.TaxDesc }).Distinct ().ToList ();
-                var cData = db.Categories.ToList ();
-                foreach ( var purchase in data )
+                var data = db.TaxRegisters.Where(c => c.BrandName == brandName && c.InvoiceType == "Sales").Select(c => new { c.BARCODE, c.StyleCode, c.ProductName, c.ItemDesc, c.TaxRate, c.TaxDesc }).Distinct().ToList();
+                var cData = db.Categories.ToList();
+                foreach (var purchase in data)
                 {
-                    var cats = purchase.ProductName.Split ("/");
+                    var cats = purchase.ProductName.Split("/");
                     ProductItem pItem = new ProductItem
                     {
                         Barcode = purchase.BARCODE,
@@ -364,12 +371,12 @@ namespace eStore.BL.Importer
                         HSNCode = "",
                         TaxRate = purchase.TaxRate,
                         BrandId = brandId,
-                        MainCategory = cData.Where (c => c.CategoryName.Contains (cats [0])).FirstOrDefault (),
-                        ProductCategory = cData.Where (c => c.CategoryName.Contains (cats [1])).FirstOrDefault (),
-                        ProductType = cData.Where (c => c.CategoryName.Contains (cats [2])).FirstOrDefault (),
+                        MainCategory = cData.Where(c => c.CategoryName.Contains(cats[0])).FirstOrDefault(),
+                        ProductCategory = cData.Where(c => c.CategoryName.Contains(cats[1])).FirstOrDefault(),
+                        ProductType = cData.Where(c => c.CategoryName.Contains(cats[2])).FirstOrDefault(),
                     };
 
-                    switch ( cats [0] )
+                    switch (cats[0])
                     {
                         case "Shirting":
                         case "Suiting":
@@ -405,26 +412,26 @@ namespace eStore.BL.Importer
                             break;
                     }
 
-                    db.ProductItems.Add (pItem);
+                    db.ProductItems.Add(pItem);
                 }
-                return db.SaveChanges ();
+                return db.SaveChanges();
             }
-            catch ( Exception e )
+            catch (Exception e)
             {
-                Console.WriteLine ("Error: " + e.Message);
+                Console.WriteLine("Error: " + e.Message);
                 return -1;
             }
         }
 
         public static int ProcessItem(eStoreDbContext db)
         {
-            var data = db.ItemDatas.Select (c => new { c.BARCODE, c.BrandName, c.ItemDesc, c.ProductCategory, c.ProductName, c.ProductType, c.StyleCode })
-                .OrderBy (c => c.BARCODE).Distinct ().ToList ();
+            var data = db.ItemDatas.Select(c => new { c.BARCODE, c.BrandName, c.ItemDesc, c.ProductCategory, c.ProductName, c.ProductType, c.StyleCode })
+                .OrderBy(c => c.BARCODE).Distinct().ToList();
 
-            var cData = db.Categories.ToList ();
-            var bData = db.Brands.ToList ();
-            List<ProductItem> pro = new List<ProductItem> ();
-            foreach ( var purchase in data )
+            var cData = db.Categories.ToList();
+            var bData = db.Brands.ToList();
+            List<ProductItem> pro = new List<ProductItem>();
+            foreach (var purchase in data)
             {
                 ProductItem pItem = new ProductItem
                 {
@@ -437,14 +444,14 @@ namespace eStore.BL.Importer
                     HSNCode = "",
                     TaxRate = -1,
 
-                    MainCategory = cData.Where (c => c.CategoryName.Contains (purchase.ProductType)).FirstOrDefault (),
-                    ProductCategory = cData.Where (c => c.CategoryName.Contains (purchase.ProductType)).FirstOrDefault (),
-                    ProductType = cData.Where (c => c.CategoryName.Contains (purchase.ProductName)).FirstOrDefault (),
+                    MainCategory = cData.Where(c => c.CategoryName.Contains(purchase.ProductType)).FirstOrDefault(),
+                    ProductCategory = cData.Where(c => c.CategoryName.Contains(purchase.ProductType)).FirstOrDefault(),
+                    ProductType = cData.Where(c => c.CategoryName.Contains(purchase.ProductName)).FirstOrDefault(),
                 };
-                pItem.BrandId = bData.Where (c => c.BrandName.Contains (purchase.BrandName)).Select (c => c.BrandId).FirstOrDefault ();
-                if ( pItem.BrandId < 1 )
+                pItem.BrandId = bData.Where(c => c.BrandName.Contains(purchase.BrandName)).Select(c => c.BrandId).FirstOrDefault();
+                if (pItem.BrandId < 1)
                     pItem.BrandId = 1;
-                switch ( purchase.ProductType )
+                switch (purchase.ProductType)
                 {
                     case "Shirting":
                     case "Suiting":
@@ -456,7 +463,7 @@ namespace eStore.BL.Importer
                     case "Apparel":
                         pItem.Categorys = ProductCategory.ReadyMade;
                         pItem.Units = Unit.Pcs;
-                        pItem.Size = GetSize (pItem.StyleCode);
+                        pItem.Size = GetSize(pItem.StyleCode);
                         break;
                     // case ProductCategory.Accessiories:
                     //    break;
@@ -485,31 +492,31 @@ namespace eStore.BL.Importer
                         break;
                 }
 
-                pro.Add (pItem);
+                pro.Add(pItem);
             }
-            db.ProductItems.AddRange (pro);
-            return db.SaveChanges ();
+            db.ProductItems.AddRange(pro);
+            return db.SaveChanges();
         }
 
         public static int ProcessPitem(eStoreDbContext db)
         {
-            var data = db.VoyPurchaseInwards.Where (c => !c.SupplierName.Contains ("Aprajita Retails"))
-                .Select (c => new { c.Barcode, c.Cost, c.MRP, c.ItemDesc, c.ProductName, c.StyleCode, c.SupplierName })
-                .OrderBy (c => c.Barcode).Distinct ().ToList ();
-            var cData = db.Categories.ToList ();
-            var bData = db.Brands.ToList ();
-            var barcodeList = data.Select (c => c.Barcode).Distinct ().ToList ();
-            Console.WriteLine ("Barcodes=" + barcodeList.Count);
+            var data = db.VoyPurchaseInwards.Where(c => !c.SupplierName.Contains("Aprajita Retails"))
+                .Select(c => new { c.Barcode, c.Cost, c.MRP, c.ItemDesc, c.ProductName, c.StyleCode, c.SupplierName })
+                .OrderBy(c => c.Barcode).Distinct().ToList();
+            var cData = db.Categories.ToList();
+            var bData = db.Brands.ToList();
+            var barcodeList = data.Select(c => c.Barcode).Distinct().ToList();
+            Console.WriteLine("Barcodes=" + barcodeList.Count);
 
-            var taxReg = db.TaxRegisters.Select (c => new { c.BARCODE, c.BrandName, c.TaxDesc, c.TaxRate }).OrderBy (c => c.BARCODE).Distinct ().ToList ();
-            List<ProductItem> pro = new List<ProductItem> ();
+            var taxReg = db.TaxRegisters.Select(c => new { c.BARCODE, c.BrandName, c.TaxDesc, c.TaxRate }).OrderBy(c => c.BARCODE).Distinct().ToList();
+            List<ProductItem> pro = new List<ProductItem>();
 
-            foreach ( var purchase in data )
+            foreach (var purchase in data)
             {
-                if ( barcodeList.Contains (purchase.Barcode) )
+                if (barcodeList.Contains(purchase.Barcode))
                 {
-                    var cats = purchase.ProductName.Split ("/");
-                    var tr = taxReg.Where (c => c.BARCODE == purchase.Barcode).FirstOrDefault ();
+                    var cats = purchase.ProductName.Split("/");
+                    var tr = taxReg.Where(c => c.BARCODE == purchase.Barcode).FirstOrDefault();
 
                     ProductItem pItem = new ProductItem
                     {
@@ -521,19 +528,19 @@ namespace eStore.BL.Importer
                         ItemDesc = purchase.ItemDesc,
                         HSNCode = "",
                         TaxRate = -1,
-                        MainCategory = cData.Where (c => c.CategoryName.Contains (cats [0])).FirstOrDefault (),
-                        ProductCategory = cData.Where (c => c.CategoryName.Contains (cats [1])).FirstOrDefault (),
-                        ProductType = cData.Where (c => c.CategoryName.Contains (cats [2])).FirstOrDefault (),
+                        MainCategory = cData.Where(c => c.CategoryName.Contains(cats[0])).FirstOrDefault(),
+                        ProductCategory = cData.Where(c => c.CategoryName.Contains(cats[1])).FirstOrDefault(),
+                        ProductType = cData.Where(c => c.CategoryName.Contains(cats[2])).FirstOrDefault(),
                     };
-                    if ( tr != null )
+                    if (tr != null)
                     {
                         pItem.TaxRate = tr.TaxRate;
-                        pItem.BrandId = (int?) ( bData.Where (c => c.BrandName == tr.BrandName).Select (c => c.BrandId).FirstOrDefault () ) ?? 1;
+                        pItem.BrandId = (int?)(bData.Where(c => c.BrandName == tr.BrandName).Select(c => c.BrandId).FirstOrDefault()) ?? 1;
                     }
                     else
                         pItem.BrandId = 22;
 
-                    switch ( cats [0] )
+                    switch (cats[0])
                     {
                         case "Shirting":
                         case "Suiting":
@@ -545,7 +552,7 @@ namespace eStore.BL.Importer
                         case "Apparel":
                             pItem.Categorys = ProductCategory.ReadyMade;
                             pItem.Units = Unit.Pcs;
-                            pItem.Size = GetSize (pItem.StyleCode);
+                            pItem.Size = GetSize(pItem.StyleCode);
                             break;
                         // case ProductCategory.Accessiories:
                         //    break;
@@ -574,45 +581,45 @@ namespace eStore.BL.Importer
                             break;
                     }
 
-                    pro.Add (pItem);
+                    pro.Add(pItem);
                     do
                     {
-                    } while ( barcodeList.Remove (pItem.Barcode) );
+                    } while (barcodeList.Remove(pItem.Barcode));
                 }
                 else
                 {
-                    Console.WriteLine ("Duplicate");
+                    Console.WriteLine("Duplicate");
                 }
             }
-            db.ProductItems.AddRange (pro);
-            Console.WriteLine ("Count of: " + pro.Count);
-            return db.SaveChanges ();
+            db.ProductItems.AddRange(pro);
+            Console.WriteLine("Count of: " + pro.Count);
+            return db.SaveChanges();
         }
 
         private void GetUnitSize(string sCode)
         {
-            var result = Regex.Match (sCode, @"(.{3})\s*$");
+            var result = Regex.Match(sCode, @"(.{3})\s*$");
         }
 
         private static Size GetSize(string sCode)
         {
             Size size;
-            if ( sCode.EndsWith ("S") )
+            if (sCode.EndsWith("S"))
             { size = Size.S; }
-            else if ( sCode.EndsWith ("M") )
+            else if (sCode.EndsWith("M"))
             { size = Size.M; }
-            else if ( sCode.EndsWith ("XL") )
+            else if (sCode.EndsWith("XL"))
             { size = Size.XL; }
-            else if ( sCode.EndsWith ("XXL") )
+            else if (sCode.EndsWith("XXL"))
             { size = Size.XXL; }
-            else if ( sCode.EndsWith ("XXXL") )
+            else if (sCode.EndsWith("XXXL"))
             { size = Size.XXXL; }
-            else if ( sCode.EndsWith ("L") )
+            else if (sCode.EndsWith("L"))
             { size = Size.L; }
             else
             {
-                var result = Regex.Match (sCode, @"(.{2})\s*$").Value;
-                switch ( result )
+                var result = Regex.Match(sCode, @"(.{2})\s*$").Value;
+                switch (result)
                 {
                     case "28":
                         size = Size.T28;
@@ -667,12 +674,13 @@ namespace eStore.BL.Importer
             return size;
         }
 
-        public static int ProcessInvoiceSummary(eStoreDbContext db, int StoreId, int year) {
+        public static int ProcessInvoiceSummary(eStoreDbContext db, int StoreId, int year)
+        {
             var data = db.VoySaleInvoiceSums.Where(c => c.InvoiceDate.Year == year).ToList();
             foreach (var item in data)
             {
-               SharedModel.Models.Sales.Invoicing.InvoicePayment payment = new SharedModel.Models.Sales.Invoicing.InvoicePayment { InvoiceNumber = item.InvoiceNo };
-                  
+                SharedModel.Models.Sales.Invoicing.InvoicePayment payment = new SharedModel.Models.Sales.Invoicing.InvoicePayment { InvoiceNumber = item.InvoiceNo };
+
                 switch (item.PaymentMode)
                 {
                     case "CAS":
@@ -690,12 +698,12 @@ namespace eStore.BL.Importer
                     case "MIX":
                         payment.PayMode = PayMode.MixPayments;
                         payment.NonCashAmount = item.BillAmt;
-                        payment.PaymentRef = "Mix Payment is done!"; 
+                        payment.PaymentRef = "Mix Payment is done!";
                         break;
                     case "SR":
                         payment.PayMode = PayMode.Others;
                         payment.PaymentRef = "Sale Return Note";
-                        payment.CashAmount =  item.BillAmt;
+                        payment.CashAmount = item.BillAmt;
 
                         break;
                     default:
@@ -709,18 +717,18 @@ namespace eStore.BL.Importer
                     //EntryStatus = EntryStatus.Approved,
                     InvoiceNumber = item.InvoiceNo,
                     //IsNonVendor = false,
-                   // IsReadOnly = true,
+                    // IsReadOnly = true,
                     OnDate = item.InvoiceDate,
-                   // StoreId = StoreId,
-                   // UserId = "AutoAdded",
+                    // StoreId = StoreId,
+                    // UserId = "AutoAdded",
                     TotalQty = (decimal)item.Quantity,
                     TotalDiscount = item.DiscountAmt,
                     Payment = payment,
-                   // TotalItems = 0,
+                    // TotalItems = 0,
                     TotalAmount = item.BillAmt,
                     TotalTaxAmount = item.TaxAmt,
-                    RoundOff = item.RoundOff,   
-                    
+                    RoundOff = item.RoundOff,
+
                 };
 
                 if (item.InvoiceType == "SALES")
@@ -746,11 +754,11 @@ namespace eStore.BL.Importer
 
         public static int ProcessSaleSummary(eStoreDbContext db, int StoreId, int year)
         {
-            var data = db.VoySaleInvoiceSums.Where (c => c.InvoiceDate.Year == year).ToList ();
-            foreach ( var item in data )
+            var data = db.VoySaleInvoiceSums.Where(c => c.InvoiceDate.Year == year).ToList();
+            foreach (var item in data)
             {
                 Shared.Models.Sales.InvoicePayment payment = new Shared.Models.Sales.InvoicePayment { InvoiceNo = item.InvoiceNo };
-                switch ( item.PaymentMode )
+                switch (item.PaymentMode)
                 {
                     case "CAS":
                         payment.PayMode = SalePayMode.Cash;
@@ -781,7 +789,7 @@ namespace eStore.BL.Importer
                     OnDate = item.InvoiceDate,
                     StoreId = StoreId,
                     UserId = "AutoAdded",
-                    TotalQty = (double) item.Quantity,
+                    TotalQty = (double)item.Quantity,
                     TotalDiscountAmount = item.DiscountAmt,
                     PaymentDetail = payment,
                     TotalItems = 0,
@@ -790,7 +798,7 @@ namespace eStore.BL.Importer
                     RoundOffAmount = item.RoundOff,
                 };
 
-                if ( item.PaymentMode == "CAS" )
+                if (item.PaymentMode == "CAS")
                 {
                     invoice.CustomerId = 1;
                 }
@@ -798,9 +806,9 @@ namespace eStore.BL.Importer
                 {
                     invoice.CustomerId = 2;
                 }
-                db.SaleInvoices.Add (invoice);
+                db.SaleInvoices.Add(invoice);
             }
-            return db.SaveChanges ();
+            return db.SaveChanges();
         }
 
         public static int ProcessSaleInvoice(eStoreDbContext db, int StoreId, int year)
@@ -833,10 +841,10 @@ namespace eStore.BL.Importer
 
         public static int ProcessSale(eStoreDbContext db, int StoreId, int year)
         {
-            var data = db.VoySaleInvoices.Where (c => c.InvoiceDate.EndsWith ("" + year)).ToList ();
+            var data = db.VoySaleInvoices.Where(c => c.InvoiceDate.EndsWith("" + year)).ToList();
 
-            var salesman = db.Salesmen.Where (c => c.StoreId == StoreId).Select (c => new { c.SalesmanId, c.SalesmanName }).ToList ();
-            foreach ( var item in data )
+            var salesman = db.Salesmen.Where(c => c.StoreId == StoreId).Select(c => new { c.SalesmanId, c.SalesmanName }).ToList();
+            foreach (var item in data)
             {
                 SaleItem sale = new SaleItem
                 {
@@ -844,8 +852,8 @@ namespace eStore.BL.Importer
                     InvoiceNo = item.InvoiceNo,
                     TaxAmount = item.TaxAmt,
                     MRP = item.MRP,
-                    Qty = (double) item.Quantity,
-                    SalesmanId = salesman.Where (c => c.SalesmanName.Contains (item.SalesManName)).Select (c => c.SalesmanId).FirstOrDefault (),
+                    Qty = (double)item.Quantity,
+                    SalesmanId = salesman.Where(c => c.SalesmanName.Contains(item.SalesManName)).Select(c => c.SalesmanId).FirstOrDefault(),
                     BasicAmount = item.BasicAmt,
                     BillAmount = item.LineTotal,
                     HSNCode = 0,
@@ -853,47 +861,47 @@ namespace eStore.BL.Importer
                     Units = Unit.NoUnit
                 };
 
-                if ( !String.IsNullOrEmpty (item.HSNCode) )
-                    sale.HSNCode = long.Parse (item.HSNCode.Trim ());
-                db.SaleItems.Add (sale);
+                if (!String.IsNullOrEmpty(item.HSNCode))
+                    sale.HSNCode = long.Parse(item.HSNCode.Trim());
+                db.SaleItems.Add(sale);
             }
-            return db.SaveChanges ();
+            return db.SaveChanges();
         }
 
         private static int GetSalesPersonId(eStoreDbContext db, string salesman)
         {
             try
             {
-                var id = db.Salesmen.Where (c => c.SalesmanName == salesman).FirstOrDefault ().SalesmanId;
-                if ( id > 0 )
+                var id = db.Salesmen.Where(c => c.SalesmanName == salesman).FirstOrDefault().SalesmanId;
+                if (id > 0)
                 {
                     return id;
                 }
                 else
                 {
                     Salesman sm = new Salesman { SalesmanName = salesman };
-                    db.Salesmen.Add (sm);
-                    db.SaveChanges ();
+                    db.Salesmen.Add(sm);
+                    db.SaveChanges();
                     return sm.SalesmanId;
                 }
             }
-            catch ( Exception )
+            catch (Exception)
             {
                 Salesman sm = new Salesman { SalesmanName = salesman };
-                db.Salesmen.Add (sm);
-                db.SaveChanges ();
+                db.Salesmen.Add(sm);
+                db.SaveChanges();
                 return sm.SalesmanId;
             }
         }
 
         private static int AddOrUpdateStock(eStoreDbContext db, int StoreId, string barCode, double inQty, double outQty, Unit unit)
         {
-            Stock stcks = db.Stocks.Where (c => c.Barcode == barCode).FirstOrDefault ();
-            if ( stcks != null )
+            Stock stcks = db.Stocks.Where(c => c.Barcode == barCode).FirstOrDefault();
+            if (stcks != null)
             {
                 stcks.PurchaseQty += inQty;
                 stcks.SaleQty += outQty;
-                db.Stocks.Update (stcks);
+                db.Stocks.Update(stcks);
             }
             else
             {
@@ -908,25 +916,25 @@ namespace eStore.BL.Importer
                     IsReadOnly = false,
                     UserId = "AutoAdd",
                 };
-                db.Stocks.Add (stcks);
+                db.Stocks.Add(stcks);
             }
-            return db.SaveChanges ();
+            return db.SaveChanges();
         }
 
         private static int UpdateProductItem(eStoreDbContext db, string barcode, decimal Mrp, decimal cost, string hsn, Size? size, bool saveIt = false)
         {
-            var pItem = db.ProductItems.Where (c => c.Barcode == barcode).FirstOrDefault ();
-            if ( pItem != null )
+            var pItem = db.ProductItems.Where(c => c.Barcode == barcode).FirstOrDefault();
+            if (pItem != null)
             {
                 pItem.MRP = Mrp;
                 pItem.Cost = cost;
                 pItem.HSNCode = hsn;
-                if ( size != null )
-                    pItem.Size = (Size) size;
-                db.ProductItems.Update (pItem);
+                if (size != null)
+                    pItem.Size = (Size)size;
+                db.ProductItems.Update(pItem);
             }
-            if ( saveIt )
-                return db.SaveChanges ();
+            if (saveIt)
+                return db.SaveChanges();
             else
                 return -111;
         }
@@ -938,19 +946,19 @@ namespace eStore.BL.Importer
         public static bool MissingBarcode(eStoreDbContext db)
         {
             bool flag = false;
-            var data = db.ProductItems.Select (c => c.Barcode).ToList ();
-            var pData = db.VoyPurchaseInwards.Select (c => c.Barcode).Distinct ().ToList ();
-            if ( pData.Count != data.Count )
+            var data = db.ProductItems.Select(c => c.Barcode).ToList();
+            var pData = db.VoyPurchaseInwards.Select(c => c.Barcode).Distinct().ToList();
+            if (pData.Count != data.Count)
             {
-                var purI = db.VoyPurchaseInwards.Select (c => new { c.Barcode, c.ItemDesc, c.StyleCode }).ToList ();
-                foreach ( var item in data )
+                var purI = db.VoyPurchaseInwards.Select(c => new { c.Barcode, c.ItemDesc, c.StyleCode }).ToList();
+                foreach (var item in data)
                 {
-                    pData.Remove (item);
+                    pData.Remove(item);
                 }
-                if ( pData.Count > 0 )
+                if (pData.Count > 0)
                 {
-                    var Cat = db.Categories.Find (1);
-                    foreach ( var item in pData )
+                    var Cat = db.Categories.Find(1);
+                    foreach (var item in pData)
                     {
                         ProductItem p = new ProductItem
                         {
@@ -970,10 +978,10 @@ namespace eStore.BL.Importer
                             Size = Size.NOTVALID,
                             TaxRate = 0
                         };
-                        db.ProductItems.Add (p);
+                        db.ProductItems.Add(p);
                     }
-                    int ctr = db.SaveChanges ();
-                    if ( ctr > 0 )
+                    int ctr = db.SaveChanges();
+                    if (ctr > 0)
                         flag = true;
                 }
                 else

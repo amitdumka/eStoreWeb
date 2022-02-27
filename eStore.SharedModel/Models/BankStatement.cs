@@ -12,19 +12,19 @@ namespace eStore.Shared.Models.Banking
         public string Naration { get; set; }
         public string RefNumber { get; set; }
 
-        [DataType (DataType.Date), DisplayFormat (DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true), Display (Name = "Date")]
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true), Display(Name = "Date")]
         public DateTime OnDate { get; set; }
 
-        [DataType (DataType.Date), DisplayFormat (DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true), Display (Name = "Bank Date")]
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true), Display(Name = "Bank Date")]
         public DateTime BankDate { get; set; }
 
-        [DataType (DataType.Currency), Column (TypeName = "money"), Display (Name = "In Amount")]
+        [DataType(DataType.Currency), Column(TypeName = "money"), Display(Name = "In Amount")]
         public decimal InAmount { get; set; }
 
-        [DataType (DataType.Currency), Column (TypeName = "money"), Display (Name = "Out Amount")]
+        [DataType(DataType.Currency), Column(TypeName = "money"), Display(Name = "Out Amount")]
         public decimal OutAmount { get; set; }
 
-        [DataType (DataType.Currency), Column (TypeName = "money"), Display (Name = "Balance Amount")]
+        [DataType(DataType.Currency), Column(TypeName = "money"), Display(Name = "Balance Amount")]
         public decimal Balance { get; set; }
     }
 }

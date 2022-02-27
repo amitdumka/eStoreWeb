@@ -13,7 +13,7 @@ namespace eStore.API.Controllers
 {
     [AllowAnonymous]
     [ApiController]
-    [Route ("api/[controller]")]
+    [Route("api/[controller]")]
     public class BanksController : ControllerBase
     {
         private readonly eStoreDbContext _context;
@@ -26,9 +26,9 @@ namespace eStore.API.Controllers
                 _context = context;
                 _logger = logger;
             }
-            catch ( Exception e )
+            catch (Exception e)
             {
-                Console.WriteLine (e.Message);
+                Console.WriteLine(e.Message);
             }
         }
 
@@ -37,18 +37,18 @@ namespace eStore.API.Controllers
         //public async Task<ActionResult<IEnumerable<Bank>>> GetBanks()
         public IEnumerable<Bank> GetBanks()
         {
-            return _context.Banks.ToList ();
+            return _context.Banks.ToList();
         }
 
         // GET: api/Banks/5
-        [HttpGet ("{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<Bank>> GetBank(int id)
         {
-            var bank = await _context.Banks.FindAsync (id);
+            var bank = await _context.Banks.FindAsync(id);
 
-            if ( bank == null )
+            if (bank == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
             return bank;
@@ -56,25 +56,25 @@ namespace eStore.API.Controllers
 
         // PUT: api/Banks/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut ("{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> PutBank(int id, Bank bank)
         {
-            if ( id != bank.BankId )
+            if (id != bank.BankId)
             {
-                return BadRequest ();
+                return BadRequest();
             }
 
-            _context.Entry (bank).State = EntityState.Modified;
+            _context.Entry(bank).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync ();
+                await _context.SaveChangesAsync();
             }
-            catch ( DbUpdateConcurrencyException )
+            catch (DbUpdateConcurrencyException)
             {
-                if ( !BankExists (id) )
+                if (!BankExists(id))
                 {
-                    return NotFound ();
+                    return NotFound();
                 }
                 else
                 {
@@ -82,7 +82,7 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return NoContent ();
+            return NoContent();
         }
 
         // POST: api/Banks
@@ -90,31 +90,31 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Bank>> PostBank(Bank bank)
         {
-            _context.Banks.Add (bank);
-            await _context.SaveChangesAsync ();
+            _context.Banks.Add(bank);
+            await _context.SaveChangesAsync();
 
-            return CreatedAtAction ("GetBank", new { id = bank.BankId }, bank);
+            return CreatedAtAction("GetBank", new { id = bank.BankId }, bank);
         }
 
         // DELETE: api/Banks/5
-        [HttpDelete ("{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBank(int id)
         {
-            var bank = await _context.Banks.FindAsync (id);
-            if ( bank == null )
+            var bank = await _context.Banks.FindAsync(id);
+            if (bank == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
-            _context.Banks.Remove (bank);
-            await _context.SaveChangesAsync ();
+            _context.Banks.Remove(bank);
+            await _context.SaveChangesAsync();
 
-            return NoContent ();
+            return NoContent();
         }
 
         private bool BankExists(int id)
         {
-            return _context.Banks.Any (e => e.BankId == id);
+            return _context.Banks.Any(e => e.BankId == id);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace eStore.Shared.Models.Banking
     {
         public int BankId { get; set; }
 
-        [Display (Name = "Bank Name")]
+        [Display(Name = "Bank Name")]
         public string BankName { get; set; }
 
         //public ICollection<AccountNumber> Accounts { get; set; }

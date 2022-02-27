@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
-    [Route ("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class VoySaleInvoiceSumsController : ControllerBase
@@ -25,18 +25,18 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<VoySaleInvoiceSum>>> GetVoySaleInvoiceSums()
         {
-            return await _context.VoySaleInvoiceSums.ToListAsync ();
+            return await _context.VoySaleInvoiceSums.ToListAsync();
         }
 
         // GET: api/VoySaleInvoiceSums/5
-        [HttpGet ("{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<VoySaleInvoiceSum>> GetVoySaleInvoiceSum(int id)
         {
-            var voySaleInvoiceSum = await _context.VoySaleInvoiceSums.FindAsync (id);
+            var voySaleInvoiceSum = await _context.VoySaleInvoiceSums.FindAsync(id);
 
-            if ( voySaleInvoiceSum == null )
+            if (voySaleInvoiceSum == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
             return voySaleInvoiceSum;
@@ -44,25 +44,25 @@ namespace eStore.API.Controllers
 
         // PUT: api/VoySaleInvoiceSums/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut ("{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> PutVoySaleInvoiceSum(int id, VoySaleInvoiceSum voySaleInvoiceSum)
         {
-            if ( id != voySaleInvoiceSum.ID )
+            if (id != voySaleInvoiceSum.ID)
             {
-                return BadRequest ();
+                return BadRequest();
             }
 
-            _context.Entry (voySaleInvoiceSum).State = EntityState.Modified;
+            _context.Entry(voySaleInvoiceSum).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync ();
+                await _context.SaveChangesAsync();
             }
-            catch ( DbUpdateConcurrencyException )
+            catch (DbUpdateConcurrencyException)
             {
-                if ( !VoySaleInvoiceSumExists (id) )
+                if (!VoySaleInvoiceSumExists(id))
                 {
-                    return NotFound ();
+                    return NotFound();
                 }
                 else
                 {
@@ -70,7 +70,7 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return NoContent ();
+            return NoContent();
         }
 
         // POST: api/VoySaleInvoiceSums
@@ -78,31 +78,31 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<VoySaleInvoiceSum>> PostVoySaleInvoiceSum(VoySaleInvoiceSum voySaleInvoiceSum)
         {
-            _context.VoySaleInvoiceSums.Add (voySaleInvoiceSum);
-            await _context.SaveChangesAsync ();
+            _context.VoySaleInvoiceSums.Add(voySaleInvoiceSum);
+            await _context.SaveChangesAsync();
 
-            return CreatedAtAction ("GetVoySaleInvoiceSum", new { id = voySaleInvoiceSum.ID }, voySaleInvoiceSum);
+            return CreatedAtAction("GetVoySaleInvoiceSum", new { id = voySaleInvoiceSum.ID }, voySaleInvoiceSum);
         }
 
         // DELETE: api/VoySaleInvoiceSums/5
-        [HttpDelete ("{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteVoySaleInvoiceSum(int id)
         {
-            var voySaleInvoiceSum = await _context.VoySaleInvoiceSums.FindAsync (id);
-            if ( voySaleInvoiceSum == null )
+            var voySaleInvoiceSum = await _context.VoySaleInvoiceSums.FindAsync(id);
+            if (voySaleInvoiceSum == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
-            _context.VoySaleInvoiceSums.Remove (voySaleInvoiceSum);
-            await _context.SaveChangesAsync ();
+            _context.VoySaleInvoiceSums.Remove(voySaleInvoiceSum);
+            await _context.SaveChangesAsync();
 
-            return NoContent ();
+            return NoContent();
         }
 
         private bool VoySaleInvoiceSumExists(int id)
         {
-            return _context.VoySaleInvoiceSums.Any (e => e.ID == id);
+            return _context.VoySaleInvoiceSums.Any(e => e.ID == id);
         }
     }
 }

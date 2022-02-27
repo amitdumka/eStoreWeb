@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
-    [Route ("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class RegisteredUsersController : ControllerBase
     {
@@ -24,7 +24,7 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<RegisteredUser>>> GetRegisteredUsers()
         {
-            return await _context.RegisteredUsers.ToListAsync ();
+            return await _context.RegisteredUsers.ToListAsync();
         }
 
         //[HttpGet("Roles")]
@@ -34,14 +34,14 @@ namespace eStore.API.Controllers
         //}
 
         // GET: api/RegisteredUsers/5
-        [HttpGet ("{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<RegisteredUser>> GetRegisteredUser(string id)
         {
-            var registeredUser = await _context.RegisteredUsers.FindAsync (id);
+            var registeredUser = await _context.RegisteredUsers.FindAsync(id);
 
-            if ( registeredUser == null )
+            if (registeredUser == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
             return registeredUser;
@@ -49,25 +49,25 @@ namespace eStore.API.Controllers
 
         // PUT: api/RegisteredUsers/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut ("{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> PutRegisteredUser(string id, RegisteredUser registeredUser)
         {
-            if ( id != registeredUser.RegisteredUserId )
+            if (id != registeredUser.RegisteredUserId)
             {
-                return BadRequest ();
+                return BadRequest();
             }
 
-            _context.Entry (registeredUser).State = EntityState.Modified;
+            _context.Entry(registeredUser).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync ();
+                await _context.SaveChangesAsync();
             }
-            catch ( DbUpdateConcurrencyException )
+            catch (DbUpdateConcurrencyException)
             {
-                if ( !RegisteredUserExists (id) )
+                if (!RegisteredUserExists(id))
                 {
-                    return NotFound ();
+                    return NotFound();
                 }
                 else
                 {
@@ -75,43 +75,43 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return NoContent ();
+            return NoContent();
         }
 
         // POST: api/RegisteredUsers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost ("Login")]
+        [HttpPost("Login")]
         public async Task<ActionResult<RegisteredUser>> PostPerformLogin(string userId)
         {
-            var user = _context.RegisteredUsers.Find (userId);
-            if ( user == null )
-                return NotFound ();
-            if ( user.IsUserLoggedIn )
+            var user = _context.RegisteredUsers.Find(userId);
+            if (user == null)
+                return NotFound();
+            if (user.IsUserLoggedIn)
             {
-                if ( ( DateTime.Now - user.LastLoggedIn ).Hours < 24 )
-                    return Ok ("User Already Logged In");
+                if ((DateTime.Now - user.LastLoggedIn).Hours < 24)
+                    return Ok("User Already Logged In");
             }
 
             user.IsUserLoggedIn = true;
             user.LastLoggedIn = DateTime.Now;
-            await _context.SaveChangesAsync ();
-            return Ok ("New Logged In");
+            await _context.SaveChangesAsync();
+            return Ok("New Logged In");
         }
 
-        [HttpPost ("Logout")]
+        [HttpPost("Logout")]
         public async Task<ActionResult<RegisteredUser>> PostPerformLogOut(string userId)
         {
-            var user = _context.RegisteredUsers.Find (userId);
-            if ( user == null )
-                return NotFound ();
-            if ( user.IsUserLoggedIn )
+            var user = _context.RegisteredUsers.Find(userId);
+            if (user == null)
+                return NotFound();
+            if (user.IsUserLoggedIn)
             {
                 user.IsUserLoggedIn = false;
                 user.LastLoggedIn = DateTime.Now;
-                await _context.SaveChangesAsync ();
-                return Ok ("Logged Out");
+                await _context.SaveChangesAsync();
+                return Ok("Logged Out");
             }
-            return Ok ("Already Logged Out");
+            return Ok("Already Logged Out");
         }
 
         // POST: api/RegisteredUsers
@@ -119,16 +119,16 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<RegisteredUser>> PostRegisteredUser(RegisteredUser registeredUser)
         {
-            _context.RegisteredUsers.Add (registeredUser);
+            _context.RegisteredUsers.Add(registeredUser);
             try
             {
-                await _context.SaveChangesAsync ();
+                await _context.SaveChangesAsync();
             }
-            catch ( DbUpdateException )
+            catch (DbUpdateException)
             {
-                if ( RegisteredUserExists (registeredUser.RegisteredUserId) )
+                if (RegisteredUserExists(registeredUser.RegisteredUserId))
                 {
-                    return Conflict ();
+                    return Conflict();
                 }
                 else
                 {
@@ -136,28 +136,28 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return CreatedAtAction ("GetRegisteredUser", new { id = registeredUser.RegisteredUserId }, registeredUser);
+            return CreatedAtAction("GetRegisteredUser", new { id = registeredUser.RegisteredUserId }, registeredUser);
         }
 
         // DELETE: api/RegisteredUsers/5
-        [HttpDelete ("{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRegisteredUser(string id)
         {
-            var registeredUser = await _context.RegisteredUsers.FindAsync (id);
-            if ( registeredUser == null )
+            var registeredUser = await _context.RegisteredUsers.FindAsync(id);
+            if (registeredUser == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
-            _context.RegisteredUsers.Remove (registeredUser);
-            await _context.SaveChangesAsync ();
+            _context.RegisteredUsers.Remove(registeredUser);
+            await _context.SaveChangesAsync();
 
-            return NoContent ();
+            return NoContent();
         }
 
         private bool RegisteredUserExists(string id)
         {
-            return _context.RegisteredUsers.Any (e => e.RegisteredUserId == id);
+            return _context.RegisteredUsers.Any(e => e.RegisteredUserId == id);
         }
 
         // GET: api/RegisteredUsers/5    async Task<ActionResult<void>>

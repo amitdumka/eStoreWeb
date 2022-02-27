@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
-    [Route ("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class ExpensesController : ControllerBase
@@ -30,25 +30,25 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Expense>>> GetExpenses()
         {
-            return await _context.Expenses.Include (c => c.PaidBy).Include (c => c.Party).Include (c => c.FromAccount).Where (c => c.OnDate.Date.Year == DateTime.Today.Year).OrderByDescending (c => c.OnDate).ToListAsync ();
+            return await _context.Expenses.Include(c => c.PaidBy).Include(c => c.Party).Include(c => c.FromAccount).Where(c => c.OnDate.Date.Year == DateTime.Today.Year).OrderByDescending(c => c.OnDate).ToListAsync();
         }
 
-        [HttpGet ("dto")]
+        [HttpGet("dto")]
         public IEnumerable<ExpenseDto> GetExpenseDtos()
         {
-            var data = _context.Expenses.Include (c => c.PaidBy).Include (c => c.Party).Include (c => c.FromAccount).Where (c => c.OnDate.Date.Year == DateTime.Today.Year).OrderByDescending (c => c.OnDate).ToList ();
-            return _mapper.Map<IEnumerable<ExpenseDto>> (data);
+            var data = _context.Expenses.Include(c => c.PaidBy).Include(c => c.Party).Include(c => c.FromAccount).Where(c => c.OnDate.Date.Year == DateTime.Today.Year).OrderByDescending(c => c.OnDate).ToList();
+            return _mapper.Map<IEnumerable<ExpenseDto>>(data);
         }
 
         // GET: api/Expenses/5
-        [HttpGet ("{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<Expense>> GetExpense(int id)
         {
-            var expense = await _context.Expenses.FindAsync (id);
+            var expense = await _context.Expenses.FindAsync(id);
 
-            if ( expense == null )
+            if (expense == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
             return expense;
@@ -56,28 +56,28 @@ namespace eStore.API.Controllers
 
         // PUT: api/Expenses/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut ("{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> PutExpense(int id, Expense expense)
         {
-            if ( id != expense.ExpenseId )
+            if (id != expense.ExpenseId)
             {
-                return BadRequest ();
+                return BadRequest();
             }
-            if ( expense.PayMode == PaymentMode.Cash )
+            if (expense.PayMode == PaymentMode.Cash)
             {
                 expense.BankAccountId = null;
             }
-            _context.Entry (expense).State = EntityState.Modified;
+            _context.Entry(expense).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync ();
+                await _context.SaveChangesAsync();
             }
-            catch ( DbUpdateConcurrencyException )
+            catch (DbUpdateConcurrencyException)
             {
-                if ( !ExpenseExists (id) )
+                if (!ExpenseExists(id))
                 {
-                    return NotFound ();
+                    return NotFound();
                 }
                 else
                 {
@@ -85,7 +85,7 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return NoContent ();
+            return NoContent();
         }
 
         // POST: api/Expenses
@@ -93,35 +93,35 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Expense>> PostExpense(Expense expense)
         {
-            if ( expense.PayMode == PaymentMode.Cash )
+            if (expense.PayMode == PaymentMode.Cash)
             {
                 expense.BankAccountId = null;
             }
-            _context.Expenses.Add (expense);
-            await _context.SaveChangesAsync ();
+            _context.Expenses.Add(expense);
+            await _context.SaveChangesAsync();
 
-            return CreatedAtAction ("GetExpense", new { id = expense.ExpenseId }, expense);
+            return CreatedAtAction("GetExpense", new { id = expense.ExpenseId }, expense);
         }
 
         // DELETE: api/Expenses/5
-        [HttpDelete ("{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteExpense(int id)
         {
-            var expense = await _context.Expenses.FindAsync (id);
-            if ( expense == null )
+            var expense = await _context.Expenses.FindAsync(id);
+            if (expense == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
-            _context.Expenses.Remove (expense);
-            await _context.SaveChangesAsync ();
+            _context.Expenses.Remove(expense);
+            await _context.SaveChangesAsync();
 
-            return NoContent ();
+            return NoContent();
         }
 
         private bool ExpenseExists(int id)
         {
-            return _context.Expenses.Any (e => e.ExpenseId == id);
+            return _context.Expenses.Any(e => e.ExpenseId == id);
         }
     }
 }

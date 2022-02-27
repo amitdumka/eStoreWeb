@@ -11,22 +11,22 @@ namespace eStore.Shared.Models.Payroll
     {
         public int AttendanceId { get; set; }
 
-        [Display (Name = "Staff Name")]
+        [Display(Name = "Staff Name")]
         public int EmployeeId { get; set; }
 
         public Employee Employee { get; set; }
 
-        [DataType (DataType.Date), DisplayFormat (DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        [Display (Name = "Attendance Date")]
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [Display(Name = "Attendance Date")]
         public DateTime AttDate { get; set; }
 
-        [Display (Name = "Entry Time")]
+        [Display(Name = "Entry Time")]
         public string EntryTime { get; set; }
 
         public AttUnit Status { get; set; }
         public string Remarks { get; set; }
 
-        [Display (Name = "Tailor")]
+        [Display(Name = "Tailor")]
         public bool IsTailoring { get; set; }
     }
 }

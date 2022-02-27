@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
-    [Route ("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class EBillPaymentsController : ControllerBase
@@ -25,18 +25,18 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<EBillPayment>>> GetBillPayments()
         {
-            return await _context.BillPayments.Include (c => c.Bill).ThenInclude (c => c.Connection).OrderByDescending (c => c.PaymentDate).ToListAsync ();
+            return await _context.BillPayments.Include(c => c.Bill).ThenInclude(c => c.Connection).OrderByDescending(c => c.PaymentDate).ToListAsync();
         }
 
         // GET: api/EBillPayments/5
-        [HttpGet ("{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<EBillPayment>> GetEBillPayment(int id)
         {
-            var eBillPayment = await _context.BillPayments.FindAsync (id);
+            var eBillPayment = await _context.BillPayments.FindAsync(id);
 
-            if ( eBillPayment == null )
+            if (eBillPayment == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
             return eBillPayment;
@@ -44,25 +44,25 @@ namespace eStore.API.Controllers
 
         // PUT: api/EBillPayments/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut ("{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> PutEBillPayment(int id, EBillPayment eBillPayment)
         {
-            if ( id != eBillPayment.EBillPaymentId )
+            if (id != eBillPayment.EBillPaymentId)
             {
-                return BadRequest ();
+                return BadRequest();
             }
 
-            _context.Entry (eBillPayment).State = EntityState.Modified;
+            _context.Entry(eBillPayment).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync ();
+                await _context.SaveChangesAsync();
             }
-            catch ( DbUpdateConcurrencyException )
+            catch (DbUpdateConcurrencyException)
             {
-                if ( !EBillPaymentExists (id) )
+                if (!EBillPaymentExists(id))
                 {
-                    return NotFound ();
+                    return NotFound();
                 }
                 else
                 {
@@ -70,7 +70,7 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return NoContent ();
+            return NoContent();
         }
 
         // POST: api/EBillPayments
@@ -78,31 +78,31 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<EBillPayment>> PostEBillPayment(EBillPayment eBillPayment)
         {
-            _context.BillPayments.Add (eBillPayment);
-            await _context.SaveChangesAsync ();
+            _context.BillPayments.Add(eBillPayment);
+            await _context.SaveChangesAsync();
 
-            return CreatedAtAction ("GetEBillPayment", new { id = eBillPayment.EBillPaymentId }, eBillPayment);
+            return CreatedAtAction("GetEBillPayment", new { id = eBillPayment.EBillPaymentId }, eBillPayment);
         }
 
         // DELETE: api/EBillPayments/5
-        [HttpDelete ("{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEBillPayment(int id)
         {
-            var eBillPayment = await _context.BillPayments.FindAsync (id);
-            if ( eBillPayment == null )
+            var eBillPayment = await _context.BillPayments.FindAsync(id);
+            if (eBillPayment == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
-            _context.BillPayments.Remove (eBillPayment);
-            await _context.SaveChangesAsync ();
+            _context.BillPayments.Remove(eBillPayment);
+            await _context.SaveChangesAsync();
 
-            return NoContent ();
+            return NoContent();
         }
 
         private bool EBillPaymentExists(int id)
         {
-            return _context.BillPayments.Any (e => e.EBillPaymentId == id);
+            return _context.BillPayments.Any(e => e.EBillPaymentId == id);
         }
     }
 }

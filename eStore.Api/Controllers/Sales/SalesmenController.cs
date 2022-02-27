@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
-    [Route ("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class SalesmenController : ControllerBase
@@ -25,18 +25,18 @@ namespace eStore.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Salesman>>> GetSalesmen()
         {
-            return await _context.Salesmen.ToListAsync ();
+            return await _context.Salesmen.ToListAsync();
         }
 
         // GET: api/Salesmen/5
-        [HttpGet ("{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<Salesman>> GetSalesman(int id)
         {
-            var salesman = await _context.Salesmen.FindAsync (id);
+            var salesman = await _context.Salesmen.FindAsync(id);
 
-            if ( salesman == null )
+            if (salesman == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
             return salesman;
@@ -44,25 +44,25 @@ namespace eStore.API.Controllers
 
         // PUT: api/Salesmen/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut ("{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> PutSalesman(int id, Salesman salesman)
         {
-            if ( id != salesman.SalesmanId )
+            if (id != salesman.SalesmanId)
             {
-                return BadRequest ();
+                return BadRequest();
             }
 
-            _context.Entry (salesman).State = EntityState.Modified;
+            _context.Entry(salesman).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync ();
+                await _context.SaveChangesAsync();
             }
-            catch ( DbUpdateConcurrencyException )
+            catch (DbUpdateConcurrencyException)
             {
-                if ( !SalesmanExists (id) )
+                if (!SalesmanExists(id))
                 {
-                    return NotFound ();
+                    return NotFound();
                 }
                 else
                 {
@@ -70,7 +70,7 @@ namespace eStore.API.Controllers
                 }
             }
 
-            return NoContent ();
+            return NoContent();
         }
 
         // POST: api/Salesmen
@@ -78,31 +78,31 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Salesman>> PostSalesman(Salesman salesman)
         {
-            _context.Salesmen.Add (salesman);
-            await _context.SaveChangesAsync ();
+            _context.Salesmen.Add(salesman);
+            await _context.SaveChangesAsync();
 
-            return CreatedAtAction ("GetSalesman", new { id = salesman.SalesmanId }, salesman);
+            return CreatedAtAction("GetSalesman", new { id = salesman.SalesmanId }, salesman);
         }
 
         // DELETE: api/Salesmen/5
-        [HttpDelete ("{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSalesman(int id)
         {
-            var salesman = await _context.Salesmen.FindAsync (id);
-            if ( salesman == null )
+            var salesman = await _context.Salesmen.FindAsync(id);
+            if (salesman == null)
             {
-                return NotFound ();
+                return NotFound();
             }
 
-            _context.Salesmen.Remove (salesman);
-            await _context.SaveChangesAsync ();
+            _context.Salesmen.Remove(salesman);
+            await _context.SaveChangesAsync();
 
-            return NoContent ();
+            return NoContent();
         }
 
         private bool SalesmanExists(int id)
         {
-            return _context.Salesmen.Any (e => e.SalesmanId == id);
+            return _context.Salesmen.Any(e => e.SalesmanId == id);
         }
     }
 }

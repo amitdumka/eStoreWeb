@@ -35,24 +35,24 @@ namespace eStore.Services.Mails
     {
         public Task SendEmailAsync(List<string> emails, string subject, string htmlMessage)
         {
-            throw new System.NotImplementedException ();
+            throw new System.NotImplementedException();
         }
 
         [System.Obsolete]
         async Task IEmailSender.SendEmailAsync(string email, string subject, string htmlMessage)
         {
-            var message = new MimeMessage ();
-            message.From.Add (new MailboxAddress ("Aprajita Retails", MailConfig.UserName));
-            message.To.Add (new MailboxAddress (/*"",*/address: email));
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress("Aprajita Retails", MailConfig.UserName));
+            message.To.Add(new MailboxAddress(/*"",*/address: email));
             message.Subject = subject;
-            message.Body = new TextPart ("plain") { Text = htmlMessage };
+            message.Body = new TextPart("plain") { Text = htmlMessage };
             // For demo-purposes, accept all SSL certificates (in case the server supports STARTTLS)
             using var client = new SmtpClient { ServerCertificateValidationCallback = (s, c, h, e) => true };
-            await client.ConnectAsync (MailConfig.SMTPAddress, MailConfig.SMTPPort, SecureSocketOptions.Auto);
+            await client.ConnectAsync(MailConfig.SMTPAddress, MailConfig.SMTPPort, SecureSocketOptions.Auto);
             // Note: only needed if the SMTP server requires authentication
-            await client.AuthenticateAsync (MailConfig.UserName, MailConfig.Password);
-            await client.SendAsync (message);
-            await client.DisconnectAsync (true);
+            await client.AuthenticateAsync(MailConfig.UserName, MailConfig.Password);
+            await client.SendAsync(message);
+            await client.DisconnectAsync(true);
         }
     }
 
@@ -74,38 +74,38 @@ namespace eStore.Services.Mails
         [System.Obsolete]
         async Task IEmail.SendEmailAsync(string email, string subject, string htmlMessage)
         {
-            var message = new MimeMessage ();
-            message.From.Add (new MailboxAddress ("Aprajita Retails", MailConfig.UserName));
-            message.To.Add (new MailboxAddress (/*"",*/address: email));
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress("Aprajita Retails", MailConfig.UserName));
+            message.To.Add(new MailboxAddress(/*"",*/address: email));
             message.Subject = subject;
-            message.Body = new TextPart ("plain") { Text = htmlMessage };
+            message.Body = new TextPart("plain") { Text = htmlMessage };
             // For demo-purposes, accept all SSL certificates (in case the server supports STARTTLS)
             using var client = new SmtpClient { ServerCertificateValidationCallback = (s, c, h, e) => true };
-            await client.ConnectAsync (MailConfig.SMTPAddress, MailConfig.SMTPPort, SecureSocketOptions.Auto);
+            await client.ConnectAsync(MailConfig.SMTPAddress, MailConfig.SMTPPort, SecureSocketOptions.Auto);
             // Note: only needed if the SMTP server requires authentication
-            await client.AuthenticateAsync (MailConfig.UserName, MailConfig.Password);
-            await client.SendAsync (message);
-            await client.DisconnectAsync (true);
+            await client.AuthenticateAsync(MailConfig.UserName, MailConfig.Password);
+            await client.SendAsync(message);
+            await client.DisconnectAsync(true);
         }
 
         async Task IEmail.SendEmailAsync(List<string> emails, string subject, string htmlMessage)
         {
-            var message = new MimeMessage ();
-            message.From.Add (new MailboxAddress ("Aprajita Retails", MailConfig.UserName));
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress("Aprajita Retails", MailConfig.UserName));
 
-            foreach ( var item in emails )
+            foreach (var item in emails)
             {
-                message.To.Add (MailboxAddress.Parse (item));
+                message.To.Add(MailboxAddress.Parse(item));
             }
             message.Subject = subject;
-            message.Body = new TextPart ("plain") { Text = htmlMessage };
+            message.Body = new TextPart("plain") { Text = htmlMessage };
             // For demo-purposes, accept all SSL certificates (in case the server supports STARTTLS)
             using var client = new SmtpClient { ServerCertificateValidationCallback = (s, c, h, e) => true };
-            await client.ConnectAsync (MailConfig.SMTPAddress, MailConfig.SMTPPort, SecureSocketOptions.Auto);
+            await client.ConnectAsync(MailConfig.SMTPAddress, MailConfig.SMTPPort, SecureSocketOptions.Auto);
             // Note: only needed if the SMTP server requires authentication
-            await client.AuthenticateAsync (MailConfig.UserName, MailConfig.Password);
-            await client.SendAsync (message);
-            await client.DisconnectAsync (true);
+            await client.AuthenticateAsync(MailConfig.UserName, MailConfig.Password);
+            await client.SendAsync(message);
+            await client.DisconnectAsync(true);
         }
 
         // SendGrid Email

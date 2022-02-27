@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace eStore.API.Controllers
 {
-    [Route ("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class MasterReportController : ControllerBase
@@ -24,43 +24,43 @@ namespace eStore.API.Controllers
         [HttpGet]
         public MasterViewReport Get()
         {
-            return DashboardWidget.GetMasterViewReport (_context);
+            return DashboardWidget.GetMasterViewReport(_context);
         }
 
-        [HttpGet ("sales")]
+        [HttpGet("sales")]
         public DailySaleReport GetSales()
         {
-            return DashboardWidget.GetSaleRecord (_context);
+            return DashboardWidget.GetSaleRecord(_context);
         }
 
-        [HttpGet ("tailoring")]
+        [HttpGet("tailoring")]
         public TailoringReport GetTaioring()
         {
-            return DashboardWidget.GetTailoringReport (_context);
+            return DashboardWidget.GetTailoringReport(_context);
         }
 
-        [HttpGet ("employee")]
+        [HttpGet("employee")]
         public IEnumerable<EmployeeInfo> GetEmployee()
         {
-            return DashboardWidget.GetEmpInfo (_context);
+            return DashboardWidget.GetEmpInfo(_context);
         }
 
-        [HttpGet ("accounting")]
+        [HttpGet("accounting")]
         public AccountsInfo GetAccounting()
         {
-            return DashboardWidget.GetAccoutingRecord (_context);
+            return DashboardWidget.GetAccoutingRecord(_context);
         }
 
-        [HttpGet ("leadingSalesman")]
+        [HttpGet("leadingSalesman")]
         public List<string> GetTopSalesman()
         {
-            return DashboardWidget.GetTopSalesman (_context);
+            return DashboardWidget.GetTopSalesman(_context);
         }
 
-        [HttpGet ("pendingdeliver")]
+        [HttpGet("pendingdeliver")]
         public IEnumerable<BookingOverDue> GetPendingDelivery()
         {
-            return DashboardWidget.GetTailoringBookingOverDue (_context);
+            return DashboardWidget.GetTailoringBookingOverDue(_context);
         }
 
         //// GET api/<MasterReportController>/5

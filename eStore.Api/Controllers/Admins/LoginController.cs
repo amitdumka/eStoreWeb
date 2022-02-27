@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace eStore.API.Controllers
 {
-    [Route ("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
     public class LoginController : ControllerBase
@@ -24,7 +24,7 @@ namespace eStore.API.Controllers
         [HttpGet]
         public bool Get()
         {
-            return _signInManager.IsSignedIn (User);
+            return _signInManager.IsSignedIn(User);
         }
 
         //// POST: api/Login
@@ -46,8 +46,8 @@ namespace eStore.API.Controllers
         [HttpPost]
         public async Task<bool> PostAsync(string uname, string password)
         {
-            var result = await _signInManager.PasswordSignInAsync (uname, password, true, false);
-            if ( result.Succeeded )
+            var result = await _signInManager.PasswordSignInAsync(uname, password, true, false);
+            if (result.Succeeded)
             {
                 // _logger.LogInformation("User logged in.");
                 //Setting UserSession

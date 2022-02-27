@@ -23,7 +23,7 @@ namespace eStore.Services.BTask
             ILoggerFactory loggerFactory)
         {
             TaskQueue = taskQueue;
-            _logger = loggerFactory.CreateLogger<QueuedHostedService> ();
+            _logger = loggerFactory.CreateLogger<QueuedHostedService>();
         }
 
         public IBackgroundTaskQueue TaskQueue { get; }
@@ -31,51 +31,51 @@ namespace eStore.Services.BTask
         protected async override Task ExecuteAsync(
             CancellationToken cancellationToken)
         {
-            _logger.LogInformation ("eStore: Queued Hosted Service is starting.");
+            _logger.LogInformation("eStore: Queued Hosted Service is starting.");
 
-            while ( !cancellationToken.IsCancellationRequested )
+            while (!cancellationToken.IsCancellationRequested)
             {
-                var workItem = await TaskQueue.DequeueAsync (cancellationToken);
+                var workItem = await TaskQueue.DequeueAsync(cancellationToken);
 
                 try
                 {
-                    await workItem (cancellationToken);
+                    await workItem(cancellationToken);
                 }
-                catch ( Exception ex )
+                catch (Exception ex)
                 {
-                    _logger.LogError (ex,
-                       "eStore: Error occurred executing {WorkItem}.", nameof (workItem));
+                    _logger.LogError(ex,
+                       "eStore: Error occurred executing {WorkItem}.", nameof(workItem));
                 }
             }
 
-            _logger.LogInformation ("eStore: Queued Hosted Service is stopping.");
+            _logger.LogInformation("eStore: Queued Hosted Service is stopping.");
         }
     }
 
     public class BackgroundTaskQueue : IBackgroundTaskQueue
     {
         private ConcurrentQueue<Func<CancellationToken, Task>> _workItems =
-       new ConcurrentQueue<Func<CancellationToken, Task>> ();
+       new ConcurrentQueue<Func<CancellationToken, Task>>();
 
-        private SemaphoreSlim _signal = new SemaphoreSlim (0);
+        private SemaphoreSlim _signal = new SemaphoreSlim(0);
 
         public void QueueBackgroundWorkItem(
             Func<CancellationToken, Task> workItem)
         {
-            if ( workItem == null )
+            if (workItem == null)
             {
-                throw new ArgumentNullException (nameof (workItem));
+                throw new ArgumentNullException(nameof(workItem));
             }
 
-            _workItems.Enqueue (workItem);
-            _signal.Release ();
+            _workItems.Enqueue(workItem);
+            _signal.Release();
         }
 
         public async Task<Func<CancellationToken, Task>> DequeueAsync(
             CancellationToken cancellationToken)
         {
-            await _signal.WaitAsync (cancellationToken);
-            _workItems.TryDequeue (out var workItem);
+            await _signal.WaitAsync(cancellationToken);
+            _workItems.TryDequeue(out var workItem);
 
             return workItem;
         }

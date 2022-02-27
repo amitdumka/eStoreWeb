@@ -13,54 +13,54 @@ namespace eStore.BL.Triggers
         public void ProcessOpenningBalance(eStoreDbContext db, DateTime date, int StoreId, bool saveit = false)
         {
             CashInHand today;
-            today = db.CashInHands.Where (c => c.CIHDate.Date == date.Date && c.StoreId == StoreId).FirstOrDefault ();
+            today = db.CashInHands.Where(c => c.CIHDate.Date == date.Date && c.StoreId == StoreId).FirstOrDefault();
 
-            DateTime yDate = date.AddDays (-1);
-            CashInHand yesterday = db.CashInHands.Where (c => c.CIHDate.Date.Date == yDate.Date.Date && c.StoreId == StoreId).FirstOrDefault ();
+            DateTime yDate = date.AddDays(-1);
+            CashInHand yesterday = db.CashInHands.Where(c => c.CIHDate.Date.Date == yDate.Date.Date && c.StoreId == StoreId).FirstOrDefault();
             bool isNew = false;
-            if ( today == null )
+            if (today == null)
             {
-                today = new CashInHand () { CashIn = 0, CashOut = 0, CIHDate = date, ClosingBalance = 0, OpenningBalance = 0, StoreId = StoreId };
+                today = new CashInHand() { CashIn = 0, CashOut = 0, CIHDate = date, ClosingBalance = 0, OpenningBalance = 0, StoreId = StoreId };
                 isNew = true;
             }
 
-            if ( yesterday == null )
+            if (yesterday == null)
             {
-                yesterday = new CashInHand () { CashIn = 0, CashOut = 0, CIHDate = yDate, ClosingBalance = 0, OpenningBalance = 0, StoreId = StoreId };
+                yesterday = new CashInHand() { CashIn = 0, CashOut = 0, CIHDate = yDate, ClosingBalance = 0, OpenningBalance = 0, StoreId = StoreId };
                 today.OpenningBalance = 0;
                 today.ClosingBalance = today.OpenningBalance + today.CashIn - today.CashOut;
-                db.CashInHands.Add (yesterday);
+                db.CashInHands.Add(yesterday);
             }
             else
             {
                 yesterday.ClosingBalance = yesterday.OpenningBalance + yesterday.CashIn - yesterday.CashOut;
                 today.OpenningBalance = yesterday.ClosingBalance;
                 today.ClosingBalance = today.OpenningBalance + today.CashIn - today.CashOut;
-                db.Entry (yesterday).State = EntityState.Modified;
+                db.Entry(yesterday).State = EntityState.Modified;
             }
 
-            if ( isNew )
-                db.CashInHands.Add (today);
+            if (isNew)
+                db.CashInHands.Add(today);
             else
-                db.Entry (today).State = EntityState.Modified;
+                db.Entry(today).State = EntityState.Modified;
 
-            if ( saveit )
-                db.SaveChanges ();
+            if (saveit)
+                db.SaveChanges();
         }
 
         //StoreBased Action
         public void ProcessClosingBalance(eStoreDbContext db, DateTime date, int StoreId, bool saveit = false)
         {
             CashInHand today;
-            today = db.CashInHands.Where (c => c.CIHDate.Date == date.Date && c.StoreId == StoreId).FirstOrDefault ();
-            if ( today != null )
+            today = db.CashInHands.Where(c => c.CIHDate.Date == date.Date && c.StoreId == StoreId).FirstOrDefault();
+            if (today != null)
             {
-                if ( today.ClosingBalance != today.OpenningBalance + today.CashIn - today.CashOut )
+                if (today.ClosingBalance != today.OpenningBalance + today.CashIn - today.CashOut)
                 {
                     today.ClosingBalance = today.OpenningBalance + today.CashIn - today.CashOut;
-                    db.Entry (today).State = EntityState.Modified;
-                    if ( saveit )
-                        db.SaveChanges ();
+                    db.Entry(today).State = EntityState.Modified;
+                    if (saveit)
+                        db.SaveChanges();
                 }
             }
         }
@@ -69,24 +69,24 @@ namespace eStore.BL.Triggers
         public void ProcessBankOpenningBalance(eStoreDbContext db, DateTime date, int StoreId, bool saveit = false)
         {
             CashInBank today;
-            today = db.CashInBanks.Where (c => c.CIBDate.Date == date.Date && c.StoreId == StoreId).FirstOrDefault ();
+            today = db.CashInBanks.Where(c => c.CIBDate.Date == date.Date && c.StoreId == StoreId).FirstOrDefault();
 
-            DateTime yDate = date.AddDays (-1);
-            CashInBank yesterday = db.CashInBanks.Where (c => c.CIBDate.Date == yDate.Date && c.StoreId == StoreId).FirstOrDefault ();
+            DateTime yDate = date.AddDays(-1);
+            CashInBank yesterday = db.CashInBanks.Where(c => c.CIBDate.Date == yDate.Date && c.StoreId == StoreId).FirstOrDefault();
 
             bool isNew = false;
-            if ( today == null )
+            if (today == null)
             {
-                today = new CashInBank () { CashIn = 0, CashOut = 0, CIBDate = date, ClosingBalance = 0, OpenningBalance = 0, StoreId = StoreId };
+                today = new CashInBank() { CashIn = 0, CashOut = 0, CIBDate = date, ClosingBalance = 0, OpenningBalance = 0, StoreId = StoreId };
                 isNew = true;
             }
 
-            if ( yesterday == null )
+            if (yesterday == null)
             {
-                yesterday = new CashInBank () { CashIn = 0, CashOut = 0, CIBDate = yDate, ClosingBalance = 0, OpenningBalance = 0, StoreId = StoreId };
+                yesterday = new CashInBank() { CashIn = 0, CashOut = 0, CIBDate = yDate, ClosingBalance = 0, OpenningBalance = 0, StoreId = StoreId };
                 today.OpenningBalance = 0;
                 today.ClosingBalance = today.OpenningBalance + today.CashIn - today.CashOut;
-                db.CashInBanks.Add (yesterday);
+                db.CashInBanks.Add(yesterday);
             }
             else
             {
@@ -95,31 +95,31 @@ namespace eStore.BL.Triggers
                 today.OpenningBalance = yesterday.ClosingBalance;
                 today.ClosingBalance = today.OpenningBalance + today.CashIn - today.CashOut;
 
-                db.Entry (yesterday).State = EntityState.Modified;
+                db.Entry(yesterday).State = EntityState.Modified;
             }
 
-            if ( isNew )
-                db.CashInBanks.Add (today);
+            if (isNew)
+                db.CashInBanks.Add(today);
             else
-                db.Entry (today).State = EntityState.Modified;
+                db.Entry(today).State = EntityState.Modified;
 
-            if ( saveit )
-                db.SaveChanges ();
+            if (saveit)
+                db.SaveChanges();
         }
 
         //StoreBased Action
         public void ProcessBankClosingBalance(eStoreDbContext db, DateTime date, int StoreId, bool saveit = false)
         {
             CashInBank today;
-            today = db.CashInBanks.Where (c => c.CIBDate.Date == date.Date && c.StoreId == StoreId).FirstOrDefault ();
-            if ( today != null )
+            today = db.CashInBanks.Where(c => c.CIBDate.Date == date.Date && c.StoreId == StoreId).FirstOrDefault();
+            if (today != null)
             {
-                if ( today.ClosingBalance != today.OpenningBalance + today.CashIn - today.CashOut )
+                if (today.ClosingBalance != today.OpenningBalance + today.CashIn - today.CashOut)
                 {
                     today.ClosingBalance = today.OpenningBalance + today.CashIn - today.CashOut;
-                    db.Entry (today).State = EntityState.Modified;
-                    if ( saveit )
-                        db.SaveChanges ();
+                    db.Entry(today).State = EntityState.Modified;
+                    if (saveit)
+                        db.SaveChanges();
                 }
             }
         }
@@ -127,29 +127,29 @@ namespace eStore.BL.Triggers
         //StoreBased Action
         public void JobOpeningClosingBalance(eStoreDbContext db, int StoreId)
         {
-            ProcessOpenningBalance (db, DateTime.Today, StoreId, true);
-            ProcessClosingBalance (db, DateTime.Today, StoreId, true);
-            ProcessBankOpenningBalance (db, DateTime.Today, StoreId, true);
-            ProcessBankClosingBalance (db, DateTime.Today, StoreId, true);
+            ProcessOpenningBalance(db, DateTime.Today, StoreId, true);
+            ProcessClosingBalance(db, DateTime.Today, StoreId, true);
+            ProcessBankOpenningBalance(db, DateTime.Today, StoreId, true);
+            ProcessBankClosingBalance(db, DateTime.Today, StoreId, true);
         }
 
         //StoreBased Action
         public void CreateNextDayOpenningBalance(eStoreDbContext db, DateTime date, int StoreId, bool saveit = false)
         {
-            date = date.AddDays (1);// Next Day
-            ProcessOpenningBalance (db, date, StoreId, saveit); //TODO: many lines is repeating so create inline call or make new function
-            ProcessBankOpenningBalance (db, date, StoreId, saveit);//TODO: many lines is repeating so create inline call or make new function
+            date = date.AddDays(1);// Next Day
+            ProcessOpenningBalance(db, date, StoreId, saveit); //TODO: many lines is repeating so create inline call or make new function
+            ProcessBankOpenningBalance(db, date, StoreId, saveit);//TODO: many lines is repeating so create inline call or make new function
         }
 
         //StoreBased Action
         public decimal GetClosingBalance(eStoreDbContext db, DateTime forDate, int StoreId, bool IsBank = false)
         {
-            if ( IsBank )
+            if (IsBank)
             {
-                var bal = db.CashInBanks.Where (c => c.CIBDate.Date == forDate.Date && c.StoreId == StoreId).Select (c => new { c.CashIn, c.CashOut, c.OpenningBalance }).FirstOrDefault ();
-                if ( bal != null )
+                var bal = db.CashInBanks.Where(c => c.CIBDate.Date == forDate.Date && c.StoreId == StoreId).Select(c => new { c.CashIn, c.CashOut, c.OpenningBalance }).FirstOrDefault();
+                if (bal != null)
                 {
-                    return ( bal.OpenningBalance + bal.CashIn - bal.CashOut );
+                    return (bal.OpenningBalance + bal.CashIn - bal.CashOut);
                 }
                 else
                 {
@@ -158,10 +158,10 @@ namespace eStore.BL.Triggers
             }
             else
             {
-                var bal = db.CashInHands.Where (c => c.CIHDate.Date == forDate.Date && c.StoreId == StoreId).Select (c => new { c.CashIn, c.CashOut, c.OpenningBalance }).FirstOrDefault ();
-                if ( bal != null )
+                var bal = db.CashInHands.Where(c => c.CIHDate.Date == forDate.Date && c.StoreId == StoreId).Select(c => new { c.CashIn, c.CashOut, c.OpenningBalance }).FirstOrDefault();
+                if (bal != null)
                 {
-                    return ( bal.OpenningBalance + bal.CashIn - bal.CashOut );
+                    return (bal.OpenningBalance + bal.CashIn - bal.CashOut);
                 }
                 else
                 {
@@ -173,30 +173,30 @@ namespace eStore.BL.Triggers
         //StoreBased Action
         public void CashInHandCorrectionForMonth(eStoreDbContext db, DateTime forDate, int StoreId)
         {
-            IEnumerable<CashInHand> cashs = db.CashInHands.Where (c => c.CIHDate.Month == forDate.Month && c.CIHDate.Year == forDate.Year && c.StoreId == StoreId).OrderBy (c => c.CIHDate);
+            IEnumerable<CashInHand> cashs = db.CashInHands.Where(c => c.CIHDate.Month == forDate.Month && c.CIHDate.Year == forDate.Year && c.StoreId == StoreId).OrderBy(c => c.CIHDate);
 
             decimal cBal = 0;
 
-            if ( cashs != null && cashs.Any () )
+            if (cashs != null && cashs.Any())
             {
-                cBal = GetClosingBalance (db, cashs.First ().CIHDate.AddDays (-1), StoreId);
-                if ( cBal == 0 )
-                    cBal = cashs.First ().OpenningBalance;
+                cBal = GetClosingBalance(db, cashs.First().CIHDate.AddDays(-1), StoreId);
+                if (cBal == 0)
+                    cBal = cashs.First().OpenningBalance;
 
-                foreach ( var cash in cashs )
+                foreach (var cash in cashs)
                 {
                     cash.OpenningBalance = cBal;
 
                     cash.ClosingBalance = cash.OpenningBalance + cash.CashIn - cash.CashOut;
                     cBal = cash.ClosingBalance;
 
-                    db.Entry (cash).State = EntityState.Modified;
+                    db.Entry(cash).State = EntityState.Modified;
                 }
                 try
                 {
-                    db.SaveChanges ();
+                    db.SaveChanges();
                 }
-                catch ( Exception )
+                catch (Exception)
                 {
                     // Log.Info("CashInHand Correction failed");
                 }
@@ -206,30 +206,30 @@ namespace eStore.BL.Triggers
         //StoreBased Action
         public void CashInBankCorrectionForMonth(eStoreDbContext db, DateTime forDate, int StoreId)
         {
-            IEnumerable<CashInBank> cashs = db.CashInBanks.Where (c => c.CIBDate.Month == forDate.Month && c.CIBDate.Year == forDate.Year && c.StoreId == StoreId).OrderBy (c => c.CIBDate);
+            IEnumerable<CashInBank> cashs = db.CashInBanks.Where(c => c.CIBDate.Month == forDate.Month && c.CIBDate.Year == forDate.Year && c.StoreId == StoreId).OrderBy(c => c.CIBDate);
 
             decimal cBal = 0;
 
-            if ( cashs != null && cashs.Any () )
+            if (cashs != null && cashs.Any())
             {
-                cBal = GetClosingBalance (db, cashs.First ().CIBDate, StoreId);
-                if ( cBal == 0 )
-                    cBal = cashs.First ().OpenningBalance;
+                cBal = GetClosingBalance(db, cashs.First().CIBDate, StoreId);
+                if (cBal == 0)
+                    cBal = cashs.First().OpenningBalance;
 
-                foreach ( var cash in cashs )
+                foreach (var cash in cashs)
                 {
                     cash.OpenningBalance = cBal;
 
                     cash.ClosingBalance = cash.OpenningBalance + cash.CashIn - cash.CashOut;
                     cBal = cash.ClosingBalance;
 
-                    db.Entry (cash).State = EntityState.Modified;
+                    db.Entry(cash).State = EntityState.Modified;
                 }
                 try
                 {
-                    db.SaveChanges ();
+                    db.SaveChanges();
                 }
-                catch ( Exception )
+                catch (Exception)
                 {
                     // Log.Info("CashInBank Correction failed");
                 }
