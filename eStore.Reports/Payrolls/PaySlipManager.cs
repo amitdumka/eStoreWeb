@@ -1,6 +1,7 @@
 ﻿using eStore.Database;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace eStore.Reports.Payrolls
@@ -8,6 +9,7 @@ namespace eStore.Reports.Payrolls
     //View Models
     public class PaySlip
     {
+        [Key]
         public int EmpId { get; set; }
         public DateTime OnDate { get; set; }
         public DateTime GenerationDate { get; set; }
@@ -28,9 +30,11 @@ namespace eStore.Reports.Payrolls
     }
     public class PaySlips
     {
+        [Key]
+        public int EmpId { get; set; }
         public int SYear { get; set; }
         public int EYear { get; set; }
-        public int EmpId { get; set; }
+
         public PaySlip Jan { get; set; }
         public PaySlip Feb { get; set; }
         public PaySlip Mar { get; set; }
@@ -166,10 +170,18 @@ namespace eStore.Reports.Payrolls
 
         }
 
-        public void GeneratePaySlipFinYear(eStoreDbContext db, int empId, int sYear, int eYear)
+        public PaySlips GeneratePaySlipFinYear(eStoreDbContext db, int empId, int sYear, int eYear)
         {
             var paySlips = new PaySlips { EmpId = empId, SYear = sYear, EYear = eYear };
-
+            for (int i = 4; i <= 12; i++)
+            {
+                var paySlip = GenerateMonthlyPaySlip(db, empId, new DateTime(sYear, i, 1), 0);
+            }
+            for (int i = 1; i <= 3; i++)
+            {
+                var paySlip = GenerateMonthlyPaySlip(db, empId, new DateTime(eYear, i, 1), 0);
+            }
+            return paySlips;
         }
 
     }
