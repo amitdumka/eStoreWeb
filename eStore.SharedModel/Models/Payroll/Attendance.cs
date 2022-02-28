@@ -29,4 +29,30 @@ namespace eStore.Shared.Models.Payroll
         [Display(Name = "Tailor")]
         public bool IsTailoring { get; set; }
     }
+    public class MonthlyAttendance: AttendanceBase
+    {
+        public int MonthlyAttendanceId { get; set; }
+        
+    }
+    public class YearlyAttendance : AttendanceBase
+    {
+        public int YearlyAttendanceId { get; set; }
+
+    }
+    public class AttendanceBase : BaseST
+    {
+        public DateTime OnDate { get; set; }
+        public int EmployeeId { get; set; }
+        public virtual Employee Employee { get; set; }
+        public int Present { get; set; }
+        public int HalfDay { get; set; }
+        public int Sunday { get; set; }
+        public int PaidLeave { get; set; }
+        public int CasualLeave { get; set; }
+        public int Absent { get; set; }
+        public int Holidays { get; set; }
+        public string Remarks { get; set; }
+        public int NoOfWorkingDays { get; set; }
+        public decimal BillableDays { get; set; }
+    }
 }

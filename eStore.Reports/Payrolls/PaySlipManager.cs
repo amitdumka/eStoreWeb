@@ -1,4 +1,5 @@
 ﻿using eStore.Database;
+using eStore.Shared.Models.Payroll;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -140,7 +141,30 @@ namespace eStore.Reports.Payrolls
                 paySlip.SalaryPerDay = salaryRate / 26;
             }
 
-            paySlip.NetSalary = paySlip.SalaryPerDay * (paySlip.Present + paySlip.PaidLeave + paySlip.Sunday + paySlip.HalfDay * (decimal)0.5);
+            // Calculate salary for 31 days and 28/29 days Feb
+            if (days == 31)
+            {
+                // Months for 31 days 
+
+            }
+            else if (month.Month == 2)
+            {
+                //Feb month   
+                if (days == 28)
+                    paySlip.NetSalary = paySlip.SalaryPerDay * (2 + paySlip.Present + paySlip.PaidLeave + paySlip.Sunday + paySlip.HalfDay * (decimal)0.5);
+                else //Feb month    with leap year
+                    paySlip.NetSalary = paySlip.SalaryPerDay * (1 + paySlip.Present + paySlip.PaidLeave + paySlip.Sunday + paySlip.HalfDay * (decimal)0.5);
+
+            }
+            else
+            {
+                // Months having 30 days and 4 or more 5 sundays
+                paySlip.NetSalary = paySlip.SalaryPerDay * (paySlip.Present + paySlip.PaidLeave + paySlip.Sunday + paySlip.HalfDay * (decimal)0.5);
+
+            }
+
+
+
 
 
 
@@ -183,6 +207,92 @@ namespace eStore.Reports.Payrolls
             }
             return paySlips;
         }
+
+
+
+        // Salary Calculation 
+
+        public void MonthlySalaryCalculation(eStoreDbContext db, int empId, DateTime month, bool save = false)
+        {
+            var paySlip = new MonthlyAttendance
+            { EmployeeId = empId, OnDate = month };
+            var attnds = db.Attendances.Where(c => c.EmployeeId == empId && c.AttDate.Month == month.Month && c.AttDate.Year == month.Year)
+                .OrderBy(c => c.AttDate).Select(c => new { c.AttDate.Day, c.Status, c.IsTailoring });
+            int days = DateTime.DaysInMonth(month.Month, month.Year);
+            int count = attnds.Select(c => c.Day).Distinct().Count();
+
+            if (count != days)
+            {
+                paySlip.Remarks = "No of Attendance not matching.";
+                // Do Verification
+                for (int i = 1; i <= days; i++)
+                {
+                    if (attnds.Where(c => c.Day == i).Count() != 1) paySlip.Remarks += " #D-" + i;
+                }
+            }
+
+            paySlip.Present = attnds.Where(c => c.Status == AttUnit.Present).Count();
+            paySlip.Holidays = attnds.Where(c => c.Status == AttUnit.Holiday || c.Status == AttUnit.StoreClosed).Count();
+            paySlip.PaidLeave = attnds.Where(c => c.Status == AttUnit.PaidLeave || c.Status == AttUnit.SickLeave).Count();
+            paySlip.Absent = attnds.Where(c => c.Status == AttUnit.Absent || c.Status == AttUnit.OnLeave).Count();
+            paySlip.HalfDay = attnds.Where(c => c.Status == AttUnit.HalfDay).Count();
+            paySlip.CasualLeave = attnds.Where(c => c.Status == AttUnit.CasualLeave).Count();
+            paySlip.Sunday = attnds.Where(c => c.Status == AttUnit.Sunday).Count();
+            paySlip.NoOfWorkingDays = days;
+
+            //Calucalte Billable Days 
+            //TODO: check where to be done
+
+            paySlip.BillableDays = paySlip.PaidLeave + paySlip.Present + paySlip.Holidays + paySlip.Sunday + ((decimal)0.5 * paySlip.HalfDay);
+
+            if (save)
+            {
+                db.MonthlyAttendances.Add(paySlip);
+                db.SaveChanges();
+            }
+        }
+
+        public void YearlySalaryCalculation(eStoreDbContext db, int empId, DateTime month, bool save = false)
+        {
+            var paySlip = new YearlyAttendance
+            { EmployeeId = empId, OnDate = month };
+            var attnds = db.Attendances.Where(c => c.EmployeeId == empId && c.AttDate.Year == month.Year)
+                .OrderBy(c => c.AttDate).Select(c => new { c.AttDate.Day, c.Status, c.IsTailoring });
+            int days = DateTime.DaysInMonth(month.Month, month.Year);
+            int count = attnds.Select(c => c.Day).Distinct().Count();
+
+            //Handle for Yearly
+            //if (count != days)
+            //{
+            //    paySlip.Remarks = "No of Attendance not matching.";
+            //    // Do Verification
+            //    for (int i = 1; i <= days; i++)
+            //    {
+            //        if (attnds.Where(c => c.Day == i).Count() != 1) paySlip.Remarks += " #D-" + i;
+            //    }
+            //}
+
+            paySlip.Present = attnds.Where(c => c.Status == AttUnit.Present).Count();
+            paySlip.Holidays = attnds.Where(c => c.Status == AttUnit.Holiday || c.Status == AttUnit.StoreClosed).Count();
+            paySlip.PaidLeave = attnds.Where(c => c.Status == AttUnit.PaidLeave || c.Status == AttUnit.SickLeave).Count();
+            paySlip.Absent = attnds.Where(c => c.Status == AttUnit.Absent || c.Status == AttUnit.OnLeave).Count();
+            paySlip.HalfDay = attnds.Where(c => c.Status == AttUnit.HalfDay).Count();
+            paySlip.CasualLeave = attnds.Where(c => c.Status == AttUnit.CasualLeave).Count();
+            paySlip.Sunday = attnds.Where(c => c.Status == AttUnit.Sunday).Count();
+            paySlip.NoOfWorkingDays = days;
+
+            //Calucalte Billable Days 
+            //TODO: check where to be done
+
+            paySlip.BillableDays = paySlip.PaidLeave + paySlip.Present + paySlip.Holidays + paySlip.Sunday + ((decimal)0.5 * paySlip.HalfDay);
+
+            if (save)
+            {
+                db.YearlyAttendances.Add(paySlip);
+                db.SaveChanges();
+            }
+        }
+
 
     }
 }
