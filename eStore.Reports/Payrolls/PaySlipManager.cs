@@ -208,8 +208,6 @@ namespace eStore.Reports.Payrolls
             return paySlips;
         }
 
-
-
         // Salary Calculation 
 
         public void MonthlySalaryCalculation(eStoreDbContext db, int empId, DateTime month, bool save = false)
@@ -295,4 +293,108 @@ namespace eStore.Reports.Payrolls
 
 
     }
+
+    public class PayrollManager
+    {
+        /// <summary>
+        /// Its calculate  Monthly attendance for each employees  and save it 
+        /// </summary>
+        /// <param name="db"></param>
+        /// <param name="onDate"></param>
+        /// <returns> return it is saved or not .</returns>
+        public bool CalculateMonthlyAttendance(eStoreDbContext db, DateTime onDate)
+        {
+            //List of attendance for a month
+            var attends = db.Attendances.Where(c => c.AttDate.Month == onDate.Month && c.AttDate.Year == onDate.Year)
+                .Select(c => new { c.EmployeeId, c.Status, c.AttDate, c.StoreId }).OrderBy(c => c.EmployeeId)
+                .ToList();
+            var empIds = attends.Select(c => c.EmployeeId).Distinct().ToList();
+
+            foreach (var emp in empIds)
+            {
+                MonthlyAttendance mA = new MonthlyAttendance
+                {
+                    EmployeeId = emp,
+                    IsReadOnly = true,
+                    EntryStatus = EntryStatus.Approved,
+                    OnDate = onDate,
+                    Remarks = "Auto Generated",
+                    NoOfWorkingDays = DateTime.DaysInMonth(onDate.Month, onDate.Year),
+                    PaidLeave = attends.Where(c => c.EmployeeId == emp && c.Status == AttUnit.PaidLeave || c.Status == AttUnit.SickLeave).Count(),
+                    Absent = attends.Where(c => c.EmployeeId == emp && c.Status == AttUnit.Absent || c.Status == AttUnit.SundayHoliday || c.Status == AttUnit.OnLeave).Count(),
+                    CasualLeave = attends.Where(c => c.EmployeeId == emp && c.Status == AttUnit.CasualLeave).Count(),
+                    HalfDay = attends.Where(c => c.EmployeeId == emp && c.Status == AttUnit.HalfDay).Count(),
+                    Holidays = attends.Where(c => c.EmployeeId == emp && c.Status == AttUnit.Holiday || c.Status == AttUnit.StoreClosed).Count(),
+                    Present = attends.Where(c => c.EmployeeId == emp && c.Status == AttUnit.Present).Count(),
+                    Sunday = attends.Where(c => c.EmployeeId == emp && c.Status == AttUnit.Sunday).Count(),
+                    UserId = "AutoAdmin",
+                    StoreId = attends.Where(c => c.EmployeeId == emp).Select(c => c.StoreId).FirstOrDefault(),
+                   
+                };
+                mA.BillableDays = (decimal)(mA.Present + mA.Sunday + mA.Holidays + mA.PaidLeave + (mA.HalfDay * 0.5));
+
+                int days = mA.Present + mA.PaidLeave + mA.Absent + mA.CasualLeave + mA.HalfDay + mA.Holidays + mA.Sunday;
+                if (days != mA.NoOfWorkingDays)
+                {
+                    mA.EntryStatus = EntryStatus.Rejected;
+                    mA.Remarks +=$"     #Working Not matching, WD-{mA.NoOfWorkingDays},TA-{days}, Diff->{mA.NoOfWorkingDays-days}";
+                }
+
+                db.MonthlyAttendances.Add(mA);
+            }
+
+          return  db.SaveChanges()>0;
+
+
+        }
+
+        public bool CalculateYearlyAttendance(eStoreDbContext db, DateTime onDate)
+        {
+            //List of attendance for a month
+            var attends = db.Attendances.Where(c => c.AttDate.Year == onDate.Year)
+                .Select(c => new { c.EmployeeId, c.Status, c.AttDate, c.StoreId }).OrderBy(c => c.EmployeeId)
+                .ToList();
+            var empIds = attends.Select(c => c.EmployeeId).Distinct().ToList();
+
+            foreach (var emp in empIds)
+            {
+                YearlyAttendance mA = new YearlyAttendance
+                {
+                    EmployeeId = emp,
+                    IsReadOnly = true,
+                    EntryStatus = EntryStatus.Approved,
+                    OnDate = onDate,
+                    Remarks = "Auto Generated",
+                    NoOfWorkingDays = DateTime.IsLeapYear(onDate.Year)?366:365,
+                    PaidLeave = attends.Where(c => c.EmployeeId == emp && c.Status == AttUnit.PaidLeave || c.Status == AttUnit.SickLeave).Count(),
+                    Absent = attends.Where(c => c.EmployeeId == emp && c.Status == AttUnit.Absent || c.Status == AttUnit.SundayHoliday || c.Status == AttUnit.OnLeave).Count(),
+                    CasualLeave = attends.Where(c => c.EmployeeId == emp && c.Status == AttUnit.CasualLeave).Count(),
+                    HalfDay = attends.Where(c => c.EmployeeId == emp && c.Status == AttUnit.HalfDay).Count(),
+                    Holidays = attends.Where(c => c.EmployeeId == emp && c.Status == AttUnit.Holiday || c.Status == AttUnit.StoreClosed).Count(),
+                    Present = attends.Where(c => c.EmployeeId == emp && c.Status == AttUnit.Present).Count(),
+                    Sunday = attends.Where(c => c.EmployeeId == emp && c.Status == AttUnit.Sunday).Count(),
+                    UserId = "AutoAdmin",
+                    StoreId = attends.Where(c => c.EmployeeId == emp).Select(c => c.StoreId).FirstOrDefault(),
+
+                };
+                mA.BillableDays = (decimal)(mA.Present + mA.Sunday + mA.Holidays + mA.PaidLeave + (mA.HalfDay * 0.5));
+
+                int days = mA.Present + mA.PaidLeave + mA.Absent + mA.CasualLeave + mA.HalfDay + mA.Holidays + mA.Sunday;
+                if (days != mA.NoOfWorkingDays)
+                {
+                    mA.EntryStatus = EntryStatus.Rejected;
+                    mA.Remarks += $"     #Working Not matching, WD-{mA.NoOfWorkingDays},TA-{days}, Diff->{mA.NoOfWorkingDays - days}";
+                }
+
+                db.YearlyAttendances.Add(mA);
+            }
+
+            return db.SaveChanges() > 0;
+
+
+        }
+
+    }
+
+
 }
