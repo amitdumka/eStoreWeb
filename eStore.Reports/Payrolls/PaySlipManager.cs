@@ -329,7 +329,7 @@ namespace eStore.Reports.Payrolls
                     Sunday = attends.Where(c => c.EmployeeId == emp && c.Status == AttUnit.Sunday).Count(),
                     UserId = "AutoAdmin",
                     StoreId = attends.Where(c => c.EmployeeId == emp).Select(c => c.StoreId).FirstOrDefault(),
-                   
+
                 };
                 mA.BillableDays = (decimal)(mA.Present + mA.Sunday + mA.Holidays + mA.PaidLeave + (mA.HalfDay * 0.5));
 
@@ -337,14 +337,14 @@ namespace eStore.Reports.Payrolls
                 if (days != mA.NoOfWorkingDays)
                 {
                     mA.EntryStatus = EntryStatus.Rejected;
-                    mA.Remarks +=$"     #Working Not matching, WD-{mA.NoOfWorkingDays},TA-{days}, Diff->{mA.NoOfWorkingDays-days}";
+                    mA.Remarks += $"     #Working Not matching, WD-{mA.NoOfWorkingDays},TA-{days}, Diff->{mA.NoOfWorkingDays - days}";
                 }
 
                 db.MonthlyAttendances.Add(mA);
             }
-
-          return  db.SaveChanges()>0;
-
+            if (DeleteMonthlyAttendance(db, onDate))
+                return db.SaveChanges() > 0;
+            else return false;
 
         }
 
@@ -365,7 +365,7 @@ namespace eStore.Reports.Payrolls
                     EntryStatus = EntryStatus.Approved,
                     OnDate = onDate,
                     Remarks = "Auto Generated",
-                    NoOfWorkingDays = DateTime.IsLeapYear(onDate.Year)?366:365,
+                    NoOfWorkingDays = DateTime.IsLeapYear(onDate.Year) ? 366 : 365,
                     PaidLeave = attends.Where(c => c.EmployeeId == emp && c.Status == AttUnit.PaidLeave || c.Status == AttUnit.SickLeave).Count(),
                     Absent = attends.Where(c => c.EmployeeId == emp && c.Status == AttUnit.Absent || c.Status == AttUnit.SundayHoliday || c.Status == AttUnit.OnLeave).Count(),
                     CasualLeave = attends.Where(c => c.EmployeeId == emp && c.Status == AttUnit.CasualLeave).Count(),
@@ -394,7 +394,40 @@ namespace eStore.Reports.Payrolls
 
         }
 
+
+        public bool DeleteMonthlyAttendance(eStoreDbContext db, DateTime ondateTime)
+        {
+            var list = db.MonthlyAttendances.Where(c => c.OnDate.Month == ondateTime.Month && c.OnDate.Year == ondateTime.Year);
+            db.MonthlyAttendances.RemoveRange(list);
+            return db.SaveChanges() > 0;
+        }
+
     }
 
+    public class PayrollReports {
 
+        public void PaySlipReportForEmployee(eStoreDbContext db, DateTime onDate,int empId) {
+
+            var emp = db.Employees.Find(empId);
+
+            // TODO: get Salary before hand for multiple month.
+            var paySlips = new PaySlipManager().GenerateMonthlyPaySlip(db, empId, onDate, 0);
+            
+
+        }
+        public void PaySlipReportForAllEmpoyee(eStoreDbContext db, DateTime onDate) { }
+
+        public void PaySlipFinYearReport(eStoreDbContext db,  int empId, int SYear, int EYear) { }
+    }
 }
+
+
+//NOTE Thing to be done.
+//Calculate Attendance
+// Calculate Slary
+// Thing to be done by month wise and emp wise
+// then combine with year;y fin- yealy , then all or set of emp.
+// then for store wise also .
+// Then Generate Report from that data and add heading based on that.
+// Middle ware class for generating report and fetching data.
+// Makes this system modular and less code will be reating. use old codes for help and remove those. 
