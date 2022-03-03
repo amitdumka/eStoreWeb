@@ -14,6 +14,7 @@ namespace eStore.Reports.Pdfs
 {
     internal class PDFHelper
     {
+        [Obsolete]
         public static string CreateReportPdf(string reportName, string reportHeaderLine, List<Paragraph> pList, bool IsLandscape)
         {
             string FileName = reportName + "_Report.pdf";
@@ -53,6 +54,7 @@ namespace eStore.Reports.Pdfs
         /// <param name="columnWidths"></param>
         /// <param name="HeaderCell"></param>
         /// <returns></returns>
+        [Obsolete]
         public static Table GenerateTable(float[] columnWidths, Cell[] HeaderCell)
         {
             //Table Footer
@@ -85,6 +87,7 @@ namespace eStore.Reports.Pdfs
         /// </summary>
         /// <param name="fileName"></param>
         /// <returns></returns>
+        [Obsolete]
         public static string IsExist(string fileName)
         {
             //string fileName = $"FinReport_{repName}_{StartYear}_{EndYear}.pdf";
@@ -98,6 +101,7 @@ namespace eStore.Reports.Pdfs
         /// List PDF File in working directory
         /// </summary>
         /// <returns></returns>
+        [Obsolete]
         public static string[] FileListPDF()
         {
             string[] filePaths = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.pdf");
@@ -109,6 +113,7 @@ namespace eStore.Reports.Pdfs
         /// </summary>
         /// <param name="fileName">PDF Filename which need to be ignored</param>
         /// <returns></returns>
+        [Obsolete]
         public static bool FileCleanUp(string fileName)
         {
             string[] filePaths = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.pdf");
@@ -124,6 +129,7 @@ namespace eStore.Reports.Pdfs
         /// <param name="sourceFilename"></param>
         /// <param name="outputFileName"></param>
         /// <returns></returns>
+        [Obsolete]
         public static string AddPageNumber(string sourceFilename, string outputFileName)
         {
             using PdfDocument pdfDoc = new PdfDocument(new PdfReader(sourceFilename), new PdfWriter(outputFileName));

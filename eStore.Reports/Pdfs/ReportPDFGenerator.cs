@@ -1,13 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using iText.Kernel.Colors;
+using iText.Kernel.Geom;
 using iText.Kernel.Pdf;
 using iText.Layout;
+using iText.Layout.Borders;
 using iText.Layout.Element;
 using iText.Layout.Properties;
 
 namespace eStore.Reports.Pdfs
 {
+    /// <summary>
+    /// Report PDF Generator. One Function Call PDF is created. 
+    /// </summary>
     public class ReportPDFGenerator
     {
         public ReportPDFGenerator()
@@ -27,6 +33,7 @@ namespace eStore.Reports.Pdfs
             else
                 return "ERROR";
         }
+
         /// <summary>
         /// List PDF File in working directory
         /// </summary>
@@ -36,6 +43,7 @@ namespace eStore.Reports.Pdfs
             string[] filePaths = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.pdf");
             return filePaths;
         }
+
         /// <summary>
         /// Delete all pdf file from working directory except filename provided as parameter.
         /// </summary>
@@ -78,9 +86,111 @@ namespace eStore.Reports.Pdfs
             FileCleanUp(outputFileName);
             return outputFileName;
         }
-        public void CreatePDF() { }
-        public void AddParagraph() { }
-        public void GenerateTable() { }
+
+        /// <summary>
+        /// Generate Table to Fill Data in.[Templete the table ]
+        /// </summary>
+        /// <param name="columnWidths"></param>
+        /// <param name="HeaderCell"></param>
+        /// <returns></returns>
+        public Table GenerateTable(float[] columnWidths, Cell[] HeaderCell)
+        {
+            //Table Footer
+            Cell[] FooterCell = new[]
+           {
+                //TODO: ConData Need to be Consolidate
+                new Cell(1,4).Add(new Paragraph(ConData.CName +" / "+ConData.CAdd) .SetFontColor(DeviceGray.GRAY)),
+                new Cell(1,2).Add(new Paragraph("D:"+DateTime.Now) .SetFontColor(DeviceGray.GRAY)),
+            };
+            Table table = new Table(UnitValue.CreatePercentArray(columnWidths)).SetBorder(new OutsetBorder(2));
+
+            //TODO: Font Color need to be tried and test for best color code by creating own color code chart
+            table.SetFontColor(ColorConstants.BLUE);
+            table.SetFontSize(10);
+            table.SetPadding(10f);
+            table.SetMarginRight(5f);
+            table.SetMarginTop(10f);
+
+            foreach (Cell hfCell in HeaderCell)
+            {
+                table.AddHeaderCell(hfCell.SetFontColor(ColorConstants.RED).SetFontSize(12).SetItalic().SetBackgroundColor(ColorConstants.ORANGE));
+            }
+            foreach (Cell hfCell in FooterCell)
+            {
+                table.AddFooterCell(hfCell);
+            }
+            return table;
+        }
+
+        /// <summary>
+        /// Generate PDF file from Data provided
+        /// </summary>
+        /// <param name="reportName">Pass Name of the report </param>
+        /// <param name="reportHeaderLine"> Headline for the report</param>
+        /// <param name="pList"> List of Item in type of paragraph to be added to documents</param>
+        /// <param name="IsLandscape">Page Orirentation</param>
+        /// <returns></returns>
+        public string CreatePdf(string reportName, string reportHeaderLine, List<Paragraph> pList, bool IsLandscape)
+        {
+            string FileName = reportName + "_Report.pdf";
+
+            string path = System.IO.Path.Combine(ConData.WWWroot, FileName);
+
+            //Setting Page size and orientation. 
+            var PageType = PageSize.A4;
+            if (IsLandscape)
+                PageType = PageSize.A4.Rotate();
+
+            using PdfWriter pdfWriter = new PdfWriter(FileName);
+            using PdfDocument pdfDoc = new PdfDocument(pdfWriter);
+            using Document doc = new Document(pdfDoc, PageType);
+
+            //Adding Border on all side of PDF
+            doc.SetBorderTop(new SolidBorder(2));
+
+            //Adding Report Header with Company Name and type of report
+            Paragraph header = new Paragraph($"{ConData.CName} \n {ConData.CAdd}\n")
+               .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
+               .SetFontColor(ColorConstants.RED);
+            doc.Add(header);
+
+            Paragraph info = new Paragraph($"\n {reportHeaderLine}.\n")
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
+               .SetFontColor(ColorConstants.RED);
+            doc.Add(info);
+
+            //Adding All Paragraph and tables in the paragraph to Document
+
+            foreach (var para in pList)
+            {
+                doc.Add(para);
+            }
+
+            doc.Close();
+            pdfDoc.Close();
+            pdfWriter.Close();
+            //Returning PDF File path with name after adding Page Number
+            return AddPageNumber(FileName, "Final_" + FileName);
+        }
+
+        /// <summary>
+        /// Generate Paragraph from the text [Templete Function for add text]
+        /// </summary>
+        /// <param name="textData"></param>
+        /// <param name="alignment"></param>
+        /// <param name="color"></param>
+        /// <returns></returns>
+        public Paragraph AddParagraph(string textData, iText.Layout.Properties.TextAlignment? alignment, Color? color)
+        {
+            Paragraph p = new Paragraph(textData);
+            if (alignment != null)
+                p.SetTextAlignment(alignment);
+            if (color != null)
+                p.SetFontColor(color);
+            return p;
+        }
+
+        
         public void PrintPdf() { }
     }
 }

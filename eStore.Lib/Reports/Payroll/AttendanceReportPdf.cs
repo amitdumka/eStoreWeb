@@ -352,6 +352,7 @@ namespace eStore.BL.Reports.Payroll
             return tables;
         }
 
+        [Obsolete]
         private Table GenTable(float[] columnWidths, Cell[] HeaderCell)
         {
             Cell[] FooterCell = new[]
@@ -378,6 +379,7 @@ namespace eStore.BL.Reports.Payroll
             return table;
         }
 
+        [Obsolete]
         private string PrintPDF(string repName, SortedDictionary<string, List<Table>> dataTable, Div headerDiv, bool IsLandscape = false)
         {
             string fileNameExp = $"AttendanceReport_{repName}_{DateTime.Now.ToFileTimeUtc()}.pdf";
@@ -429,6 +431,8 @@ namespace eStore.BL.Reports.Payroll
             return AddPageNumber(fileName, fileNameExp);
         }
 
+
+        [Obsolete]
         private string AddPageNumber(string sourceFileName, string fileName)
         {
             using PdfDocument pdfDoc = new PdfDocument(new PdfReader(sourceFileName), new PdfWriter(fileName));
@@ -451,13 +455,14 @@ namespace eStore.BL.Reports.Payroll
             return fileName;
         }
 
+        [Obsolete]
         private string[] FileList()
         {
             string[] filePaths = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.pdf");
 
             return filePaths;
         }
-
+        [Obsolete]
         private bool CleanUp(string fileName)
         {
             string[] filePaths = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.pdf");
@@ -472,7 +477,7 @@ namespace eStore.BL.Reports.Payroll
             }
             return true;
         }
-
+        [Obsolete]
         private string IsExist(string repName)
         {
             string fileName = $"FinReport_{repName}_{StartYear}_{EndYear}.pdf";
@@ -487,6 +492,7 @@ namespace eStore.BL.Reports.Payroll
         /// </summary>
         /// <param name="fileName"></param>
         /// <returns> filename saved as</returns>
+        [Obsolete]
         public static string AddPageNumberToPdf(string fileName)
         {
             using PdfReader reader = new PdfReader(fileName);
