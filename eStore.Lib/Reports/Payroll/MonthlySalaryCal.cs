@@ -101,13 +101,14 @@ namespace eStore.Lib.Reports.Payroll
                 slip.IsSundayWorking = data[0].IsSundayBillable;
             }
 
-            if (slip.NetAttendance == 15)
-            {
-                //Calcualte Half Salary
-                slip.SalaryPerDays = SalaryAmount / 30;
-                slip.GrossSalary = SalaryAmount / 2;
-            }
-            else if (slip.NetAttendance < 15)
+            //if (slip.NetAttendance == 15)
+            //{
+            //    //Calcualte Half Salary
+            //    slip.SalaryPerDays = SalaryAmount / 30;
+            //    slip.GrossSalary = SalaryAmount / 2;
+            //}
+            //else
+            if (slip.NetAttendance <= 15)
             {
                 // Divide by 30  days
                 slip.SalaryPerDays = SalaryAmount / 30;
@@ -161,9 +162,11 @@ namespace eStore.Lib.Reports.Payroll
             Div d = new Div();
 
             Table table = PDFHelper.GenerateTable(columnWidths, HeaderCell);
+
             int count = 0;
             decimal totalPayment = 0;
             bool isValid = true;
+
             foreach (var item in mos)
             {
                 var StaffName = item.Key;

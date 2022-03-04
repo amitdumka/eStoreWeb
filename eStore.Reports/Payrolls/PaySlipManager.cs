@@ -1,5 +1,9 @@
 ﻿using eStore.Database;
+using eStore.Reports.Pdfs;
 using eStore.Shared.Models.Payroll;
+using iText.Kernel.Colors;
+using iText.Layout.Element;
+using iText.Layout.Properties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -520,9 +524,45 @@ namespace eStore.Reports.Payrolls
             // TODO: get Salary before hand for multiple month.
             var paySlips = new PaySlipManager().GenerateMonthlyPaySlip(db, onDate, empId);
 
+           
+
+
+
+
+            
 
         }
-        public void PaySlipReportForAllEmpoyee(eStoreDbContext db, DateTime onDate) { }
+        public string PaySlipReportForAllEmpoyee(eStoreDbContext db, DateTime onDate) {
+
+
+            ReportPDFGenerator pdfGen = new ReportPDFGenerator();
+
+            var P1 = pdfGen.AddParagraph($"No of Working Days: {DateTime.DaysInMonth(onDate.Year, onDate.Month)}", iText.Layout.Properties.TextAlignment.CENTER, ColorConstants.BLUE);
+
+            float[] columnWidths = { 1, 5, 5, 1, 1, 1, 1, 1, 1, 1 };
+
+            Cell[] HeaderCell = new Cell[]{
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("#")),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Staff Name").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Working Days / Count").SetTextAlignment(TextAlignment.CENTER)),
+                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("@Salary(PD)").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Attendance").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Absent").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Sunday").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Salary").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Advance").SetTextAlignment(TextAlignment.CENTER)),
+                    new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Net Salary").SetTextAlignment(TextAlignment.CENTER)),
+            };
+
+            var table = pdfGen.GenerateTable(columnWidths, HeaderCell);
+
+            //TODO: Check for usablilty. 
+            int count = 0;
+            decimal totalPayment = 0;
+            bool isValid = true;
+            return pdfGen.CreatePdf("Salary Report", $"Salary Report of Month {onDate.Month}/{onDate.Year}", null, true);
+
+        }
 
         public void PaySlipFinYearReport(eStoreDbContext db, int empId, int SYear, int EYear) { }
     }

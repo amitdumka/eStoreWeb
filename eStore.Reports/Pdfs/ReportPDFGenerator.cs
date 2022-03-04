@@ -154,10 +154,15 @@ namespace eStore.Reports.Pdfs
                .SetFontColor(ColorConstants.RED);
             doc.Add(header);
 
-            Paragraph info = new Paragraph($"\n {reportHeaderLine}.\n")
+            Paragraph info = new Paragraph($"\n {reportHeaderLine}.")
                 .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
                .SetFontColor(ColorConstants.RED);
             doc.Add(info);
+
+            Paragraph reportTime = new Paragraph($"\nReport Date: {DateTime.Now}(GMT).\n")
+               .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+              .SetFontColor(ColorConstants.BLACK);
+            doc.Add(reportTime);
 
             //Adding All Paragraph and tables in the paragraph to Document
 
