@@ -159,8 +159,7 @@ namespace eStore.Lib.Reports.Payroll
             int nDays = DateTime.DaysInMonth(year, month);
             Paragraph Line2 = new Paragraph($"No of Day in Month: { nDays}\n").SetTextAlignment(TextAlignment.CENTER).SetFontColor(ColorConstants.DARK_GRAY);
             pList.Add(Line2);
-            Div d = new Div();
-
+            
             Table table = PDFHelper.GenerateTable(columnWidths, HeaderCell);
 
             int count = 0;
@@ -187,6 +186,11 @@ namespace eStore.Lib.Reports.Payroll
                 if (item.Value.NoofAttendance != nDays)
                     isValid = false;
             }
+            Paragraph p = new Paragraph();
+            p.Add($"\nTotal Monthly Salary:Rs. {totalPayment.ToString("0.##")} /-");
+            Div d = new Div();
+            d.Add(p);
+            table.SetCaption(d);
             pList.Add(table);
             if (!isValid)
             {
@@ -203,10 +207,7 @@ namespace eStore.Lib.Reports.Payroll
             Paragraph px = new Paragraph("Note: Salary Advances and any other deducation has not be been considered. That is will be deducated in actuals if applicable").SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER).SetFontColor(ColorConstants.RED);
             pList.Add(px);
 
-            Paragraph p = new Paragraph();
-            p.Add($"\nTotal Monthly Salary:Rs. {totalPayment.ToString("0.##")} /-");
-            d.Add(p);
-            table.SetCaption(d);
+           
 
             return PDFHelper.CreateReportPdf("SalaryReport", $"Salary Report Month of {month}/{year}.\n", pList, isLandscape);
         }

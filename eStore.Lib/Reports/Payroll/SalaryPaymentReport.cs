@@ -227,7 +227,7 @@ namespace eStore.Lib.Reports.Payroll
         }
     }
 
-    [DebuggerDisplay($"{{{nameof(GetDebuggerDisplay)}(),nq}}")]
+    
     public class SalaryPaymentReport
     {
         private eStoreDbContext db;

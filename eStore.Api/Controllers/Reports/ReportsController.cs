@@ -4,6 +4,8 @@ using eStore.BL.Reports.Payroll;
 using eStore.BL.Widgets;
 using eStore.Database;
 using eStore.Lib.Reports.Payroll;
+using eStore.Reports.Payrolls;
+using eStore.Reports.Pdfs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -114,14 +116,35 @@ namespace eStore.API.Controllers
         [HttpPost("SalaryCalReport")]
         public FileStreamResult PostSalarCalReport(AttReportDto dto)
         {
+
+           
             SalaryCal cal = new SalaryCal(db, dto.EmployeeId, dto.StoreId);
             var data = cal.SalaryCalculation();
             var stream = new FileStream(data, FileMode.Open);
             return File(stream, "application/pdf", "report.pdf");
         }
 
+
         [HttpPost("MonthlySalaryCalReport")]
         public FileStreamResult PostMSalarCalReport(AttReportDto dto)
+        {
+            var yrs = dto.FinYear.Split("-");
+            int year = int.Parse(yrs[0].Trim());
+            if (dto.Month < 4)
+                year = int.Parse(yrs[1].Trim());
+
+            // MonthlySalaryCal cal = new MonthlySalaryCal(db, dto.StoreId, dto.Month, year);
+            // var data = cal.CalucalteSalarySlip();
+
+            PayrollReports cal = new PayrollReports();
+            var data = cal.PaySlipReportForAllEmpoyee(db, new DateTime(year, dto.Month, 1));
+            var stream = new FileStream(data, FileMode.Open);
+            return File(stream, "application/pdf", "report.pdf");
+        }
+
+
+        [HttpPost("MonthlySalaryCalReport_old")]
+        public FileStreamResult PostMSalarCalReport_old(AttReportDto dto)
         {
             var yrs = dto.FinYear.Split("-");
             int year = int.Parse(yrs[0].Trim());

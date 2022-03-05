@@ -130,7 +130,7 @@ namespace eStore.Reports.Pdfs
         /// <param name="pList"> List of Item in type of paragraph to be added to documents</param>
         /// <param name="IsLandscape">Page Orirentation</param>
         /// <returns></returns>
-        public string CreatePdf(string reportName, string reportHeaderLine, List<Paragraph> pList, bool IsLandscape)
+        public string CreatePdf(string reportName, string reportHeaderLine, List<Object> pList, bool IsLandscape)
         {
             string FileName = reportName + "_Report.pdf";
 
@@ -168,7 +168,7 @@ namespace eStore.Reports.Pdfs
 
             foreach (var para in pList)
             {
-                doc.Add(para);
+                doc.Add((IBlockElement)para);
             }
 
             doc.Close();

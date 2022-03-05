@@ -23,6 +23,7 @@
     <ProjectReference Include="..\eStore.Database\eStore.Database.csproj" />
     <ProjectReference Include="..\eStore.Extensions\eStore.Extensions.csproj" />
     <ProjectReference Include="..\eStore.Lib\eStore.Lib.csproj" />
+    <ProjectReference Include="..\eStore.Reports\eStore.Reports.csproj" />
   </ItemGroup>
 
   <ItemGroup>
