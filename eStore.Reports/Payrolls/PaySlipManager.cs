@@ -112,9 +112,9 @@ namespace eStore.Reports.Payrolls
             c.EffectiveDate.Date <= onDate.Date && c.CloseDate.Value.Date >= onDate.Date)
                 .OrderByDescending(c => c.EffectiveDate)
                 .ToList();
-
-            return sal[0].BasicSalary;
-
+            if (sal != null && sal.Count > 0)
+                return sal[0].BasicSalary;
+            else return 0;
         }
         private Shared.Models.Payroll.CurrentSalary GetSalary(eStoreDbContext db, int empId, DateTime onDate)
         {
