@@ -43,6 +43,15 @@ namespace eStore.API.Controllers
             return NoContent();
         }
 
+        [HttpGet("PMA")]
+        public async Task<ActionResult<bool>> GetPMA()
+        {
+            eStore.Reports.Payrolls.PayrollManager pm = new eStore.Reports.Payrolls.PayrollManager();
+            return pm.ProcessMonthlyAttendance(_context);
+
+
+        }
+
         // GET: api/Attendances/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Attendance>> GetAttendance(int id)

@@ -437,6 +437,8 @@ namespace eStore.Reports.Payrolls
             var attends = db.Attendances.Where(c => c.AttDate.Month == onDate.Month && c.AttDate.Year == onDate.Year)
                 .Select(c => new { c.EmployeeId, c.Status, c.AttDate, c.StoreId }).OrderBy(c => c.EmployeeId)
                 .ToList();
+            if (attends == null && attends.Count < 1) return false;
+
             var empIds = attends.Select(c => c.EmployeeId).Distinct().ToList();
 
             foreach (var emp in empIds)
@@ -527,9 +529,38 @@ namespace eStore.Reports.Payrolls
         public bool DeleteMonthlyAttendance(eStoreDbContext db, DateTime ondateTime)
         {
             var list = db.MonthlyAttendances.Where(c => c.OnDate.Month == ondateTime.Month && c.OnDate.Year == ondateTime.Year);
-            db.MonthlyAttendances.RemoveRange(list);
-            return db.SaveChanges() > 0;
+            if (list != null && list.Count() > 0)
+            {
+                db.MonthlyAttendances.RemoveRange(list);
+                return db.SaveChanges() > 0;
+            }
+            else return true;
         }
+
+
+
+        public bool ProcessMonthlyAttendance(eStoreDbContext db)
+        {
+            int count = 0;
+            var empIDs = db.Attendances.Select(c => c.EmployeeId).Distinct().ToList();
+            //foreach (var emp in empIDs)
+            //{
+                var yrs = db.Attendances.Select(c => c.AttDate.Year).Distinct().ToList();
+
+                foreach (var year in yrs)
+                {
+                    for(int i = 1; i <= 12; i++)
+                    {
+                        if (CalculateMonthlyAttendance(db, new DateTime(year, i, 1))) count++;
+                    }
+
+                }
+
+            //}
+            return count > 0;
+
+        }
+
 
     }
 
