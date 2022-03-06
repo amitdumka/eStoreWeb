@@ -159,10 +159,19 @@ namespace eStore.Reports.Pdfs
                .SetFontColor(ColorConstants.RED);
             doc.Add(info);
 
-            Paragraph reportTime = new Paragraph($"\nReport Date: {DateTime.Now}(GMT).\n")
-               .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-              .SetFontColor(ColorConstants.BLACK);
-            doc.Add(reportTime);
+            try
+            {
+
+                Paragraph reportTime = new Paragraph($"\n Report Date: {DateTime.Now.ToString()}(GMT).\n")
+                       .SetTextAlignment(TextAlignment.LEFT)
+                      .SetFontColor(ColorConstants.BLACK);
+                doc.Add(reportTime);
+            }
+            catch (Exception ex)
+            {
+                Paragraph pEx = new Paragraph("\n" + ex.Message + "\n");
+                doc.Add(pEx);
+            }
 
             //Adding All Paragraph and tables in the paragraph to Document
 
