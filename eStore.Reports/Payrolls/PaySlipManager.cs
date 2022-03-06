@@ -149,7 +149,7 @@ namespace eStore.Reports.Payrolls
 
             var attnds = db.Attendances.Where(c => c.EmployeeId == empId && c.AttDate.Month == month.Month && c.AttDate.Year == month.Year)
                 .OrderBy(c => c.AttDate).Select(c => new { c.AttDate.Day, c.Status, c.IsTailoring });
-            int days = DateTime.DaysInMonth(month.Month, month.Year);
+            int days = DateTime.DaysInMonth(month.Year, month.Month);
             int count = attnds.Select(c => c.Day).Distinct().Count();
 
             if (count != days)
@@ -223,7 +223,7 @@ namespace eStore.Reports.Payrolls
             { EmployeeId = empId, OnDate = month };
             var attnds = db.Attendances.Where(c => c.EmployeeId == empId && c.AttDate.Month == month.Month && c.AttDate.Year == month.Year)
                 .OrderBy(c => c.AttDate).Select(c => new { c.AttDate.Day, c.Status, c.IsTailoring });
-            int days = DateTime.DaysInMonth(month.Month, month.Year);
+            int days = DateTime.DaysInMonth(month.Year, month.Month);
             int count = attnds.Select(c => c.Day).Distinct().Count();
 
             if (count != days)
@@ -264,7 +264,7 @@ namespace eStore.Reports.Payrolls
             { EmployeeId = empId, OnDate = month };
             var attnds = db.Attendances.Where(c => c.EmployeeId == empId && c.AttDate.Year == month.Year)
                 .OrderBy(c => c.AttDate).Select(c => new { c.AttDate.Day, c.Status, c.IsTailoring });
-            int days = DateTime.DaysInMonth(month.Month, month.Year);
+            int days = DateTime.DaysInMonth(month.Year, month.Month);
             int count = attnds.Select(c => c.Day).Distinct().Count();
 
             //Handle for Yearly
@@ -450,7 +450,7 @@ namespace eStore.Reports.Payrolls
                     EntryStatus = EntryStatus.Approved,
                     OnDate = onDate,
                     Remarks = "Auto Generated",
-                    NoOfWorkingDays = DateTime.DaysInMonth(onDate.Month, onDate.Year),
+                    NoOfWorkingDays = DateTime.DaysInMonth(onDate.Year, onDate.Month),
                     PaidLeave = attends.Where(c => c.EmployeeId == emp && c.Status == AttUnit.PaidLeave || c.Status == AttUnit.SickLeave).Count(),
                     Absent = attends.Where(c => c.EmployeeId == emp && c.Status == AttUnit.Absent || c.Status == AttUnit.SundayHoliday || c.Status == AttUnit.OnLeave).Count(),
                     CasualLeave = attends.Where(c => c.EmployeeId == emp && c.Status == AttUnit.CasualLeave).Count(),
