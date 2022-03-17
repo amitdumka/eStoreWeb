@@ -125,7 +125,7 @@ namespace eStore.API.Controllers
         }
 
 
-        [HttpPost("MonthlySalaryCalReport")]
+        [HttpPost("MonthlySalaryCalReport_new")]
         public FileStreamResult PostMSalarCalReport(AttReportDto dto)
         {
             var yrs = dto.FinYear.Split("-");
@@ -143,7 +143,7 @@ namespace eStore.API.Controllers
         }
 
 
-        [HttpPost("MonthlySalaryCalReport_old")]
+        [HttpPost("MonthlySalaryCalReport")]
         public FileStreamResult PostMSalarCalReport_old(AttReportDto dto)
         {
             var yrs = dto.FinYear.Split("-");

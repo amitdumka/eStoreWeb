@@ -627,28 +627,36 @@ namespace eStore.Reports.Payrolls
             var salaries = new PaySlipManager().SalaryCalculation(db, onDate);
             foreach (var item in salaries)
             {
-                //var StaffName = item.Key;
-                var sa = db.SalaryPayments.Where(c => c.EmployeeId == item.Value.EmpId && c.SalaryComponet == SalaryComponet.Advance && c.PaymentDate.Month == item.Value.OnDate.Month && c.PaymentDate.Year == item.Value.OnDate.Year)
-                    .Select(c => c.Amount).Sum();
-                var noa = item.Value.HalfDay + item.Value.Absent + item.Value.PaidLeave + item.Value.Present +
-                    item.Value.Sunday;
+                try
+                {
+                    //var StaffName = item.Key;
+                    var sa = db.SalaryPayments.Where(c => c.EmployeeId == item.Value.EmpId && c.SalaryComponet == SalaryComponet.Advance && c.PaymentDate.Month == item.Value.OnDate.Month && c.PaymentDate.Year == item.Value.OnDate.Year)
+                        .Select(c => c.Amount).Sum();
+                    var noa = item.Value.HalfDay + item.Value.Absent + item.Value.PaidLeave + item.Value.Present +
+                        item.Value.Sunday;
 
-                table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph((++count) + "")));
-                table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(item.Key)));
-                table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(item.Value.NoOfWorkingDays.ToString() + "/" + item.Value.NoOfAttendance.ToString())));
-                table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(item.Value.SalaryPerDay.ToString("0.##"))));
-                table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(item.Value.BillableDays.ToString("0.##"))));
-                table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(item.Value.Absent.ToString())));
-                table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(item.Value.Sunday.ToString())));
-                table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(item.Value.GrossSalary.ToString("0.##"))));
-                table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(sa.ToString("0.##"))));
-                table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph((item.Value.GrossSalary - sa).ToString("0.##"))));
+                    table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph((++count) + "")));
+                    table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(item.Key)));
+                    table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(item.Value.NoOfWorkingDays.ToString() + "/" + item.Value.NoOfAttendance.ToString())));
+                    table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(item.Value.SalaryPerDay.ToString("0.##"))));
+                    table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(item.Value.BillableDays.ToString("0.##"))));
+                    table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(item.Value.Absent.ToString())));
+                    table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(item.Value.Sunday.ToString())));
+                    table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(item.Value.GrossSalary.ToString("0.##"))));
+                    table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(sa.ToString("0.##"))));
+                    table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph((item.Value.GrossSalary - sa).ToString("0.##"))));
 
-                totalPayment += (item.Value.GrossSalary - sa);
-                
-                //TODO: salary advance in last month noofattenance.
-                if (nDays!= item.Value.NoOfAttendance)
-                    isValid = false;
+                    totalPayment += (item.Value.GrossSalary - sa);
+
+                    //TODO: salary advance in last month noofattenance.
+                    if (nDays != item.Value.NoOfAttendance)
+                        isValid = false;
+                }
+                catch (Exception ex)
+                {
+
+                    System.Console.WriteLine("Error=> " + ex.Message);
+                }
 
             }
             //Setting up caption.
@@ -672,7 +680,7 @@ namespace eStore.Reports.Payrolls
             Paragraph P2 = new Paragraph("Note: Salary Advances and any other deducation has not be been considered. That is will be deducated in actuals if applicable").SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER).SetFontColor(ColorConstants.RED);
             pList.Add(P2);
 
-            return pdfGen.CreatePdf("Salary Report", $"Salary Report of Month {onDate.Month}/{onDate.Year}", null, true);
+            return pdfGen.CreatePdf("Salary Report", $"Salary Report of Month {onDate.Month}/{onDate.Year}", pList, true);
 
         }
 

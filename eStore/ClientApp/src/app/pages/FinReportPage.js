@@ -167,7 +167,7 @@ export async function GetSalCalReport(RequestData) {
   } else {
     if (RequestData.month > 0)
       await axios
-        .post(`${API_URL}/MonthlySalaryCalReport`, RequestData, {
+        .post(`${API_URL}/MonthlySalaryCalReport_new`, RequestData, {
           method: "POST",
           responseType: "blob", //Force to receive data in a Blob Format
           headers: { "Content-Type": "application/json; charset=utf-8" },
