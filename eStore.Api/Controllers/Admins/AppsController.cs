@@ -41,7 +41,6 @@ namespace eStore.API.Controllers
             return File(stream, "application/zip", "eStoreDBContextJson.zip");
         }
 
-
         // GET: api/Apps/5
         [HttpGet("{id}")]
         public async Task<ActionResult<AppInfo>> GetAppInfo(int id)

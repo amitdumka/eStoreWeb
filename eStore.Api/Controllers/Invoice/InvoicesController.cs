@@ -28,11 +28,13 @@ namespace eStore.Controllers
         {
             return await _context.Invoices.ToListAsync();
         }
+
         [HttpGet("withItems")]
         public async Task<ActionResult<IEnumerable<Invoice>>> GetInvoicesWithItems()
         {
             return await _context.Invoices.Include(c => c.InvoiceItems).Include(c => c.Payment).ToListAsync();
         }
+
         [HttpGet("GenInv")]
         public async Task<ActionResult<string>> GetInvoiceNumber(InvoiceType iType)
         {
@@ -43,15 +45,19 @@ namespace eStore.Controllers
                 case InvoiceType.Sales:
                     invNumber += "IN";
                     break;
+
                 case InvoiceType.SalesReturn:
                     invNumber += "SR";
                     break;
+
                 case InvoiceType.ManualSale:
                     invNumber += "MIN";
                     break;
+
                 case InvoiceType.ManualSaleReturn:
                     invNumber += "MSR";
                     break;
+
                 default:
                     invNumber += "MIN";
                     break;
@@ -63,7 +69,6 @@ namespace eStore.Controllers
             else invNumber += $"{++count}";
 
             return invNumber;
-
         }
 
         // GET: api/Invoices/5

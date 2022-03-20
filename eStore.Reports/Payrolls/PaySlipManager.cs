@@ -20,6 +20,7 @@ namespace eStore.Reports.Payrolls
     {
         [Key]
         public int EmpId { get; set; }
+
         public DateTime OnDate { get; set; }
         public DateTime GenerationDate { get; set; }
 
@@ -30,7 +31,8 @@ namespace eStore.Reports.Payrolls
         public decimal HalfDay { get; set; }
         public decimal PaidLeave { get; set; }
 
-        public int NoOfAttendance { get { return (int)(Absent + PaidLeave + Present + Sunday + HalfDay); }}
+        public int NoOfAttendance
+        { get { return (int)(Absent + PaidLeave + Present + Sunday + HalfDay); } }
 
         public decimal BillableDays { get; set; }
 
@@ -40,10 +42,12 @@ namespace eStore.Reports.Payrolls
         public decimal GrossSalary { get; set; }
         public string Remarks { get; set; }
     }
+
     public class PaySlips
     {
         [Key]
         public int EmpId { get; set; }
+
         public int SYear { get; set; }
         public int EYear { get; set; }
 
@@ -61,9 +65,9 @@ namespace eStore.Reports.Payrolls
         public PaySlip Nov { get; set; }
         public PaySlip Dec { get; set; }
     }
+
     public class PaySlipManager
     {
-
         private decimal GetAttdUnit(AttUnit unit)
         {
             switch (unit)
@@ -103,9 +107,9 @@ namespace eStore.Reports.Payrolls
 
                 default:
                     return 0;
-
             }
         }
+
         private decimal GetSalaryRate(eStoreDbContext db, int empId, DateTime onDate)
         {
             var sal = db.Salaries.Where(c => c.EmployeeId == empId &&
@@ -116,6 +120,7 @@ namespace eStore.Reports.Payrolls
                 return sal[0].BasicSalary;
             else return 0;
         }
+
         private Shared.Models.Payroll.CurrentSalary GetSalary(eStoreDbContext db, int empId, DateTime onDate)
         {
             var sal = db.Salaries.Where(c => c.EmployeeId == empId &&
@@ -124,7 +129,6 @@ namespace eStore.Reports.Payrolls
                 .ToList();
 
             return sal[0];
-
         }
 
         [Obsolete]
@@ -141,6 +145,7 @@ namespace eStore.Reports.Payrolls
             }
             return paySlips;
         }
+
         [Obsolete]
         public PaySlip GenerateMonthlyPaySlip(eStoreDbContext db, int empId, DateTime month, decimal salaryRate)
         {
@@ -159,10 +164,7 @@ namespace eStore.Reports.Payrolls
                 for (int i = 1; i <= days; i++)
                 {
                     if (attnds.Where(c => c.Day == i).Count() != 1) paySlip.Remarks += " #D-" + i;
-
                 }
-
-
             }
 
             paySlip.Present = attnds.Where(c => c.Status == AttUnit.Present ||
@@ -176,7 +178,7 @@ namespace eStore.Reports.Payrolls
             paySlip.Sunday = attnds.Where(c => c.Status == AttUnit.Sunday).Count();
             paySlip.NoOfWorkingDays = days;
 
-            // Get Salary 
+            // Get Salary
             if (salaryRate <= 0)
                 salaryRate = GetSalaryRate(db, empId, month);
             if ((paySlip.Present + ((decimal)0.5 * paySlip.HalfDay) + paySlip.Sunday) > 15)
@@ -191,31 +193,26 @@ namespace eStore.Reports.Payrolls
             // Calculate salary for 31 days and 28/29 days Feb
             if (days == 31)
             {
-                // Months for 31 days 
-
+                // Months for 31 days
             }
             else if (month.Month == 2)
             {
-                //Feb month   
+                //Feb month
                 if (days == 28)
                     paySlip.NetSalary = paySlip.SalaryPerDay * (2 + paySlip.Present + paySlip.PaidLeave + paySlip.Sunday + paySlip.HalfDay * (decimal)0.5);
                 else //Feb month    with leap year
                     paySlip.NetSalary = paySlip.SalaryPerDay * (1 + paySlip.Present + paySlip.PaidLeave + paySlip.Sunday + paySlip.HalfDay * (decimal)0.5);
-
             }
             else
             {
                 // Months having 30 days and 4 or more 5 sundays
                 paySlip.NetSalary = paySlip.SalaryPerDay * (paySlip.Present + paySlip.PaidLeave + paySlip.Sunday + paySlip.HalfDay * (decimal)0.5);
-
             }
 
             return paySlip;
-
         }
 
-
-        // Salary Calculation 
+        // Salary Calculation
 
         public MonthlyAttendance MonthlySalaryCalculation(eStoreDbContext db, int empId, DateTime month, bool save = false)
         {
@@ -245,7 +242,7 @@ namespace eStore.Reports.Payrolls
             paySlip.Sunday = attnds.Where(c => c.Status == AttUnit.Sunday).Count();
             paySlip.NoOfWorkingDays = days;
 
-            //Calucalte Billable Days 
+            //Calucalte Billable Days
             //TODO: check where to be done
 
             paySlip.BillableDays = paySlip.PaidLeave + paySlip.Present + paySlip.Holidays + paySlip.Sunday + ((decimal)0.5 * paySlip.HalfDay);
@@ -287,7 +284,7 @@ namespace eStore.Reports.Payrolls
             paySlip.Sunday = attnds.Where(c => c.Status == AttUnit.Sunday).Count();
             paySlip.NoOfWorkingDays = days;
 
-            //Calucalte Billable Days 
+            //Calucalte Billable Days
             //TODO: check where to be done
 
             paySlip.BillableDays = paySlip.PaidLeave + paySlip.Present + paySlip.Holidays + paySlip.Sunday + ((decimal)0.5 * paySlip.HalfDay);
@@ -303,29 +300,27 @@ namespace eStore.Reports.Payrolls
 
         public PaySlip GenerateMonthlyPaySlip(eStoreDbContext db, DateTime onDate, int empId)
         {
-             var paySlip = db.MonthlyAttendances.Where(c => c.EmployeeId == empId && c.OnDate.Month == onDate.Month && c.OnDate.Year == onDate.Year)
-                .Select(c => new PaySlip
-                {
-                    EmpId = empId,
-                    Absent = c.Absent + c.CasualLeave,
-                    GenerationDate = DateTime.Today,
-                    HalfDay = c.HalfDay,
-                    OnDate = onDate,
-                    GrossSalary = 0,
-                    NetSalary = 0,
-                    NoOfWorkingDays = c.NoOfWorkingDays,
-                    PaidLeave = c.PaidLeave,
-                    Present = c.Present + c.Holidays,
-                    Sunday = c.Sunday,
-                    BillableDays = c.BillableDays,
-                    Remarks = c.Remarks,
-                    SalaryPerDay = 0
-
-                }).FirstOrDefault();
+            var paySlip = db.MonthlyAttendances.Where(c => c.EmployeeId == empId && c.OnDate.Month == onDate.Month && c.OnDate.Year == onDate.Year)
+               .Select(c => new PaySlip
+               {
+                   EmpId = empId,
+                   Absent = c.Absent + c.CasualLeave,
+                   GenerationDate = DateTime.Today,
+                   HalfDay = c.HalfDay,
+                   OnDate = onDate,
+                   GrossSalary = 0,
+                   NetSalary = 0,
+                   NoOfWorkingDays = c.NoOfWorkingDays,
+                   PaidLeave = c.PaidLeave,
+                   Present = c.Present + c.Holidays,
+                   Sunday = c.Sunday,
+                   BillableDays = c.BillableDays,
+                   Remarks = c.Remarks,
+                   SalaryPerDay = 0
+               }).FirstOrDefault();
 
             if (paySlip != null)
             {
-
                 var salaryRate = GetSalaryRate(db, empId, onDate);
 
                 if ((paySlip.Present + ((decimal)0.5 * paySlip.HalfDay) + paySlip.Sunday) > 15)
@@ -342,34 +337,29 @@ namespace eStore.Reports.Payrolls
                 {
                     // Months for 31 days
                     paySlip.NetSalary = paySlip.SalaryPerDay * (paySlip.Present + paySlip.PaidLeave + paySlip.Sunday + paySlip.HalfDay * (decimal)0.5 - 1);
-
                 }
                 else if (onDate.Month == 2)
                 {
-                    //Feb month   
+                    //Feb month
                     if (paySlip.NoOfWorkingDays == 28)
                         paySlip.NetSalary = paySlip.SalaryPerDay * (2 + paySlip.Present + paySlip.PaidLeave + paySlip.Sunday + paySlip.HalfDay * (decimal)0.5);
                     else //Feb month    with leap year
                         paySlip.NetSalary = paySlip.SalaryPerDay * (1 + paySlip.Present + paySlip.PaidLeave + paySlip.Sunday + paySlip.HalfDay * (decimal)0.5);
-
                 }
                 else
                 {
                     // Months having 30 days and 4 or more 5 sundays
                     paySlip.NetSalary = paySlip.SalaryPerDay * (paySlip.Present + paySlip.PaidLeave + paySlip.Sunday + paySlip.HalfDay * (decimal)0.5);
-
                 }
 
                 return paySlip;
-
             }
             else
             {
                 return null;
             }
-
-
         }
+
         public PaySlips GeneratePaySlipForFinYear(eStoreDbContext db, int empId, int sYear, int eYear)
         {
             var paySlips = new PaySlips { EmpId = empId, SYear = sYear, EYear = eYear };
@@ -408,25 +398,22 @@ namespace eStore.Reports.Payrolls
 
         public SortedDictionary<string, PaySlip> SalaryCalculation(eStoreDbContext db, DateTime onDate, bool save = false)
         {
-            var empids = db.Attendances.Include(c=>c.Employee).Where(c => c.AttDate.Month == onDate.Month && c.AttDate.Year == onDate.Year).Select(c => new { c.EmployeeId, c.Employee.StaffName }).
+            var empids = db.Attendances.Include(c => c.Employee).Where(c => c.AttDate.Month == onDate.Month && c.AttDate.Year == onDate.Year).Select(c => new { c.EmployeeId, c.Employee.StaffName }).
                 Distinct().ToList();
-            SortedDictionary<string, PaySlip> paySlips = new SortedDictionary<string,PaySlip>();
+            SortedDictionary<string, PaySlip> paySlips = new SortedDictionary<string, PaySlip>();
             foreach (var emp in empids)
             {
-                paySlips.Add(emp.StaffName,GenerateMonthlyPaySlip(db, onDate,emp.EmployeeId));
+                paySlips.Add(emp.StaffName, GenerateMonthlyPaySlip(db, onDate, emp.EmployeeId));
             }
 
             return paySlips;
-
         }
-
-
     }
 
     public class PayrollManager
     {
         /// <summary>
-        /// Its calculate  Monthly attendance for each employees  and save it 
+        /// Its calculate  Monthly attendance for each employees  and save it
         /// </summary>
         /// <param name="db"></param>
         /// <param name="onDate"></param>
@@ -460,7 +447,6 @@ namespace eStore.Reports.Payrolls
                     Sunday = attends.Where(c => c.EmployeeId == emp && c.Status == AttUnit.Sunday).Count(),
                     UserId = "AutoAdmin",
                     StoreId = attends.Where(c => c.EmployeeId == emp).Select(c => c.StoreId).FirstOrDefault(),
-
                 };
                 mA.BillableDays = (decimal)(mA.Present + mA.Sunday + mA.Holidays + mA.PaidLeave + (mA.HalfDay * 0.5));
 
@@ -476,7 +462,6 @@ namespace eStore.Reports.Payrolls
             if (DeleteMonthlyAttendance(db, onDate))
                 return db.SaveChanges() > 0;
             else return false;
-
         }
 
         public bool CalculateYearlyAttendance(eStoreDbContext db, DateTime onDate)
@@ -506,7 +491,6 @@ namespace eStore.Reports.Payrolls
                     Sunday = attends.Where(c => c.EmployeeId == emp && c.Status == AttUnit.Sunday).Count(),
                     UserId = "AutoAdmin",
                     StoreId = attends.Where(c => c.EmployeeId == emp).Select(c => c.StoreId).FirstOrDefault(),
-
                 };
                 mA.BillableDays = (decimal)(mA.Present + mA.Sunday + mA.Holidays + mA.PaidLeave + (mA.HalfDay * 0.5));
 
@@ -521,10 +505,7 @@ namespace eStore.Reports.Payrolls
             }
 
             return db.SaveChanges() > 0;
-
-
         }
-
 
         public bool DeleteMonthlyAttendance(eStoreDbContext db, DateTime ondateTime)
         {
@@ -537,55 +518,39 @@ namespace eStore.Reports.Payrolls
             else return true;
         }
 
-
-
         public bool ProcessMonthlyAttendance(eStoreDbContext db)
         {
             int count = 0;
             var empIDs = db.Attendances.Select(c => c.EmployeeId).Distinct().ToList();
             //foreach (var emp in empIDs)
             //{
-                var yrs = db.Attendances.Select(c => c.AttDate.Year).Distinct().ToList();
+            var yrs = db.Attendances.Select(c => c.AttDate.Year).Distinct().ToList();
 
-                foreach (var year in yrs)
+            foreach (var year in yrs)
+            {
+                for (int i = 1; i <= 12; i++)
                 {
-                    for(int i = 1; i <= 12; i++)
-                    {
-                        if (CalculateMonthlyAttendance(db, new DateTime(year, i, 1))) count++;
-                    }
-
+                    if (CalculateMonthlyAttendance(db, new DateTime(year, i, 1))) count++;
                 }
+            }
 
             //}
             return count > 0;
-
         }
-
-
     }
 
     public class PayrollReports
     {
-
         public void PaySlipReportForEmployee(eStoreDbContext db, DateTime onDate, int empId)
         {
-
             var emp = db.Employees.Find(empId);
 
             // TODO: get Salary before hand for multiple month.
             var paySlips = new PaySlipManager().GenerateMonthlyPaySlip(db, onDate, empId);
-
-
-
-
-
-
-
-
         }
 
-        public void PaySlipFinYearReport(eStoreDbContext db, int empId, int SYear, int EYear) { }
-
+        public void PaySlipFinYearReport(eStoreDbContext db, int empId, int SYear, int EYear)
+        { }
 
         /// <summary>
         /// Generate Pay Slip for All Emp
@@ -595,7 +560,6 @@ namespace eStore.Reports.Payrolls
         /// <returns></returns>
         public string PaySlipReportForAllEmpoyee(eStoreDbContext db, DateTime onDate)
         {
-
             ReportPDFGenerator pdfGen = new ReportPDFGenerator();
             List<Object> pList = new List<Object>();
             var P1 = pdfGen.AddParagraph($"No of Working Days: {DateTime.DaysInMonth(onDate.Year, onDate.Month)}", iText.Layout.Properties.TextAlignment.CENTER, ColorConstants.BLUE);
@@ -617,13 +581,13 @@ namespace eStore.Reports.Payrolls
 
             var table = pdfGen.GenerateTable(columnWidths, HeaderCell);
 
-            //TODO: Check for usablilty. 
+            //TODO: Check for usablilty.
             int count = 0;
             decimal totalPayment = 0;
             bool isValid = true;
             int nDays = DateTime.DaysInMonth(onDate.Year, onDate.Month);
 
-            //Adding Data to Table. 
+            //Adding Data to Table.
             var salaries = new PaySlipManager().SalaryCalculation(db, onDate);
             foreach (var item in salaries)
             {
@@ -654,10 +618,8 @@ namespace eStore.Reports.Payrolls
                 }
                 catch (Exception ex)
                 {
-
                     System.Console.WriteLine("Error=> " + ex.Message);
                 }
-
             }
             //Setting up caption.
             var P3 = pdfGen.AddParagraph($"Total Monthly Salary:Rs. {totalPayment} /-", iText.Layout.Properties.TextAlignment.CENTER, ColorConstants.BLACK);
@@ -681,12 +643,9 @@ namespace eStore.Reports.Payrolls
             pList.Add(P2);
 
             return pdfGen.CreatePdf("Salary Report", $"Salary Report of Month {onDate.Month}/{onDate.Year}", pList, true);
-
         }
-
     }
 }
-
 
 //NOTE Thing to be done.
 //Calculate Attendance

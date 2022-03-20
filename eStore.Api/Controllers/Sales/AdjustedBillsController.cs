@@ -20,6 +20,7 @@ namespace eStore.Api.Controllers.Sales
         {
             _context = context;
         }
+
         // GET: api/AdjustedBills
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AdjustedBill>>> GetAdjustedBills()
@@ -104,5 +105,4 @@ namespace eStore.Api.Controllers.Sales
             return _context.AdjustedBills.Any(e => e.AdjustedBillId == id);
         }
     }
-
 }

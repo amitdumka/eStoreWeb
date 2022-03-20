@@ -28,7 +28,7 @@ namespace eStore.API.Controllers
             _mapper = mapper;
         }
 
-        // DELETE: api/Attendances/5                
+        // DELETE: api/Attendances/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAttendance(int id)
         {
@@ -48,8 +48,6 @@ namespace eStore.API.Controllers
         {
             eStore.Reports.Payrolls.PayrollManager pm = new eStore.Reports.Payrolls.PayrollManager();
             return pm.ProcessMonthlyAttendance(_context);
-
-
         }
 
         // GET: api/Attendances/5

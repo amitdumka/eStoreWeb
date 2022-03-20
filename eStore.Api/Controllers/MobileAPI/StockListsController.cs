@@ -14,12 +14,13 @@ namespace eStore.Api.Controllers
     [AllowAnonymous]
     public class StockListsController : ControllerBase
     {
-
         private readonly eStoreDbContext _context;
+
         public StockListsController(eStoreDbContext db)
         {
             _context = db;
         }
+
         // GET: api/StockLists
         [HttpGet]
         public async Task<ActionResult<IEnumerable<StockList>>> GetStockLists()
@@ -71,6 +72,7 @@ namespace eStore.Api.Controllers
 
             return NoContent();
         }
+
         // PUT: api/StockLists/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("UpdateRange/{id}")]
@@ -107,6 +109,7 @@ namespace eStore.Api.Controllers
 
             return CreatedAtAction("GetStockList", new { id = StockList.StockListId }, StockList);
         }
+
         // POST: api/StockLists
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost("AddRange")]
@@ -115,10 +118,7 @@ namespace eStore.Api.Controllers
             _context.StockLists.AddRange(StockList);
             int count = await _context.SaveChangesAsync();
             if (count > 0) return true; else return false;
-
-
         }
-
 
         // DELETE: api/StockLists/5
         [HttpDelete("{id}")]
@@ -142,4 +142,3 @@ namespace eStore.Api.Controllers
         }
     }
 }
-

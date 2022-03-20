@@ -19,7 +19,6 @@ namespace eStore.API.Controllers
         public string Type { get; set; }
     }
 
-
     [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
@@ -49,6 +48,7 @@ namespace eStore.API.Controllers
             else
                 return NotFound();
         }
+
         [HttpGet("pending")]
         public async Task<ActionResult<IEnumerable<TalioringBooking>>> GetPendingBooking()
         {
@@ -77,11 +77,11 @@ namespace eStore.API.Controllers
         {
             return await _context.TalioringBookings.OrderByDescending(c => c.BookingDate).ThenByDescending(c => c.DeliveryDate).ToListAsync();
         }
+
         [HttpPost("find")]
         public async Task<ActionResult<IEnumerable<TalioringBooking>>> PostFind(string filters)
         {
             return await _context.TalioringBookings.Where(c => c.DeliveryDate.Year == DateTime.Today.Year).OrderByDescending(c => c.BookingDate).ThenByDescending(c => c.DeliveryDate).ToListAsync();
-
         }
 
         // GET: api/TailoringBookings/5

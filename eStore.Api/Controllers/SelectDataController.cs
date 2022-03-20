@@ -62,7 +62,8 @@ namespace eStore.API.Controllers
 
 namespace eStore.ViewModes.Dtos
 {
-    public class StoreIdList { public int StoreId; public string StoreCode; public string StoreName; }
+    public class StoreIdList
+    { public int StoreId; public string StoreCode; public string StoreName; }
 
     public class BookingBasicDto
     {

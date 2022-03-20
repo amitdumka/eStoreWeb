@@ -5,7 +5,6 @@ using eStore.BL.Widgets;
 using eStore.Database;
 using eStore.Lib.Reports.Payroll;
 using eStore.Reports.Payrolls;
-using eStore.Reports.Pdfs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -116,14 +115,11 @@ namespace eStore.API.Controllers
         [HttpPost("SalaryCalReport")]
         public FileStreamResult PostSalarCalReport(AttReportDto dto)
         {
-
-           
             SalaryCal cal = new SalaryCal(db, dto.EmployeeId, dto.StoreId);
             var data = cal.SalaryCalculation();
             var stream = new FileStream(data, FileMode.Open);
             return File(stream, "application/pdf", "report.pdf");
         }
-
 
         [HttpPost("MonthlySalaryCalReport_new")]
         public FileStreamResult PostMSalarCalReport(AttReportDto dto)
@@ -141,7 +137,6 @@ namespace eStore.API.Controllers
             var stream = new FileStream(data, FileMode.Open);
             return File(stream, "application/pdf", "report.pdf");
         }
-
 
         [HttpPost("MonthlySalaryCalReport")]
         public FileStreamResult PostMSalarCalReport_old(AttReportDto dto)

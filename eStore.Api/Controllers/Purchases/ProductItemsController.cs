@@ -138,6 +138,7 @@ namespace eStore.API.Controllers
             return _context.ProductItems.Any(e => e.ProductItemId == id);
         }
     }
+
     //Move to DTO SharedModel and new shared model
     public class ProductStockView
     {
@@ -148,9 +149,5 @@ namespace eStore.API.Controllers
         public Category ProductType { get; set; }
         public string Name { get; set; }
         public Unit Unit { get; set; }
-
-
-
     }
-
 }

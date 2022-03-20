@@ -34,7 +34,6 @@ namespace eStore.API.Controllers
 
         // GET: api/Banks
         [HttpGet]
-        //public async Task<ActionResult<IEnumerable<Bank>>> GetBanks()
         public IEnumerable<Bank> GetBanks()
         {
             return _context.Banks.ToList();

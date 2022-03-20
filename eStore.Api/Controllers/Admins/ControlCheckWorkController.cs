@@ -215,8 +215,6 @@ namespace eStore.Api.Controllers
                         //msg += "\tDelivery and sale amount not matching;";
                         isO = true;
                     }
-
-
                 }
                 else
                 {
@@ -234,7 +232,6 @@ namespace eStore.Api.Controllers
             Console.WriteLine(tc.ErrorList[0].CustName);
             return tc;
         }
-
 
         [HttpGet("invCheck")]
         public ActionResult<DuplicateInvCheck> GetDuplicateBillCheck(int storeId)
@@ -628,6 +625,7 @@ namespace eStore.Api.Controllers
 
             return msg;
         }
+
         [HttpGet("VerBook")]
         public SortedDictionary<string, string> GetVerifyDailySaleWithBooling(int storeId)
         {
@@ -684,7 +682,8 @@ namespace eStore.Api.Controllers
         public string[] SlipNos { get; set; }
     }
 
-    public class RData { public int storeId { get; set; } public bool delivery { get; set; } }
+    public class RData
+    { public int storeId { get; set; } public bool delivery { get; set; } }
 
     public class DuplicateInvCheck
     {
@@ -722,6 +721,5 @@ namespace eStore.Api.Controllers
         public bool deliveryAmtError { get; set; }
         public bool saleAmtError { get; set; }
         public bool invNotFound { get; set; }
-
     }
 }
