@@ -501,7 +501,8 @@ namespace eStore.Reports.Payrolls
                     NoOfWorkingDays = DateTime.DaysInMonth(onDate.Year, onDate.Month),
 
                     PaidLeave = attends.Where(c => c.EmployeeId == emp && c.Status == AttUnit.PaidLeave
-                    || c.Status == AttUnit.SickLeave || c.Status == AttUnit.SundayHoliday).Count(),
+                    || c.Status == AttUnit.SickLeave ).Count(),
+                    //|| c.Status == AttUnit.SundayHoliday
                     //Sunday Holiday
                     Absent = attends.Where(c => c.EmployeeId == emp && c.Status == AttUnit.Absent
                     || c.Status == AttUnit.OnLeave).Count(),
