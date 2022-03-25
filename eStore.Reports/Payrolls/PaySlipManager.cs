@@ -502,8 +502,9 @@ namespace eStore.Reports.Payrolls
 
                     PaidLeave = attends.Where(c => c.EmployeeId == emp && c.Status == AttUnit.PaidLeave
                     || c.Status == AttUnit.SickLeave ).Count(),
-                    //|| c.Status == AttUnit.SundayHoliday
+                    
                     //Sunday Holiday
+                    WeeklyLeave=attends.Where(c=>c.EmployeeId==emp && c.Status == AttUnit.SundayHoliday).Count(),
                     Absent = attends.Where(c => c.EmployeeId == emp && c.Status == AttUnit.Absent
                     || c.Status == AttUnit.OnLeave).Count(),
 

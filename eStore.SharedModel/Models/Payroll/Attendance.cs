@@ -50,6 +50,7 @@ namespace eStore.Shared.Models.Payroll
         public int PaidLeave { get; set; }
         public int CasualLeave { get; set; }
         public int Absent { get; set; }
+        public int WeeklyLeave { get; set; }
         public int Holidays { get; set; }
         public string Remarks { get; set; }
         public int NoOfWorkingDays { get; set; }
