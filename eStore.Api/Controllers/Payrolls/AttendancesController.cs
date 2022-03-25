@@ -62,6 +62,21 @@ namespace eStore.API.Controllers
             }
             return attendance;
         }
+        // GET: api/Attendances/24/07/1982
+        [HttpGet("MA")]
+        public async Task<ActionResult<MonthlyAttendances>> GetMA(DateTime? onDate)
+        {
+            DateTime date;
+            onDate.HasValue?date=onDate.Value:date = DateTime.Today;
+
+            var attendance = await _context.MonthlyAttendances.Where(c=>c.OnDate.Date.Month==date.Month && c.OnDate.Year==date.Year).OrderBy(c=>c.EmployeeId);
+
+            if (attendance == null)
+            {
+                return NotFound();
+            }
+            return attendance;
+        }
 
         // GET: api/Attendances
         [HttpGet]
