@@ -1,4 +1,5 @@
 using AutoMapper;
+using eStore.BL.Reports.Payroll;
 using eStore.Database;
 using eStore.Payroll;
 using eStore.Shared.DTOs.Payrolls;
@@ -11,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MonthlyAttendance = eStore.Shared.Models.Payroll.MonthlyAttendance;
 
 namespace eStore.API.Controllers
 {
@@ -64,12 +66,12 @@ namespace eStore.API.Controllers
         }
         // GET: api/Attendances/24/07/1982
         [HttpGet("MA")]
-        public async Task<ActionResult<MonthlyAttendances>> GetMA(DateTime? onDate)
+        public async Task<ActionResult<List<MonthlyAttendance>>> GetMA(DateTime? onDate)
         {
             DateTime date;
-            onDate.HasValue?date=onDate.Value:date = DateTime.Today;
+           date= onDate.HasValue?onDate.Value: DateTime.Today;
 
-            var attendance = await _context.MonthlyAttendances.Where(c=>c.OnDate.Date.Month==date.Month && c.OnDate.Year==date.Year).OrderBy(c=>c.EmployeeId);
+            var attendance = await _context.MonthlyAttendances.Where(c => c.OnDate.Date.Month == date.Month && c.OnDate.Year == date.Year).OrderBy(c => c.EmployeeId).ToListAsync();
 
             if (attendance == null)
             {

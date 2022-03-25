@@ -208,7 +208,7 @@ namespace eStore.Database
 
         public DbSet<AdjustedBill> AdjustedBills { get; set; }
 
-        public DbSet<MonthlyAttendance> MonthlyAttendances { get; set; }
+        public DbSet<eStore.Shared.Models.Payroll.MonthlyAttendance> MonthlyAttendances { get; set; }
         public DbSet<YearlyAttendance> YearlyAttendances { get; set; }  
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
