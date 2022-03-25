@@ -516,8 +516,7 @@ namespace eStore.Reports.Payrolls
 
                     Sunday = attends.Where(c => c.EmployeeId == emp && c.Status == AttUnit.Sunday).Count(),
 
-                    UserId = $"AutoAdmin ##{attends.Where(c => c.EmployeeId == emp && c.Status == AttUnit.Absent
-                    || c.Status == AttUnit.OnLeave).Count()}##",
+                    UserId = $"AutoAdmin ##{attends.Where(c => c.EmployeeId == emp && c.Status == AttUnit.Absent || c.Status == AttUnit.OnLeave).Count()}##",
                     StoreId = attends.Where(c => c.EmployeeId == emp).Select(c => c.StoreId).FirstOrDefault(),
                 };
                 mA.BillableDays = (decimal)(mA.Present + mA.Sunday + mA.Holidays + mA.PaidLeave + (mA.HalfDay * 0.5));
