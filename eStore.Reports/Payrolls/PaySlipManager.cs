@@ -503,7 +503,7 @@ namespace eStore.Reports.Payrolls
                     PaidLeave = attends.Where(c => c.EmployeeId == emp && c.Status == AttUnit.PaidLeave || c.Status == AttUnit.SickLeave).Count(),
                     //Sunday Holiday
                     Absent = attends.Where(c => c.EmployeeId == emp && c.Status == AttUnit.Absent
-                    || c.Status == 6 || c.Status == AttUnit.OnLeave).Count(),
+                    || c.Status == (AttUnit)6 || c.Status == AttUnit.OnLeave).Count(),
 
                     CasualLeave = attends.Where(c => c.EmployeeId == emp && c.Status == AttUnit.CasualLeave).Count(),
 
@@ -697,12 +697,14 @@ namespace eStore.Reports.Payrolls
                 catch (Exception ex)
                 {
                     System.Console.WriteLine("Error=> " + ex.Message);
-                    var pError = pdfGen.AddParagraph($"Error=>\t {ex.Message}");
+                    var pError = pdfGen.AddParagraph($"Error=>\t {ex.Message}",
+                        iText.Layout.Properties.TextAlignment.CENTER, ColorConstants.RED);
                     pList.Add(pError);
                 }
             }
             //Setting up caption.
-            var P3 = pdfGen.AddParagraph($"Total Monthly Salary:Rs. {totalPayment} /-", iText.Layout.Properties.TextAlignment.CENTER, ColorConstants.BLACK);
+            var P3 = pdfGen.AddParagraph($"Total Monthly Salary:Rs. {totalPayment} /-", 
+                iText.Layout.Properties.TextAlignment.CENTER, ColorConstants.BLACK);
             Div d = new Div(); d.Add(P3);
             table.SetCaption(d);
 
