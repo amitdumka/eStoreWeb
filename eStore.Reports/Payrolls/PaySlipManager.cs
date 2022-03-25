@@ -335,7 +335,8 @@ namespace eStore.Reports.Payrolls
         public PaySlip GenerateMonthlyPaySlip(eStoreDbContext db, DateTime onDate, int empId)
         {
             //Fetch attendance from database based on emaployee id and month/year
-            var paySlip = db.MonthlyAttendances.Where(c => c.EmployeeId == empId && c.OnDate.Month == onDate.Month && c.OnDate.Year == onDate.Year)
+            var paySlip = db.MonthlyAttendances.Where(c => c.EmployeeId == empId && c.OnDate.Month == onDate.Month
+            && c.OnDate.Year == onDate.Year)
                .Select(c => new PaySlip
                {
                    EmpId = empId,
@@ -498,13 +499,22 @@ namespace eStore.Reports.Payrolls
                     OnDate = onDate,
                     Remarks = "Auto Generated",
                     NoOfWorkingDays = DateTime.DaysInMonth(onDate.Year, onDate.Month),
+
                     PaidLeave = attends.Where(c => c.EmployeeId == emp && c.Status == AttUnit.PaidLeave || c.Status == AttUnit.SickLeave).Count(),
-                    Absent = attends.Where(c => c.EmployeeId == emp && c.Status == AttUnit.Absent || c.Status == AttUnit.SundayHoliday || c.Status == AttUnit.OnLeave).Count(),
+                    //Sunday Holiday
+                    Absent = attends.Where(c => c.EmployeeId == emp && c.Status == AttUnit.Absent
+                    || c.Status == 6 || c.Status == AttUnit.OnLeave).Count(),
+
                     CasualLeave = attends.Where(c => c.EmployeeId == emp && c.Status == AttUnit.CasualLeave).Count(),
+
                     HalfDay = attends.Where(c => c.EmployeeId == emp && c.Status == AttUnit.HalfDay).Count(),
+
                     Holidays = attends.Where(c => c.EmployeeId == emp && c.Status == AttUnit.Holiday || c.Status == AttUnit.StoreClosed).Count(),
+
                     Present = attends.Where(c => c.EmployeeId == emp && c.Status == AttUnit.Present).Count(),
+
                     Sunday = attends.Where(c => c.EmployeeId == emp && c.Status == AttUnit.Sunday).Count(),
+
                     UserId = "AutoAdmin",
                     StoreId = attends.Where(c => c.EmployeeId == emp).Select(c => c.StoreId).FirstOrDefault(),
                 };
@@ -655,9 +665,14 @@ namespace eStore.Reports.Payrolls
             {
                 try
                 {
+                    
                     //var StaffName = item.Key;
-                    var sa = db.SalaryPayments.Where(c => c.EmployeeId == item.Value.EmpId && c.SalaryComponet == SalaryComponet.Advance && c.PaymentDate.Month == item.Value.OnDate.Month && c.PaymentDate.Year == item.Value.OnDate.Year)
+                    /// Calculating Total Advance paid in last month
+                    var sa = db.SalaryPayments.Where(c => c.EmployeeId == item.Value.EmpId && c.SalaryComponet == SalaryComponet.Advance
+                        && c.PaymentDate.Month == item.Value.OnDate.Month && c.PaymentDate.Year == item.Value.OnDate.Year)
                         .Select(c => c.Amount).Sum();
+
+                    // Calculatig no of Attendance recorded in record.
                     var noa = item.Value.HalfDay + item.Value.Absent + item.Value.PaidLeave + item.Value.Present +
                         item.Value.Sunday;
 
@@ -672,6 +687,7 @@ namespace eStore.Reports.Payrolls
                     table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(sa.ToString("0.##"))));
                     table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph((item.Value.GrossSalary - sa).ToString("0.##"))));
 
+                    // Total Salary Payable in particulat month
                     totalPayment += (item.Value.GrossSalary - sa);
 
                     //TODO: salary advance in last month noofattenance.
@@ -681,6 +697,8 @@ namespace eStore.Reports.Payrolls
                 catch (Exception ex)
                 {
                     System.Console.WriteLine("Error=> " + ex.Message);
+                    var pError = pdfGen.AddParagraph($"Error=>\t {ex.Message}");
+                    pList.Add(pError);
                 }
             }
             //Setting up caption.
