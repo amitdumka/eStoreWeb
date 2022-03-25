@@ -500,10 +500,11 @@ namespace eStore.Reports.Payrolls
                     Remarks = "Auto Generated",
                     NoOfWorkingDays = DateTime.DaysInMonth(onDate.Year, onDate.Month),
 
-                    PaidLeave = attends.Where(c => c.EmployeeId == emp && c.Status == AttUnit.PaidLeave || c.Status == AttUnit.SickLeave).Count(),
+                    PaidLeave = attends.Where(c => c.EmployeeId == emp && c.Status == AttUnit.PaidLeave
+                    || c.Status == AttUnit.SickLeave || c.Status == AttUnit.SundayHoliday).Count(),
                     //Sunday Holiday
                     Absent = attends.Where(c => c.EmployeeId == emp && c.Status == AttUnit.Absent
-                    || c.Status == (AttUnit)6 || c.Status == AttUnit.OnLeave).Count(),
+                    || c.Status == AttUnit.OnLeave).Count(),
 
                     CasualLeave = attends.Where(c => c.EmployeeId == emp && c.Status == AttUnit.CasualLeave).Count(),
 
@@ -515,7 +516,8 @@ namespace eStore.Reports.Payrolls
 
                     Sunday = attends.Where(c => c.EmployeeId == emp && c.Status == AttUnit.Sunday).Count(),
 
-                    UserId = "AutoAdmin",
+                    UserId = $"AutoAdmin ##{attends.Where(c => c.EmployeeId == emp && c.Status == AttUnit.Absent
+                    || c.Status == AttUnit.OnLeave).Count()}##",
                     StoreId = attends.Where(c => c.EmployeeId == emp).Select(c => c.StoreId).FirstOrDefault(),
                 };
                 mA.BillableDays = (decimal)(mA.Present + mA.Sunday + mA.Holidays + mA.PaidLeave + (mA.HalfDay * 0.5));
