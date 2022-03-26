@@ -30,6 +30,7 @@ namespace eStore.Reports.Payrolls
         public decimal Sunday { get; set; }
         public decimal HalfDay { get; set; }
         public decimal PaidLeave { get; set; }
+        public decimal WeeklyLeave { get; set; }
 
         public int NoOfAttendance
         { get { return (int)(Absent + PaidLeave + Present + Sunday + HalfDay); } }
@@ -186,7 +187,7 @@ namespace eStore.Reports.Payrolls
             paySlip.Absent = attnds.Where(c => c.Status == AttUnit.Absent || c.Status == AttUnit.CasualLeave
             || c.Status == AttUnit.OnLeave).Count();
             paySlip.HalfDay = (attnds.Where(c => c.Status == AttUnit.HalfDay).Count());
-
+            paySlip.WeeklyLeave= (attnds.Where(c => c.Status == AttUnit.SundayHoliday).Count());
             paySlip.Sunday = attnds.Where(c => c.Status == AttUnit.Sunday).Count();
             paySlip.NoOfWorkingDays = days;
 
@@ -352,7 +353,7 @@ namespace eStore.Reports.Payrolls
                    Sunday = c.Sunday,
                    BillableDays = c.BillableDays,
                    Remarks = c.Remarks,
-                   SalaryPerDay = 0
+                   SalaryPerDay = 0, WeeklyLeave=c.WeeklyLeave
 
                }).FirstOrDefault();
 
@@ -638,7 +639,7 @@ namespace eStore.Reports.Payrolls
             List<Object> pList = new List<Object>();
             var P1 = pdfGen.AddParagraph($"No of Working Days: {DateTime.DaysInMonth(onDate.Year, onDate.Month)}", iText.Layout.Properties.TextAlignment.CENTER, ColorConstants.BLUE);
             pList.Add(P1);
-            float[] columnWidths = { 1, 5, 5, 1, 1, 1, 1, 1, 1, 1 };
+            float[] columnWidths = { 1, 5, 5, 1, 1, 1, 1, 1, 1, 1 ,1};
 
             Cell[] HeaderCell = new Cell[]{
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("#")),
@@ -648,6 +649,7 @@ namespace eStore.Reports.Payrolls
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Attendance").SetTextAlignment(TextAlignment.CENTER)),
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Absent").SetTextAlignment(TextAlignment.CENTER)),
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Sunday").SetTextAlignment(TextAlignment.CENTER)),
+                new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Weekly").SetTextAlignment(TextAlignment.CENTER)),
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Salary").SetTextAlignment(TextAlignment.CENTER)),
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Advance").SetTextAlignment(TextAlignment.CENTER)),
                     new Cell().SetBackgroundColor(new DeviceGray(0.75f)).Add(new Paragraph("Net Salary").SetTextAlignment(TextAlignment.CENTER)),
@@ -686,6 +688,7 @@ namespace eStore.Reports.Payrolls
                     table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(item.Value.BillableDays.ToString("0.##"))));
                     table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(item.Value.Absent.ToString())));
                     table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(item.Value.Sunday.ToString())));
+                    table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(item.Value.BillableDays.ToString())));
                     table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(item.Value.GrossSalary.ToString("0.##"))));
                     table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph(sa.ToString("0.##"))));
                     table.AddCell(new Cell().SetTextAlignment(TextAlignment.CENTER).Add(new Paragraph((item.Value.GrossSalary - sa).ToString("0.##"))));
