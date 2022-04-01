@@ -3,6 +3,8 @@ using System.Collections.Generic;
 //Added
 namespace eStore.Lib.DataHelpers
 {
+    //Ported
+
     public static class EnumExtensions
     {
         public class EnumValue
